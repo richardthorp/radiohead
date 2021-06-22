@@ -1,0 +1,84 @@
+@font-face {
+    font-family: 'radio';
+    src: url('../fonts/bdplakatt-webfont.woff2') format('woff2'),
+        url('../fonts/bdplakatt-webfont.woff') format('woff'),
+        url('../fonts/bdplakatt-webfont.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'block-font';
+    src: url('../fonts/block-font.woff2') format('woff2'),
+        url('../fonts/block-font.woff') format('woff'),
+        url('../fonts/block-font.ttf') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'national-old';
+    src: url('../fonts/national_oldstyle_hplhs-webfont.woff2') format('woff2'),
+        url('../fonts/national_oldstyle_hplhs-webfont.woff') format('woff'),
+        url('../fonts/National-Oldstyle.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+/*---------------------------------------------------------------------------------NAVBAR--*/
+#logo {
+    font-size: 0.8rem;
+}
+
+#user-icon {
+    font-size: 1.4rem;
+    position: relative;
+    top: 5px
+}
+
+
+/* SHOPPING CART CSS MODIFIED FROM https://codepen.io/ehooks/pen/VgwVJR coded by https://codepen.io/ehooks */
+.fa-stack[data-count]:after{
+  position:absolute;
+  right:0%;
+  top:0%;
+  content: attr(data-count);
+  font-size:40%;
+  padding:.6em;
+  border-radius:999px;
+  line-height:.75em;
+  color: rgb(0, 0, 0);
+  text-align:center;
+  min-width:2em;
+  font-weight:bold;
+  background: white;
+  border-style:solid;
+}
+.fa-circle {
+  color:#000;
+}
+
+body {
+    font-family: block-font;
+}
+
+
+/*--------------------------------------------------------------------------MEDIA QUERIES--*/
+@media only screen and (min-width: 576px) {
+    #logo {
+        font-size: 1.7rem;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+
+}
+
+@media only screen and (min-width: 992px) {
+
+}
+
+@media only screen and (min-width: 1200px) {
+
+}
