@@ -25,8 +25,46 @@
     font-style: normal;
 
 }
+/*---------------------------------------------------------------------------------GENERAL--*/
+body {
+    min-width: 320px;
+    background-image: url("/media/main-bg.jpg");
+    background-attachment: fixed;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+p {
+    font-family: national-old;
+}
+
+a {
+    color: #000;
+}
+
+.header-font {
+    font-family: radio;
+    text-transform: uppercase;
+}
+
+.nav-font {
+    font-family: block-font;
+}
+
+.w-95 {
+    width: 95%;
+}
 
 /*---------------------------------------------------------------------------------NAVBAR--*/
+nav {
+    background-color: #f8f9fa99;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: #000;
+}
+
 #logo {
     font-size: 0.8rem;
 }
@@ -37,6 +75,9 @@
     top: 5px
 }
 
+.navbar-margin{
+    margin-top: 50px;
+}
 
 /* SHOPPING CART CSS MODIFIED FROM https://codepen.io/ehooks/pen/VgwVJR coded by https://codepen.io/ehooks */
 .fa-stack[data-count]:after{
@@ -44,30 +85,43 @@
   right:0%;
   top:0%;
   content: attr(data-count);
-  font-size:40%;
+  font-size:50%;
   padding:.6em;
   border-radius:999px;
   line-height:.75em;
-  color: rgb(0, 0, 0);
+  /* color: rgb(0, 0, 0); */
   text-align:center;
   min-width:2em;
   font-weight:bold;
   background: white;
   border-style:solid;
 }
+
 .fa-circle {
-  color:#000;
+  /* color:#000; */
 }
 
-body {
-    font-family: block-font;
+/*---------------------------------------------------------------------------------FOOTER--*/
+.follow-us {
+    font-size: 1.2rem;
 }
 
+#social-links {
+    width: fit-content;
+    margin: 0 auto;
+    border: 2px solid #000;
+    border-radius: 10px;
+    font-size: 1.2rem;
+    padding: 15px 10px;
+}
 
-/*--------------------------------------------------------------------------MEDIA QUERIES--*/
+/*---------------------------------------------------------------------------------MEDIA QUERIES--*/
 @media only screen and (min-width: 576px) {
     #logo {
         font-size: 1.7rem;
+    }
+    .navbar-margin{
+        margin-top: 67px;
     }
 }
 
