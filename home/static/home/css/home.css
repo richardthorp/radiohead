@@ -1,5 +1,6 @@
 .welcome {
     height: calc(100vh - 50px);
+    min-height: 525px;
 }
 
 .welcome h1 {
@@ -12,8 +13,8 @@
 
 .portal-section {
     background-image: url("/media/portal-bg.jpg");
-    border-radius: 5px;
-    margin-top: 10px;
+    /* border-radius: 5px; */
+    /* margin-top: 10px; */
     background-position: center;
     background-size: cover;
 }
@@ -43,10 +44,10 @@
 }
 
 .live-bg, .media-bg, .shop-bg {
-    background-position: center;
+    /* background-position: center; */
     background-size: cover;
     min-height: 150px;
-    border-radius: 5px;
+    /* border-radius: 5px; */
 }
 .div-overlay {
     height: 100%;
@@ -62,8 +63,29 @@
     font-size: 6rem;
 }
 
+.text-reveal{
+    text-transform: lowercase;
+    display: none;
+    color: #fff;
+}
+.live-bg:hover .text-reveal,
+.media-bg:hover .text-reveal,
+.shop-bg:hover .text-reveal{
+    display: block;
+}
+
+.live-bg:hover h3,
+.media-bg:hover h3,
+.shop-bg:hover h3 {
+    display: none;
+}
+
+
 /*---------------------------------------------------------------------------------MEDIA QUERIES--*/
 @media only screen and (min-width: 576px) {
+    .welcome {
+        min-height: 587px;
+    }
     .welcome h1 {
         font-size: 7rem;
     }
@@ -73,14 +95,17 @@
         display: block;
         padding-top: 100%;  /* initial ratio of 1:1*/
     }
+    .home-page-links h3 {
+        font-size: 4rem;
+    }
 }
 
 @media only screen and (min-width: 768px) {
     .welcome {
-        height: initial;
+        min-height: 755px;
     }
     .welcome h1 {
-        font-size: 5.5rem;
+        font-size: 9rem;
     }
     .portal-section h2 {
         font-size: 4rem
@@ -92,11 +117,20 @@
     .portal-section a {
         font-size: 1.2rem;
     }
+    .home-page-links h3 {
+        font-size: 6rem;
+    }
 }
 
 @media only screen and (min-width: 992px) {
+    .welcome {
+        height: initial;
+    }
     .welcome h1 {
         font-size: 8rem;
+    }
+    .square:before{
+        padding-top: 75%; /* Change to 4:3 aspect ratio  */
     }
 }
 
