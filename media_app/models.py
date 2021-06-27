@@ -1,3 +1,13 @@
 from django.db import models
 
-# Create your models here.
+
+class Single(models.Model):
+    title = models.TextField(blank=False)
+    image = models.ImageField(upload_to='single_covers/', blank=False, null=False)
+    album = models.ForeignKey('shop.Album', null=True,
+                              on_delete=models.SET_NULL)
+    video_url = models.URLField(blank=False, null=False)
+    spotify_url = models.URLField(blank=False, null=False)
+
+    def __str__(self):
+        return self.title

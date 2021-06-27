@@ -1,0 +1,311 @@
+[{
+    "pk": 1,
+    "model": "media_app.single",
+    "fields": {
+        "title": "Creep",
+        "image": "creep_cover.jpg",
+        "album": 1,
+        "video_url": "https://www.youtube.com/embed/XFkzRNyygfk",
+        "spotify_url": "https://open.spotify.com/track/70LcF31zb1H0PyJoS1Sx1r?si=970e8fbcb53a4185" 
+    }
+    
+},
+{
+    "pk": 2,
+    "model": "media_app.single",
+    "fields": {
+        "title": "Anyone Can Play Guitar",
+        "image": "anyone_can_play_guitar_cover.jpg",
+        "album": 1,
+        "video_url": "https://www.youtube.com/embed/JIxBHvo2oU8",
+        "spotify_url": "https://open.spotify.com/track/23oUaizFBFVFI5PxJrkiO5?si=cccb49d41cf94320" 
+    }    
+},
+{
+    "pk": 3,
+    "model": "media_app.single",
+    "fields": {
+        "title": "Stop Whispering",
+        "image": "stop_whispering_cover.jpg",
+        "album": 1,
+        "video_url": "https://www.youtube.com/embed/DPpug5FUQsc",
+        "spotify_url": "https://open.spotify.com/track/3CbAW3GjkBKfErt4LLbSzr?si=4a72532211144337" 
+    }
+    
+},
+{
+    "pk": 4,
+    "model": "media_app.single",
+    "fields": {
+        "title": "My Iron Lung",
+        "image": "my_iron_lung_cover.jpg",
+        "album": 2,
+        "video_url": "https://www.youtube.com/embed/pRU-6vaKaf4",
+        "spotify_url": "https://open.spotify.com/track/0jyikFM0Umv0KlnrOEKtTG?si=e0b449c1e1c04d23" 
+    }
+    
+},
+{
+    "pk": 5,
+    "model": "media_app.single",
+    "fields": {
+        "title": "High and Dry",
+        "image": "high_and_dry_cover.jpg",
+        "album": 2,
+        "video_url": "https://www.youtube.com/embed/7qFfFVSerQo",
+        "spotify_url": "https://open.spotify.com/track/2a1iMaoWQ5MnvLFBDv4qkf?si=bc046f553b204308" 
+    }
+    
+},
+{
+    "pk": 6,
+    "model": "media_app.single",
+    "fields": {
+        "title": "Planet Telex",
+        "image": "planet_telex_cover.jpg",
+        "album": 2,
+        "video_url": "https://www.youtube.com/embed/g0az4OkM02Y",
+        "spotify_url": "https://open.spotify.com/track/37JISltgxizbDAyNEEqkTY?si=8de1643751db4f7d" 
+    }
+    
+},
+{
+    "pk": 7,
+    "model": "media_app.single",
+    "fields": {
+        "title": "Fake Plastic Trees",
+        "image": "fake_plastic_trees_cover.jpg",
+        "album": 2,
+        "video_url": "https://www.youtube.com/embed/n5h0qHwNrHk",
+        "spotify_url": "https://open.spotify.com/track/73CKjW3vsUXRpy3NnX4H7F?si=a074f7fc73134c1a" 
+    }
+    
+},
+{
+    "pk": 8,
+    "model": "media_app.single",
+    "fields": {
+        "title": "Just",
+        "image": "just_cover.jpg",
+        "album": 2,
+        "video_url": "https://www.youtube.com/embed/oIFLtNYI3Ls",
+        "spotify_url": "https://open.spotify.com/track/1dyTcli07c77mtQK3ahUZR?si=456a48ebfad34aa3" 
+    }
+    
+},
+{
+    "pk": 9,
+    "model": "media_app.single",
+    "fields": {
+        "title": "Street Spirit (Fade Out)",
+        "image": "street_spirit_cover.jpg",
+        "album": 2,
+        "video_url": "https://www.youtube.com/embed/LCJblaUkkfc",
+        "spotify_url": "https://open.spotify.com/track/2QwObYJWyJTiozvs0RI7CF?si=fc4f92b01d864ebe" 
+    }
+    
+},
+{
+    "pk": 10,
+    "model": "media_app.single",
+    "fields": {
+        "title": "The Bends",
+        "image": "the_bends_cover.jpg",
+        "album": 2,
+        "video_url": "https://www.youtube.com/embed/K8z8hLvjb_U",
+        "spotify_url": "https://open.spotify.com/track/7oDFvnqXkXuiZa1sACXobj?si=5b9994def04b4c12" 
+    }
+    
+},
+{
+    "pk": 11,
+    "model": "media_app.single",
+    "fields": {
+        "title": "Paranoid Android",
+        "image": "paranoid_android_cover.jpg",
+        "album": 3,
+        "video_url": "https://www.youtube.com/embed/fHiGbolFFGw",
+        "spotify_url": "https://open.spotify.com/track/6LgJvl0Xdtc73RJ1mmpotq?si=317c0d340ff647fe" 
+    }
+    
+},
+{
+    "pk": 12,
+    "model": "media_app.single",
+    "fields": {
+        "title": "Karma Police",
+        "image": "karma_police_cover.jpg",
+        "album": 3,
+        "video_url": "https://www.youtube.com/embed/1uYWYWPc9HU",
+        "spotify_url": "https://open.spotify.com/track/63OQupATfueTdZMWTxW03A?si=d3d77114abec4fe7" 
+    }
+    
+},
+{
+    "pk": 13,
+    "model": "media_app.single",
+    "fields": {
+        "title": "Lucky",
+        "image": "lucky_cover.jpg",
+        "album": 3,
+        "video_url": "https://www.youtube.com/embed/2m1J6dMS8lo",
+        "spotify_url": "https://open.spotify.com/track/14xj58ZexBaEaHARb11Cqs?si=57a7002970c24547" 
+    }
+    
+},
+{
+    "pk": 14,
+    "model": "media_app.single",
+    "fields": {
+        "title": "No Suprises",
+        "image": "no_suprises_cover.jpg",
+        "album": 3,
+        "video_url": "https://www.youtube.com/embed/u5CVsCnxyXg",
+        "spotify_url": "https://open.spotify.com/track/10nyNJ6zNy2YVYLrcwLccB?si=906beb37afbe4a50" 
+    }
+    
+},
+{
+    "pk": 15,
+    "model": "media_app.single",
+    "fields": {
+        "title": "Pyramid Song",
+        "image": "pyramid_song_cover.jpg",
+        "album": 5,
+        "video_url": "https://www.youtube.com/embed/3M_Gg1xAHE4",
+        "spotify_url": "https://open.spotify.com/track/55q3Ro66yXWi9rsEddeEN4?si=7d91ad9ab5a744c2" 
+    }
+    
+},
+{
+    "pk": 16,
+    "model": "media_app.single",
+    "fields": {
+        "title": "I Might Be Wrong",
+        "image": "i_might_be_wrong_cover.jpg",
+        "album": 5,
+        "video_url": "https://www.youtube.com/embed/vOa--Dhu11M",
+        "spotify_url": "https://open.spotify.com/track/5JZ1jTanqLWVuThmZ6XRAc?si=0d7f58d268f74532" 
+    }
+    
+},
+{
+    "pk": 17,
+    "model": "media_app.single",
+    "fields": {
+        "title": "Knives Out",
+        "image": "knives_out_cover.jpg",
+        "album": 5,
+        "video_url": "https://www.youtube.com/embed/2Lpw3yMCWro",
+        "spotify_url": "https://open.spotify.com/track/521OhfIeThXJKiTyz0m883?si=f3c439959a8b44ad" 
+    }
+    
+},
+{
+    "pk": 18,
+    "model": "media_app.single",
+    "fields": {
+        "title": "There There",
+        "image": "there_there_cover.jpg",
+        "album": 6,
+        "video_url": "https://www.youtube.com/embed/7AQSLozK7aA",
+        "spotify_url": "https://open.spotify.com/track/5h4y42RUKwYKYWgutNwvKP?si=19073fdfc50e4d3a" 
+    }
+    
+},
+{
+    "pk": 19,
+    "model": "media_app.single",
+    "fields": {
+        "title": "Go to Sleep",
+        "image": "go_to_sleep_cover.jpg",
+        "album": 6,
+        "video_url": "https://www.youtube.com/embed/Fe6X9fLLp0Y",
+        "spotify_url": "https://open.spotify.com/track/42BeMThJuzIQe1oQvhDwgl?si=50b7c624329f4f59" 
+    }
+    
+},
+{
+    "pk": 20,
+    "model": "media_app.single",
+    "fields": {
+        "title": "2 + 2 = 5",
+        "image": "2_+_2_=_5_cover.jpg",
+        "album": 6,
+        "video_url": "https://www.youtube.com/embed/TOeL6PYrU8M",
+        "spotify_url": "https://open.spotify.com/track/4xkcGfpM9RwB4IiQ7yx2dB?si=5d18f14e32154128" 
+    }
+    
+},
+{
+    "pk": 21,
+    "model": "media_app.single",
+    "fields": {
+        "title": "Jigsaw Falling into Place",
+        "image": "jigsaw_falling_into_place_cover.jpg",
+        "album": 7,
+        "video_url": "https://www.youtube.com/embed/GoLJJRIWCLU",
+        "spotify_url": "https://open.spotify.com/track/0YJ9FWWHn9EfnN0lHwbzvV?si=e417c46bd7dc43a1" 
+    }
+    
+},
+{
+    "pk": 22,
+    "model": "media_app.single",
+    "fields": {
+        "title": "Nude",
+        "image": "nude_cover.jpg",
+        "album": 7,
+        "video_url": "https://www.youtube.com/embed/BbWBRnDK_AE",
+        "spotify_url": "https://open.spotify.com/track/35YyxFpE0ZTOoqFx5bADW8?si=eefd514369bf4eaa" 
+    }
+    
+},
+{
+    "pk": 23,
+    "model": "media_app.Single",
+    "fields": {
+        "title": "Reckoner",
+        "image": "reckoner_cover.jpg",
+        "album": 7,
+        "video_url": "https://www.youtube.com/embed/_uofQD-N6UI",
+        "spotify_url": "https://open.spotify.com/track/02ppMPbg1OtEdHgoPqoqju?si=11e576975e444bb3" 
+    }
+    
+},
+{
+    "pk": 24,
+    "model": "media_app.single",
+    "fields": {
+        "title": "Lotus Flower",
+        "image": "lotus_flower_cover.jpg",
+        "album": 8,
+        "video_url": "https://www.youtube.com/embed/cfOa1a8hYP8",
+        "spotify_url": "https://open.spotify.com/track/2QeutlLcJf2V1cMUUsDFT1?si=3d47efd9a72942d2" 
+    }
+    
+},
+{
+    "pk": 25,
+    "model": "media_app.single",
+    "fields": {
+        "title": "Burn the Witch",
+        "image": "burn_the_witch_cover.jpg",
+        "album": 9,
+        "video_url": "https://www.youtube.com/embed/yI2oS2hoL0k",
+        "spotify_url": "https://open.spotify.com/track/3DpuYpzkvUWXbmzCm6pfzR?si=f6d691861bc741ff" 
+    }
+    
+},
+{
+    "pk": 26,
+    "model": "media_app.single",
+    "fields": {
+        "title": "Daydreaming",
+        "image": "daydreaming_cover.jpg",
+        "album": 9,
+        "video_url": "https://www.youtube.com/embed/TTAU7lLDZYU",
+        "spotify_url": "https://open.spotify.com/track/1Rd5OVjqDAr5xC96MHt448?si=9f774135f8f5474f" 
+    }
+    
+}]

@@ -1,0 +1,228 @@
+[{
+    "pk": 1,
+    "model": "shop.album",
+    "fields": {
+        "name": "Pablo Honey",
+        "year": 1993,
+        "tracklist": {
+            "1": "You",
+            "2": "Creep",
+            "3": "How Do You?",
+            "4": "Stop Whispering",
+            "5": "Thinking About You",
+            "6": "Anyone Can Play Guitar",
+            "7": "Ripcord",
+            "8": "Vegetable",
+            "9": "Prove Yourself",
+            "10": "I Can't",
+            "11": "Lurgee",
+            "12": "Blow Out"
+        },
+        "cd_price": 9.99,
+        "vinyl_price": 18.99,
+        "image": "pablo_honey_cover.jpg",
+        "spotify_url": "https://open.spotify.com/album/3gBVdu4a1MMJVMy6vwPEb8?si=jSv9kQ5MTKOWXtzb4GAh0w&dl_branch=1"
+    }
+},
+{
+    "pk": 2,
+    "model": "shop.album",
+    "fields": {
+        "name": "The Bends",
+        "year": 1995,
+        "tracklist": {
+            "1": "Planet Telex",
+            "2": "The Bends",
+            "3": "High and Dry",
+            "4": "Fake Plastic Trees",
+            "5": "Bones",
+            "6": "(Nice Dream)",
+            "7": "Just",
+            "8": "My Iron Lung",
+            "9": "Bullet Broof..I Wish I Was",
+            "10": "Black Star",
+            "11": "Sulk",
+            "12": "Street Spirit (Fade Out)"
+        },
+        "cd_price": 9.99,
+        "vinyl_price": 15.99,
+        "image": "the_bends_cover.jpg",
+        "spotify_url": "https://open.spotify.com/album/35UJLpClj5EDrhpNIi4DFg?si=nfzsRZlgSHWpfEC4fn6LXw&dl_branch=1"
+    }
+},
+{
+    "pk": 3,
+    "model": "shop.album",
+    "fields": {
+        "name": "OK Computer",
+        "year": 1997,
+        "tracklist":{
+            "1": "Airbag",
+            "2": "Paranoid Android",
+            "3": "Subterranean Homesick Alien",
+            "4": "Exit Music (For a Film)",
+            "5": "Let Down",
+            "6": "Karma Police",
+            "7": "Fitter Happier",
+            "8": "Electioneering",
+            "9": "Climbing Up The Walls",
+            "10": "No Suprises",
+            "11": "Lucky",
+            "12": "The Tourist"
+        } ,
+        "cd_price": 9.99,
+        "vinyl_price": 19.99,
+        "image": "ok_computer_cover.jpg",
+        "spotify_url": "https://open.spotify.com/album/0tzfI6NFJqcJkWb23R3lRZ?si=UG1mndSOR0e8a-kWoFeRnw&dl_branch=1"
+    }
+},
+{
+    "pk": 4,
+    "model": "shop.album",
+    "fields": {
+        "name": "Kid A",
+        "year": 2000,
+        "tracklist":{
+            "1": "Everything in it's Right Place",
+            "2": "Kid A",
+            "3": "The National Anthem",
+            "4": "How to Disappear Completely",
+            "5": "Treefingers",
+            "6": "Optimistic",
+            "7": "In Limbo",
+            "8": "Idioteque",
+            "9": "Morning Bell",
+            "10": "Motion Picture Soundtrack"
+        } ,
+        "cd_price": 10.99,
+        "vinyl_price": 18.99,
+        "image": "kid_a_cover.jpg",
+        "spotify_url": "https://open.spotify.com/album/6GjwtEZcfenmOf6l18N7T7?si=M1O7fxvMSueLU3oV8hD5Mw&dl_branch=1"
+    }
+},
+{
+    "pk": 5,
+    "model": "shop.album",
+    "fields": {
+        "name": "Amnesiac",
+        "year": 2001,
+        "tracklist": {
+            "1": "Packt Like Sardines in a Crushd Tin Box",
+            "2": "Pyramid Song",
+            "3": "Pulk/Pull Revolving Doors",
+            "4": "You and Whose Army?",
+            "5": "I Might Be Wrong",
+            "6": "Knives Out",
+            "7": "Morning Bell/Amnesiac",
+            "8": "Dollars and Cents",
+            "9": "Hunting Bears",
+            "10": "Like Spinning Plates",
+            "11": "Life in a Glasshouse"
+        },
+        "cd_price": 9.99,
+        "vinyl_price": 18.99,
+        "image": "amnesiac_cover.jpg",
+        "spotify_url": "https://open.spotify.com/album/1HrMmB5useeZ0F5lHrMvl0?si=2VgkNu2RSn2yh7jUMyKfyA&dl_branch=1"
+    }
+},
+{
+    "pk": 6,
+    "model": "shop.album",
+    "fields": {
+        "name": "Hail to the Thief",
+        "year": 2003,
+        "tracklist": {
+            "1": "2 + 2 = 5",
+            "2": "Sit down. Stand up",
+            "3": "Sail to the Moon ('Brush the Cobwebs out of the Sky')",
+            "4": "Backdrifts ",
+            "5": "Go to Sleep",
+            "6": "Where I End and You Begin",
+            "7": "We Suck Young Blood",
+            "8": "The Gloaming",
+            "9": "There There",
+            "10": "I Will",
+            "11": "A Punch up at a Wedding",
+            "12": "Myxomatosis",
+            "13": "Scatterbrain",
+            "14": "A Wolf at the Door"
+        },
+        "cd_price": 8.99,
+        "vinyl_price": 18.99,
+        "image": "hail_to_the_thief_cover.jpg",
+        "spotify_url": "https://open.spotify.com/album/5mzoI3VH0ZWk1pLFR6RoYy?si=en6LWdGORby4NTuoeJvhIw&dl_branch=1"
+    }
+},
+{
+    "pk": 7,
+    "model": "shop.album",
+    "fields": {
+        "name": "In Rainbows",
+        "year": 2007,
+        "tracklist": {
+            "1": "15 Step",
+            "2": "Bodysnatchers",
+            "3": "Nude",
+            "4": "Weird Fishes/Arpeggi",
+            "5": "All I Need",
+            "6": "Faust Arp",
+            "7": "Reckoner",
+            "8": "House of Cards",
+            "9": "Jigsaw Falling Into Place",
+            "10": "Videotape"
+        },
+        "cd_price": 9.99,
+        "vinyl_price": 18.99,
+        "image": "in_rainbows_cover.jpg",
+        "spotify_url": "https://open.spotify.com/album/5vkqYmiPBYLaalcmjujWxK?si=Hmr82cn2QiORQFrl1GBpEw&dl_branch=1"
+    }
+},
+{
+    "pk": 8,
+    "model": "shop.album",
+    "fields": {
+        "name": "The King of Limbs",
+        "year": 2011,
+        "tracklist": {
+            "1": "Bloom",
+            "2": "Morning Mr Magpie",
+            "3": "Little by Little",
+            "4": "Feral",
+            "5": "Lotus Flower",
+            "6": "Codex",
+            "7": "Give Up the Ghost",
+            "8": "Separator"
+        },
+        "cd_price": 8.99,
+        "vinyl_price": 16.99,
+        "image": "the_king_of_limbs_cover.jpg",
+        "spotify_url": "https://open.spotify.com/album/3P17levwUPzmFfLYdAK3A7?si=yvSLgAKWS-Cpy7P9aao5fA&dl_branch=1"
+    }
+},
+{
+    "pk": 9,
+    "model": "shop.album",
+    "fields": {
+        "name": "A Moon Shaped Pool",
+        "year": 2016,
+        "tracklist": {
+            "1": "Burn the Witch",
+            "2": "Daydreaming",
+            "3": "Decks Dark",
+            "4": "Desert Island Disk",
+            "5": "Ful Stop",
+            "6": "Glass Eyes",
+            "7": "Identikit",
+            "8": "The Numbers",
+            "9": "Present Tense",
+            "10": "Tinker Tailer Soldier Sailor Rich Man Poor Man Beggar Man Thief",
+            "11": "True Love Waits"
+        },
+        "cd_price": 9.99,
+        "vinyl_price": 18.99,
+        "image": "a_moon_shaped_pool_cover.jpg",
+        "spotify_url": "https://open.spotify.com/album/2ix8vWvvSp2Yo7rKMiWpkg?si=Q4KKvyVZSOGRarHSgeT4wA&dl_branch=1"
+    }
+}
+
+]

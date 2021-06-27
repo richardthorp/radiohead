@@ -1,29 +1,17 @@
 from django.db import models
 
 
-class Category(models.Model):
-
-    class Meta:
-        verbose_name_plural = 'Catagories'
-
-    name = models.CharField(max_length=254)
-    friendly_name = models.CharField(max_length=254, null=True, blank=True)
-
-    def __str__(self):
-        return self.name
-
-
-class Product(models.Model):
-    category = models.ForeignKey('Category', null=True, blank=True,
-                                 on_delete=models.SET_NULL)
-    name = models.CharField(max_length=254)
-    description = models.TextField()
-    has_sizes = models.BooleanField(blank=True, null=True, default=False)
-    has_formats = models.BooleanField(blank=True, null=True, default=False)
-    tracklist = models.TextField(blank=True, null=True)
-    price = models.DecimalField(max_digits=6, decimal_places=2)
-    image_url = models.URLField(max_length=1024, null=True, blank=True)
-    image = models.ImageField(null=True, blank=True)
+class Album(models.Model):
+    name = models.TextField(blank=False)
+    year = models.IntegerField(blank=False, null=False)
+    tracklist = models.JSONField(null=False, blank=False)
+    cd_price = models.DecimalField(blank=False, null=False, max_digits=5,
+                                   decimal_places=2)
+    vinyl_price = models.DecimalField(blank=False, null=False, max_digits=5,
+                                      decimal_places=2)
+    image = models.ImageField(upload_to='album_covers/', blank=False,
+                              null=False)
+    spotify_url = models.URLField(blank=False, null=False)
 
     def __str__(self):
         return self.name
