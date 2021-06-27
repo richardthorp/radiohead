@@ -1,5 +1,39 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'media_app/css/media_app.css' %}">
+
+{% endblock %}
 {% block content%}
-<h1>MEDIA</h1>
+<div class="container content-container border">
+    <h1 class="text-center header-font page-header">MEDIA</h1>
+    <p class="text-center text-muted">Click on an album to view singles</p>
+    <div class="row">
+        {% for album in albums %}
+        <div class="col-12 col-md-6 col-lg-4">
+        <h6 class="album-names">{{ album.name }} <span class="text-muted ml-1">({{ album.year }})</span></h6>
+            <a href="#">
+                <img src="{{ MEDIA_URL }}album_covers/{{ album.image }}" alt="The artwork for the album {{ album.name }}"
+                 class="w-95">
+            </a>
+        </div>
+        <!-- HR FOR LOOP LOGIC MODIFIED FROM BOUTIQUE ADO PROJECT - CREDIT -->
+        {% if forloop.counter|divisibleby:1 %}
+        <div class="col-12 d-md-none mb-5">
+            <hr>
+        </div>
+        {% endif %}                        
+        {% if forloop.counter|divisibleby:2 %}
+            <div class="col-12 d-none d-md-block d-lg-none mb-5">
+                <hr>
+            </div>
+        {% endif %}
+        {% if forloop.counter|divisibleby:3 %}
+            <div class="col-12 d-none d-lg-block mb-5">
+                <hr>
+            </div>
+        {% endif %}
+    {% endfor %}
+    </div>
+</div>
 {% endblock %}

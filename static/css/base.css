@@ -37,6 +37,7 @@ body {
 
 p {
     font-family: national-old;
+    font-size: 1.2rem;
 }
 
 a {
@@ -48,12 +49,23 @@ a {
     text-transform: uppercase;
 }
 
+.page-header {
+    font-size: 3rem;
+}
+
 .nav-font {
     font-family: block-font;
 }
 
 .w-95 {
     width: 95%;
+}
+
+.content-container {
+    background-color: #fff;
+    margin-top: 20px;
+    border-radius: 10px;
+    padding: 0 40px;
 }
 
 /*---------------------------------------------------------------------------------NAVBAR--*/
@@ -129,6 +141,9 @@ nav {
     .navbar-margin{
         margin-top: 67px;
     }
+    .page-header {
+        font-size: 4rem;
+    }
     .social-links {
         font-size: 2rem;
     }
@@ -138,6 +153,9 @@ nav {
 }
 
 @media only screen and (min-width: 768px) {
+    .page-header {
+        font-size: 5rem;
+    }
     .social-links i {
         padding: 0 20px;
     }
@@ -145,6 +163,9 @@ nav {
 }
 
 @media only screen and (min-width: 992px) {
+    .page-header {
+        font-size: 6rem;
+    }
 
 }
 
