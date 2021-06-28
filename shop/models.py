@@ -9,7 +9,7 @@ class Album(models.Model):
                                    decimal_places=2)
     vinyl_price = models.DecimalField(blank=False, null=False, max_digits=5,
                                       decimal_places=2)
-    image = models.ImageField(upload_to='album_covers/', blank=False,
+    image = models.ImageField(blank=False,
                               null=False)
     spotify_url = models.URLField(blank=False, null=False)
 

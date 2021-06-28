@@ -7,13 +7,13 @@
 {% block content%}
 <div class="container content-container border">
     <h1 class="text-center header-font page-header">MEDIA</h1>
-    <p class="text-center text-muted">Click on an album to view singles</p>
+    <p class="text-center text-muted">Click on a single to view media</p>
     <div class="row">
-        {% for album in albums %}
+        {% for single in singles %}
         <div class="col-12 col-md-6 col-lg-4">
-        <h6 class="album-names">{{ album.name }} <span class="text-muted ml-1">({{ album.year }})</span></h6>
-            <a href="{% url 'album_singles' album.id %}">
-                <img src="{{ MEDIA_URL }}{{ album.image.url }}" alt="The artwork for the album {{ album.name }}"
+        <h6 class="single-names">{{ single.title }}</h6>
+            <a href="#">
+                <img src="{{ MEDIA_URL }}{{ single.image.url }}" alt="The artwork for the single {{ single.title }}"
                  class="w-95">
             </a>
         </div>
