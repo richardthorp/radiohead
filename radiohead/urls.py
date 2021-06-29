@@ -17,9 +17,11 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
+from allauth.account.views import LoginView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('sign-in/', LoginView.as_view(), name='sign-in'),
     path('accounts/', include('allauth.urls')),
     path('', include('home.urls')),
     path('media/', include('media_app.urls')),

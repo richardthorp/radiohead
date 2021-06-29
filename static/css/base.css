@@ -67,6 +67,10 @@ a {
     border-radius: 10px;
     padding: 0 40px;
 }
+.add-slash {
+    font-family: block-font;
+    font-size: 2rem;
+}
 
 /*---------------------------------------------------------------------------------NAVBAR--*/
 nav {
@@ -138,6 +142,9 @@ nav {
     #logo {
         font-size: 1.7rem;
     }
+    .add-slash {
+        font-size: 2.5rem;
+    }
     .navbar-margin{
         margin-top: 67px;
     }
@@ -156,6 +163,9 @@ nav {
     .page-header {
         font-size: 5rem;
     }
+    .add-slash {
+        font-size: 3rem;
+    }
     .social-links i {
         padding: 0 20px;
     }
@@ -166,7 +176,9 @@ nav {
     .page-header {
         font-size: 6rem;
     }
-
+    .add-slash {
+        font-size: 4rem;
+    }
 }
 
 @media only screen and (min-width: 1200px) {
