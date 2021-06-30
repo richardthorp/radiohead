@@ -133,7 +133,7 @@ nav {
     background-color: #f8f9fab0;
 }
 
-.social-links {
+.social-links, .icons {
     font-size: 1.2rem;
 }
 
@@ -157,7 +157,7 @@ nav {
     .page-header {
         font-size: 4rem;
     }
-    .social-links {
+    .social-links, .icons {
         font-size: 2rem;
     }
     .social-links i {

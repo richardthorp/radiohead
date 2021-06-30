@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block extra_css%}
+<link rel="stylesheet" href="{% static 'media_app/css/media_app.css' %}">
+{% endblock %}
+{% block content %}
+<div class="container content-container">
+    <h1 class="page-header header-font text-center">{{ single.title }}</h1>
+    <a href="{% url 'album_singles' single.album.id %}"><i class="fas fa-backward"></i> Back to album</a>
+    <div class="row">
+        <div class="col video-container pt-1 pt-sm-2 pt-md-3">
+            <iframe id="iFrame" height="" class="w-100" src="{{ single.video_url }}" title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+        </div>
+    </div>
+    <div class="row row-eq-height pt-3">
+        <div class="col-12 col-sm-6">
+            <a href="">
+                <div class="border rounded text-center">
+                    <i class="fas fa-shopping-cart icons py-3"></i>
+                    <p>View the album in the shop.</p>
+                </div>
+            </a>
+        </div>
+        <div class="col-12 col-sm-6">
+            <a href="{{ single.spotify_url }}" target="_blank">
+                <div class="border rounded text-center">
+                    <i class="fab fa-spotify icons py-3"></i>
+                    <p>Listen on Spotify.</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block postloadjs %}
+{{ block.super }}
+<script src="{% static 'media_app/js/media_app.js' %}"></script>
+{% endblock %}

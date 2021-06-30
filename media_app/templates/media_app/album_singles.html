@@ -6,13 +6,13 @@
 {% endblock %}
 {% block content%}
 <div class="container content-container border">
-    <h1 class="text-center header-font page-header">MEDIA</h1>
+    <h1 class="text-center header-font page-header">{{ album.name }} Media</h1>
     <p class="text-center text-muted">Click on a single to view media</p>
     <div class="row">
         {% for single in singles %}
         <div class="col-12 col-md-6 col-lg-4">
         <h6 class="single-names">{{ single.title }}</h6>
-            <a href="#">
+            <a href="{% url 'single_content' single.id  %}">
                 <img src="{{ MEDIA_URL }}{{ single.image.url }}" alt="The artwork for the single {{ single.title }}"
                  class="w-95">
             </a>
