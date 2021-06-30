@@ -33,7 +33,7 @@
 
 <body class="d-flex flex-column min-vh-100 site-wide-bg">
     <nav class="navbar fixed-top navbar-expand-lg navbar-light nav-font">
-        <a href="#" id="logo" class="navbar-brand">RADIOHEAD</a>
+        <a href="{% url 'home' %}" id="logo" class="navbar-brand">RADIOHEAD</a>
         <span class="ml-auto">
             <a href="#" id="user-icon" class="mx-2 mx-md-4">
                 <i class="fas fa-user"></i>
@@ -62,7 +62,7 @@
                     <a class="nav-link" href="#">SHOP</a>
                 </li>
                 <li class="nav-item ml-3">
-                    <a class="nav-link" href="#">MEDIA</a>
+                    <a class="nav-link" href="{% url 'media' %}">MEDIA</a>
                 </li>
                 <li class="nav-item ml-3">
                     {% if user.is_authenticated %}

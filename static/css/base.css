@@ -28,7 +28,7 @@
 /*---------------------------------------------------------------------------------GENERAL--*/
 body {
     min-width: 320px;
-    background-image: url("/media/main-bg.jpg");
+    background-image: url("/media_files/main-bg.jpg");
     background-attachment: fixed;
     background-position: center;
     background-repeat: no-repeat;
