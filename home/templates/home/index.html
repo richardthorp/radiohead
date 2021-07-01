@@ -7,21 +7,23 @@
 <div class="bg-overlay"></div>
 
 <div class="container-fluid p-0">
-    <div class="row mx-auto">
-        <div class="col-12 col-lg-8 header-font text-center welcome d-flex flex-column">
+    <div class="row d-flex justify-content-center">
+        <div class="col-12 header-font text-center welcome d-flex flex-column">
             <h1 class="my-auto">Welcome to<br>the<br>home of<br>Radiohead</h1>
-            <i class="fas fa-angle-down d-lg-none"></i>
+            <i class="fas fa-angle-down"></i>
         </div>
-        <div
-            class="col-12 col-lg-4 portal-section text-white text-center d-flex flex-column justify-content-around border">
+    </div>
+    <div class="row d-flex justify-content-center my-lg-5 w-95 mx-auto">
+        <div class="col-12 portal-section text-white text-center d-flex flex-column 
+                    justify-content-around custom-border rounded">
             <h2 class="header-font mt-2">Enter the Portal</h2>
             <p>Connect with the band in a whole new way.</p>
             <p>Subscribe to Portal to gain access to exclusive content as well as a discount in the online shop</p>
             <a href="" class="btn btn-large btn-dark mb-4 mt-2 mx-auto nav-font">FIND OUT MORE</a>
         </div>
     </div>
-    <div class="row mx-auto text-white home-page-links">
-        <div class="col-12 col-sm-4 square live-bg border">
+    <div class="row mx-auto text-white home-page-links w-95">
+        <div class="col-12 col-sm-4 square live-bg custom-border">
             <a href="#">
                 <div class="div-overlay">
                     <h3 class="header-font">Live</h3>
@@ -29,7 +31,7 @@
                 </div>
             </a>
         </div>
-        <div class="col-12 col-sm-4 square media-bg border">
+        <div class="col-12 col-sm-4 square media-bg custom-border">
             <a href="{% url 'media' %}">
                 <div class="div-overlay">
                     <h3 class="header-font">Media</h3>
@@ -37,7 +39,7 @@
                 </div>
             </a>
         </div>
-        <div class="col-12 col-sm-4 square shop-bg border">
+        <div class="col-12 col-sm-4 square shop-bg custom-border">
             <a href="#">
                 <div class="div-overlay">
                     <h3 class="header-font">Shop</h3>

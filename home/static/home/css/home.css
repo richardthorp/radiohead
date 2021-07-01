@@ -44,7 +44,7 @@
 }
 
 .live-bg, .media-bg, .shop-bg {
-    /* background-position: center; */
+    background-position: center;
     background-size: cover;
     min-height: 150px;
     /* border-radius: 5px; */
@@ -59,6 +59,11 @@
     align-items: center;
     justify-content: center;
 }
+
+.custom-border{
+    border: 5px solid #fff;
+}
+
 .home-page-links h3 {
     font-size: 6rem;
 }

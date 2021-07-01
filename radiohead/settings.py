@@ -100,7 +100,7 @@ ACCOUNT_EMAIL_SUBJECT_PREFIX = 'The Home of Radiohead'
 LOGIN_REDIRECT_URL = '/'
 ACCOUNT_USERNAME_BLACKLIST = ['Radiohead']
 ACCOUNT_USERNAME_MIN_LENGTH = 4
-LOGIN_URL = 'accounts/login'
+# LOGIN_URL = 'accounts/login'
 
 WSGI_APPLICATION = 'radiohead.wsgi.application'
 
