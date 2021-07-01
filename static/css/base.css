@@ -146,6 +146,11 @@ nav {
 }
 
 /*---------------------------------------------------------------------------------MEDIA QUERIES--*/
+@media only screen and (min-width: 400px) {
+    #logo {
+        font-size: 1.4rem;
+    }
+
 @media only screen and (min-width: 576px) {
     #logo {
         font-size: 1.7rem;
