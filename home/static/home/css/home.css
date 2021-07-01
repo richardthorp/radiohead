@@ -12,7 +12,7 @@
 }
 
 .portal-section {
-    background-image: url("/media/portal-bg.jpg");
+    background-image: url("/media_files/portal-bg.jpg");
     /* border-radius: 5px; */
     /* margin-top: 10px; */
     background-position: center;
@@ -32,15 +32,15 @@
 }
 
 .live-bg {
-    background-image: url("/media/live-bg.jpg");
+    background-image: url("/media_files/live-bg.jpg");
 }
 
 .media-bg {
-    background-image: url("/media/media-bg.jpg");
+    background-image: url("/media_files/media-bg.jpg");
 }
 
 .shop-bg {
-    background-image: url("/media/shop-bg.jpg");
+    background-image: url("/media_files/shop-bg.jpg");
 }
 
 .live-bg, .media-bg, .shop-bg {

@@ -21,9 +21,9 @@ from allauth.account.views import LoginView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('sign-in/', LoginView.as_view(), name='sign-in'),
-    path('accounts/', include('allauth.urls')),
     path('', include('home.urls')),
+    # path('sign-in/', LoginView.as_view(), name='sign-in'),
+    path('accounts/', include('allauth.urls')),
     path('media/', include('media_app.urls')),
     path('shop/', include('shop.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
