@@ -12,10 +12,10 @@
     <div class="row">
         {% for album in albums %}
         <div class="col-12 col-md-6 col-lg-4">
-        <h6 class="album-names">{{ album.title }} <span class="text-muted ml-1">({{ album.year }})</span></h6>
+            <h6 class="album-names">{{ album.title }} <span class="text-muted ml-1">({{ album.year }})</span></h6>
             <a href="{% url 'album_singles' album.id %}">
                 <img src="{{ MEDIA_URL }}{{ album.image.url }}" alt="The artwork for the album {{ album.title }}"
-                 class="w-95">
+                    class="w-95">
             </a>
         </div>
         <!-- HR FOR LOOP LOGIC MODIFIED FROM BOUTIQUE ADO PROJECT - CREDIT -->
@@ -23,18 +23,18 @@
         <div class="col-12 d-md-none mb-5">
             <hr>
         </div>
-        {% endif %}                        
+        {% endif %}
         {% if forloop.counter|divisibleby:2 %}
-            <div class="col-12 d-none d-md-block d-lg-none mb-5">
-                <hr>
-            </div>
+        <div class="col-12 d-none d-md-block d-lg-none mb-5">
+            <hr>
+        </div>
         {% endif %}
         {% if forloop.counter|divisibleby:3 %}
-            <div class="col-12 d-none d-lg-block mb-5">
-                <hr>
-            </div>
+        <div class="col-12 d-none d-lg-block mb-5">
+            <hr>
+        </div>
         {% endif %}
-    {% endfor %}
+        {% endfor %}
     </div>
 </div>
 {% endblock %}

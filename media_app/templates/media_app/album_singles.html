@@ -13,29 +13,39 @@
     <div class="row">
         {% for single in singles %}
         <div class="col-12 col-md-6 col-lg-4">
-        <h6 class="single-names">{{ single.title }}</h6>
+            <h6 class="single-names">{{ single.title }}</h6>
             <a href="{% url 'single_content' single.id  %}">
                 <img src="{{ MEDIA_URL }}{{ single.image.url }}" alt="The artwork for the single {{ single.title }}"
-                 class="w-95">
+                    class="w-95">
             </a>
         </div>
         <!-- HR FOR LOOP LOGIC MODIFIED FROM BOUTIQUE ADO PROJECT - CREDIT -->
         {% if forloop.counter|divisibleby:1 %}
-        <div class="col-12 d-md-none mb-5">
+        <div class="col-12 d-md-none mb-2">
             <hr>
         </div>
-        {% endif %}                        
+        {% endif %}
         {% if forloop.counter|divisibleby:2 %}
-            <div class="col-12 d-none d-md-block d-lg-none mb-5">
-                <hr>
-            </div>
+        <div class="col-12 d-none d-md-block d-lg-none mb-2">
+            <hr>
+        </div>
         {% endif %}
         {% if forloop.counter|divisibleby:3 %}
-            <div class="col-12 d-none d-lg-block mb-5">
-                <hr>
-            </div>
+        <div class="col-12 d-none d-lg-block mb-2">
+            <hr>
+        </div>
         {% endif %}
-    {% endfor %}
+        {% endfor %}
+    </div>
+    <div class="row d-flex justify-content-center album-shop-link">
+        <a href="{% url 'shop_detail' 'album' album.id %}">
+            <div class="col-12 mt-3 text-center custom-border">
+                <i class="fas fa-shopping-cart icons py-3"></i>
+                <p>View the album in the shop.</p>
+            </div>
+        </a>
     </div>
 </div>
+
+
 {% endblock %}

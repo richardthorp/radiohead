@@ -4,3 +4,15 @@
     font-size: 1.2rem;
 }
 
+.album-shop-link {
+    position: sticky;
+    bottom: 10px;
+
+}
+
+.album-shop-link div {
+    background-color: #fff;
+    color: #000;
+    border: 2px solid #000;
+    border-radius: 10px;
+}

@@ -75,10 +75,10 @@ hr {
     border-radius: 10px;
     padding: 0 40px 40px;
 }
-/* .add-slash {
-    font-family: block-font;
-    font-size: 2rem;
-} */
+.custom-border {
+    border: 2px solid #000;
+    border-radius: 10px;
+}
 
 /*---------------------------------------------------------------------------------NAVBAR--*/
 nav {
@@ -121,10 +121,6 @@ nav {
   border-style:solid;
 }
 
-.fa-circle {
-  /* color:#000; */
-}
-
 /*---------------------------------------------------------------------------------FOOTER--*/
 .follow-us {
     font-size: 1.2rem;
@@ -133,8 +129,6 @@ nav {
 .social-links-container {
     width: fit-content;
     margin: 0 auto;
-    border: 2px solid #000;
-    border-radius: 10px;
     font-size: 1.3rem;
     padding: 10px 0;
     margin-top: 15px;
