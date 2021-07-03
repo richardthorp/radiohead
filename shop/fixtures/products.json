@@ -1,0 +1,36 @@
+[{
+    "pk": 1,
+    "model": "shop.product",
+    "fields": {
+        "name": "Wind up me window T-shirt - Black",
+        "category": "clothing",
+        "description": "100% organic ring-spun combed cotton t-shirt.",
+        "has_sizes": true,
+        "price": 25,
+        "image": "wind_up_tshirt_black.jpg"
+    }
+},
+{
+    "pk": 2,
+    "model": "shop.product",
+    "fields": {
+        "name": "Wind up me window T-shirt - Red",
+        "category": "clothing",
+        "description": "100% organic ring-spun combed cotton t-shirt.",
+        "has_sizes": true,
+        "price": 25,
+        "image": "wind_up_tshirt_red.jpg"
+    }
+},
+{
+    "pk": 3,
+    "model": "shop.product",
+    "fields": {
+        "name": "Wind up me window T-shirt - White",
+        "category": "clothing",
+        "description": "100% organic ring-spun combed cotton t-shirt.",
+        "has_sizes": true,
+        "price": 25,
+        "image": "wind_up_tshirt_white.jpg"
+    }
+}]

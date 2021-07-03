@@ -25,9 +25,8 @@ class Product(models.Model):
                                 decimal_places=2)
     description = models.TextField(default="")
     has_sizes = models.BooleanField(blank=True, null=True, default=False)
-    image = models.ImageField(blank=False,
-                              null=False,
-                              default='missing_item.jpg')
+    image = models.ImageField(upload_to="product_images", blank=False,
+                              null=False, default='missing_item.jpg')
 
     def __str__(self):
         return self.name

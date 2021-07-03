@@ -7,6 +7,7 @@
     <p class="text-center text-muted">Free delivery on orders over £25</p>
     <hr>
     <div class="row">
+        {% if albums %}
         {% for album in albums %}
         <div class="col-12 col-md-6 col-lg-4">
             <a href="{% url 'shop_detail' 'album' album.id %}">
@@ -16,7 +17,6 @@
                 <p class="text-muted text-center">from £{{ album.cd_price}}</p>
             </a>
         </div>
-
         <!-- HR FOR LOOP LOGIC MODIFIED FROM BOUTIQUE ADO PROJECT - CREDIT -->
         {% if forloop.counter|divisibleby:1 %}
         <div class="col-12 d-md-none mb-5">
@@ -34,6 +34,37 @@
         </div>
         {% endif %}
         {% endfor %}
+        {% endif %}
+    </div>
+    <div class="row">
+        {% if products %}
+        {% for product in products %}
+        <div class="col-12 col-md-6 col-lg-4">
+            <a href="{% url 'shop_detail' 'product' product.id %}">
+                <img src="{{ MEDIA_URL }}{{ product.image.url }}" alt="A picture of the {{ product.name }}"
+                    class="w-95">
+                <h6 class="album-names text-center">{{ product.name }}</h6>
+                <p class="text-muted text-center">£{{ product.price}}</p>
+            </a>
+        </div>
+        <!-- HR FOR LOOP LOGIC MODIFIED FROM BOUTIQUE ADO PROJECT - CREDIT -->
+        {% if forloop.counter|divisibleby:1 %}
+        <div class="col-12 d-md-none mb-5">
+            <hr>
+        </div>
+        {% endif %}
+        {% if forloop.counter|divisibleby:2 %}
+        <div class="col-12 d-none d-md-block d-lg-none mb-5">
+            <hr>
+        </div>
+        {% endif %}
+        {% if forloop.counter|divisibleby:3 %}
+        <div class="col-12 d-none d-lg-block mb-5">
+            <hr>
+        </div>
+        {% endif %}
+        {% endfor %}
+        {% endif %}
     </div>
 </div>
 {% endblock %}
