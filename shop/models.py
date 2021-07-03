@@ -2,7 +2,7 @@ from django.db import models
 
 
 class Album(models.Model):
-    name = models.CharField(blank=False, max_length=80)
+    title = models.CharField(blank=False, max_length=80)
     year = models.IntegerField(blank=False, null=False)
     tracklist = models.JSONField(null=False, blank=False)
     cd_price = models.DecimalField(blank=False, null=False, max_digits=5,
@@ -26,7 +26,8 @@ class Product(models.Model):
     description = models.TextField(default="")
     has_sizes = models.BooleanField(blank=True, null=True, default=False)
     image = models.ImageField(blank=False,
-                              null=False)
+                              null=False,
+                              default='missing_item.jpg')
 
     def __str__(self):
         return self.name

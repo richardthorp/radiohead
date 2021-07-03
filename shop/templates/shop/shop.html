@@ -8,17 +8,15 @@
     <hr>
     <div class="row">
         {% for album in albums %}
-        <a href="#">
-            <div class="col-12 col-md-6 col-lg-4">
-                <a href="{% url 'album_singles' album.id %}">
-                    <img src="{{ MEDIA_URL }}{{ album.image.url }}" alt="The artwork for the album {{ album.name }}"
-                        class="w-95">
-                </a>
-                <h6 class="album-names text-center">{{ album.name }} ({{ album.year }})
-                    <br>from £{{ album.cd_price}}</span>
-                </h6>
-            </div>
-        </a>
+        <div class="col-12 col-md-6 col-lg-4">
+            <a href="{% url 'shop_detail' 'album' album.id %}">
+                <img src="{{ MEDIA_URL }}{{ album.image.url }}" alt="The artwork for the album {{ album.title }}"
+                    class="w-95">
+                <h6 class="album-names text-center">{{ album.title }} ({{ album.year }})</h6>
+                <p class="text-muted text-center">from £{{ album.cd_price}}</p>
+            </a>
+        </div>
+
         <!-- HR FOR LOOP LOGIC MODIFIED FROM BOUTIQUE ADO PROJECT - CREDIT -->
         {% if forloop.counter|divisibleby:1 %}
         <div class="col-12 d-md-none mb-5">

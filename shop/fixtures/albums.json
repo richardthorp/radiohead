@@ -2,7 +2,7 @@
     "pk": 1,
     "model": "shop.album",
     "fields": {
-        "name": "Pablo Honey",
+        "title": "Pablo Honey",
         "year": 1993,
         "tracklist": {
             "1": "You",
@@ -28,7 +28,7 @@
     "pk": 2,
     "model": "shop.album",
     "fields": {
-        "name": "The Bends",
+        "title": "The Bends",
         "year": 1995,
         "tracklist": {
             "1": "Planet Telex",
@@ -54,7 +54,7 @@
     "pk": 3,
     "model": "shop.album",
     "fields": {
-        "name": "OK Computer",
+        "title": "OK Computer",
         "year": 1997,
         "tracklist":{
             "1": "Airbag",
@@ -80,7 +80,7 @@
     "pk": 4,
     "model": "shop.album",
     "fields": {
-        "name": "Kid A",
+        "title": "Kid A",
         "year": 2000,
         "tracklist":{
             "1": "Everything in it's Right Place",
@@ -104,7 +104,7 @@
     "pk": 5,
     "model": "shop.album",
     "fields": {
-        "name": "Amnesiac",
+        "title": "Amnesiac",
         "year": 2001,
         "tracklist": {
             "1": "Packt Like Sardines in a Crushd Tin Box",
@@ -129,7 +129,7 @@
     "pk": 6,
     "model": "shop.album",
     "fields": {
-        "name": "Hail to the Thief",
+        "title": "Hail to the Thief",
         "year": 2003,
         "tracklist": {
             "1": "2 + 2 = 5",
@@ -157,7 +157,7 @@
     "pk": 7,
     "model": "shop.album",
     "fields": {
-        "name": "In Rainbows",
+        "title": "In Rainbows",
         "year": 2007,
         "tracklist": {
             "1": "15 Step",
@@ -181,7 +181,7 @@
     "pk": 8,
     "model": "shop.album",
     "fields": {
-        "name": "The King of Limbs",
+        "title": "The King of Limbs",
         "year": 2011,
         "tracklist": {
             "1": "Bloom",
@@ -203,7 +203,7 @@
     "pk": 9,
     "model": "shop.album",
     "fields": {
-        "name": "A Moon Shaped Pool",
+        "title": "A Moon Shaped Pool",
         "year": 2016,
         "tracklist": {
             "1": "Burn the Witch",
