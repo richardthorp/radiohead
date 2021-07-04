@@ -1,0 +1,11 @@
+.sort-by-form label{
+    font-family: block-font;
+    font-size: 0.6rem;
+}
+
+/*---------------------------------------------------------------------------------MEDIA QUERIES--*/
+@media only screen and (min-width: 576px) {
+    .sort-by-form label{
+        font-size: 0.8rem;
+    }
+}

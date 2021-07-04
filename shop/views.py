@@ -5,9 +5,30 @@ from .models import Album, Product
 # Create your views here.
 def shop(request):
     context = {
-        'albums': Album.objects.all(),
-        'products': Product.objects.all()
+        'albums': Album.objects.all().order_by('-year'),
+        'products': Product.objects.all(),
+        'all': True,
     }
+    if request.POST:
+        product_filter = request.POST.get('filter')
+        if product_filter == 'music':
+            context = {
+                'albums': Album.objects.all(),
+                'music': True,
+            }
+        elif product_filter == 'clothing':
+            context = {
+                'products': Product.objects.filter(category='clothing'),
+                'clothing': True,
+
+            }
+        elif product_filter == 'other':
+            context = {
+                'products': Product.objects.filter(category='other'),
+                'other': True,
+
+            }
+
     return render(request, 'shop/shop.html', context)
 
 
