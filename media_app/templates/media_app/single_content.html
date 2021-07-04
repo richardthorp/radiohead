@@ -18,7 +18,7 @@
     <div class="row row-eq-height pt-3">
         <div class="col-12 col-sm-6">
             <a href="{% url 'shop_detail' 'album' single.album.id %}">
-                <div class="border rounded text-center">
+                <div class="custom-border text-center">
                     <i class="fas fa-shopping-cart icons py-3"></i>
                     <p>View the album in the shop.</p>
                 </div>
@@ -26,7 +26,7 @@
         </div>
         <div class="col-12 col-sm-6">
             <a href="{{ single.spotify_url }}" target="_blank">
-                <div class="border rounded text-center">
+                <div class="custom-border text-center">
                     <i class="fab fa-spotify icons py-3"></i>
                     <p>Listen on Spotify.</p>
                 </div>
