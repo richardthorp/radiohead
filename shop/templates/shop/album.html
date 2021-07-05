@@ -13,8 +13,8 @@
         <div class="col-12 col-lg-6">
             <p class="mb-1 mt-2 mt-lg-0">Format:</p>
             <form action="">
-                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-                    <option selected>Please choose a format</option>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" required>
+                    <option value="" selected>Please choose a format</option>
                     <option value="cd">CD : £{{ album.cd_price }}</option>
                     <option value="vinyl">Vinyl : £{{ album.vinyl_price }}</option>
                 </select>

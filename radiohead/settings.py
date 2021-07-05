@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'media_app',
     'shop',
     'live',
+    'profiles',
 ]
 
 MIDDLEWARE = [

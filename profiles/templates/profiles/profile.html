@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container content-container">
+    <h1 class="page-header header-font text-center">Profile</h1>
+    <img src="{{ MEDIA_URL }}{{ profile.image.url }}" alt="">
+</div>
+
+{% endblock %}

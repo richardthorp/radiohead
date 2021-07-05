@@ -16,8 +16,8 @@
             <form action="">
                 {% if product.has_sizes %}
                 <p class="mb-1 mt-2 mt-lg-0">Size:</p>
-                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example">
-                    <option selected>Please choose a size</option>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" required>
+                    <option value="" selected>Please choose a size</option>
                     <option value="S">Small</option>
                     <option value="M">Medium</option>
                     <option value="L">Large</option>
