@@ -5,10 +5,11 @@ from PIL import Image
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(null=True, upload_to="profile_pics")
+    image = models.ImageField(null=True, upload_to="profile_pics",
+                              default='profile_pics/default_profile_pic.jpg')
     default_phone_number = models.CharField(max_length=20, blank=True)
-    default_street_address1 = models.CharField(max_length=80, blank=True)
-    default_street_address2 = models.CharField(max_length=80, blank=True)
+    default_street_address_1 = models.CharField(max_length=80, blank=True)
+    default_street_address_2 = models.CharField(max_length=80, blank=True)
     default_town_or_city = models.CharField(max_length=40, blank=True)
     default_county = models.CharField(max_length=80, blank=True)
     default_postcode = models.CharField(max_length=20, blank=True)
@@ -18,7 +19,7 @@ class Profile(models.Model):
 
     # Profile image manipulation credit: Corey Schafer Youtube
     # https://bit.ly/3wf9hHz
-    def save(self):
+    def save(self, *args, **kwargs):
         super().save()
 
         img = Image.open(self.image.path)
