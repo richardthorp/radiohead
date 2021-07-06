@@ -12,11 +12,12 @@ def add_to_bag(request, product_id):
         album = get_object_or_404(Album, pk=product_id)
         album_name = album.title
         format = request.POST.get('format')
+        size = False
     else:
         product = get_object_or_404(Product, pk=product_id)
         product_name = product.name
         size = request.POST.get('size')
-        product = True
+        album = False
 
     quantity = int(request.POST.get('quantity'))
 
@@ -33,7 +34,21 @@ def add_to_bag(request, product_id):
             bag[album_name] = {
                 format: quantity,
             }
-
+    elif size:
+        if product_name in bag.keys():
+            if size in bag[product_name].keys():
+                bag[product_name][size] += quantity
+            else:
+                bag[product_name][size] = quantity
+        else:
+            bag[product_name] = {
+                size: quantity
+            }
+    else:
+        if product_name in bag.keys():
+            bag[product_name] += quantity
+        else:
+            bag[product_name] = quantity
 
     request.session['bag'] = bag
     print(request.session['bag'])

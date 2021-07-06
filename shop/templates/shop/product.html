@@ -1,6 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'shop/css/shop.css' %}">
+
+{% endblock %}
+
 {% block content%}
 <div class="container content-container border">
     <h1 class="text-center header-font page-header">{{ product.name }}</h1>
@@ -13,17 +18,18 @@
         <div class="col-12 col-lg-6">
             <p>{{ product.description }}</p>
             <p>£{{ product.price }}</p>
-            <form action="">
+            <form action="{% url 'add_to_bag' product.id %}" method="POST">
+                {% csrf_token %}
                 {% if product.has_sizes %}
-                <p class="mb-1 mt-2 mt-lg-0">Size:</p>
-                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" required>
+                <label for="size" class="shop-label mt-3 mt-lg-0">Choose:</label>
+                <select id="size" name="size" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" required>
                     <option value="" selected>Please choose a size</option>
                     <option value="S">Small</option>
                     <option value="M">Medium</option>
                     <option value="L">Large</option>
                 </select>
                 {% endif %}
-                <p class="mb-1 mt-2 mt-lg-0">Quantity:</p>
+                <label for="quantity" class="shop-label">Quantity:</label>
                 <input type="number" name="quantity" id="quantity" value="1" min="1" max="99">
                 <button type="submit" class="btn btn-dark d-block my-4">ADD TO BASKET</button>
             </form>

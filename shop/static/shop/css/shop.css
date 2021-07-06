@@ -3,6 +3,12 @@
     font-size: 0.6rem;
 }
 
+.shop-label {
+    display: block;
+    font-family: national-old;
+    font-size: 1.2rem;
+}
+
 /*---------------------------------------------------------------------------------MEDIA QUERIES--*/
 @media only screen and (min-width: 576px) {
     .sort-by-form label{
