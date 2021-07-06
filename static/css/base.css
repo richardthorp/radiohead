@@ -44,6 +44,12 @@ a {
     color: inherit;
 }
 
+label {
+    display: block;
+    font-family: national-old;
+    font-size: 1.2rem;
+}
+
 hr {
     border: 0;
     display:block;

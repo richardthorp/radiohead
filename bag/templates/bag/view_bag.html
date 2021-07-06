@@ -3,5 +3,76 @@
 {% block content %}
 <div class="container content-container border">
     <h1 class="header-font page-header text-center">View Bag</h1>
+    {% for item in bag_items %}
+    <div class="row">
+        <div class="col-12 col-md-4">
+            <img src="{{ MEDIA_URL }}{{ item.product.image.url }}" class="w-100" alt="">
+        </div>
+        <div class="col-12 col-md-8">
+            <!-- ALBUM INFO -->
+            {% if item.type == 'album' %}
+                <h3 class="header-font">{{ item.product.title }}</h3>
+                {% if item.cd_count %}
+                    <form action="">
+                        <label for="cd_quantity" class="mb-0">CD Quantity:</label>
+                        <input type="number" min="1" max="99" value="{{ item.cd_count }}">
+                        <a href="" class="btn btn-dark btn-sm">UPDATE</a>
+                        <a href="" class="btn btn-danger btn-sm">REMOVE</a>
+                    </form>
+                {% endif %}
+                {% if item.vinyl_count %}
+                    <form action="">
+                        <label for="vinyl_quantity" class="mb-0">Vinyl Quantity:</label>
+                        <input type="number" min="1" max="99" value="{{ item.vinyl_count }}">
+                        <a href="" class="btn btn-dark btn-sm">UPDATE</a>
+                        <a href="" class="btn btn-danger btn-sm">REMOVE</a>
+                    </form>
+                {% endif %}
+                <!-- {% if item.cd_total %}
+                    <p class="mt-2 text-right">Subtotal: £{{ item.cd_total }}</p>
+                {% endif %}
+                {% if item.vinyl_total %}
+                    <p class="mt-2 text-right">Vinyl subtotal: £{{ item.vinyl_total }}</p>
+                {% endif %} -->
+            {% endif %}
+            <!-- SIZED ITEM INFO -->
+            {% if item.type == 'sized' %}
+            <h3 class="header-font">{{ item.product.name }}</h3>
+            {% if item.small_count %}
+                <form action="">
+                    <label for="cd_quantity" class="mb-0">Small Quantity:</label>
+                    <input type="number" min="1" max="99" value="{{ item.small_count }}">
+                    <a href="" class="btn btn-dark btn-sm">UPDATE</a>
+                    <a href="" class="btn btn-danger btn-sm">REMOVE</a>
+                </form>
+            {% endif %}
+            {% if item.medium_count %}
+            <form action="">
+                <label for="cd_quantity" class="mb-0">Medium Quantity:</label>
+                <input type="number" min="1" max="99" value="{{ item.medium_count }}">
+                <a href="" class="btn btn-dark btn-sm">UPDATE</a>
+                <a href="" class="btn btn-danger btn-sm">REMOVE</a>
+            </form>
+            {% endif %}            
+            {% if item.large_count %}
+            <form action="">
+                <label for="cd_quantity" class="mb-0">Large Quantity:</label>
+                <input type="number" min="1" max="99" value="{{ item.large_count }}">
+                <a href="" class="btn btn-dark btn-sm">UPDATE</a>
+                <a href="" class="btn btn-danger btn-sm">REMOVE</a>
+            </form>
+            {% endif %}
+        {% endif %}
+        <p class="mt-2 text-right">Subtotal: £{{ item.item_total }}</p>
+        </div>
+    </div>
+    <hr>
+    {% endfor %}
+    <div class="row">
+        <div class="col-12 text-right">
+            <h2 class="header-font">Total</h2>
+            <p>£ {{total}}</p>
+        </div>
+    </div>
 </div>
 {% endblock %}

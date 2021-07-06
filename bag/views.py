@@ -30,8 +30,8 @@ def add_to_bag(request, product_id):
             else:
                 bag[album_name][format] = quantity
         else:
-            print('SECOND')
             bag[album_name] = {
+                'type': 'album',
                 format: quantity,
             }
     elif size:
@@ -42,6 +42,7 @@ def add_to_bag(request, product_id):
                 bag[product_name][size] = quantity
         else:
             bag[product_name] = {
+                'type': 'sized',
                 size: quantity
             }
     else:
