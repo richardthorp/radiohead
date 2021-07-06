@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'shop',
     'live',
     'profiles',
+    'bag',
 ]
 
 MIDDLEWARE = [

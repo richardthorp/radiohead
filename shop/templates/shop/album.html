@@ -11,9 +11,11 @@
                 class="w-100 mx-auto">
         </div>
         <div class="col-12 col-lg-6">
-            <p class="mb-1 mt-2 mt-lg-0">Format:</p>
-            <form action="">
-                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" required>
+            <!-- <p class="mb-1 mt-2 mt-lg-0">Format:</p> -->
+            <form action="{% url 'add_to_bag' album.id %}" method="POST">
+                {% csrf_token %}
+                <label for="format">Choose Format:</label>
+                <select id="format" name="format" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" required>
                     <option value="" selected>Please choose a format</option>
                     <option value="cd">CD : £{{ album.cd_price }}</option>
                     <option value="vinyl">Vinyl : £{{ album.vinyl_price }}</option>
