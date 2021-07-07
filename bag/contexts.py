@@ -59,6 +59,7 @@ def bag_details(request):
 
     context = {
         'bag_items': bag_items,
+        'num_of_items': len(bag_items),
         'total': total,
     }
 

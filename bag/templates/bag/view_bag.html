@@ -17,7 +17,7 @@
                 {% csrf_token %}
                 <label for="cd_quantity" class="mb-0">CD Quantity:</label>
                 <input id="cd_quantity" name="quantity" type="number" min="1" max="99" value="{{ item.cd_count }}">
-                <button type="submit" class="btn btn-dark btn-sm">UPDATE</button>
+                <button type="submit" class="btn custom-btn btn-dark btn-sm">UPDATE</button>
             </form>
             {% include 'includes/cd_modal.html' %}
             {% endif %}
@@ -27,7 +27,7 @@
                 <label for="vinyl_quantity" class="mb-0">Vinyl Quantity:</label>
                 <input id="vinyl_quantity" name="quantity" type="number" min="1" max="99"
                     value="{{ item.vinyl_count }}">
-                <button type="submit" class="btn btn-dark btn-sm">UPDATE</button>
+                <button type="submit" class="btn custom-btn btn-dark btn-sm">UPDATE</button>
             </form>
             {% include 'includes/vinyl_modal.html' %}
             {% endif %}
@@ -41,7 +41,7 @@
                 <label for="small_quantity" class="mb-0">Small Quantity:</label>
                 <input id="small_quantity" name="quantity" type="number" min="1" max="99"
                     value="{{ item.small_count }}">
-                <button type="submit" class="btn btn-dark btn-sm">UPDATE</button>
+                <button type="submit" class="btn custom-btn btn-dark btn-sm">UPDATE</button>
             </form>
             {% include 'includes/size_small_modal.html' %}
             {% endif %}
@@ -51,7 +51,7 @@
                 <label for="medium_quantity" class="mb-0">Medium Quantity:</label>
                 <input id="medium_quantity" name="quantity" type="number" min="1" max="99"
                     value="{{ item.medium_count }}">
-                <button type="submit" class="btn btn-dark btn-sm">UPDATE</button>
+                <button type="submit" class="btn custom-btn btn-dark btn-sm">UPDATE</button>
             </form>
             {% include 'includes/size_medium_modal.html' %}
             {% endif %}
@@ -61,7 +61,7 @@
                 <label for="large_quantity" class="mb-0">Large Quantity:</label>
                 <input id="large_quantity" name="quantity" type="number" min="1" max="99"
                     value="{{ item.large_count }}">
-                <button type="submit" class="btn btn-dark btn-sm">UPDATE</button>
+                <button type="submit" class="btn custom-btn btn-dark btn-sm">UPDATE</button>
             </form>
             {% include 'includes/size_large_modal.html' %}
             {% endif %}
@@ -73,7 +73,7 @@
                 {% csrf_token %}
                 <label for="quantity" class="mb-0">Quantity:</label>
                 <input id="quantity" name="quantity" type="number" min="1" max="99" value="{{ item.quantity }}">
-                <button type="submit" class="btn btn-dark btn-sm">UPDATE</button>
+                <button type="submit" class="btn custom-btn btn-dark btn-sm">UPDATE</button>
             </form>
             {% include 'includes/other_modal.html' %}
             {% endif %}

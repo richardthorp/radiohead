@@ -1,5 +1,5 @@
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-danger btn-sm custom-btn" data-toggle="modal"
+<button type="button" class="btn custom-btn btn-danger btn-sm custom-btn" data-toggle="modal"
     data-target="#remove-item-modal-{{forloop.counter}}">
     REMOVE
 </button>
@@ -15,9 +15,9 @@
                 from your bag?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-sm btn-dark custom-btn" data-dismiss="modal">BACK</button>
+                <button type="button" class="btn custom-btn btn-sm btn-dark custom-btn" data-dismiss="modal">BACK</button>
                 <a href="{% url 'remove_item' 'M' item.product.id %}"
-                    class="btn btn-sm btn-danger custom-btn">Remove</a>
+                    class="btn custom-btn btn-sm btn-danger custom-btn">Remove</a>
             </div>
         </div>
     </div>

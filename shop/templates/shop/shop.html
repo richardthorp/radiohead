@@ -13,13 +13,13 @@
     <form action="{% url 'shop' %}" method="POST" class="d-flex justify-content-center sort-by-form mb-3 mt-2">
         {% csrf_token %}
         <input type="radio" id="all" name="filter" value="all" class="d-none">
-        <label for="all" class="btn btn-outline-dark {% if all %} active {% endif %}">ALL</label><br>
+        <label for="all" class="btn custom-btn btn-outline-dark {% if all %} active {% endif %}">ALL</label><br>
         <input type="radio" id="music" name="filter" value="music" class="d-none">
-        <label for="music" class="btn btn-outline-dark {% if music %} active {% endif %}">MUSIC</label><br>
+        <label for="music" class="btn custom-btn btn-outline-dark {% if music %} active {% endif %}">MUSIC</label><br>
         <input type="radio" id="clothing" name="filter" value="clothing" class="d-none">
-        <label for="clothing" class="btn btn-outline-dark {% if clothing %} active {% endif %}">CLOTHING</label><br>
+        <label for="clothing" class="btn custom-btn btn-outline-dark {% if clothing %} active {% endif %}">CLOTHING</label><br>
         <input type="radio" id="other" name="filter" value="other" class="d-none">
-        <label for="other" class="btn btn-outline-dark {% if other %} active {% endif %}">OTHER</label><br>
+        <label for="other" class="btn custom-btn btn-outline-dark {% if other %} active {% endif %}">OTHER</label><br>
     </form>
     <div class="row">
         {% if albums %}
