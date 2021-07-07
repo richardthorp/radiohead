@@ -1,0 +1,24 @@
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-danger btn-sm custom-btn" data-toggle="modal"
+    data-target="#remove-item-modal-{{forloop.counter}}">
+    REMOVE
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="remove-item-modal-{{forloop.counter}}" tabindex="-1" role="dialog"
+    aria-labelledby="remove-item" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body custom-modal text-center">
+                Are you sure you want to remove<br>
+                <strong>Large {{ item.product.name }}</strong><br>
+                from your bag?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-dark custom-btn" data-dismiss="modal">BACK</button>
+                <a href="{% url 'remove_item' 'S' item.product.id %}"
+                    class="btn btn-sm btn-danger custom-btn">Remove</a>
+            </div>
+        </div>
+    </div>
+</div>

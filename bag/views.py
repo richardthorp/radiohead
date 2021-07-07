@@ -77,3 +77,31 @@ def update_bag(request, product_type, product_id):
     request.session['bag'] = bag
 
     return redirect(reverse('view_bag'))
+
+
+def remove_item(request, product_type, product_id):
+    bag = request.session.get('bag', {})
+
+    if product_type == 'cd' or product_type == 'vinyl':
+        album = get_object_or_404(Album, pk=product_id)
+        del bag[album.title][product_type]
+        if not bag[album.title].get('cd') and \
+           not bag[album.title].get('vinyl'):
+            del bag[album.title]
+    if product_type == 'S' or product_type == 'M' or product_type == 'L':
+        product = get_object_or_404(Product, pk=product_id)
+        del bag[product.name][product_type]
+        if not bag[product.name].get('S') and \
+           not bag[product.name].get('M') and \
+           not bag[product.name].get('L'):
+            del bag[product.name]
+    if product_type == 'other':
+        product = get_object_or_404(Product, pk=product_id)
+        del bag[product.name]
+
+    request.session['bag'] = bag
+    return redirect(reverse('view_bag'))    
+
+
+
+
