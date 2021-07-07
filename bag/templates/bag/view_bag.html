@@ -13,57 +13,67 @@
             {% if item.type == 'album' %}
                 <h3 class="header-font">{{ item.product.title }}</h3>
                 {% if item.cd_count %}
-                    <form action="">
-                        <label for="cd_quantity" class="mb-0">CD Quantity:</label>
-                        <input type="number" min="1" max="99" value="{{ item.cd_count }}">
-                        <a href="" class="btn btn-dark btn-sm">UPDATE</a>
-                        <a href="" class="btn btn-danger btn-sm">REMOVE</a>
-                    </form>
+                <form action="{% url 'update_bag' 'cd' item.product.id %}" method="POST" class="d-inline">
+                    {% csrf_token %}
+                    <label for="cd_quantity" class="mb-0">CD Quantity:</label>
+                    <input id="cd_quantity" name="quantity" type="number" min="1" max="99" value="{{ item.cd_count }}">
+                    <button type="submit" class="btn btn-dark btn-sm">UPDATE</button>
+                </form>
                 {% endif %}
                 {% if item.vinyl_count %}
-                    <form action="">
-                        <label for="vinyl_quantity" class="mb-0">Vinyl Quantity:</label>
-                        <input type="number" min="1" max="99" value="{{ item.vinyl_count }}">
-                        <a href="" class="btn btn-dark btn-sm">UPDATE</a>
-                        <a href="" class="btn btn-danger btn-sm">REMOVE</a>
-                    </form>
+                <form action="{% url 'update_bag' 'vinyl' item.product.id %}" method="POST" class="d-inline">
+                    {% csrf_token %}
+                    <label for="vinyl_quantity" class="mb-0">Vinyl Quantity:</label>
+                    <input id="vinyl_quantity" name="quantity" type="number" min="1" max="99"
+                        value="{{ item.vinyl_count }}">
+                    <button type="submit" class="btn btn-dark btn-sm">UPDATE</button>
+                </form>
                 {% endif %}
-                <!-- {% if item.cd_total %}
-                    <p class="mt-2 text-right">Subtotal: £{{ item.cd_total }}</p>
-                {% endif %}
-                {% if item.vinyl_total %}
-                    <p class="mt-2 text-right">Vinyl subtotal: £{{ item.vinyl_total }}</p>
-                {% endif %} -->
             {% endif %}
             <!-- SIZED ITEM INFO -->
             {% if item.type == 'sized' %}
-            <h3 class="header-font">{{ item.product.name }}</h3>
-            {% if item.small_count %}
-                <form action="">
-                    <label for="cd_quantity" class="mb-0">Small Quantity:</label>
-                    <input type="number" min="1" max="99" value="{{ item.small_count }}">
-                    <a href="" class="btn btn-dark btn-sm">UPDATE</a>
-                    <a href="" class="btn btn-danger btn-sm">REMOVE</a>
+                <h3 class="header-font">{{ item.product.name }}</h3>
+                {% if item.small_count %}
+                <form action="{% url 'update_bag' 'S' item.product.id %}" method="POST" class="d-inline">
+                    {% csrf_token %}
+                    <label for="small_quantity" class="mb-0">Small Quantity:</label>
+                    <input id="small_quantity" name="quantity" type="number" min="1" max="99"
+                        value="{{ item.small_count }}">
+                    <button type="submit" class="btn btn-dark btn-sm">UPDATE</button>
                 </form>
+                {% endif %}
+                {% if item.medium_count %}
+                <form action="{% url 'update_bag' 'M' item.product.id %}" method="POST" class="d-inline">
+                    {% csrf_token %}
+                    <label for="medium_quantity" class="mb-0">Medium Quantity:</label>
+                    <input id="medium_quantity" name="quantity" type="number" min="1" max="99"
+                        value="{{ item.medium_count }}">
+                    <button type="submit" class="btn btn-dark btn-sm">UPDATE</button>
+                </form>
+                {% endif %}
+                {% if item.large_count %}
+                <form action="{% url 'update_bag' 'L' item.product.id %}" method="POST" class="d-inline">
+                    {% csrf_token %}
+                    <label for="large_quantity" class="mb-0">Large Quantity:</label>
+                    <input id="large_quantity" name="quantity" type="number" min="1" max="99"
+                        value="{{ item.large_count }}">
+                    <button type="submit" class="btn btn-dark btn-sm">UPDATE</button>
+                </form>
+                {% endif %}
             {% endif %}
-            {% if item.medium_count %}
-            <form action="">
-                <label for="cd_quantity" class="mb-0">Medium Quantity:</label>
-                <input type="number" min="1" max="99" value="{{ item.medium_count }}">
-                <a href="" class="btn btn-dark btn-sm">UPDATE</a>
-                <a href="" class="btn btn-danger btn-sm">REMOVE</a>
-            </form>
-            {% endif %}            
-            {% if item.large_count %}
-            <form action="">
-                <label for="cd_quantity" class="mb-0">Large Quantity:</label>
-                <input type="number" min="1" max="99" value="{{ item.large_count }}">
-                <a href="" class="btn btn-dark btn-sm">UPDATE</a>
-                <a href="" class="btn btn-danger btn-sm">REMOVE</a>
+            <!-- OTHER PRODUCT TYPE - NO FORMAT OR SIZES -->
+            {% if not item.type %}
+            <h3 class="header-font">{{ item.product.name }}</h3>
+            <form action="{% url 'update_bag' 'other' item.product.id %}" method="POST" class="d-inline">
+                {% csrf_token %}
+                <label for="quantity" class="mb-0">Quantity:</label>
+                <input id="quantity" name="quantity" type="number" min="1" max="99"
+                    value="{{ item.quantity }}">
+                <button type="submit" class="btn btn-dark btn-sm">UPDATE</button>
             </form>
             {% endif %}
-        {% endif %}
-        <p class="mt-2 text-right">Subtotal: £{{ item.item_total }}</p>
+            <p class="mt-2 text-right">Subtotal: £{{ item.item_total }}</p>
+
         </div>
     </div>
     <hr>

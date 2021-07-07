@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, redirect, get_object_or_404, reverse
 from shop.models import Product, Album
 
 
@@ -55,4 +55,25 @@ def add_to_bag(request, product_id):
     print(request.session['bag'])
 
     return render(request, 'bag/view_bag.html')
-    # return redirect('shop')
+
+
+def update_bag(request, product_type, product_id):
+    print(product_type)
+    bag = request.session.get('bag', {})
+    quantity = int(request.POST.get('quantity'))
+
+    if product_type == 'cd' or product_type == 'vinyl':
+        album = get_object_or_404(Album, pk=product_id)
+        bag[album.title][product_type] = quantity
+
+    if product_type == 'S' or product_type == 'M' or product_type == 'L':
+        product = get_object_or_404(Product, pk=product_id)
+        bag[product.name][product_type] = quantity
+
+    if product_type == 'other':
+        product = get_object_or_404(Product, pk=product_id)
+        bag[product.name] = quantity
+
+    request.session['bag'] = bag
+
+    return redirect(reverse('view_bag'))
