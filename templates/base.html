@@ -38,10 +38,10 @@
             <a href="{% url 'profile' %}" id="user-icon" class="mx-2 mx-md-4">
                 <i class="fas fa-user"></i>
             </a>
-            <span class="fa-stack has-badge bag-summary-toggle" data-count="{{ num_of_items }}" data-toggle="collapse" data-target="#bag-summary">
-                <i class="fa fa-circle fa-stack-2x bag-summary-toggle"></i>
-                <i class="fa fa-shopping-cart fa-stack-1x fa-inverse bag-summary-toggle"></i>
-                <div id="bag-summary" class="bag-summary-toggle collapse">SOMETHING IN HERE</div>
+            <span class="fa-stack has-badge" data-count="{{ num_of_items }}" data-toggle="collapse"
+                data-target="#bag-summary">
+                <i class="fa fa-circle fa-stack-2x"></i>
+                <i class="fa fa-shopping-cart fa-stack-1x fa-inverse"></i>
             </span>
         </span>
 
@@ -80,6 +80,56 @@
         </div>
     </nav>
     <div class="navbar-margin"></div>
+    <div class="container-fluid">
+        <div class="row bag-summary-row">
+            <div id="bag-summary" class="col-12 col-sm-6 col-md-4 bag-summary collapse">
+                <h3 class="header-font text-center pb-3">Bag Summary</h3>
+                <div class="bagged-items-container">
+                    {% for item in bag_items %}
+                    <div class="row">
+                        <div class="col-4">
+                            <img src="{{ MEDIA_URL }}{{ item.product.image.url }}" class="w-100" alt="">
+                        </div>
+                        <div class="col-8">
+                            {% if item.type == 'album' %}
+                            <h4 class="header-font">{{ item.product.title }}</h4>
+                            {% if item.cd_count %}
+                            <p>CD: {{ item.cd_count }}</p>
+                            {% endif %}
+                            {% if item.album_count %}
+                            <p>Vinyl: {{ item.vinyl_count }}</p>
+                            {% endif %}
+                            <p>Subtotal: £{{ item.item_total }}</p>
+                            {% elif item.type == 'sized' %}
+                            <h4 class="header-font">{{ item.product.name }}</h4>
+                            {% if item.small_count %}
+                            <p>Small: {{item.small_count}}</p>
+                            {% endif %}
+                            {% if item.medium_count %}
+                            <p>Medium: {{item.medium_count}}</p>
+                            {% endif %}
+                            {% if item.large_count %}
+                            <p>Large: {{item.large_count}}</p>
+                            {% endif %}
+                            <p>Subtotal: £{{ item.item_total }}</p>
+                            {% else %}
+                            <h4 class="header-font">{{ item.product.name }}</h4>
+                            <p>Quantity: {{ item.quantity }}</p>
+                            <p>Subtotal: £{{ item.item_total }}</p>
+                            {% endif %}
+                        </div>
+                        <hr>
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="row justify-content-center py-3">
+                    <a href="{% url 'view_bag' %}" class="border btn btn-light custom-btn">View bag</a>
+                    <a href="#" class="btn btn-dark custom-btn">Checkout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {% block content %}
     {% endblock %}
     <footer class="mt-auto container-fluid">

@@ -140,6 +140,28 @@ nav {
   border-style:solid;
 }
 
+.bagged-items-container {
+    max-height: 600px;
+    overflow: auto;
+    width: 100%;
+}
+
+.bag-summary-row {
+    justify-content: flex-end;
+}
+.bag-summary {
+    width: fit-content;
+    background-color: #f8f9fa;
+    display: flex;
+    flex-direction: column;
+    z-index: 9999;
+    position: fixed;
+    font-family: block-font;
+    max-height: 80vh;
+    /* max-height: 650px;
+    overflow: auto; */
+}
+
 /*---------------------------------------------------------------------------------FOOTER--*/
 .follow-us {
     font-size: 1.2rem;
