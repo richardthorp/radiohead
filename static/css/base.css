@@ -23,8 +23,8 @@
         url('../fonts/National-Oldstyle.ttf') format('ttf');
     font-weight: normal;
     font-style: normal;
-
 }
+
 /*---------------------------------------------------------------------------------GENERAL--*/
 body {
     min-width: 320px;
@@ -132,7 +132,6 @@ nav {
   padding:.6em;
   border-radius:999px;
   line-height:.75em;
-  /* color: rgb(0, 0, 0); */
   text-align:center;
   min-width:2em;
   font-weight:bold;
@@ -140,10 +139,26 @@ nav {
   border-style:solid;
 }
 
+/* Triangle shape credit: Chris Coyier - https://css-tricks.com/the-shapes-of-css/ */
+.menu-pointer {
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 12px solid #6c757d;
+    position: fixed;
+    right: 90px;
+    top: 45px;
+}
+
 .bagged-items-container {
     max-height: 600px;
     overflow: auto;
     width: 100%;
+    /* Box shadow code generated at https://cssgenerator.org/box-shadow-css-generator.html */
+    box-shadow: 0px 0px 5px 0px #6c757d inset;
+    -webkit-box-shadow: 0px 0px 5px 0px #6c757d inset;
+    -moz-box-shadow: 0px 0px 5px 0px #6c757d inset;
 }
 
 .bag-summary-row {
@@ -158,8 +173,8 @@ nav {
     position: fixed;
     font-family: block-font;
     max-height: 80vh;
-    /* max-height: 650px;
-    overflow: auto; */
+    border: 1px solid #6c757d;
+    top: 56px;
 }
 
 /*---------------------------------------------------------------------------------FOOTER--*/
@@ -185,16 +200,29 @@ nav {
     #logo {
         font-size: 1.4rem;
     }
+    .bag-summary {
+        top: 59px;
+    }
+    .menu-pointer {
+        top: 47px;
+        border-bottom: 13px solid #6c757d
+    }
+}
 
 @media only screen and (min-width: 576px) {
     #logo {
         font-size: 1.7rem;
     }
-    /* .add-slash {
-        font-size: 2.5rem;
-    } */
     .navbar-margin{
         margin-top: 67px;
+    }
+    .bag-summary {
+        right: 80px;
+        top: 66px;
+    }
+    .menu-pointer {
+        top: 50px;
+        border-bottom: 17px solid #6c757d
     }
     .page-header {
         font-size: 4rem;
@@ -211,29 +239,29 @@ nav {
     .page-header {
         font-size: 5rem;
     }
-    /* .add-slash {
-        font-size: 3rem;
-    } */
+    .menu-pointer {
+        right: 106px;
+    }
     .social-links i {
         padding: 0 20px;
     }
     .form-border {
         border-bottom: none;
-        /* padding-bottom: none; */
         border-right: 1px solid #000;
     }
-
 }
 
 @media only screen and (min-width: 992px) {
     .page-header {
         font-size: 6rem;
     }
-    /* .add-slash {
-        font-size: 4rem;
-    } */
 }
 
 @media only screen and (min-width: 1200px) {
-
+    .bag-summary {
+        left: 0px;
+    }
+    .menu-pointer {
+        left: 341px;
+    }
 }

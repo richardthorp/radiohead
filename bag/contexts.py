@@ -2,7 +2,7 @@ from shop.models import Album, Product
 
 
 def bag_details(request):
-    bag = request.session['bag']
+    bag = request.session.get('bag', {})
     bag_items = []
     total = 0
 
