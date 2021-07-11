@@ -99,6 +99,10 @@ hr {
     font-size: 1.2rem;
 }
 
+.pointer {
+    cursor: pointer;
+}
+
 /*---------------------------------------------------------------------------------NAVBAR--*/
 nav {
     background-color: #f8f9fae0;
@@ -173,8 +177,10 @@ nav {
     position: fixed;
     font-family: block-font;
     max-height: 80vh;
+    max-width: 400px;
     border: 1px solid #6c757d;
     top: 56px;
+    right: 0;
 }
 
 /*---------------------------------------------------------------------------------FOOTER--*/
