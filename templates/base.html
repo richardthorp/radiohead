@@ -36,9 +36,12 @@
         <a href="{% url 'home' %}" id="logo" class="navbar-brand">RADIOHEAD</a>
         <span class="ml-auto">
             <!-- PROFILE LINK ICON -->
-            <a href="{% url 'profile' %}" id="user-icon" class="mx-2 mx-md-4">
+            <!-- <a href="{% url 'profile' %}" id="user-icon" class="mx-2 mx-md-4">
                 <i class="fas fa-user"></i>
-            </a>
+            </a> -->
+            <span id="user-icon" data-toggle="collapse" data-target="#account-dropdown" class="mx-2 mx-md-4">
+                <i class="fas fa-user"></i>
+            </span>
             <!-- BAG SUMMARY DROPDOWN TOGGLE -->
             <span class="fa-stack has-badge pointer mx-2" data-count="{{ num_of_items }}" data-toggle="collapse"
                 data-target="#bag-summary">
@@ -81,9 +84,31 @@
                 {% endif %}
             </ul>
         </div>
+        <!-- ACCOUNT DROPDOWN CONTENT -->
+        <div id="account-dropdown" class="collapse custom-nav-dropdown">
+            <div class="menu-pointer account-pointer"></div>
+            <ul class="m-0 p-0">
+                {% if user.is_authenticated %}
+                <li class="nav-link">
+                    <a href="{% url 'profile' %}">PROFILE</a>
+                </li>                
+                <li class="nav-link">
+                    <a href="{% url 'account_logout' %}">SIGN OUT</a>
+                </li>
+                {% else %}
+                <li class="nav-link">
+                    <a href="{% url 'account_login' %}">SIGN IN</a>
+                </li>
+                <li class="nav-link">
+                    <a href="{% url 'account_signup' %}">REGISTER</a>
+                </li>
+                {% endif %}
+
+            </ul>
+        </div>
         <!-- BAG SUMMARY DROPDOWN CONTENT -->
-        <div id="bag-summary" class="col-12 col-sm-6 col-md-4 bag-summary collapse">
-            <div class="menu-pointer"></div>
+        <div id="bag-summary" class="col-12 col-sm-6 col-md-4 custom-nav-dropdown bag-summary collapse">
+            <div class="menu-pointer bag-summary-pointer"></div>
             <h3 class="header-font text-center py-2">Bag Summary</h3>
             <div class="bagged-items-container container-fluid py-2">
                 {% for item in bag_items %}
