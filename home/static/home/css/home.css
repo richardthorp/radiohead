@@ -4,7 +4,9 @@
 }
 
 .welcome h1 {
+    font-family: radio;
     font-size: 5rem;
+    text-transform: uppercase;
 }
 
 .welcome i{
