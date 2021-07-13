@@ -17,7 +17,8 @@
         integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&family=Righteous&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&family=Righteous&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     {% endblock %}
 
@@ -45,8 +46,8 @@
                 <i class="fas fa-user"></i>
             </span>
             <!-- BAG SUMMARY DROPDOWN TOGGLE -->
-            <span id="bag-icon" class="fa-stack has-badge pointer mx-2" data-count="{{ num_of_items }}" data-toggle="collapse"
-                data-target="#bag-summary">
+            <span id="bag-icon" class="fa-stack has-badge pointer mx-2" data-count="{{ num_of_items }}"
+                data-toggle="collapse" data-target="#bag-summary">
                 <i class="fa fa-circle fa-stack-2x"></i>
                 <i class="fa fa-shopping-cart fa-stack-1x fa-inverse"></i>
             </span>
@@ -93,7 +94,7 @@
                 {% if user.is_authenticated %}
                 <li class="nav-link">
                     <a href="{% url 'profile' %}" class="text-dark">PROFILE</a>
-                </li>                
+                </li>
                 <li class="nav-link">
                     <a href="{% url 'account_logout' %}" class="text-dark">SIGN OUT</a>
                 </li>
@@ -122,30 +123,30 @@
                     <div class="col-8">
                         {% if item.type == 'album' %}
                         <h5 class="header-font mb-0">{{ item.product.title }}</h4>
-                        {% if item.cd_count %}
-                        <p class="clear-font m-0">CD: {{ item.cd_count }}</p>
-                        {% endif %}
-                        {% if item.vinyl_count %}
-                        <p class="clear-font m-0">Vinyl: {{ item.vinyl_count }}</p>
-                        {% endif %}
-                        <p class="clear-font m-0">Subtotal: £{{ item.item_total }}</p>
-                        {% elif item.type == 'sized' %}
-                        <h5 class="header-font">{{ item.product.name }}</h4>
-                        {% if item.small_count %}
-                        <p class="clear-font m-0">Small: {{item.small_count}}</p>
-                        {% endif %}
-                        {% if item.medium_count %}
-                        <p class="clear-font m-0">Medium: {{item.medium_count}}</p>
-                        {% endif %}
-                        {% if item.large_count %}
-                        <p class="clear-font m-0">Large: {{item.large_count}}</p>
-                        {% endif %}
-                        <p class="clear-font m-0">Subtotal: £{{ item.item_total }}</p>
-                        {% else %}
-                        <h5 class="header-font mb-0">{{ item.product.name }}</h4>
-                        <p class="clear-font m-0">Quantity: {{ item.quantity }}</p>
-                        <p class="clear-font m-0">Subtotal: £{{ item.item_total }}</p>
-                        {% endif %}
+                            {% if item.cd_count %}
+                            <p class="clear-font m-0">CD: {{ item.cd_count }}</p>
+                            {% endif %}
+                            {% if item.vinyl_count %}
+                            <p class="clear-font m-0">Vinyl: {{ item.vinyl_count }}</p>
+                            {% endif %}
+                            <p class="clear-font m-0">Subtotal: £{{ item.item_total }}</p>
+                            {% elif item.type == 'sized' %}
+                            <h5 class="header-font">{{ item.product.name }}</h4>
+                                {% if item.small_count %}
+                                <p class="clear-font m-0">Small: {{item.small_count}}</p>
+                                {% endif %}
+                                {% if item.medium_count %}
+                                <p class="clear-font m-0">Medium: {{item.medium_count}}</p>
+                                {% endif %}
+                                {% if item.large_count %}
+                                <p class="clear-font m-0">Large: {{item.large_count}}</p>
+                                {% endif %}
+                                <p class="clear-font m-0">Subtotal: £{{ item.item_total }}</p>
+                                {% else %}
+                                <h5 class="header-font mb-0">{{ item.product.name }}</h4>
+                                    <p class="clear-font m-0">Quantity: {{ item.quantity }}</p>
+                                    <p class="clear-font m-0">Subtotal: £{{ item.item_total }}</p>
+                                    {% endif %}
                     </div>
                     {% if not forloop.last %}
                     <hr>
@@ -185,9 +186,8 @@
         </div>
     </footer>
     {% block postloadjs %}
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
         integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
         crossorigin="anonymous"></script>

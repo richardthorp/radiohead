@@ -17,51 +17,73 @@ $(window).resize(function () {
     resizeIframe();
 })
 
-function getComments() {
-    let singleId = $("#single-id").text();
-    const url = `/media/get_comments/${singleId}`;
-    let response = fetch(url)
-        .then(response => response.text())
-        .then(data => {
-            return data;
-        })
-    return response;
-};
+// Get comments when page loads
+$(document).ready(getComments());
 
-function renderComments() {
-    let htmlContent = '';
-    const commentDiv = $("#comment-section")
-    getComments()
-        .then(commentsString => {
-            let comments = JSON.parse(commentsString);
-            comments.forEach(commentObj => {
-                htmlContent +=
-                    `<div class="row my-1 no-gutters">
-                        <div class="col-2">
-                            <img class="profile-pic" src="${commentObj['posted_by_img']}" alt="The profile picture for ${commentObj['posted_by']}">
-                        </div>
-                        <div class="col-10 comment-container">
-                            <p class="">
-                                Comment by: ${commentObj['posted_by']} <br>
-                                ${commentObj['text']}
-                            </p>
-                        </div>
-                    </div>`
-            });
-            if(commentDiv.html() != htmlContent){
-                console.log('DIFF');
-                commentDiv.html(htmlContent);
-            }
-        });
+// Get JSON data containing list of comment objects
+function getComments(page=1){
+    const objectId = $("#single-id").text();
+    $.ajax({
+        url: `/media/get_comments`,
+        type: "GET",
+        data: {
+            'objectID': objectId,
+            'page': page,
+
+        },
+        dataType: 'json',
+        success: function (data) {
+            renderComments(data);
+        },
+        error: function(xhr,status,error){
+            console.log(xhr,status,error)
+        },
+    })
 }
 
-// $(document).ready(function(){
-//     setInterval(renderComments, 4000)
-// })
+function renderComments(data){
+    let htmlContent = "";
+    data.forEach(commentObj =>{
+        htmlContent +=
+            `<div class="row my-1 no-gutters">
+                <div class="col-2">
+                    <img class="profile-pic" src="${commentObj['posted_by_img']}" alt="The profile picture for ${commentObj['posted_by']}">
+                </div>
+                <div class="col-10 comment-container">
+                    <p class="">
+                        Comment by: ${commentObj['posted_by']} <br>
+                        ${commentObj['text']}
+                    </p>
+                </div>
+            </div>`
+    });
 
-// {
-//     'time': time,
-//     'posted_by': posted_by.user.username,
-//     'posted_by_img': posted_by_img,
-//     'text': comment['fields']['text']
-// }
+    htmlContent += renderPaginationButtons(data[0])
+    const commentDiv = $("#comment-section")
+    if(commentDiv.html() != htmlContent){
+        commentDiv.html(htmlContent);
+    }
+}
+
+function renderPaginationButtons(data){
+    let htmlContent = '';
+    let nextPage = parseInt(data['current_page']) + 1
+    let prevPage = parseInt(data['current_page']) - 1
+    if (data['has_prev']){
+        htmlContent += 
+            `<button onclick="getComments(${prevPage})" class="btn custom-btn btn-outline-secondary">Previous</button>`
+    }else {
+        htmlContent += 
+            `<button class="btn custom-btn btn-outline-secondary" disabled>Previous</button>`
+    }
+    if (data['has_next']){
+        htmlContent += 
+            `<button onclick="getComments(${nextPage})" class="btn custom-btn btn-outline-secondary">Next</button>`
+    } else {
+        htmlContent += 
+            `<button class="btn custom-btn btn-outline-secondary" disabled>Next</button>`
+        
+    }
+
+    return htmlContent
+}
