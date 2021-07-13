@@ -224,6 +224,19 @@ nav {
     font-size: 1.2rem;
 }
 
+/*---------------------------------------------------------------------------------ADD COMMENT SECTIONS--*/
+.comment-container {
+    background-color: #b9b9b988;
+}
+
+.profile-pic {
+    border-radius: 100%;
+    height: 50px;
+    width: 50px;
+    object-fit: cover;
+    object-position: center;
+}
+
 /*---------------------------------------------------------------------------------MEDIA QUERIES--*/
 @media only screen and (min-width: 400px) {
     #logo {

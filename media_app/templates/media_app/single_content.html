@@ -33,6 +33,37 @@
             </a>
         </div>
     </div>
+    <h4 class="header-font my-3">Comments</h4>
+    <div id="single-id" class="d-none">{{ single.id }}</div>
+    <div id="comment-section"></div>
+    <!-- <h4 class="header-font my-3">Comments</h4>
+    {% for comment in comments %}
+    <div class="row my-1 no-gutters">
+        <div class="col-2">
+            <img class="profile-pic" src="{{ MEDIA_URL }}{{ comment.posted_by.image.url }}" class="rounded"
+                alt="The profile picture for {{ comment.posted_by }}">
+        </div>
+        <div class="col-10 comment-container">
+            <p class="">
+                Comment by: {{ comment.posted_by.user.username }} <br>
+                {{ comment.text }}
+            </p>
+        </div>
+    </div>
+    {% endfor %} -->
+    <h4 class="header-font my-3">Add comment</h4>
+    <div class="row no-gutters">
+        <div class="col-2 profile-pic">
+            <img class="profile-pic" src="{{ MEDIA_URL }}{{ user.profile.image.url }}" alt="">
+        </div>
+        <div class="col-10">
+            <form action="{% url 'add_comment' single.id %}" method="POST">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit" class="btn custom-btn btn-outline-dark">Add Comment</button>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}
 {% block postloadjs %}

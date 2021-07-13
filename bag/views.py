@@ -102,6 +102,3 @@ def remove_item(request, product_type, product_id):
     request.session['bag'] = bag
     return redirect(reverse('view_bag'))    
 
-
-
-
