@@ -45,13 +45,13 @@ function renderComments(data){
     let htmlContent = "";
     data.forEach(commentObj =>{
         htmlContent +=
-            `<div class="row my-1 no-gutters">
-                <div class="col-2">
+            `<div class="row my-3 my-md-4 no-gutters">
+                <div class="col-2 col-md-1">
                     <img class="profile-pic" src="${commentObj['posted_by_img']}" alt="The profile picture for ${commentObj['posted_by']}">
                 </div>
-                <div class="col-10 comment-container">
-                    <p class="">
-                        Comment by: ${commentObj['posted_by']} <br>
+                <div class="col-10 col-md-11 comment-container px-2 px-md-3">
+                    <p>
+                        <strong>${commentObj['posted_by']}</strong> - ${commentObj['time']} <br>
                         ${commentObj['text']}
                     </p>
                 </div>
@@ -66,9 +66,14 @@ function renderComments(data){
 }
 
 function renderPaginationButtons(data){
-    let htmlContent = '';
+    // Open a row div and a column div for the buttons
+    let htmlContent = 
+        `<div class="row">
+            <div class="col-12 d-flex justify-content-center">`;
+
     let nextPage = parseInt(data['current_page']) + 1
     let prevPage = parseInt(data['current_page']) - 1
+    // Render appropriate buttons depending on the data passed in from thr renderComments function above
     if (data['has_prev']){
         htmlContent += 
             `<button onclick="getComments(${prevPage})" class="btn custom-btn btn-outline-secondary">Previous</button>`
@@ -81,9 +86,24 @@ function renderPaginationButtons(data){
             `<button onclick="getComments(${nextPage})" class="btn custom-btn btn-outline-secondary">Next</button>`
     } else {
         htmlContent += 
-            `<button class="btn custom-btn btn-outline-secondary" disabled>Next</button>`
-        
+            `<button class="btn custom-btn btn-outline-secondary" disabled>Next</button>` 
     }
+    // Fianlly, close the row and column div elements
+    htmlContent += 
+        `</div>
+        </div>`
 
     return htmlContent
+}
+
+function addComment(objectId, userId){
+    const data = {
+        'object_id': parseInt(objectId),
+        'user_id': parseInt(userId),
+        'comment': $("#id_text").val(),
+        'csrfmiddlewaretoken': $("input[name='csrfmiddlewaretoken']").val(),
+    }
+    $.post('/media/add_comment', data)
+        .done(setTimeout(getComments, 500))
+        .then($("#id_text").val(""));
 }

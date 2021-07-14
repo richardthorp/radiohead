@@ -7,7 +7,7 @@ urlpatterns = [
          name='album_singles'),
     path('single_content/<single_id>', views.single_content,
          name='single_content'),
-    path('add_comment/<single_id>', views.add_comment,
+    path('add_comment', views.add_comment,
          name='add_comment'),
     path('get_comments', views.get_comments,
          name='get_comments'),

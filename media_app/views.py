@@ -34,17 +34,14 @@ def single_content(request, single_id):
     return render(request, 'media_app/single_content.html', context)
 
 
-def add_comment(request, single_id):
-    form = CommentForm(request.POST)
-    if form.is_valid():
-        single = get_object_or_404(Single, pk=single_id)
-        Comment.objects.create(on_single=single,
-                               posted_by=request.user.profile,
-                               text=form.cleaned_data["text"])
-    else:
-        print('INVALID FORM')
-
-    return redirect('single_content', single_id)
+def add_comment(request):
+    print(request.POST['comment'])
+    posted_by = Profile.objects.get(user=request.POST['user_id'])
+    on_single = Single.objects.get(id=request.POST['object_id'])
+    text = request.POST['comment']
+    comment = Comment(posted_by=posted_by, text=text, on_single=on_single)
+    comment.save()
+    return HttpResponse(status=200)
 
 
 def get_comments(request):
