@@ -15,20 +15,20 @@
                 allowfullscreen></iframe>
         </div>
     </div>
-    <div class="row row-eq-height pt-3">
-        <div class="col-12 col-sm-6">
+    <div class="row row-eq-height justify-content-center shop-spotify-links pt-3">
+        <div class="col-6 col-sm-4">
             <a href="{% url 'shop_detail' 'album' single.album.id %}">
                 <div class="custom-border text-center">
                     <i class="fas fa-shopping-cart icons py-3"></i>
-                    <p>View the album in the shop.</p>
+                    <p>View album <br class="d-sm-none"> in shop.</p>
                 </div>
             </a>
         </div>
-        <div class="col-12 col-sm-6">
+        <div class="col-6 col-sm-4">
             <a href="{{ single.spotify_url }}" target="_blank">
                 <div class="custom-border text-center">
                     <i class="fab fa-spotify icons py-3"></i>
-                    <p>Listen on Spotify.</p>
+                    <p>Listen on <br class="d-sm-none"> Spotify.</p>
                 </div>
             </a>
         </div>

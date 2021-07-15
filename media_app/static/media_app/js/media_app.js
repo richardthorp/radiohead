@@ -44,16 +44,25 @@ function getComments(page=1){
 function renderComments(data){
     let htmlContent = "";
     data.forEach(commentObj =>{
+        const formattedTime = formatTime(commentObj['time']);
+        let commentPermissionshtml = "";
+        if(commentObj['comment_permissions']) {
+            commentPermissionshtml = `<p class="clear-font mb-2"><a href="">Edit comment</a> - <a href="">Delete comment</a></p>`
+        }
+        console.log(commentObj)
         htmlContent +=
             `<div class="row my-3 my-md-4 no-gutters">
                 <div class="col-2 col-md-1">
                     <img class="profile-pic" src="${commentObj['posted_by_img']}" alt="The profile picture for ${commentObj['posted_by']}">
                 </div>
                 <div class="col-10 col-md-11 comment-container px-2 px-md-3">
-                    <p>
-                        <strong>${commentObj['posted_by']}</strong> - ${commentObj['time']} <br>
-                        ${commentObj['text']}
+                <p class="clear-font mb-2">
+                    <strong>${commentObj['posted_by']}</strong> - ${formattedTime} <br>
+                </p>
+                    <p class="clear-font mb-2">
+                        ${commentObj['text']}<br>
                     </p>
+                    ${commentPermissionshtml}                    
                 </div>
             </div>`
     });
@@ -107,3 +116,51 @@ function addComment(objectId, userId){
         .done(setTimeout(getComments, 500))
         .then($("#id_text").val(""));
 }
+
+function formatTime(dateTime){
+    const splitDateTime = dateTime.split('T');
+    const time = splitDateTime[1].slice(0, 5);
+    const day = splitDateTime[0].split("-")[2];
+    let month = splitDateTime[0].split("-")[1];
+    const year = splitDateTime[0].split("-")[0];
+
+    switch (month) {
+      case '01':
+        month = 'Jan';
+        break;
+      case '02':
+        month = 'Feb';
+        break;
+      case '03':
+        month = 'Mar';
+        break;
+      case '04':
+        month = 'Apr';
+        break;
+      case '05':
+        month = 'May';
+        break;
+      case '06':
+        month = 'Jun';
+        break;
+      case '07':
+        month = 'Jul';
+        break;
+      case '08':
+        month = 'Aug';
+        break;
+      case '09':
+        month = 'Sep';
+        break;
+      case '10':
+        month = 'Oct';
+        break;
+      case '11':
+        month = 'Nov';
+        break;
+      case '12':
+        month = 'Dec';
+        break;
+    }
+    return `${time}, ${day} ${month} ${year}`;
+  }

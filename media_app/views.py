@@ -61,10 +61,15 @@ def get_comments(request):
             pk=int(comment['fields']['posted_by'])
             )
         posted_by_img = posted_by.image.url
+        if request.user == posted_by.user:
+            comment_permissions = True
+        else:
+            comment_permissions = False
         data = {
             'time': time,
             'posted_by': posted_by.user.username,
             'posted_by_img': posted_by_img,
+            'comment_permissions': comment_permissions,
             'text': comment['fields']['text'],
             'has_prev': current_page.has_previous(),
             'has_next': current_page.has_next(),
