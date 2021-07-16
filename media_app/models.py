@@ -23,6 +23,7 @@ class Comment(models.Model):
     posted_by = models.ForeignKey(Profile, on_delete=models.CASCADE)
     date_posted = models.DateTimeField(default=timezone.now)
     on_single = models.ForeignKey(Single, on_delete=models.CASCADE)
+    edited = models.BooleanField(default=False)
 
     def __str__(self):
         return f'Comment by {self.posted_by} on {self.date_posted}.'

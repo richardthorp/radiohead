@@ -244,6 +244,23 @@ nav {
     object-position: center;
 }
 
+#add-comment-input, #edit-comment-input{
+    width: 100%;
+    height: 140px;
+    overflow: auto;
+}
+
+.comment-permissions a:not([href]) {
+    cursor: pointer;
+    color: #007BFF;
+    text-decoration: none;
+}
+.comment-permissions a:not([href]):hover {
+    color: #0056b3;
+    text-decoration: underline;
+
+}
+
 /*---------------------------------------------------------------------------------MEDIA QUERIES--*/
 @media only screen and (min-width: 400px) {
     #logo {

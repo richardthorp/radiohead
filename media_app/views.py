@@ -68,9 +68,11 @@ def get_comments(request):
         data = {
             'time': time,
             'posted_by': posted_by.user.username,
+            'id': comment['pk'],
             'posted_by_img': posted_by_img,
             'comment_permissions': comment_permissions,
             'text': comment['fields']['text'],
+            'edited': comment['fields']['edited'],
             'has_prev': current_page.has_previous(),
             'has_next': current_page.has_next(),
             'current_page': page,
@@ -78,3 +80,14 @@ def get_comments(request):
         formatted_data.append(data)
 
     return HttpResponse(json.dumps(formatted_data))
+
+
+def edit_comment(request):
+    comment = Comment.objects.get(pk=request.POST['comment_id'])
+    if request.user.profile != comment.posted_by:
+        return HttpResponse(status=403)
+    else:
+        comment.text = request.POST['edited_comment']
+        comment.edited = True
+        comment.save()
+    return HttpResponse(status=200)

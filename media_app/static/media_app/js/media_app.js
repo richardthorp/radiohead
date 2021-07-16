@@ -47,9 +47,17 @@ function renderComments(data){
         const formattedTime = formatTime(commentObj['time']);
         let commentPermissionshtml = "";
         if(commentObj['comment_permissions']) {
-            commentPermissionshtml = `<p class="clear-font mb-2"><a href="">Edit comment</a> - <a href="">Delete comment</a></p>`
+            commentPermissionshtml = 
+                `<p class="clear-font mb-2 comment-permissions">
+                    <a onclick="renderEditCommentSection(this, ${commentObj['id']})"
+                        id="edit">Edit comment</a> - 
+                    <a href="">Delete comment</a>
+                </p>`
         }
-        console.log(commentObj)
+        let edited = "";
+        if (commentObj['edited']){
+            edited = "<span class='text-muted'>- (edited)</span>";
+        }
         htmlContent +=
             `<div class="row my-3 my-md-4 no-gutters">
                 <div class="col-2 col-md-1">
@@ -57,9 +65,9 @@ function renderComments(data){
                 </div>
                 <div class="col-10 col-md-11 comment-container px-2 px-md-3">
                 <p class="clear-font mb-2">
-                    <strong>${commentObj['posted_by']}</strong> - ${formattedTime} <br>
+                    <strong>${commentObj['posted_by']}</strong> - ${formattedTime} ${edited}
                 </p>
-                    <p class="clear-font mb-2">
+                    <p class="comment-text clear-font mb-2">
                         ${commentObj['text']}<br>
                     </p>
                     ${commentPermissionshtml}                    
@@ -109,12 +117,33 @@ function addComment(objectId, userId){
     const data = {
         'object_id': parseInt(objectId),
         'user_id': parseInt(userId),
-        'comment': $("#id_text").val(),
+        'comment': $("#add-comment-input").val(),
         'csrfmiddlewaretoken': $("input[name='csrfmiddlewaretoken']").val(),
     }
     $.post('/media/add_comment', data)
         .done(setTimeout(getComments, 500))
-        .then($("#id_text").val(""));
+        .then($("#add-comment-input").val(""));
+}
+
+function renderEditCommentSection(clickedLink, commentId){
+    const commentArea = $(clickedLink).parent().parent();
+    const existingComment = commentArea.children('.comment-text').text().trim();
+    const TextAreaHtml = 
+        `<textarea id="edit-comment-input">${existingComment}</textarea>
+        <button onclick="submitEditedComment(${commentId})" class="btn custom-btn btn-outline-dark">Edit Comment</button>
+        <button onclick="getComments()" class="btn custom-btn btn-outline-dark">Cancel</button>`
+    commentArea.html(TextAreaHtml);
+}
+
+function submitEditedComment(commentId){
+    const editedComment = $("#edit-comment-input").val()
+    const data = {
+        'comment_id': parseInt(commentId),
+        'edited_comment': editedComment,
+        'csrfmiddlewaretoken': $("input[name='csrfmiddlewaretoken']").val(),
+    }
+    $.post('/media/edit_comment', data)
+        .done(setTimeout(getComments, 500));
 }
 
 function formatTime(dateTime){
