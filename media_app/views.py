@@ -75,7 +75,7 @@ def get_comments(request):
             'edited': comment['fields']['edited'],
             'has_prev': current_page.has_previous(),
             'has_next': current_page.has_next(),
-            'current_page': page,
+            'current_page': int(page),
         }
         formatted_data.append(data)
 
@@ -90,4 +90,13 @@ def edit_comment(request):
         comment.text = request.POST['edited_comment']
         comment.edited = True
         comment.save()
+    return HttpResponse(status=200)
+
+
+def delete_comment(request):
+    comment = Comment.objects.get(pk=request.POST['comment_id'])
+    if request.user.profile != comment.posted_by:
+        return HttpResponse(status=403)
+    else:
+        comment.delete()
     return HttpResponse(status=200)
