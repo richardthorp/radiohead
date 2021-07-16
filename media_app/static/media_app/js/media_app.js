@@ -36,7 +36,16 @@ function getComments(page=1){
             renderComments(data);
         },
         error: function(xhr,status,error){
-            console.log(xhr,status,error)
+            if(xhr.status === 404){
+                htmlContent = 
+                    `<p>This video currently has no comments.</p>`;
+                
+            } else {
+                htmlContent = 
+                    `<p>Sorry, we're having trouble getting comments. Please try again later.</p>`;
+            }
+            $("#comment-section").html(htmlContent)
+            
         },
     })
 }

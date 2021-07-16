@@ -38,16 +38,28 @@
     <div id="single-id" class="d-none">{{ single.id }}</div>
     <div id="comment-section"></div>
     <!-- ADD COMMENT SECTION -->
+    <hr>
     <h4 class="header-font my-3">Add comment</h4>
+    {% if user.is_authenticated %}
     <div class="row no-gutters">
         <div class="col-2 col-md-1">
             <img class="profile-pic" src="{{ MEDIA_URL }}{{ user.profile.image.url }}" alt="">
         </div>
         <div class="col-10">
             <textarea name="text" id="add-comment-input"></textarea>
-            <button onclick="addComment({{single.id }}, {{ request.user.id }})" class="btn custom-btn btn-outline-dark">Add Comment</button>
+            <button onclick="addComment({{single.id }}, {{ request.user.id }})"
+                class="btn custom-btn btn-outline-dark">Add Comment</button>
         </div>
     </div>
+    {% else %}
+    <div class="row">
+        <div class="col-12 text-center">
+            <p><strong>You must be logged in to add a comment! <a href="{% url 'account_signup' %}">Click here to register</a>
+                or
+                <a href="{% url 'account_login' %}">sign in here.</a></strong></p>
+        </div>
+    </div>
+    {% endif %}
 </div>
 <div>{% csrf_token %}</div>
 {% endblock %}
