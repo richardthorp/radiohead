@@ -40,7 +40,7 @@
         <div class="col-2 col-md-1">
             <img class="profile-pic" src="{{ MEDIA_URL }}{{ user.profile.image.url }}" alt="">
         </div>
-        <div class="col-10">
+        <div class="col-10 col-md-11">
             <textarea name="text" id="add-comment-input"></textarea>
             <button onclick="addComment({{single.id }}, {{ request.user.id }})"
                 class="btn custom-btn btn-outline-dark">Add Comment</button>

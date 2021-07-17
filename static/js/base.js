@@ -19,3 +19,6 @@ navToggle.click(function(){
     $("#account-dropdown").removeClass('show');
     $("#bag-summary").removeClass('show');
 })
+
+// Initialise toasts
+$('.toast').toast('show');

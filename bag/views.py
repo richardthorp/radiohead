@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404, reverse
+from django.contrib import messages
 from shop.models import Product, Album
 
 
@@ -7,7 +8,6 @@ def view_bag(request):
 
 
 def add_to_bag(request, product_id):
-    # del request.session['bag']
     if request.POST.get('format'):
         album = get_object_or_404(Album, pk=product_id)
         album_name = album.title
@@ -52,8 +52,7 @@ def add_to_bag(request, product_id):
             bag[product_name] = quantity
 
     request.session['bag'] = bag
-    print(request.session['bag'])
-
+    messages.success(request, 'Item successfully added to your bag.')
     return render(request, 'bag/view_bag.html')
 
 
@@ -75,7 +74,7 @@ def update_bag(request, product_type, product_id):
         bag[product.name] = quantity
 
     request.session['bag'] = bag
-
+    messages.success(request, 'Item successfully updated in your bag.')
     return redirect(reverse('view_bag'))
 
 
@@ -100,5 +99,5 @@ def remove_item(request, product_type, product_id):
         del bag[product.name]
 
     request.session['bag'] = bag
-    return redirect(reverse('view_bag'))    
-
+    messages.success(request, 'Item successfully removed from your bag.')
+    return redirect(reverse('view_bag'))

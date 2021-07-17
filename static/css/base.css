@@ -226,6 +226,29 @@ nav {
     font-size: 1.2rem;
 }
 
+/*---------------------------------------------------------------------------------TOASTS--*/
+.custom-toast {
+    position: absolute;
+    right: 0;
+    background-color: #f8f9fa;
+    width: 300px;
+    opacity: 1;
+    z-index: 99999;
+}
+
+.success-toast-highlight {
+    border-top: 2px solid green;
+}
+.error-toast-highlight {
+    border-top: 2px solid red;
+}
+.warning-toast-highlight {
+    border-top: 2px solid orange;
+}
+.info-toast-highlight {
+    border-top: 2px solid blue;
+}
+
 /*---------------------------------------------------------------------------------ADD COMMENT SECTIONS--*/
 .comment-container {
     background-color: #e6e6e6;
@@ -246,7 +269,7 @@ nav {
 
 #add-comment-input, #edit-comment-input{
     width: 100%;
-    height: 80px;
+    height: 60px;
 }
 
 #delete-confirmation, .comment-permissions {
@@ -350,6 +373,9 @@ nav {
     }
     .profile-pic {
         margin: 0;
+    }
+    #add-comment-input, #edit-comment-input{
+        height: 80px;
     }
     .comment-container p {
         font-size: 1.2rem;

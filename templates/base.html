@@ -39,9 +39,6 @@
         <a href="{% url 'home' %}" id="logo" class="navbar-brand">RADIOHEAD</a>
         <span class="ml-auto">
             <!-- PROFILE LINK ICON -->
-            <!-- <a href="{% url 'profile' %}" id="user-icon" class="mx-2 mx-md-4">
-                <i class="fas fa-user"></i>
-            </a> -->
             <span id="user-icon" data-toggle="collapse" data-target="#account-dropdown" class="mx-2 mx-md-4">
                 <i class="fas fa-user"></i>
             </span>
@@ -72,19 +69,6 @@
                 <li class="nav-item ml-3">
                     <a class="nav-link" href="{% url 'media' %}">MEDIA</a>
                 </li>
-                <!-- <hr class="d-xl-none my-2">
-                {% if user.is_authenticated %}
-                <li class="nav-item ml-3">
-                    <a class="nav-link" href="{% url 'account_logout' %}">SIGN OUT</a>
-                </li>
-                {% else %}
-                <li class="nav-item ml-3">
-                    <a class="nav-link" href="{% url 'account_login' %}">SIGN IN</a>
-                </li>
-                <li class="nav-item ml-3">
-                    <a class="nav-link" href="{% url 'account_signup' %}">REGISTER</a>
-                </li>
-                {% endif %} -->
             </ul>
         </div>
         <!-- ACCOUNT DROPDOWN CONTENT -->
@@ -163,7 +147,38 @@
             </div>
         </div>
     </nav>
-    <div class="navbar-margin"></div>
+    <!-- MESSAGES SECTION -->
+    <div class="navbar-margin">
+        {% if messages %}
+        {% for message in messages %}
+        <div class="toast custom-toast" data-delay="3000" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="toast-header">
+                <button type="button" class="ml-auto mb-1 close" data-dismiss="toast" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            {% if message.level == 40 %} <!-- ERROR TOAST-->
+            <div class="toast-body error-toast-highlight text-center clear-font">
+                {{ message }}
+            </div>
+            {% elif message.level == 30 %} <!-- WARNING TOAST-->
+            <div class="toast-body warning-toast-highlight text-center clear-font">
+                {{ message }}
+            </div>
+            {% elif message.level == 25 %} <!-- SUCCESS TOAST-->
+            <div class="toast-body success-toast-highlight text-center clear-font">
+                {{ message }}
+            </div>
+            {% elif message.level == 20 %} <!-- INFO TOAST-->
+            <div class="toast-body info-toast-highlight text-center clear-font">
+                {{ message }}
+            </div>
+            {% endif %}
+        </div>
+        {% endfor %}
+        {% endif %}
+    </div>
+
     {% block content %}
     {% endblock %}
     <footer class="mt-auto container-fluid">
@@ -174,10 +189,10 @@
                     <span class="social-links">
                         <a href="https://twitter.com/radiohead" target="_blank" class="text-dark"><i
                                 class="fab fa-twitter-square mx-4"></i></a>
-                        <a href="https://www.instagram.com/radiohead" target="_blank" class="text-dark"><i
-                                class="fab fa-instagram-square mx-4"></i></a>
-                        <a href="https://www.facebook.com/radiohead" target="_blank" class="text-dark"><i
-                                class="fab fa-facebook-square mx-4"></i></a>
+                        <a href="https://www.instagram.com/radiohead" target="_blank"
+                            class="text-dark"><i class="fab fa-instagram-square mx-4"></i></a>
+                        <a href="https://www.facebook.com/radiohead" target="_blank"
+                            class="text-dark"><i class="fab fa-facebook-square mx-4"></i></a>
                         <a href="https://open.spotify.com/artist/4Z8W4fKeB5YxbusRsdQVPb?si=qMQVhjIpQ069KfEBITdxzg&dl_branch=1"
                             target="_blank" class="text-dark"><i class="fab fa-spotify mx-4"></i></a>
                     </span>
@@ -187,7 +202,8 @@
     </footer>
     {% block postloadjs %}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
+        crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
         integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
         crossorigin="anonymous"></script>
