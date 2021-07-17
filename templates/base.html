@@ -96,9 +96,9 @@
         <!-- BAG SUMMARY DROPDOWN CONTENT -->
         <div id="bag-summary" class="col-12 col-sm-6 col-md-4 custom-nav-dropdown bag-summary collapse">
             <div class="menu-pointer bag-summary-pointer"></div>
-            <h3 class="header-font text-center py-2 m-0">Bag Summary</h3>
+            <h3 class="header-font text-center py-2 my-1">Bag Summary</h3>
+            {% if bag_items %}
             <div class="bagged-items-container container-fluid py-2">
-                {% if bag_items %}
                 {% for item in bag_items %}
                 <div class="row">
                     <div class="col-4">
@@ -137,14 +137,25 @@
                     {% endif %}
                 </div>
                 {% endfor %}
-                {% else %}
-                <p>Your bag is empty. <a href="{% url 'shop' %}">Go to shop</a></p>
-                {% endif %}
+            </div>
+            <div class="row">
+                <div class="col-12 text-right">
+                    <p class="clear-font mb-1 mt-2">Subtotal: £ {{ total }}</p>
+                    <p class="clear-font mb-1">Delivery: £ {{ delivery_cost }}</p>
+                    {% if delivery_shortfall > 0 %}
+                    <p class="clear-font mb-2 delivery-shortfall-text text-danger">Spend another £{{ delivery_shortfall }} to get free postage</p>
+                    {% endif %}
+                    <p class="clear-font font-weight-bold grand-total mb-1">Total: £ {{ grand_total }}</p>
+                </div>
             </div>
             <div class="row justify-content-center py-3">
                 <a href="{% url 'view_bag' %}" class="border btn btn-light custom-btn mr-1">View bag</a>
                 <a href="#" class="btn btn-dark custom-btn ml-1">Checkout</a>
             </div>
+            {% else %}
+            <p class="text-center">Your bag is empty.</p>
+            <p class="text-center"><a href="{% url 'shop' %}" class="font-weight-bold mt-2">Go to shop.</a></p>
+            {% endif %}
         </div>
     </nav>
     <!-- MESSAGES SECTION -->
@@ -157,19 +168,23 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            {% if message.level == 40 %} <!-- ERROR TOAST-->
+            {% if message.level == 40 %}
+            <!-- ERROR TOAST-->
             <div class="toast-body error-toast-highlight text-center clear-font">
                 {{ message }}
             </div>
-            {% elif message.level == 30 %} <!-- WARNING TOAST-->
+            {% elif message.level == 30 %}
+            <!-- WARNING TOAST-->
             <div class="toast-body warning-toast-highlight text-center clear-font">
                 {{ message }}
             </div>
-            {% elif message.level == 25 %} <!-- SUCCESS TOAST-->
+            {% elif message.level == 25 %}
+            <!-- SUCCESS TOAST-->
             <div class="toast-body success-toast-highlight text-center clear-font">
                 {{ message }}
             </div>
-            {% elif message.level == 20 %} <!-- INFO TOAST-->
+            {% elif message.level == 20 %}
+            <!-- INFO TOAST-->
             <div class="toast-body info-toast-highlight text-center clear-font">
                 {{ message }}
             </div>
@@ -189,10 +204,10 @@
                     <span class="social-links">
                         <a href="https://twitter.com/radiohead" target="_blank" class="text-dark"><i
                                 class="fab fa-twitter-square mx-4"></i></a>
-                        <a href="https://www.instagram.com/radiohead" target="_blank"
-                            class="text-dark"><i class="fab fa-instagram-square mx-4"></i></a>
-                        <a href="https://www.facebook.com/radiohead" target="_blank"
-                            class="text-dark"><i class="fab fa-facebook-square mx-4"></i></a>
+                        <a href="https://www.instagram.com/radiohead" target="_blank" class="text-dark"><i
+                                class="fab fa-instagram-square mx-4"></i></a>
+                        <a href="https://www.facebook.com/radiohead" target="_blank" class="text-dark"><i
+                                class="fab fa-facebook-square mx-4"></i></a>
                         <a href="https://open.spotify.com/artist/4Z8W4fKeB5YxbusRsdQVPb?si=qMQVhjIpQ069KfEBITdxzg&dl_branch=1"
                             target="_blank" class="text-dark"><i class="fab fa-spotify mx-4"></i></a>
                     </span>
@@ -202,8 +217,7 @@
     </footer>
     {% block postloadjs %}
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"
-        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-        crossorigin="anonymous"></script>
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
         integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
         crossorigin="anonymous"></script>

@@ -11,10 +11,11 @@
     {% else %}
     {% for item in bag_items %}
     <div class="row">
-        <div class="col-12 col-md-4">
-            <img src="{{ MEDIA_URL }}{{ item.product.image.url }}" class="w-100" alt="">
+        <div class="col-12 col-sm-4">
+            <img src="{{ MEDIA_URL }}{{ item.product.image.url }}" class="w-100 bag-image d-block mx-auto" 
+            alt="A picture of the {% if item.type == 'album' %}{{ item.product.title }} cover{% else %}{{ item.product.name }}{% endif %}">
         </div>
-        <div class="col-12 col-md-8">
+        <div class="col-12 col-sm-8">
             {% if item.type == 'album' %}
             <!-- ALBUM INFO -->
             <h3 class="header-font">{{ item.product.title }}</h3>
@@ -96,7 +97,12 @@
     <div class="row">
         <div class="col-12 text-right">
             <h2 class="header-font">Total</h2>
-            <p class="clear-font">£ {{total}}</p>
+            <p class="clear-font mb-1">Subtotal: £ {{ total }}</p>
+            <p class="clear-font mb-2">Delivery: £ {{ delivery_cost }}</p>
+            {% if delivery_shortfall > 0 %}
+            <p class="clear-font mb-2 delivery-shortfall-text text-danger">Spend another £{{ delivery_shortfall }} to get free postage</p>
+            {% endif %}
+            <p class="clear-font font-weight-bold grand-total">Total: £ {{ grand_total }}</p>
         </div>
     </div>
     {% endif %}

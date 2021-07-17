@@ -204,6 +204,22 @@ nav {
     list-style: none;
 }
 
+/*---------------------------------------------------------------------------------BAG APP--*/
+.grand-total {
+    border-top: 2px solid #212529;
+    border-bottom: 2px solid #212529;
+    width: fit-content;
+    margin-left: auto;
+}
+
+.bag-image {
+    max-width: 300px;
+}
+
+.delivery-shortfall-text {
+    font-size: 0.8rem;
+}
+
 /*---------------------------------------------------------------------------------FOOTER--*/
 .follow-us {
     font-size: 1.2rem;

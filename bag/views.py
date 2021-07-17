@@ -3,6 +3,7 @@ from django.contrib import messages
 from shop.models import Product, Album
 
 
+# Data sent to the view_bag template via bag/contexts.py
 def view_bag(request):
     return render(request, 'bag/view_bag.html')
 

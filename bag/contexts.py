@@ -1,4 +1,6 @@
 from shop.models import Album, Product
+from django.conf import settings
+from decimal import Decimal
 
 
 def bag_details(request):
@@ -57,10 +59,22 @@ def bag_details(request):
                 'item_total': item_total,
             })
 
+    if total < settings.FREE_DELIVERY_THRESHOLD:
+        delivery_cost = settings.STANDARD_DELIVERY_COST
+        delivery_shortfall = settings.FREE_DELIVERY_THRESHOLD - total
+    else:
+        delivery_cost = 0
+        delivery_shortfall = 0
+
+    grand_total = total + delivery_cost
+
     context = {
         'bag_items': bag_items,
         'num_of_items': len(bag_items),
         'total': total,
+        'delivery_cost': delivery_cost,
+        'delivery_shortfall': delivery_shortfall,
+        'grand_total': grand_total,
     }
 
     return context
