@@ -246,12 +246,15 @@ nav {
 
 #add-comment-input, #edit-comment-input{
     width: 100%;
-    height: 140px;
-    overflow: auto;
+    height: 80px;
+}
+
+#delete-confirmation, .comment-permissions {
+    font-size: 0.8rem;
 }
 
 .comment-permissions {
-    font-size: 0.8rem;
+    /* font-size: 0.8rem; */
     text-transform: lowercase;
     cursor: pointer;
     color: #007BFF;
@@ -351,7 +354,7 @@ nav {
     .comment-container p {
         font-size: 1.2rem;
     }
-    .comment-permissions {
+    #delete-confirmation, .comment-permissions {
         font-size: 1rem;
     }
     .custom-btn {

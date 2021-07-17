@@ -17,6 +17,14 @@ $(window).resize(function () {
     resizeIframe();
 })
 
+// Auto resize textarea inputs when user types.
+// Code copied from https://stackoverflow.com/questions/2948230/auto-expand-a-textarea-using-jquery User: SpYk3HH
+$("textarea").keyup(function(e) {
+    while($(this).outerHeight() < this.scrollHeight + parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))) {
+        $(this).height($(this).height()+1);
+    };
+});
+
 // Get comments when page loads
 $(document).ready(getComments());
 
@@ -178,10 +186,10 @@ function renderDeleteButton(clickedLink, commentId){
     const currentPage = $(".current-page").text();
     const confirmDeleteHtml = 
         `<hr class="my-2 mx-auto">
-        <p class="clear-font mb-2"><strong>Are you sure you want to delete this comment?</strong></p>
+        <p id="delete-confirmation" class="clear-font mb-2 font-weight-bold">Are you sure you want to delete this comment?</p>
         <div>
             <button onclick="getComments(${currentPage})" class="btn custom-btn btn-outline-secondary">Cancel</button>
-            <button onclick="deleteComment(${commentId})" class="btn custom-btn btn-danger">Delete</button>
+            <button onclick="deleteComment(${commentId})" class="btn custom-btn btn-outline-danger">Delete</button>
         </div>
         `
     
