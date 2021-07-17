@@ -2,7 +2,9 @@
     font-family: block-font;
     font-size: 0.6rem;
 }
-
+.product-links a:hover {
+    color: initial;
+}
 /* .shop-label {
     display: block;
     font-family: national-old;

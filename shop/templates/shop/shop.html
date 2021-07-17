@@ -22,24 +22,35 @@
         <label for="other" class="btn custom-btn btn-outline-dark {% if other %} active {% endif %}">OTHER</label><br>
     </form>
     <div class="row">
-        {% if albums %}
-        {% for album in albums %}
-        <div class="col-12 col-md-6 col-lg-4">
-            <a href="{% url 'shop_detail' 'album' album.id %}">
-                <img src="{{ MEDIA_URL }}{{ album.image.url }}" alt="The artwork for the album {{ album.title }}"
-                    class="w-95">
-                <h6 class="album-names text-center">{{ album.title }} ({{ album.year }})</h6>
-                <p class="text-muted text-center">from £{{ album.cd_price}}</p>
+        {% for item in items %}
+        {% if item.title %}  <!-- Item is an album -->
+        <div class="col-12 col-sm-6 col-lg-4 product-links">
+            <a href="{% url 'shop_detail' 'album' item.id %}" class="d-flex flex-column">
+                <img src="{{ MEDIA_URL }}{{ item.image.url }}" alt="The artwork for the album {{ item.title }}"
+                    class="w-95 d-block mx-auto">
+                <p class="text-dark album-names text-center mb-1 mt-2">{{ item.title }} ({{ item.year }})</p>
+                <p class="text-muted text-center mb-0">from £{{ item.cd_price}}</p>
             </a>
         </div>
+        {% elif item.name %} <!-- Item is a product -->
+        <div class="col-12 col-sm-6 col-lg-4 product-links">
+            <a href="{% url 'shop_detail' 'product' item.id %}" class="d-flex flex-column h-100">
+                <img src="{{ MEDIA_URL }}{{ item.image.url }}" alt="A picture of the {{ item.name }}"
+                    class="w-95 d-block mx-auto">
+                <p class="album-names text-dark text-center mb-1 mt-2">{{ item.name }}</p>
+                <p class="text-muted text-center mb-0 mt-auto">£{{ item.price}}</p>
+            </a>
+        </div>
+        {% endif %}
         <!-- HR FOR LOOP LOGIC MODIFIED FROM BOUTIQUE ADO PROJECT - CREDIT -->
+        {% if not forloop.last %}
         {% if forloop.counter|divisibleby:1 %}
-        <div class="col-12 d-md-none mb-5">
+        <div class="col-12 d-sm-none mb-2">
             <hr>
         </div>
         {% endif %}
         {% if forloop.counter|divisibleby:2 %}
-        <div class="col-12 d-none d-md-block d-lg-none mb-5">
+        <div class="col-12 d-none d-sm-block d-lg-none mb-3">
             <hr>
         </div>
         {% endif %}
@@ -48,38 +59,8 @@
             <hr>
         </div>
         {% endif %}
-        {% endfor %}
-        {% endif %}
-    </div>
-    <div class="row">
-        {% if products %}
-        {% for product in products %}
-        <div class="col-12 col-md-6 col-lg-4">
-            <a href="{% url 'shop_detail' 'product' product.id %}">
-                <img src="{{ MEDIA_URL }}{{ product.image.url }}" alt="A picture of the {{ product.name }}"
-                    class="w-95">
-                <h6 class="album-names text-center">{{ product.name }}</h6>
-                <p class="text-muted text-center">£{{ product.price}}</p>
-            </a>
-        </div>
-        <!-- HR FOR LOOP LOGIC MODIFIED FROM BOUTIQUE ADO PROJECT - CREDIT -->
-        {% if forloop.counter|divisibleby:1 %}
-        <div class="col-12 d-md-none mb-5">
-            <hr>
-        </div>
-        {% endif %}
-        {% if forloop.counter|divisibleby:2 %}
-        <div class="col-12 d-none d-md-block d-lg-none mb-5">
-            <hr>
-        </div>
-        {% endif %}
-        {% if forloop.counter|divisibleby:3 %}
-        <div class="col-12 d-none d-lg-block mb-5">
-            <hr>
-        </div>
         {% endif %}
         {% endfor %}
-        {% endif %}
     </div>
 </div>
 {% endblock %}

@@ -1,30 +1,33 @@
 from django.shortcuts import render
 from .models import Album, Product
+from itertools import chain
 
 
-# Create your views here.
 def shop(request):
+    albums = Album.objects.all().order_by('-year')
+    products = Product.objects.all()
+    all_products = list(chain(albums, products))
     context = {
-        'albums': Album.objects.all().order_by('-year'),
-        'products': Product.objects.all(),
+        'items': all_products,
         'all': True,
     }
+
     if request.POST:
         product_filter = request.POST.get('filter')
         if product_filter == 'music':
             context = {
-                'albums': Album.objects.all(),
+                'items': Album.objects.all(),
                 'music': True,
             }
         elif product_filter == 'clothing':
             context = {
-                'products': Product.objects.filter(category='clothing'),
+                'items': Product.objects.filter(category='clothing'),
                 'clothing': True,
 
             }
         elif product_filter == 'other':
             context = {
-                'products': Product.objects.filter(category='other'),
+                'items': Product.objects.filter(category='other'),
                 'other': True,
 
             }
