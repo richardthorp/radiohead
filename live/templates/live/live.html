@@ -3,5 +3,39 @@
 {% block content %}
 <div class="container content-container border">
     <h1 class="header-font page-header text-center">Live</h1>
+    <table class="table table-striped clear-font">
+        <thead>
+            <tr>
+                <th scope="col">Date</th>
+                <th scope="col">City</th>
+                <th scope="col">Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for gig in paginated_data.gigs %}
+            <tr>
+                <th scope="row">{{ gig.date }}</th>
+                <td>{{ gig.city }}</td>
+                <td class="h-100"><a href="{% url 'event_detail' gig.event_id %}" class="btn custom-btn btn-dark">More
+                        Info<i class="fas fa-chevron-right"></i></a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col-12 d-flex justify-content-center">
+            {% if paginated_data.has_previous %}
+            <a href="{% url 'live' paginated_data.previous_page %}" class="btn custom-btn btn-outline-secondary">Previous</a>
+            {% else %}
+            <button class="btn custom-btn btn-outline-secondary" disabled>Previous</button>
+            {% endif %}
+            {% if paginated_data.has_next %}
+            <a href="{% url 'live' paginated_data.next_page %}" class="btn custom-btn btn-outline-secondary">Next</a>
+            {% else %}
+            <button class="btn custom-btn btn-outline-secondary" disabled>Next</button>
+            {% endif %}
+        </div>
+    </div>
+
 </div>
 {% endblock %}

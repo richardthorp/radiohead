@@ -174,3 +174,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 FREE_DELIVERY_THRESHOLD = 25
 STANDARD_DELIVERY_COST = round(Decimal(4.99), 2)
+
+SONGKICK_API_KEY = os.environ.get('SONGKICK_API_KEY')
