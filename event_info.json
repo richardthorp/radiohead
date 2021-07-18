@@ -1,1 +1,91 @@
-[{"date": "2021-07-18", "event_id": "39853877", "city": "Huber Heights, OH, US", "uri": "https://www.songkick.com/concerts/39853877-beach-boys-at-rose-music-center-at-the-heights?utm_source=60147&utm_medium=partner"}, {"date": "2021-07-20", "event_id": "39855335", "city": "Youngstown, OH, US", "uri": "https://www.songkick.com/concerts/39855335-beach-boys-at-youngstown-foundation-amphitheatre?utm_source=60147&utm_medium=partner"}, {"date": "2021-07-24", "event_id": "39710246", "city": "New Buffalo, MI, US", "uri": "https://www.songkick.com/concerts/39710246-beach-boys-at-silver-creek-event-center-at-four-winds-new-buffalo?utm_source=60147&utm_medium=partner"}, {"date": "2021-07-25", "event_id": "39646915", "city": "Fort Wayne, IN, US", "uri": "https://www.songkick.com/concerts/39646915-beach-boys-at-foellinger-theatre?utm_source=60147&utm_medium=partner"}, {"date": "2021-07-30", "event_id": "39637184", "city": "Saint Charles, MO, US", "uri": "https://www.songkick.com/concerts/39637184-beach-boys-at-family-arena?utm_source=60147&utm_medium=partner"}, {"date": "2021-07-30", "event_id": "39844897", "city": "Camdenton, MO, US", "uri": "https://www.songkick.com/concerts/39844897-beach-boys-at-ozarks-amphitheater?utm_source=60147&utm_medium=partner"}, {"date": "2021-08-04", "event_id": "39473747", "city": "Colorado Springs, CO, US", "uri": "https://www.songkick.com/concerts/39473747-beach-boys-at-pikes-peak-center?utm_source=60147&utm_medium=partner"}, {"date": "2021-08-05", "event_id": "39641960", "city": "Denver, CO, US", "uri": "https://www.songkick.com/concerts/39641960-beach-boys-at-levitt-pavilion?utm_source=60147&utm_medium=partner"}, {"date": "2021-08-05", "event_id": "39802802", "city": "Castle Rock, CO, US", "uri": "https://www.songkick.com/concerts/39802802-beach-boys-at-amphitheater-at-philip-s-miller-park?utm_source=60147&utm_medium=partner"}, {"date": "2021-08-07", "event_id": "39660555", "city": "Park City, UT, US", "uri": "https://www.songkick.com/concerts/39660555-beach-boys-at-snow-park-outdoor-amphitheater-deer-valley-resort?utm_source=60147&utm_medium=partner"}]
+{
+    "resultsPage": {
+        "status": "ok",
+        "results": {
+            "event": {
+                "id": 39641960,
+                "displayName": "The Beach Boys and Yonder Mountain String Band at Levitt Pavilion (August 5, 2021)",
+                "type": "Concert",
+                "uri": "https://www.songkick.com/concerts/39641960-beach-boys-at-levitt-pavilion?utm_source=60147&utm_medium=partner",
+                "status": "ok",
+                "popularity": 0.234609,
+                "start": {
+                    "date": "2021-08-05",
+                    "datetime": "2021-08-05T19:00:00-0600",
+                    "time": "19:00:00"
+                },
+                "performance": [{
+                    "id": 74978445,
+                    "displayName": "The Beach Boys",
+                    "billing": "headline",
+                    "billingIndex": 1,
+                    "artist": {
+                        "id": 268425,
+                        "displayName": "The Beach Boys",
+                        "uri": "https://www.songkick.com/artists/268425-beach-boys?utm_source=60147&utm_medium=partner",
+                        "identifier": [{
+                            "mbid": "ebfc1398-8d96-47e3-82c3-f782abcdb13d",
+                            "href": "https://api.songkick.com/api/3.0/artists/mbid:ebfc1398-8d96-47e3-82c3-f782abcdb13d.json"
+                        }]
+                    }
+                }, {
+                    "id": 75311284,
+                    "displayName": "Yonder Mountain String Band",
+                    "billing": "headline",
+                    "billingIndex": 2,
+                    "artist": {
+                        "id": 58290,
+                        "displayName": "Yonder Mountain String Band",
+                        "uri": "https://www.songkick.com/artists/58290-yonder-mountain-string-band?utm_source=60147&utm_medium=partner",
+                        "identifier": [{
+                            "mbid": "76fda896-7c2a-4e5e-a45b-d40acfb2080c",
+                            "href": "https://api.songkick.com/api/3.0/artists/mbid:76fda896-7c2a-4e5e-a45b-d40acfb2080c.json"
+                        }]
+                    }
+                }],
+                "ageRestriction": null,
+                "flaggedAsEnded": false,
+                "venue": {
+                    "id": 2666598,
+                    "displayName": "Levitt Pavilion",
+                    "uri": "https://www.songkick.com/venues/2666598-levitt-pavilion?utm_source=60147&utm_medium=partner",
+                    "metroArea": {
+                        "displayName": "Denver",
+                        "country": {
+                            "displayName": "US"
+                        },
+                        "state": {
+                            "displayName": "CO"
+                        },
+                        "id": 6404,
+                        "uri": "https://www.songkick.com/metro-areas/6404-us-denver?utm_source=60147&utm_medium=partner"
+                    },
+                    "lat": 39.68708,
+                    "lng": -105.00203,
+                    "street": "Ruby Hill Park, 1380 W. Florida Ave.",
+                    "zip": "80223",
+                    "phone": "(303) 578-0488",
+                    "website": "",
+                    "description": "",
+                    "capacity": null,
+                    "city": {
+                        "displayName": "Denver",
+                        "country": {
+                            "displayName": "US"
+                        },
+                        "state": {
+                            "displayName": "CO"
+                        },
+                        "id": 6404,
+                        "uri": "https://www.songkick.com/metro-areas/6404-us-denver?utm_source=60147&utm_medium=partner"
+                    }
+                },
+                "location": {
+                    "city": "Denver, CO, US",
+                    "lat": 39.68708,
+                    "lng": -105.00203
+                }
+            }
+        }
+    }
+}

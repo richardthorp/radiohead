@@ -12,6 +12,36 @@ def live(request, page=1):
                   context={'paginated_data': paginated_data})
 
 
+def event_detail(request, event_id):
+    api_key = settings.SONGKICK_API_KEY
+    url = f'https://api.songkick.com/api/3.0/events/{event_id}.json?apikey={api_key}'
+    response = requests.get(url).json()
+    all_details = response['resultsPage']['results']['event']
+
+    # Get string containing all artists performing - add Radiohead to the bill
+    # because unfortunately they have no gigs booked!
+    artists = 'Radiohead, '
+    for artist in all_details['performance']:
+        artists += artist['displayName'] + ', '
+    # Remove comma and space from last artist name
+    artists = artists[:-2]
+
+    event_details = {
+        'artists': artists,
+        'venue_name': all_details['venue']['displayName'],
+        'city': all_details['location']['city'],
+        'event_url': all_details['uri'],
+        'event_time': all_details['start']['time']
+
+    }
+
+    # with open('event_info.json', 'w') as outfile:
+    #     json.dump(response, outfile)
+
+    return render(request, 'live/event_detail.html',
+                  context={'event_details': event_details})
+
+
 def get_paginated_gigs(page):
     api_key = settings.SONGKICK_API_KEY
     artist_id = '268425'
@@ -48,20 +78,7 @@ def get_paginated_gigs(page):
         'previous_page': previous_page,
         'next_page': next_page,
     }
-    with open('event_info.json', 'w') as outfile:
-        json.dump(gig_details, outfile)
+    # with open('event_info.json', 'w') as outfile:
+    #     json.dump(gig_details, outfile)
 
     return paginated_data
-
-
-def event_detail(request, event_id):
-    api_key = settings.SONGKICK_API_KEY
-    url = f'https://api.songkick.com/api/3.0/events/{event_id}.json?apikey={api_key}'
-    response = requests.get(url).json()
-    print('TYPE:', type(event_id))
-
-    with open('event_info.json', 'w') as outfile:
-        json.dump(response, outfile)
-
-    return render(request, 'live/event_detail.html',
-                  context={'event_info': response})
