@@ -9,23 +9,37 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-12 col-md-6">
-            <!-- <h3 class="header-font">Event Info</h3> -->
+        <div class="col-12 col-md-6 d-flex flex-column justify-content-center mb-3">
             <p class="clear-font"><strong>Performing: </strong>{{ event_details.artists }}</p>
             <p class="clear-font"><strong>Start Time: </strong>{{ event_details.event_time }}</p>
             <p class="clear-font"><strong>Venue: </strong>{{ event_details.venue_name }}</p>
             <p class="clear-font"><strong>City: </strong>{{ event_details.city }}</p>
-            <a href="{{ event_details.event_url }}" class="btn btn-large custom-btn btn-success p-2">Find Tickets</a>
+            <a href="{{ event_details.event_url }}" target="_blank" class="btn btn-large custom-btn btn-success p-2 w-50">Find Tickets</a>
         </div>
-        <div class="col-12 col-md-6"></div>
+        <div class="col-12 col-md-6">
+            <div id="map"></div>
+        </div>
     </div>
-</div> 
-
-{{ event_info }}
+</div>
+<script async
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSrxx0uqyDBXdJsJRMzRlOEwmqIXyG4tM&callback=initMap">
+</script>
+<script>
+// GOOGLE MAPS JS - MODIFIED FROM EXAMPLE ON https://developers.google.com/maps/documentation/javascript/adding-a-google-map
+// Initialize and add the map
+function initMap() {
+  // The location of the venue
+  const venue = { lat: {{ event_details.venue_lat }}, lng: {{ event_details.venue_lng }} };
+  // The map, centered at the venue
+  const map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 13,
+    center: venue,
+  });
+  // The marker, positioned at the venue
+  const marker = new google.maps.Marker({
+    position: venue,
+    map: map,
+  });
+}
+</script>
 {% endblock %}
-
-<!-- 
-'venue_name': all_details['venue']['displayName'],
-'city': all_details['location']['city'],
-'event_url': all_details['uri'],
-'event_time': all_details['start']['time'] -->

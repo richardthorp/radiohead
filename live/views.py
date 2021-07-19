@@ -31,7 +31,9 @@ def event_detail(request, event_id):
         'venue_name': all_details['venue']['displayName'],
         'city': all_details['location']['city'],
         'event_url': all_details['uri'],
-        'event_time': all_details['start']['time']
+        'event_time': all_details['start']['time'],
+        'venue_lng': all_details['location']['lng'],
+        'venue_lat': all_details['location']['lat'],
 
     }
 
