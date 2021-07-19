@@ -12,7 +12,7 @@
     {% for item in bag_items %}
     <div class="row">
         <div class="col-12 col-sm-4">
-            <img src="{{ MEDIA_URL }}{{ item.product.image.url }}" class="w-100 bag-image d-block mx-auto" 
+            <img src="{{ item.product.image.url }}" class="w-100 bag-image d-block mx-auto" 
             alt="A picture of the {% if item.type == 'album' %}{{ item.product.title }} cover{% else %}{{ item.product.name }}{% endif %}">
         </div>
         <div class="col-12 col-sm-8">

@@ -12,7 +12,7 @@
     <a href="{% url 'shop' %}"><i class="fas fa-backward"></i> Back to shop</a>
     <div class="row mt-2">
         <div class="col-12 col-lg-6">
-            <img src="{{ MEDIA_URL }}{{ product.image.url }}" alt="A picture of the {{ product.name }}"
+            <img src="{{ product.image.url }}" alt="A picture of the {{ product.name }}"
                 class="w-100 mx-auto">
         </div>
         <div class="col-12 col-lg-6">

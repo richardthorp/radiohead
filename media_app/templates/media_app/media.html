@@ -14,7 +14,7 @@
         <div class="col-12 col-md-6 col-lg-4">
             <h6 class="album-names">{{ album.title }} <span class="text-muted ml-1">({{ album.year }})</span></h6>
             <a href="{% url 'album_singles' album.id %}">
-                <img src="{{ MEDIA_URL }}{{ album.image.url }}" alt="The artwork for the album {{ album.title }}"
+                <img src="{{ album.image.url }}" alt="The artwork for the album {{ album.title }}"
                     class="w-95">
             </a>
         </div>

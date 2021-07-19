@@ -26,7 +26,7 @@
         {% if item.title %}  <!-- Item is an album -->
         <div class="col-12 col-sm-6 col-lg-4 product-links">
             <a href="{% url 'shop_detail' 'album' item.id %}" class="d-flex flex-column">
-                <img src="{{ MEDIA_URL }}{{ item.image.url }}" alt="The artwork for the album {{ item.title }}"
+                <img src="{{ item.image.url }}" alt="The artwork for the album {{ item.title }}"
                     class="w-95 d-block mx-auto">
                 <p class="text-dark album-names text-center mb-1 mt-2">{{ item.title }} ({{ item.year }})</p>
                 <p class="text-muted text-center mb-0">from £{{ item.cd_price}}</p>
@@ -35,7 +35,7 @@
         {% elif item.name %} <!-- Item is a product -->
         <div class="col-12 col-sm-6 col-lg-4 product-links">
             <a href="{% url 'shop_detail' 'product' item.id %}" class="d-flex flex-column h-100">
-                <img src="{{ MEDIA_URL }}{{ item.image.url }}" alt="A picture of the {{ item.name }}"
+                <img src="{{ item.image.url }}" alt="A picture of the {{ item.name }}"
                     class="w-95 d-block mx-auto">
                 <p class="album-names text-dark text-center mb-1 mt-2">{{ item.name }}</p>
                 <p class="text-muted text-center mb-0 mt-auto">£{{ item.price}}</p>

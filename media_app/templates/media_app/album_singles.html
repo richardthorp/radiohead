@@ -15,7 +15,7 @@
         <div class="col-12 col-md-6 col-lg-4">
             <h6 class="single-names">{{ single.title }}</h6>
             <a href="{% url 'single_content' single.id  %}">
-                <img src="{{ MEDIA_URL }}{{ single.image.url }}" alt="The artwork for the single {{ single.title }}"
+                <img src="{{ single.image.url }}" alt="The artwork for the single {{ single.title }}"
                     class="w-95">
             </a>
         </div>

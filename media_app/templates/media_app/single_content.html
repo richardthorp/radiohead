@@ -38,7 +38,7 @@
     {% if user.is_authenticated %}
     <div class="row no-gutters">
         <div class="col-2 col-md-1">
-            <img class="profile-pic" src="{{ MEDIA_URL }}{{ user.profile.image.url }}" alt="">
+            <img class="profile-pic" src="{{ user.profile.image.url }}" alt="">
         </div>
         <div class="col-10 col-md-11">
             <textarea name="text" id="add-comment-input"></textarea>

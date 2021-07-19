@@ -102,7 +102,7 @@
                 {% for item in bag_items %}
                 <div class="row">
                     <div class="col-4">
-                        <img src="{{ MEDIA_URL }}{{ item.product.image.url }}" class="w-100" alt="">
+                        <img src="{{ item.product.image.url }}" class="w-100" alt="">
                     </div>
                     <div class="col-8">
                         {% if item.type == 'album' %}
