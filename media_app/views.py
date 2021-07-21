@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_list_or_404, redirect
 from django.core import serializers
 from django.core.paginator import Paginator
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 import json
 from .models import Single, Comment
 from shop.models import Album
@@ -47,8 +47,6 @@ def add_comment(request):
 def get_comments(request):
     object_id = request.GET.get('objectID')
     page = request.GET.get('page')
-    # queryset = Comment.objects.filter(
-    #     on_single=object_id).order_by('-date_posted')
     queryset = get_list_or_404(Comment.objects.order_by('-date_posted'),
                                on_single=object_id)
     paginator = Paginator(queryset, 8)  # Show 8 comments per page.
@@ -81,7 +79,7 @@ def get_comments(request):
         }
         formatted_data.append(data)
 
-    return HttpResponse(json.dumps(formatted_data))
+    return JsonResponse(formatted_data, safe=False)
 
 
 def edit_comment(request):

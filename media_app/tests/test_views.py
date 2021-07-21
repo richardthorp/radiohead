@@ -1,8 +1,11 @@
 from django.test import TestCase
+from django.shortcuts import reverse
 from django.contrib.auth.models import User
+import json
 from shop.models import Album
 from ..models import Single, Comment
-from profiles.models import Profile
+
+# from profiles.models import Profile
 
 
 class TestMediaViews(TestCase):
@@ -46,6 +49,12 @@ class TestMediaViews(TestCase):
             on_single=self.single,
             )
 
+        # self.comment_2 = Comment.objects.create(
+        #     text='Different test text',
+        #     posted_by=self.test_user_2.profile,
+        #     on_single=self.single,
+        #     )
+
     def test_get_media_page(self):
         response = self.client.get('/media/')
         self.assertEqual(response.status_code, 200)
@@ -61,14 +70,40 @@ class TestMediaViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'media_app/single_content.html')
 
-    # def test_get_comments(self):
-    #     response = self.client.get(
-    #         '/media/get_comments/',
-    #         data={
-    #             'object_id': self.single.id,
-    #             'page': 1
-    #         })
-    #     print(response)
+    def test_get_comments(self):
+        url = reverse('get_comments')
+        response = self.client.get(
+            url,
+            data={
+                'objectID': self.single.id,
+                'page': 1
+            }
+        )
+
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_comments_response_data(self):
+        url = reverse('get_comments')
+        response = self.client.get(
+            url,
+            data={
+                'objectID': self.single.id,
+                'page': 1
+            }
+        )
+        # Get first element from the returned list as there will only
+        # be one comment in the db
+        response_json = response.json()[0]
+        self.assertTrue('time' in response_json)
+        self.assertTrue('posted_by' in response_json)
+        self.assertTrue('id' in response_json)
+        self.assertTrue('posted_by_img' in response_json)
+        self.assertTrue('comment_permissions' in response_json)
+        self.assertTrue('text' in response_json)
+        self.assertTrue('has_prev' in response_json)
+        self.assertTrue('has_next' in response_json)
+        self.assertTrue('current_page' in response_json)
+        self.assertFalse(response_json['edited'])
 
     def test_add_comment(self):
         response = self.client.post(
@@ -99,6 +134,7 @@ class TestMediaViews(TestCase):
             )
 
         edited_comment = Comment.objects.all().first()
+        self.assertTrue(edited_comment.edited)
         self.assertEqual(edited_comment.text, 'This text is edited')
         self.assertEqual(response.status_code, 200)
 
