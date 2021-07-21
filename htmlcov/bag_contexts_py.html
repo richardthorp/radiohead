@@ -3,7 +3,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=emulateIE7" />
-    <title>Coverage for bag/contexts.py: 0%</title>
+    <title>Coverage for bag/contexts.py: 35%</title>
     <link rel="icon" sizes="32x32" href="favicon_32.png">
     <link rel="stylesheet" href="style.css" type="text/css">
     <script type="text/javascript" src="jquery.min.js"></script>
@@ -18,13 +18,13 @@
 <div id="header">
     <div class="content">
         <h1>Coverage for <b>bag/contexts.py</b> :
-            <span class="pc_cov">0%</span>
+            <span class="pc_cov">35%</span>
         </h1>
         <img id="keyboard_icon" src="keybd_closed.png" alt="Show keyboard shortcuts" />
         <h2 class="stats">
             40 statements &nbsp;
-            <button type="button" class="run shortkey_r button_toggle_run" title="Toggle lines run">0 run</button>
-            <button type="button" class="mis show_mis shortkey_m button_toggle_mis" title="Toggle lines missing">40 missing</button>
+            <button type="button" class="run shortkey_r button_toggle_run" title="Toggle lines run">14 run</button>
+            <button type="button" class="mis show_mis shortkey_m button_toggle_mis" title="Toggle lines missing">26 missing</button>
             <button type="button" class="exc show_exc shortkey_x button_toggle_exc" title="Toggle lines excluded">0 excluded</button>
         </h2>
     </div>
@@ -52,17 +52,17 @@
     </div>
 </div>
 <div id="source">
-    <p id="t1" class="mis show_mis"><span class="n"><a href="#t1">1</a></span><span class="t"><span class="key">from</span> <span class="nam">shop</span><span class="op">.</span><span class="nam">models</span> <span class="key">import</span> <span class="nam">Album</span><span class="op">,</span> <span class="nam">Product</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t2" class="mis show_mis"><span class="n"><a href="#t2">2</a></span><span class="t"><span class="key">from</span> <span class="nam">django</span><span class="op">.</span><span class="nam">conf</span> <span class="key">import</span> <span class="nam">settings</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t3" class="mis show_mis"><span class="n"><a href="#t3">3</a></span><span class="t"><span class="key">from</span> <span class="nam">decimal</span> <span class="key">import</span> <span class="nam">Decimal</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t1" class="run"><span class="n"><a href="#t1">1</a></span><span class="t"><span class="key">from</span> <span class="nam">shop</span><span class="op">.</span><span class="nam">models</span> <span class="key">import</span> <span class="nam">Album</span><span class="op">,</span> <span class="nam">Product</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t2" class="run"><span class="n"><a href="#t2">2</a></span><span class="t"><span class="key">from</span> <span class="nam">django</span><span class="op">.</span><span class="nam">conf</span> <span class="key">import</span> <span class="nam">settings</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t3" class="run"><span class="n"><a href="#t3">3</a></span><span class="t"><span class="key">from</span> <span class="nam">decimal</span> <span class="key">import</span> <span class="nam">Decimal</span>&nbsp;</span><span class="r"></span></p>
     <p id="t4" class="pln"><span class="n"><a href="#t4">4</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
     <p id="t5" class="pln"><span class="n"><a href="#t5">5</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p id="t6" class="mis show_mis"><span class="n"><a href="#t6">6</a></span><span class="t"><span class="key">def</span> <span class="nam">bag_details</span><span class="op">(</span><span class="nam">request</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t7" class="mis show_mis"><span class="n"><a href="#t7">7</a></span><span class="t">    <span class="nam">bag</span> <span class="op">=</span> <span class="nam">request</span><span class="op">.</span><span class="nam">session</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="str">'bag'</span><span class="op">,</span> <span class="op">{</span><span class="op">}</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t8" class="mis show_mis"><span class="n"><a href="#t8">8</a></span><span class="t">    <span class="nam">bag_items</span> <span class="op">=</span> <span class="op">[</span><span class="op">]</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t9" class="mis show_mis"><span class="n"><a href="#t9">9</a></span><span class="t">    <span class="nam">total</span> <span class="op">=</span> <span class="num">0</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t6" class="run"><span class="n"><a href="#t6">6</a></span><span class="t"><span class="key">def</span> <span class="nam">bag_details</span><span class="op">(</span><span class="nam">request</span><span class="op">)</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t7" class="run"><span class="n"><a href="#t7">7</a></span><span class="t">    <span class="nam">bag</span> <span class="op">=</span> <span class="nam">request</span><span class="op">.</span><span class="nam">session</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="str">'bag'</span><span class="op">,</span> <span class="op">{</span><span class="op">}</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t8" class="run"><span class="n"><a href="#t8">8</a></span><span class="t">    <span class="nam">bag_items</span> <span class="op">=</span> <span class="op">[</span><span class="op">]</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t9" class="run"><span class="n"><a href="#t9">9</a></span><span class="t">    <span class="nam">total</span> <span class="op">=</span> <span class="num">0</span>&nbsp;</span><span class="r"></span></p>
     <p id="t10" class="pln"><span class="n"><a href="#t10">10</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p id="t11" class="mis show_mis"><span class="n"><a href="#t11">11</a></span><span class="t">    <span class="key">for</span> <span class="nam">item</span> <span class="key">in</span> <span class="nam">bag</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t11" class="run"><span class="n"><a href="#t11">11</a></span><span class="t">    <span class="key">for</span> <span class="nam">item</span> <span class="key">in</span> <span class="nam">bag</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p id="t12" class="mis show_mis"><span class="n"><a href="#t12">12</a></span><span class="t">        <span class="key">if</span> <span class="nam">type</span><span class="op">(</span><span class="nam">bag</span><span class="op">[</span><span class="nam">item</span><span class="op">]</span><span class="op">)</span> <span class="key">is</span> <span class="nam">int</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p id="t13" class="mis show_mis"><span class="n"><a href="#t13">13</a></span><span class="t">            <span class="nam">product</span> <span class="op">=</span> <span class="nam">Product</span><span class="op">.</span><span class="nam">objects</span><span class="op">.</span><span class="nam">get</span><span class="op">(</span><span class="nam">name</span><span class="op">=</span><span class="nam">item</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p id="t14" class="mis show_mis"><span class="n"><a href="#t14">14</a></span><span class="t">            <span class="nam">quantity</span> <span class="op">=</span> <span class="nam">bag</span><span class="op">[</span><span class="nam">item</span><span class="op">]</span>&nbsp;</span><span class="r"></span></p>
@@ -113,16 +113,16 @@
     <p id="t59" class="pln"><span class="n"><a href="#t59">59</a></span><span class="t">                <span class="str">'item_total'</span><span class="op">:</span> <span class="nam">item_total</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p id="t60" class="pln"><span class="n"><a href="#t60">60</a></span><span class="t">            <span class="op">}</span><span class="op">)</span>&nbsp;</span><span class="r"></span></p>
     <p id="t61" class="pln"><span class="n"><a href="#t61">61</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p id="t62" class="mis show_mis"><span class="n"><a href="#t62">62</a></span><span class="t">    <span class="key">if</span> <span class="nam">total</span> <span class="op">&lt;</span> <span class="nam">settings</span><span class="op">.</span><span class="nam">FREE_DELIVERY_THRESHOLD</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t63" class="mis show_mis"><span class="n"><a href="#t63">63</a></span><span class="t">        <span class="nam">delivery_cost</span> <span class="op">=</span> <span class="nam">settings</span><span class="op">.</span><span class="nam">STANDARD_DELIVERY_COST</span>&nbsp;</span><span class="r"></span></p>
-    <p id="t64" class="mis show_mis"><span class="n"><a href="#t64">64</a></span><span class="t">        <span class="nam">delivery_shortfall</span> <span class="op">=</span> <span class="nam">settings</span><span class="op">.</span><span class="nam">FREE_DELIVERY_THRESHOLD</span> <span class="op">-</span> <span class="nam">total</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t62" class="run"><span class="n"><a href="#t62">62</a></span><span class="t">    <span class="key">if</span> <span class="nam">total</span> <span class="op">&lt;</span> <span class="nam">settings</span><span class="op">.</span><span class="nam">FREE_DELIVERY_THRESHOLD</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t63" class="run"><span class="n"><a href="#t63">63</a></span><span class="t">        <span class="nam">delivery_cost</span> <span class="op">=</span> <span class="nam">settings</span><span class="op">.</span><span class="nam">STANDARD_DELIVERY_COST</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t64" class="run"><span class="n"><a href="#t64">64</a></span><span class="t">        <span class="nam">delivery_shortfall</span> <span class="op">=</span> <span class="nam">settings</span><span class="op">.</span><span class="nam">FREE_DELIVERY_THRESHOLD</span> <span class="op">-</span> <span class="nam">total</span>&nbsp;</span><span class="r"></span></p>
     <p id="t65" class="pln"><span class="n"><a href="#t65">65</a></span><span class="t">    <span class="key">else</span><span class="op">:</span>&nbsp;</span><span class="r"></span></p>
     <p id="t66" class="mis show_mis"><span class="n"><a href="#t66">66</a></span><span class="t">        <span class="nam">delivery_cost</span> <span class="op">=</span> <span class="num">0</span>&nbsp;</span><span class="r"></span></p>
     <p id="t67" class="mis show_mis"><span class="n"><a href="#t67">67</a></span><span class="t">        <span class="nam">delivery_shortfall</span> <span class="op">=</span> <span class="num">0</span>&nbsp;</span><span class="r"></span></p>
     <p id="t68" class="pln"><span class="n"><a href="#t68">68</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p id="t69" class="mis show_mis"><span class="n"><a href="#t69">69</a></span><span class="t">    <span class="nam">grand_total</span> <span class="op">=</span> <span class="nam">total</span> <span class="op">+</span> <span class="nam">delivery_cost</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t69" class="run"><span class="n"><a href="#t69">69</a></span><span class="t">    <span class="nam">grand_total</span> <span class="op">=</span> <span class="nam">total</span> <span class="op">+</span> <span class="nam">delivery_cost</span>&nbsp;</span><span class="r"></span></p>
     <p id="t70" class="pln"><span class="n"><a href="#t70">70</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p id="t71" class="mis show_mis"><span class="n"><a href="#t71">71</a></span><span class="t">    <span class="nam">context</span> <span class="op">=</span> <span class="op">{</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t71" class="run"><span class="n"><a href="#t71">71</a></span><span class="t">    <span class="nam">context</span> <span class="op">=</span> <span class="op">{</span>&nbsp;</span><span class="r"></span></p>
     <p id="t72" class="pln"><span class="n"><a href="#t72">72</a></span><span class="t">        <span class="str">'bag_items'</span><span class="op">:</span> <span class="nam">bag_items</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p id="t73" class="pln"><span class="n"><a href="#t73">73</a></span><span class="t">        <span class="str">'num_of_items'</span><span class="op">:</span> <span class="nam">len</span><span class="op">(</span><span class="nam">bag_items</span><span class="op">)</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p id="t74" class="pln"><span class="n"><a href="#t74">74</a></span><span class="t">        <span class="str">'total'</span><span class="op">:</span> <span class="nam">total</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
@@ -131,13 +131,13 @@
     <p id="t77" class="pln"><span class="n"><a href="#t77">77</a></span><span class="t">        <span class="str">'grand_total'</span><span class="op">:</span> <span class="nam">grand_total</span><span class="op">,</span>&nbsp;</span><span class="r"></span></p>
     <p id="t78" class="pln"><span class="n"><a href="#t78">78</a></span><span class="t">    <span class="op">}</span>&nbsp;</span><span class="r"></span></p>
     <p id="t79" class="pln"><span class="n"><a href="#t79">79</a></span><span class="t">&nbsp;</span><span class="r"></span></p>
-    <p id="t80" class="mis show_mis"><span class="n"><a href="#t80">80</a></span><span class="t">    <span class="key">return</span> <span class="nam">context</span>&nbsp;</span><span class="r"></span></p>
+    <p id="t80" class="run"><span class="n"><a href="#t80">80</a></span><span class="t">    <span class="key">return</span> <span class="nam">context</span>&nbsp;</span><span class="r"></span></p>
 </div>
 <div id="footer">
     <div class="content">
         <p>
             <a class="nav" href="index.html">&#xab; index</a> &nbsp; &nbsp; <a class="nav" href="https://coverage.readthedocs.io">coverage.py v5.5</a>,
-            created at 2021-07-20 10:20 +0000
+            created at 2021-07-21 09:14 +0000
         </p>
     </div>
 </div>

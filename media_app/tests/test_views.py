@@ -1,6 +1,8 @@
 from django.test import TestCase
+from django.contrib.auth.models import User
 from shop.models import Album
-from ..models import Single
+from ..models import Single, Comment
+from profiles.models import Profile
 
 
 class TestMediaViews(TestCase):
@@ -26,12 +28,124 @@ class TestMediaViews(TestCase):
 
         self.single = Single.objects.create(**test_single)
 
+        self.test_user_1 = User.objects.create_user(
+            username='test_user_1',
+            email='test_user_1@email.com',
+            password='test_password'
+            )
+
+        self.test_user_2 = User.objects.create_user(
+            username='test_user_2',
+            email='test_user_2@email.com',
+            password='test_password'
+            )
+
+        self.comment = Comment.objects.create(
+            text='Test text',
+            posted_by=self.test_user_1.profile,
+            on_single=self.single,
+            )
+
     def test_get_media_page(self):
         response = self.client.get('/media/')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'media_app/media.html')
 
     def test_get_album_singles_page(self):
-        response = self.client.get(f'/media/album_singles/{self.single.id}')
+        response = self.client.get(f'/media/album_singles/{self.album.id}')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'media_app/album_singles.html')
+
+    def test_get_single_content_page(self):
+        response = self.client.get(f'/media/single_content/{self.single.id}')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'media_app/single_content.html')
+
+    # def test_get_comments(self):
+    #     response = self.client.get(
+    #         '/media/get_comments/',
+    #         data={
+    #             'object_id': self.single.id,
+    #             'page': 1
+    #         })
+    #     print(response)
+
+    def test_add_comment(self):
+        response = self.client.post(
+            '/media/add_comment',
+            data={
+                'user_id': self.test_user_1.id,
+                'object_id': self.single.id,
+                'comment': 'More test text',
+                }
+            )
+        # Ensure comment has been saved to db
+        # (Additional comment added in setUp())
+        comment_count = len(Comment.objects.all())
+        self.assertEqual(comment_count, 2)
+        self.assertEqual(response.status_code, 200)
+
+    def test_edit_comment_(self):
+        self.client.login(
+            username='test_user_1',
+            password='test_password')
+
+        response = self.client.post(
+            '/media/edit_comment',
+            data={
+                'comment_id': self.comment.id,
+                'edited_comment': 'This text is edited',
+                }
+            )
+
+        edited_comment = Comment.objects.all().first()
+        self.assertEqual(edited_comment.text, 'This text is edited')
+        self.assertEqual(response.status_code, 200)
+
+    def test_wrong_user_cant_edit_comment(self):
+        self.client.login(
+            username='test_user_2',
+            password='test_password')
+
+        response = self.client.post(
+            '/media/edit_comment',
+            data={
+                'comment_id': self.comment.id,
+                'edited_comment': 'This text is edited',
+                }
+            )
+        comment = Comment.objects.all().first()
+        self.assertEqual(comment.text, 'Test text')
+        self.assertEqual(response.status_code, 403)
+
+    def test_delete_comment(self):
+        self.client.login(
+            username='test_user_1',
+            password='test_password')
+
+        response = self.client.post(
+            '/media/delete_comment',
+            data={
+                'comment_id': self.comment.id,
+                }
+            )
+        comments = Comment.objects.all()
+        self.assertEqual(len(comments), 0)
+        self.assertEqual(response.status_code, 200)
+
+    def test_wrong_user_cant_delete_comment(self):
+        self.client.login(
+            username='test_user_2',
+            password='test_password')
+
+        response = self.client.post(
+            '/media/delete_comment',
+            data={
+                'comment_id': self.comment.id,
+                }
+            )
+        comments = Comment.objects.all()
+        self.assertEqual(len(comments), 1)
+        self.assertEqual(response.status_code, 403)
+
+# coverage run --source /workspace/radiohead manage.py test

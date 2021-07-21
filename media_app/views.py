@@ -35,7 +35,7 @@ def single_content(request, single_id):
 
 
 def add_comment(request):
-    print(request.POST['comment'])
+    # print(request.POST['comment'])
     posted_by = Profile.objects.get(user=request.POST['user_id'])
     on_single = Single.objects.get(id=request.POST['object_id'])
     text = request.POST['comment']
