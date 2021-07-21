@@ -1,11 +1,8 @@
 from django.test import TestCase
 from django.shortcuts import reverse
 from django.contrib.auth.models import User
-import json
 from shop.models import Album
 from ..models import Single, Comment
-
-# from profiles.models import Profile
 
 
 class TestMediaViews(TestCase):
@@ -49,12 +46,6 @@ class TestMediaViews(TestCase):
             on_single=self.single,
             )
 
-        # self.comment_2 = Comment.objects.create(
-        #     text='Different test text',
-        #     posted_by=self.test_user_2.profile,
-        #     on_single=self.single,
-        #     )
-
     def test_get_media_page(self):
         response = self.client.get('/media/')
         self.assertEqual(response.status_code, 200)
@@ -94,20 +85,40 @@ class TestMediaViews(TestCase):
         # Get first element from the returned list as there will only
         # be one comment in the db
         response_json = response.json()[0]
+
         self.assertTrue('time' in response_json)
         self.assertTrue('posted_by' in response_json)
         self.assertTrue('id' in response_json)
         self.assertTrue('posted_by_img' in response_json)
-        self.assertTrue('comment_permissions' in response_json)
         self.assertTrue('text' in response_json)
         self.assertTrue('has_prev' in response_json)
         self.assertTrue('has_next' in response_json)
         self.assertTrue('current_page' in response_json)
         self.assertFalse(response_json['edited'])
+        self.assertFalse(response_json['comment_permissions'])
+
+    def test_comment_permission_if_correct_user(self):
+        self.client.login(
+            username='test_user_1',
+            password='test_password'
+            )
+
+        url = reverse('get_comments')
+        response = self.client.get(
+            url,
+            data={
+                'objectID': self.single.id,
+                'page': 1
+            }
+        )
+
+        response_json = response.json()[0]
+        self.assertTrue(response_json['comment_permissions'])
 
     def test_add_comment(self):
+        url = reverse('add_comment')
         response = self.client.post(
-            '/media/add_comment',
+            url,
             data={
                 'user_id': self.test_user_1.id,
                 'object_id': self.single.id,
@@ -123,10 +134,12 @@ class TestMediaViews(TestCase):
     def test_edit_comment_(self):
         self.client.login(
             username='test_user_1',
-            password='test_password')
+            password='test_password'
+            )
 
+        url = reverse('edit_comment')
         response = self.client.post(
-            '/media/edit_comment',
+            url,
             data={
                 'comment_id': self.comment.id,
                 'edited_comment': 'This text is edited',
@@ -141,15 +154,18 @@ class TestMediaViews(TestCase):
     def test_wrong_user_cant_edit_comment(self):
         self.client.login(
             username='test_user_2',
-            password='test_password')
+            password='test_password'
+            )
 
+        url = reverse('edit_comment')
         response = self.client.post(
-            '/media/edit_comment',
+            url,
             data={
                 'comment_id': self.comment.id,
                 'edited_comment': 'This text is edited',
                 }
             )
+
         comment = Comment.objects.all().first()
         self.assertEqual(comment.text, 'Test text')
         self.assertEqual(response.status_code, 403)
@@ -157,14 +173,17 @@ class TestMediaViews(TestCase):
     def test_delete_comment(self):
         self.client.login(
             username='test_user_1',
-            password='test_password')
+            password='test_password'
+            )
 
+        url = reverse('delete_comment')
         response = self.client.post(
-            '/media/delete_comment',
+            url,
             data={
                 'comment_id': self.comment.id,
                 }
             )
+
         comments = Comment.objects.all()
         self.assertEqual(len(comments), 0)
         self.assertEqual(response.status_code, 200)
@@ -172,10 +191,12 @@ class TestMediaViews(TestCase):
     def test_wrong_user_cant_delete_comment(self):
         self.client.login(
             username='test_user_2',
-            password='test_password')
+            password='test_password'
+            )
 
+        url = reverse('delete_comment')
         response = self.client.post(
-            '/media/delete_comment',
+            url,
             data={
                 'comment_id': self.comment.id,
                 }
