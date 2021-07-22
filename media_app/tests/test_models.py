@@ -40,9 +40,9 @@ class TestMediaAppModels(TestCase):
 
     def test_comment_str_method(self):
         self.assertEqual(
-            str(self.comment),
-            f""" Comment by {self.test_user_1}'s Profile on {self.comment.date_posted}.
-            """
+            str(self.comment), 
+            (f"Comment by {self.test_user_1}'s Profile on "
+             f"{self.comment.date_posted}.")
         )
 
     def test_single_str_method(self):
