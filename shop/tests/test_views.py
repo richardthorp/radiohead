@@ -32,6 +32,7 @@ class TestShopViews(TestCase):
         }
         self.other_product = Product.objects.create(**test_other_product)
 
+    # SHOP VIEW TESTS
     def test_get_shop_page(self):
         url = reverse('shop')
         response = self.client.get(url)
@@ -72,6 +73,8 @@ class TestShopViews(TestCase):
         self.assertNotIn(self.album, response.context['items'])
         self.assertNotIn(self.clothing_product, response.context['items'])
 
+    # SHOP DETAIL VIEW TESTS
+    # Album template
     def test_shop_detail_view_with_album(self):
         url = reverse('shop_detail', args=['album', self.album.id])
         response = self.client.get(url)
@@ -79,6 +82,7 @@ class TestShopViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed('shop/album.html')
 
+    # Product template
     def test_shop_detail_view_with_product(self):
         url = reverse(
             'shop_detail', args=['product', self.clothing_product.id]
@@ -87,3 +91,18 @@ class TestShopViews(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed('shop/product.html')
+
+    # PRODUCT MANAGEMENT VIEW TESTS
+    def test_add_album_(self):
+        url = reverse('add_product', args=['album'])
+        response = self.client.get(url)
+
+        self.assertTemplateUsed('shop/add_product.html')
+        self.assertEqual(response.status_code, 200)
+
+    def test_add_product(self):
+        url = reverse('add_product', args=['product'])
+        response = self.client.get(url)
+
+        self.assertTemplateUsed('shop/add_product.html')
+        self.assertEqual(response.status_code, 200)

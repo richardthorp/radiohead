@@ -19,7 +19,7 @@ def event_detail(request, event_id):
         f"{event_id}.json?apikey={api_key}"
     )
     response = requests.get(url).json()
-    print(response)
+    # print(response)
     all_details = response['resultsPage']['results']['event']
 
     # Get string containing all artists performing - add Radiohead to the bill
@@ -56,7 +56,7 @@ def get_paginated_gigs(page):
         f"{artist_id}/calendar.json?apikey={api_key}"
     )
     response = requests.get(url).json()
-    print(response)
+    # print(response)
 
     gig_list = response['resultsPage']['results']['event']
 
