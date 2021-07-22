@@ -1,5 +1,6 @@
 from django.test import TestCase
 from django.shortcuts import reverse
+from django.contrib.auth.models import User
 from ..models import Album, Product
 
 
@@ -31,6 +32,19 @@ class TestShopViews(TestCase):
             "image": 'test_image.jpg'
         }
         self.other_product = Product.objects.create(**test_other_product)
+
+        self.test_user = User.objects.create_user(
+            username='test_user',
+            email='test_user@email.com',
+            password='test_password',
+        )
+
+        self.staff_user = User.objects.create_user(
+            username='staff_user',
+            email='staff_user@email.com',
+            password='test_password',
+            is_staff=True,
+        )
 
     # SHOP VIEW TESTS
     def test_get_shop_page(self):
@@ -94,15 +108,26 @@ class TestShopViews(TestCase):
 
     # PRODUCT MANAGEMENT VIEW TESTS
     def test_add_album_(self):
+        self.client.login(
+            username='staff_user',
+            password='test_password'
+            )
         url = reverse('add_product', args=['album'])
         response = self.client.get(url)
 
         self.assertTemplateUsed('shop/add_product.html')
         self.assertEqual(response.status_code, 200)
 
-    def test_add_product(self):
-        url = reverse('add_product', args=['product'])
+    def test_must_be_staff_to_add_album(self):
+        url = reverse('add_product', args=['album'])
         response = self.client.get(url)
+        self.assertRedirects(response,
+                             f"{reverse('account_login')}"
+                             f"?next=/shop/add_product/album")
 
-        self.assertTemplateUsed('shop/add_product.html')
-        self.assertEqual(response.status_code, 200)
+    # def test_add_product(self):
+    #     url = reverse('add_product', args=['product'])
+    #     response = self.client.get(url)
+
+    #     self.assertTemplateUsed('shop/add_product.html')
+    #     self.assertEqual(response.status_code, 200)

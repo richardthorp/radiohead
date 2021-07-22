@@ -2,13 +2,13 @@
 {% load crispy_forms_tags %}
 {% block content %}
 <div class="container content-container">
-    <h1 class="text-center header-font page-header">Add {{ item }}</h1>
+    <h1 class="text-center header-font page-header">Add {{ item_type }}</h1>
     <div class="row">
         <div class="col-12 col-lg-6">
-            <form action="{% url 'add_product' item %}" method="POST">
+            <form action="{% url 'add_product' item_type %}" enctype="multipart/form-data" method="POST">
                 {% csrf_token %}
                 {{ form|crispy }}
-                <button type="submit" class="btn btn-dark custom-btn">Add {{ item }}</button>
+                <button type="submit" class="btn btn-dark custom-btn">Add {{ item_type }}</button>
             </form>
         </div>
     </div>

@@ -1,5 +1,6 @@
-from django.shortcuts import render
-from django.http.response import HttpResponse
+from django.shortcuts import render, reverse, redirect
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib import messages
 from .models import Album, Product
 from .forms import AddProductForm, AddAlbumForm
 from itertools import chain
@@ -50,18 +51,31 @@ def shop_detail(request, item_type, item_id):
         return render(request, 'shop/product.html', context)
 
 
-def add_product(request, type):
-    if type == 'album':
-        item = 'album'
+@staff_member_required(login_url='account_login')
+def add_product(request, item_type):
+    if request.method == 'POST':
+        if item_type == 'album':
+            form = AddAlbumForm(request.POST, request.FILES)
+        else:
+            form = AddProductForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            item = form.save()
+            messages.success(request, f'{str(item)} added to store')
+            return redirect(
+                reverse('shop_detail', args=[item_type, item.id])
+                )
+        else:
+            print(form.errors)
+            messages.error(request, 'Error adding product, please try again.')
+
+    if item_type == 'album':
         form = AddAlbumForm()
     else:
-        item = 'product'
         form = AddProductForm()
-
     context = {
         'form': form,
-        'item': item,
+        'item_type': item_type,
     }
 
-    return render(request, 'shop/add_product.html',
-                  context)
+    return render(request, 'shop/add_product.html', context)
