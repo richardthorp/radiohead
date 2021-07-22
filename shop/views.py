@@ -79,3 +79,40 @@ def add_product(request, item_type):
     }
 
     return render(request, 'shop/add_product.html', context)
+
+
+@staff_member_required(login_url='account_login')
+def edit_product(request, item_type, item_id):
+    if request.method == 'POST':
+        if item_type == 'album':
+            product = Album.objects.get(pk=item_id)
+            form = AddAlbumForm(request.POST, request.FILES, instance=product)
+
+        else:
+            product = Product.objects.get(pk=item_id)
+            form = AddProductForm(request.POST, request.FILES,
+                                  instance=product)
+
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Product updated!')
+            return redirect(reverse('product_detail', args=[product.id]))
+        else:
+            messages.error(request,
+                           'Error with form data, please try again!')
+    else:
+        if item_type == 'album':
+            product = Album.objects.get(pk=item_id)
+            form = AddAlbumForm(instance=product)
+
+        else:
+            product = Product.objects.get(pk=item_id)
+            form = AddProductForm(instance=product)
+
+        context = {
+            'form': form,
+            'item_type': item_type,
+            'product': product,
+            }
+
+    return render(request, 'shop/edit_product.html', context)

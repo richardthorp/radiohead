@@ -10,6 +10,17 @@
 <div class="container content-container border">
     <h1 class="text-center header-font page-header">{{ album.title }}</h1>
     <a href="{% url 'shop' %}"><i class="fas fa-backward"></i> Back to shop</a>
+    {% if user.is_staff %}
+    <div class="row">
+        <div class="col-12 custom-border p-2 my-3">
+            <h6 class="header-font text-center">Would you like to edit or delete this product?</h6>
+            <div class="d-flex justify-content-center">
+                <a href="{% url 'edit_product' 'album' album.id %}" class="btn btn-dark custom-btn mr-2">Edit Product</a>
+                <a href="" class="btn btn-danger custom-btn ml-2">Delete Product</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
     <div class="row mt-2">
         <div class="col-12 col-lg-6">
             <img src="{{ album.image.url }}" alt="The artwork for the album {{ album.title }}"

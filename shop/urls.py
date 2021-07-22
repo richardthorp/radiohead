@@ -7,4 +7,6 @@ urlpatterns = [
          name='shop_detail'),
     path('add_product/<item_type>', views.add_product,
          name='add_product'),
+    path('edit_product/<item_type>/<item_id>', views.edit_product,
+         name='edit_product'),
 ]

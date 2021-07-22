@@ -10,10 +10,20 @@
 <div class="container content-container border">
     <h1 class="text-center header-font page-header">{{ product.name }}</h1>
     <a href="{% url 'shop' %}"><i class="fas fa-backward"></i> Back to shop</a>
+    {% if user.is_staff %}
+    <div class="row">
+        <div class="col-12 custom-border p-2 my-3">
+            <h6 class="header-font text-center">Would you like to edit or delete this product?</h6>
+            <div class="d-flex justify-content-center">
+                <a href="{% url 'edit_product' 'product' product.id %}" class="btn btn-dark custom-btn mr-2">Edit Product</a>
+                <a href="" class="btn btn-danger custom-btn ml-2">Delete Product</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
     <div class="row mt-2">
         <div class="col-12 col-lg-6">
-            <img src="{{ product.image.url }}" alt="A picture of the {{ product.name }}"
-                class="w-100 mx-auto">
+            <img src="{{ product.image.url }}" alt="A picture of the {{ product.name }}" class="w-100 mx-auto">
         </div>
         <div class="col-12 col-lg-6">
             <p>{{ product.description }}</p>
@@ -22,7 +32,8 @@
                 {% csrf_token %}
                 {% if product.has_sizes %}
                 <label for="size" class="shop-label mt-3 mt-lg-0">Choose:</label>
-                <select id="size" name="size" class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" required>
+                <select id="size" name="size" class="form-select form-select-lg mb-3"
+                    aria-label=".form-select-lg example" required>
                     <option value="" selected>Please choose a size</option>
                     <option value="S">Small</option>
                     <option value="M">Medium</option>

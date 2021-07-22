@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container content-container">
+    <h1 class="text-center header-font page-header">Edit {{ item_type }}</h1>
+    <a href="{% url 'shop_detail' item_type product.id %}" class="mb-3 d-block"><i class="fas fa-backward"></i>Back to item in shop</a>
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            <form action="{% url 'add_product' item_type %}" enctype="multipart/form-data" method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" class="btn btn-dark custom-btn">Edit {{ item_type }}</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
