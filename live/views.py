@@ -14,10 +14,12 @@ def live(request, page=1):
 
 def event_detail(request, event_id):
     api_key = settings.SONGKICK_API_KEY
-    url = f"""
-    https://api.songkick.com/api/3.0/events/{event_id}.json?apikey={api_key}
-    """
+    url = (
+        f"https://api.songkick.com/api/3.0/events/"
+        f"{event_id}.json?apikey={api_key}"
+    )
     response = requests.get(url).json()
+    print(response)
     all_details = response['resultsPage']['results']['event']
 
     # Get string containing all artists performing - add Radiohead to the bill
@@ -49,10 +51,12 @@ def event_detail(request, event_id):
 def get_paginated_gigs(page):
     api_key = settings.SONGKICK_API_KEY
     artist_id = '268425'
-    url = f"""
-    https://api.songkick.com/api/3.0/artists/{artist_id}/calendar.json?apikey={api_key}
-    """
+    url = (
+        f"https://api.songkick.com/api/3.0/artists/"
+        f"{artist_id}/calendar.json?apikey={api_key}"
+    )
     response = requests.get(url).json()
+    print(response)
 
     gig_list = response['resultsPage']['results']['event']
 
