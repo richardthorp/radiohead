@@ -1,6 +1,7 @@
 from django.test import TestCase
 from ..models import Album, Product
 
+
 class TestShopModels(TestCase):
     def setUp(self):
         test_album = {
@@ -23,7 +24,7 @@ class TestShopModels(TestCase):
         self.product = Product.objects.create(**test_product)
 
     def test_album_str_method(self):
-        self.assertEqual( str(self.album), 'test_album')
-    
+        self.assertEqual(str(self.album), 'test_album')
+
     def test_product_str_method(self):
-        self.assertEqual( str(self.product), 'test_item')
+        self.assertEqual(str(self.product), 'test_item')

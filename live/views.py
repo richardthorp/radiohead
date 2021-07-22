@@ -14,7 +14,9 @@ def live(request, page=1):
 
 def event_detail(request, event_id):
     api_key = settings.SONGKICK_API_KEY
-    url = f'https://api.songkick.com/api/3.0/events/{event_id}.json?apikey={api_key}'
+    url = f"""
+    https://api.songkick.com/api/3.0/events/{event_id}.json?apikey={api_key}
+    """
     response = requests.get(url).json()
     all_details = response['resultsPage']['results']['event']
 
@@ -47,7 +49,9 @@ def event_detail(request, event_id):
 def get_paginated_gigs(page):
     api_key = settings.SONGKICK_API_KEY
     artist_id = '268425'
-    url = f'https://api.songkick.com/api/3.0/artists/{artist_id}/calendar.json?apikey={api_key}'
+    url = f"""
+    https://api.songkick.com/api/3.0/artists/{artist_id}/calendar.json?apikey={api_key}
+    """
     response = requests.get(url).json()
 
     gig_list = response['resultsPage']['results']['event']
@@ -62,7 +66,7 @@ def get_paginated_gigs(page):
     with open('gigs.json', 'w') as outfile:
         json.dump(gig_list, outfile)
 
-    gig_details = [] 
+    gig_details = []
     for gig in paginated_gigs:
         g = {
             'date': gig['start']['date'],

@@ -18,11 +18,11 @@ class TestMediaAppModels(TestCase):
         self.album = Album.objects.create(**test_album)
 
         test_single = {"title": 'test_single',
-                        "album": self.album,
-                        "spotify_url": 'www.testurl.com',
-                        "video_url": 'www.testurl.com',
-                        "image": 'test_image.jpg'
-                        }
+                       "album": self.album,
+                       "spotify_url": 'www.testurl.com',
+                       "video_url": 'www.testurl.com',
+                       "image": 'test_image.jpg'
+                       }
 
         self.single = Single.objects.create(**test_single)
 
@@ -31,17 +31,18 @@ class TestMediaAppModels(TestCase):
             email='test_user_1@email.com',
             password='test_password'
             )
-        
+
         self.comment = Comment.objects.create(
             text='Test text',
             posted_by=self.test_user_1.profile,
             on_single=self.single,
             )
-        
+
     def test_comment_str_method(self):
         self.assertEqual(
             str(self.comment),
-            f"Comment by {self.test_user_1}'s Profile on {self.comment.date_posted}."
+            f""" Comment by {self.test_user_1}'s Profile on {self.comment.date_posted}.
+            """
         )
 
     def test_single_str_method(self):
@@ -49,4 +50,3 @@ class TestMediaAppModels(TestCase):
             str(self.single),
             'test_single'
         )
-    

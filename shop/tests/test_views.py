@@ -71,7 +71,7 @@ class TestShopViews(TestCase):
         self.assertIn(self.other_product, response.context['items'])
         self.assertNotIn(self.album, response.context['items'])
         self.assertNotIn(self.clothing_product, response.context['items'])
-    
+
     def test_shop_detail_view_with_album(self):
         url = reverse('shop_detail', args=['album', self.album.id])
         response = self.client.get(url)
@@ -79,9 +79,10 @@ class TestShopViews(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed('shop/album.html')
 
-
     def test_shop_detail_view_with_product(self):
-        url = reverse('shop_detail', args=['product', self.clothing_product.id])
+        url = reverse(
+            'shop_detail', args=['product', self.clothing_product.id]
+            )
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 200)
