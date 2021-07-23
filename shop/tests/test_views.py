@@ -144,3 +144,22 @@ class TestShopViews(TestCase):
         self.assertRedirects(response,
                              f"{reverse('account_login')}"
                              f"?next=/shop/edit_product/album/1")
+
+    # Delete product tests
+    def test_delete_product(self):
+        self.client.login(
+            username='staff_user',
+            password='test_password'
+            )
+        url = reverse('delete_product', args=['album', self.album.id])
+        response = self.client.get(url)
+        self.assertRedirects(response, reverse('shop'))
+        albums = Album.objects.all()
+        self.assertEqual(len(albums), 0)
+
+    def test_must_be_staff_to_delete_product(self):
+        url = reverse('delete_product', args=['album', self.album.id])
+        response = self.client.get(url)
+        self.assertRedirects(response,
+                             f"{reverse('account_login')}"
+                             f"?next=/shop/delete_product/album/1")

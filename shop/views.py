@@ -116,3 +116,20 @@ def edit_product(request, item_type, item_id):
             }
 
     return render(request, 'shop/edit_product.html', context)
+
+
+@staff_member_required(login_url='account_login')
+def delete_product(request, item_type, item_id):
+    if item_type == 'album':
+        product = Album.objects.get(pk=item_id)
+        product_name = product.title
+    else:
+        product = Product.objects.get(pk=item_id)
+        product_name = product.name
+
+    if product.image:
+        product.image.delete()
+    product.delete()
+
+    messages.success(request, f'{product_name} deleted from database.')
+    return redirect(reverse('shop'))

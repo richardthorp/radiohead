@@ -15,8 +15,33 @@
         <div class="col-12 custom-border p-2 my-3">
             <h6 class="header-font text-center">Would you like to edit or delete this product?</h6>
             <div class="d-flex justify-content-center">
-                <a href="{% url 'edit_product' 'product' product.id %}" class="btn btn-dark custom-btn mr-2">Edit Product</a>
-                <a href="" class="btn btn-danger custom-btn ml-2">Delete Product</a>
+                <a href="{% url 'edit_product' 'product' product.id %}" class="btn btn-dark custom-btn mr-2">
+                    Edit Product</a>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn custom-btn btn-danger btn-sm custom-btn ml-2" data-toggle="modal"
+                    data-target="#delete-product-modal">
+                    Delete Product
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Product Modal -->
+    <div class="modal fade" id="delete-product-modal" tabindex="-1" role="dialog" aria-labelledby="delete-item"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body custom-modal text-center">
+                    Are you sure you want to delete<br>
+                    <strong>{{ product.name }}</strong><br>
+                    from the database? This action cannot be undone!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn custom-btn btn-sm btn-dark custom-btn"
+                        data-dismiss="modal">BACK</button>
+                    <a href="{% url 'delete_product' 'product' product.id %}"
+                        class="btn custom-btn btn-sm btn-danger custom-btn">Delete</a>
+                </div>
             </div>
         </div>
     </div>
