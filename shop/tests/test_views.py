@@ -126,6 +126,82 @@ class TestShopViews(TestCase):
                              f"{reverse('account_login')}"
                              f"?next=/shop/add_product/album")
 
+    def test_add_album_view_returns_correct_form(self):
+        self.client.login(
+            username='staff_user',
+            password='test_password'
+            )
+        url = reverse('add_product', args=['album'])
+        response = self.client.get(url)
+        self.assertEqual(str(response.context['form']), 'AddAlbumForm')
+
+    def test_add_product_view_returns_correct_form(self):
+        self.client.login(
+            username='staff_user',
+            password='test_password'
+            )
+        url = reverse('add_product', args=['product'])
+        response = self.client.get(url)
+        self.assertEqual(str(response.context['form']), 'AddProductForm')
+
+    # Test adding a product
+    def test_add_product_view_adds_product_and_redirects(self):
+        self.client.login(
+            username='staff_user',
+            password='test_password'
+            )
+
+        form_data = {
+            "name": 'test_add_clothing_item',
+            "category": 'clothing',
+            "price": 9.99,
+            'description': "testing",
+            "image": 'test_image.jpg'
+        }
+        url = reverse('add_product', args=['product'])
+
+        response = self.client.post(url, data=form_data)
+        self.assertEqual(response.status_code, 302)
+
+        # Expect 3 products in db - 2 are created in setUp()
+        product_count = len(Product.objects.all())
+        self.assertEqual(product_count, 3)
+
+        added_product = Product.objects.get(name='test_add_clothing_item')
+        self.assertRedirects(response,
+                             reverse('shop_detail',
+                                     args=['product', added_product.id]))
+
+        # Test adding an album
+        def test_add_product_view_adds_album_and_redirects(self):
+            self.client.login(
+                username='staff_user',
+                password='test_password'
+                )
+
+            form_data = {
+                "title": 'test_add_album',
+                "year": 2021,
+                "cd_price": 9.99,
+                "vinyl_price": 19.99,
+                "spotify_url": 'www.testurl.com',
+                "tracklist": {"test": "test"},
+                "image": 'media_files/album_covers/kid_a_cover.jpg'
+                }
+            url = reverse('add_product', args=['album'])
+
+            response = self.client.post(url, data=form_data)
+            self.assertEqual(response.status_code, 302)
+
+            # Expect 2 albums in db - 1 is created in setUp()
+            product_count = len(Product.objects.all())
+            self.assertEqual(product_count, 3)
+
+            added_album = Album.objects.get(name='test_add_album')
+            self.assertRedirects(response,
+                                 reverse('shop_detail',
+                                         args=['album', added_album.id]))
+
     # Edit product tests
     def test_get_edit_product_page(self):
         self.client.login(

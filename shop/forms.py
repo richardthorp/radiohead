@@ -7,8 +7,14 @@ class AddAlbumForm(ModelForm):
         model = Album
         fields = '__all__'
 
+    def __str__(self):
+        return 'AddAlbumForm'
+
 
 class AddProductForm(ModelForm):
     class Meta:
         model = Product
         fields = '__all__'
+
+    def __str__(self):
+        return 'AddProductForm'
