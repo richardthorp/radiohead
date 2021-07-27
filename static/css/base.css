@@ -48,7 +48,7 @@ label {
 
 .custom-btn {
     font-family: block-font;
-    font-size: 0.7rem !important;
+    font-size: 0.8rem !important;
     text-transform: uppercase;
     padding: 0 5px 0 5px;
     /* padding-right: 5px; */
@@ -408,8 +408,7 @@ nav {
         font-size: 1rem;
     }
     .custom-btn {
-        font-size: 0.8rem !important;
-        /* padding: 5px; */
+        font-size: 0.9rem !important;
     }
 }
 

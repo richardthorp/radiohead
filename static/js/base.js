@@ -22,3 +22,47 @@ navToggle.click(function(){
 
 // Initialise toasts
 $('.toast').toast('show');
+
+// Welcome text animation
+function addWelcomeText(){
+    let textContent = '';
+    const welcomeTextArea = $("#welcome-text");
+    setTimeout(function(){
+        welcomeTextArea.removeClass('big-welcome-text');
+        textContent += 'Welcome';
+        welcomeTextArea.text(textContent);
+    }, 800);
+    setTimeout(function(){
+        textContent = " to";
+        welcomeTextArea.text(textContent);
+    }, 2000);
+    setTimeout(function(){
+        textContent = " the";
+        welcomeTextArea.text(textContent);
+    }, 2500);
+    setTimeout(function(){
+        textContent += " home";
+        welcomeTextArea.text(textContent);
+    }, 3000);
+    setTimeout(function(){
+        textContent += " of";
+        welcomeTextArea.text(textContent);
+    }, 3600);
+    setTimeout(function(){
+        textContent = " Radio";
+        welcomeTextArea.text(textContent);
+        welcomeTextArea.addClass('big-welcome-text');
+    }, 5000);
+    setTimeout(function(){
+        textContent += "<br class='d-sm-none'>head";
+        welcomeTextArea.html(textContent);
+    }, 5800);
+}
+
+// Repeat welcome text animation
+$(document).ready(function() {
+    addWelcomeText();
+    setInterval(() => {
+        addWelcomeText();
+    }, 10000)
+})

@@ -6,46 +6,23 @@
 {% block content %}
 <div class="bg-overlay"></div>
 
-<div class="container-fluid p-0">
-    <div class="row d-flex justify-content-center">
-        <div class="col-12 text-center welcome d-flex flex-column">
-            <h1 class="my-auto">Welcome to<br>the<br>home of<br>Radiohead</h1>
-            <i class="fas fa-angle-down"></i>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12 welcome-container">
+            <h1 id="welcome-text" class="my-auto">
+                
+            </h1>
+            <i class="fas fa-angle-down mt-auto"></i>
         </div>
     </div>
-    <div class="row d-flex justify-content-center my-lg-5 w-95 mx-auto">
-        <div class="col-12 portal-section text-white text-center d-flex flex-column 
-                    justify-content-around custom-border rounded">
-            <h2 class="header-font mt-2">Enter the Portal</h2>
-            <p>Connect with the band in a whole new way.</p>
-            <p>Subscribe to Portal to gain access to exclusive content as well as a discount in the online shop</p>
-            <a href="" class="btn custom-btn btn-large btn-dark mb-4 mt-2 mx-auto nav-font">FIND OUT MORE</a>
-        </div>
-    </div>
-    <div class="row mx-auto text-white home-page-links w-95">
-        <div class="col-12 col-sm-4 square live-bg custom-border">
-            <a href="{% url 'live' 1 %}">
-                <div class="div-overlay">
-                    <h3 class="header-font">Live</h3>
-                    <h3 class="header-font text-reveal">View Live</h3>
-                </div>
-            </a>
-        </div>
-        <div class="col-12 col-sm-4 square media-bg custom-border">
-            <a href="{% url 'media' %}">
-                <div class="div-overlay">
-                    <h3 class="header-font">Media</h3>
-                    <h3 class="header-font text-reveal">View Media</h3>
-                </div>
-            </a>
-        </div>
-        <div class="col-12 col-sm-4 square shop-bg custom-border">
-            <a href="{% url 'shop' %}">
-                <div class="div-overlay">
-                    <h3 class="header-font">Shop</h3>
-                    <h3 class="header-font text-reveal">View Shop</h3>
-                </div>
-            </a>
+    <div class="row justify-content-center mb-2 mb-md-3 mb-lg-4">
+        <div class="col-12 col-lg- portal-section text-white text-center my-auto">
+            <div class="portal-section-content h-100 d-flex flex-column justify-content-around py-3">
+                <h2 class="header-font mt-2">Enter the Portal</h2>
+                <p>Connect with the band in a whole new way.</p>
+                <p>Subscribe to Portal to gain access to exclusive content as well as a discount in the online shop</p>
+                <a href="" class="btn custom-btn btn-dark mb-4 mt-2 mx-auto nav-font">FIND OUT MORE</a>
+            </div>
         </div>
     </div>
 </div>

@@ -1,148 +1,123 @@
-.welcome {
-    height: calc(100vh - 50px);
-    min-height: 525px;
+.welcome-container {
+    min-height: calc(100vh - 50px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    overflow-anchor: none;
 }
 
-.welcome h1 {
+.big-welcome-text {
+    font-size: 9rem !important;
+}
+
+.welcome-container h1 {
     font-family: radio;
-    font-size: 5rem;
+    font-size: 5.5rem;
+    line-height: 140px;
     text-transform: uppercase;
+    text-align: center;
+    position: relative;
+    top: 70px;
 }
 
-.welcome i{
+.welcome-container i{
     font-size: 4rem;
+    justify-self: flex-end;
 }
 
 .portal-section {
     background-image: url("/media_files/portal-bg.jpg");
-    /* border-radius: 5px; */
-    /* margin-top: 10px; */
-    background-position: center;
+    border-radius: 30px;
+    background-position: -90px center;
     background-size: cover;
+    background-repeat: no-repeat;
+    background-color: black;
+}
+
+.portal-section-content {
+    margin-left: 25%;
 }
 
 .portal-section h2 {
-    font-size: 3.5rem
+    font-size: 3rem
 }
 .portal-section p {
     font-size: 1.2rem;
 }
 
-.portal-section a {
-    width: fit-content;
-    padding: 10px;
-}
-
-.live-bg {
-    background-image: url("/media_files/live-bg.jpg");
-}
-
-.media-bg {
-    background-image: url("/media_files/media-bg.jpg");
-}
-
-.shop-bg {
-    background-image: url("/media_files/shop-bg.jpg");
-}
-
-.live-bg, .media-bg, .shop-bg {
-    background-position: center;
-    background-size: cover;
-    min-height: 150px;
-    /* border-radius: 5px; */
-}
-.div-overlay {
-    height: 100%;
-    width: 100%;
-    position: absolute;
-    top: 0;
-    left: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.custom-border{
-    border: 5px solid #fff;
-}
-
-.home-page-links h3 {
-    font-size: 6rem;
-}
-
-.text-reveal{
-    text-transform: lowercase;
-    display: none;
-    color: #fff;
-}
-.live-bg:hover .text-reveal,
-.media-bg:hover .text-reveal,
-.shop-bg:hover .text-reveal{
-    display: block;
-}
-
-.live-bg:hover h3,
-.media-bg:hover h3,
-.shop-bg:hover h3 {
-    display: none;
-}
-
-
 /*---------------------------------------------------------------------------------MEDIA QUERIES--*/
-@media only screen and (min-width: 576px) {
-    .welcome {
-        min-height: 587px;
+@media only screen and (min-width: 400px) {
+    .welcome-container h1 {
+        font-size: 6.5rem;
     }
-    .welcome h1 {
+    .big-welcome-text {
+        font-size: 9.5rem !important;
+    }
+    .portal-section {
+        background-position: -60px;
+    }
+}
+
+@media only screen and (min-width: 576px) {
+    .welcome-container{
+        height: calc(100vh - 56px);
+    }
+    .welcome-container h1 {
         font-size: 7rem;
     }
-    /* SQUARE DIV CSS COPIED FROM https://mademyday.de/height-equals-width-with-pure-css/ */
-    .square:before{
-        content: "";
-        display: block;
-        padding-top: 100%;  /* initial ratio of 1:1*/
-    }
-    .home-page-links h3 {
-        font-size: 4rem;
+    .portal-section {
+        background-position: -30px;
+        max-width: 550px;
     }
 }
 
 @media only screen and (min-width: 768px) {
-    .welcome {
-        min-height: 755px;
+    .welcome-container h1 {
+        font-size: 12rem;
     }
-    .welcome h1 {
-        font-size: 9rem;
+    .big-welcome-text {
+        font-size: 13rem !important;
     }
-    .portal-section h2 {
-        font-size: 4rem
+    .portal-section {
+        background-position: -30px;
+        max-width:600px;
     }
     .portal-section p {
         font-size: 1.5rem;
     }
-    
-    .portal-section a {
-        font-size: 1.2rem;
-    }
-    .home-page-links h3 {
-        font-size: 6rem;
-    }
 }
 
 @media only screen and (min-width: 992px) {
-    .welcome {
-        height: initial;
+    .welcome-container h1 {
+        font-size: 14rem;
     }
-    .welcome h1 {
-        font-size: 8rem;
+    .big-welcome-text {
+        font-size: 16rem !important;
     }
-    .square:before{
-        padding-top: 75%; /* Change to 4:3 aspect ratio  */
+    .portal-section {
+        background-position: -20px;
+        max-width: 700px;
+    }
+    .portal-section-content {
+        margin-left: 35%;
     }
 }
 
 @media only screen and (min-width: 1200px) {
-    .welcome h1 {
-        font-size: 10rem;
+    .welcome-container h1 {
+        font-size: 16rem;
     }
+    .big-welcome-text {
+        font-size: 20rem !important;
+    }
+    .portal-section {
+        max-width: 900px;
+    }
+    .portal-section-content {
+        margin-left: 30%;
+    }
+}
+
+@media only screen and (min-width: 1400px) {
+
 }
