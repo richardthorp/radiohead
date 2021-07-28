@@ -25,37 +25,37 @@ $('.toast').toast('show');
 
 // Welcome text animation
 function addWelcomeText(){
-    let textContent = '';
+    let htmlContent = '';
     const welcomeTextArea = $("#welcome-text");
     setTimeout(function(){
         welcomeTextArea.removeClass('big-welcome-text');
-        textContent += 'Welcome';
-        welcomeTextArea.text(textContent);
+        htmlContent += 'Welcome';
+        welcomeTextArea.html(htmlContent);
     }, 800);
     setTimeout(function(){
-        textContent = " to";
-        welcomeTextArea.text(textContent);
+        htmlContent = "to";
+        welcomeTextArea.html(htmlContent);
     }, 2000);
     setTimeout(function(){
-        textContent = " the";
-        welcomeTextArea.text(textContent);
+        htmlContent = "the <span class='d-hidden'>home of</span>";
+        welcomeTextArea.html(htmlContent);
     }, 2500);
     setTimeout(function(){
-        textContent += " home";
-        welcomeTextArea.text(textContent);
+        htmlContent = "the home <span class='d-hidden'>of</span>";
+        welcomeTextArea.html(htmlContent);
     }, 3000);
     setTimeout(function(){
-        textContent += " of";
-        welcomeTextArea.text(textContent);
+        htmlContent = "the home of";
+        welcomeTextArea.html(htmlContent);
     }, 3600);
     setTimeout(function(){
-        textContent = " Radio";
-        welcomeTextArea.text(textContent);
+        htmlContent = "Radio ";
+        welcomeTextArea.html(htmlContent);
         welcomeTextArea.addClass('big-welcome-text');
     }, 5000);
     setTimeout(function(){
-        textContent += "<br class='d-sm-none'>head";
-        welcomeTextArea.html(textContent);
+        htmlContent = "Radio<br class='d-sm-none'>head";
+        welcomeTextArea.html(htmlContent);
     }, 5800);
 }
 

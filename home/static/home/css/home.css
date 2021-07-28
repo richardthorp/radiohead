@@ -45,6 +45,10 @@
     font-size: 1.2rem;
 }
 
+.d-hidden {
+    visibility: hidden;
+}
+
 /*---------------------------------------------------------------------------------MEDIA QUERIES--*/
 @media only screen and (min-width: 400px) {
     .welcome-container h1 {
