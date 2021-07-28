@@ -127,9 +127,8 @@ def delete_product(request, item_type, item_id):
         product = Product.objects.get(pk=item_id)
         product_name = product.name
 
-    if product.image:
-        product.image.delete()
+    # if product.image:
+    #     product.image.delete()
     product.delete()
-
     messages.success(request, f'{product_name} deleted from database.')
     return redirect(reverse('shop'))
