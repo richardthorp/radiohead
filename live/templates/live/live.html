@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block extra_css%}
+<link rel="stylesheet" href="{% static 'live/css/live.css' %}">
+{% endblock %}
 {% block content %}
 <div class="container content-container border">
     <h1 class="header-font page-header text-center">Live</h1>
@@ -11,7 +14,7 @@
     <div class="row">
         <div class="col-12">
             <h3 class="header-font mt-3">Upcoming Shows</h3>
-            <table class="table table-striped clear-font">
+            <table id="live-table" class="table table-striped clear-font table-responsive-stack">
                 <thead>
                     <tr>
                         <th scope="col">Date</th>
@@ -22,7 +25,7 @@
                 <tbody>
                     {% for gig in paginated_data.gigs %}
                     <tr>
-                        <th scope="row">{{ gig.date }}</th>
+                        <td scope="row" class="gig-date">{{ gig.date }}</th>
                         <td>{{ gig.city }}</td>
                         <td class="h-100"><a href="{% url 'event_detail' gig.event_id %}"
                                 class="btn custom-btn btn-dark">More
@@ -51,4 +54,8 @@
     </div>
 
 </div>
+{% endblock %}
+{% block postloadjs %}
+{{ block.super }}
+<script src="{% static 'live/js/live.js' %}"></script>
 {% endblock %}
