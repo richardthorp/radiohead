@@ -82,18 +82,18 @@
                 <li class="nav-link">
                     <a href="{% url 'account_logout' %}" class="text-dark">SIGN OUT</a>
                 </li>
-                    {% if user.is_staff %}
-                    <h6 class="py-2 pl-3 m-0 border-top">Admin Links:</h6>
-                    <li class="nav-link">
-                        <a href="{% url 'add_product' 'album' %}" class="text-dark">ADD ALBUM</a>
-                    </li>
-                    <li class="nav-link">
-                        <a href="{% url 'add_product' 'product' %}" class="text-dark">ADD PRODUCT</a>
-                    </li>
-                    <li class="nav-link">
-                        <a href="" class="text-dark">ADD PORTAL POST</a>
-                    </li>
-                    {% endif %}
+                {% if user.is_staff %}
+                <h6 class="py-2 pl-3 m-0 border-top">Admin Links:</h6>
+                <li class="nav-link">
+                    <a href="{% url 'add_product' 'album' %}" class="text-dark">ADD ALBUM</a>
+                </li>
+                <li class="nav-link">
+                    <a href="{% url 'add_product' 'product' %}" class="text-dark">ADD PRODUCT</a>
+                </li>
+                <li class="nav-link">
+                    <a href="" class="text-dark">ADD PORTAL POST</a>
+                </li>
+                {% endif %}
                 {% else %}
                 <li class="nav-link">
                     <a href="{% url 'account_login' %}" class="text-dark">SIGN IN</a>
@@ -118,31 +118,43 @@
                     </div>
                     <div class="col-8">
                         {% if item.type == 'album' %}
-                        <h5 class="header-font mb-0">{{ item.product.title }}</h4>
-                            {% if item.cd_count %}
-                            <p class="clear-font m-0">CD: {{ item.cd_count }}</p>
-                            {% endif %}
-                            {% if item.vinyl_count %}
-                            <p class="clear-font m-0">Vinyl: {{ item.vinyl_count }}</p>
-                            {% endif %}
-                            <p class="clear-font m-0">Subtotal: £{{ item.item_total }}</p>
-                            {% elif item.type == 'sized' %}
-                            <h5 class="header-font">{{ item.product.name }}</h4>
-                                {% if item.small_count %}
-                                <p class="clear-font m-0">Small: {{item.small_count}}</p>
-                                {% endif %}
-                                {% if item.medium_count %}
-                                <p class="clear-font m-0">Medium: {{item.medium_count}}</p>
-                                {% endif %}
-                                {% if item.large_count %}
-                                <p class="clear-font m-0">Large: {{item.large_count}}</p>
-                                {% endif %}
-                                <p class="clear-font m-0">Subtotal: £{{ item.item_total }}</p>
-                                {% else %}
-                                <h5 class="header-font mb-0">{{ item.product.name }}</h4>
-                                    <p class="clear-font m-0">Quantity: {{ item.quantity }}</p>
-                                    <p class="clear-font m-0">Subtotal: £{{ item.item_total }}</p>
-                                    {% endif %}
+                        <!-- Albums in bag -->
+                        <a href="{% url 'shop_detail' 'album' item.product.id %}" class="text-dark"
+                            title="Click to view item in shop">
+                            <h5 class="header-font mb-0">{{ item.product.title }}</h5>
+                        </a>
+                        {% if item.cd_count %}
+                        <p class="clear-font m-0">CD: {{ item.cd_count }}</p>
+                        {% endif %}
+                        {% if item.vinyl_count %}
+                        <p class="clear-font m-0">Vinyl: {{ item.vinyl_count }}</p>
+                        {% endif %}
+                        <p class="clear-font m-0">Subtotal: £{{ item.item_total }}</p>
+                        <!-- Sized items in bag -->
+                        {% elif item.type == 'sized' %}
+                        <a href="{% url 'shop_detail' 'product' item.product.id %}" class="text-dark"
+                            title="Click to view item in shop">
+                            <h5 class="header-font">{{ item.product.name }}</h5>
+                        </a>
+                        {% if item.small_count %}
+                        <p class="clear-font m-0">Small: {{item.small_count}}</p>
+                        {% endif %}
+                        {% if item.medium_count %}
+                        <p class="clear-font m-0">Medium: {{item.medium_count}}</p>
+                        {% endif %}
+                        {% if item.large_count %}
+                        <p class="clear-font m-0">Large: {{item.large_count}}</p>
+                        {% endif %}
+                        <p class="clear-font m-0">Subtotal: £{{ item.item_total }}</p>
+                        {% else %}
+                        <!-- Other items in bag -->
+                        <a href="{% url 'shop_detail' 'product' item.product.id %}" class="text-dark"
+                            title="Click to view item in shop">
+                            <h5 class="header-font mb-0">{{ item.product.name }}</h5>
+                        </a>
+                        <p class="clear-font m-0">Quantity: {{ item.quantity }}</p>
+                        <p class="clear-font m-0">Subtotal: £{{ item.item_total }}</p>
+                        {% endif %}
                     </div>
                     {% if not forloop.last %}
                     <hr>
@@ -155,7 +167,8 @@
                     <p class="clear-font mb-1 mt-2">Subtotal: £ {{ total }}</p>
                     <p class="clear-font mb-1">Delivery: £ {{ delivery_cost }}</p>
                     {% if delivery_shortfall > 0 %}
-                    <p class="clear-font mb-2 delivery-shortfall-text text-danger">Spend another £{{ delivery_shortfall }} to get free postage</p>
+                    <p class="clear-font mb-2 delivery-shortfall-text text-danger">Spend another £{{ delivery_shortfall
+                        }} to get free postage</p>
                     {% endif %}
                     <p class="clear-font font-weight-bold grand-total mb-1">Total: £ {{ grand_total }}</p>
                 </div>

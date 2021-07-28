@@ -67,8 +67,8 @@ def get_paginated_gigs(page):
     has_next = current_page.has_next()
     next_page = int(page) + 1
     previous_page = int(page) - 1
-    with open('gigs.json', 'w') as outfile:
-        json.dump(gig_list, outfile)
+    # with open('gigs.json', 'w') as outfile:
+    #     json.dump(gig_list, outfile)
 
     gig_details = []
     for gig in paginated_gigs:
