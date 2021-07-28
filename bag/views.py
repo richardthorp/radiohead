@@ -54,7 +54,8 @@ def add_to_bag(request, product_id):
 
     request.session['bag'] = bag
     messages.success(request, 'Item successfully added to your bag.')
-    return render(request, 'bag/view_bag.html')
+    # return render(request, 'bag/view_bag.html')
+    return redirect(reverse('view_bag'))
 
 
 def update_bag(request, product_type, product_id):

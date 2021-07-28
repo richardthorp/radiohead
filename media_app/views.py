@@ -61,7 +61,7 @@ def get_comments(request):
             pk=int(comment['fields']['posted_by'])
             )
         posted_by_img = posted_by.image.url
-        if request.user == posted_by.user:
+        if request.user == posted_by.user or request.user.is_staff:
             comment_permissions = True
         else:
             comment_permissions = False
