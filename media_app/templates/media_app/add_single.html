@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="container content-container">
+    <h1 class="text-center header-font page-header">Add Single</h1>
+    <div class="row">
+        <div class="col-12 col-lg-6">
+            <p><strong>Please note: You must add an album before adding any singles that belong to that album</strong></p>
+            <form action="{% url 'add_single' %}" enctype="multipart/form-data" method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <button type="submit" id="submit-album" class="btn btn-dark custom-btn d-block mt-5 ">Add Single</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

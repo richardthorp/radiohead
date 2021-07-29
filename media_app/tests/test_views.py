@@ -1,8 +1,19 @@
+from os import unlink
+from PIL import Image
+import tempfile
 from django.test import TestCase
 from django.shortcuts import reverse
 from django.contrib.auth.models import User
 from shop.models import Album
 from ..models import Single, Comment
+
+
+def get_temporary_image(temp_file):
+    size = (200, 200)
+    color = (255, 0, 0, 0)
+    image = Image.new("RGB", size, color)
+    image.save(temp_file, 'jpeg')
+    return temp_file
 
 
 class TestMediaViews(TestCase):
@@ -40,6 +51,13 @@ class TestMediaViews(TestCase):
             password='test_password'
             )
 
+        self.staff_user = User.objects.create_user(
+            username='staff_user',
+            email='staff_user@email.com',
+            password='test_password',
+            is_staff=True,
+        )
+
         self.comment = Comment.objects.create(
             text='Test text',
             posted_by=self.test_user_1.profile,
@@ -60,6 +78,92 @@ class TestMediaViews(TestCase):
         response = self.client.get(f'/media/single_content/{self.single.id}')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'media_app/single_content.html')
+
+    def test_get_add_single__page(self):
+        self.client.login(
+            username='staff_user',
+            password='test_password'
+            )
+        response = self.client.get('/media/add_single')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'media_app/add_single.html')
+
+    def test_must_be_staff_to_add_single(self):
+        url = reverse('add_single')
+        response = self.client.get(url)
+
+        self.assertRedirects(response,
+                             f"{reverse('account_login')}"
+                             f"?next=/media/add_single")
+
+    def test_add_single_view_adds_single_and_redirects(self):
+        self.client.login(
+            username='staff_user',
+            password='test_password'
+            )
+        # Set up test_image
+        temp_file = tempfile.NamedTemporaryFile(suffix='.jpg')
+        test_image = get_temporary_image(temp_file)
+        test_image.seek(0)
+
+        form_data = {
+            "title": 'Another_test_single',
+            "image": test_image,
+            "album": self.album.id,
+            'video_url': 'www.testurl.com',
+            "spotify_url": 'www.testurl.com',
+            }
+        url = reverse('add_single')
+        response = self.client.post(url, data=form_data)
+
+        singles = Single.objects.all()
+        added_single = Single.objects.get(title='Another_test_single')
+
+        self.assertEqual(response.status_code, 302)
+        # Expect 2 singles in db - 1 is created in setUp()
+        self.assertEqual(len(singles), 2)
+        self.assertRedirects(response,
+                             reverse('album_singles',
+                                     args=[added_single.album.id]))
+
+        # Remove the test_image from the file system
+        unlink(added_single.image.path)
+
+    def test_invalid_add_single_form_returns_message(self):
+        self.client.login(
+            username='staff_user',
+            password='test_password'
+            )
+        form_data = {
+            "title": '',
+            "image": '',
+            "album": '',
+            'video_url': '',
+            "spotify_url": '',
+            }
+        url = reverse('add_single')
+        response = self.client.post(url, data=form_data)
+        messages = list(response.context['messages'])
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]),
+                         'Error adding single, please check form data')
+
+    def test_get_edit_single_page(self):
+        self.client.login(
+            username='staff_user',
+            password='test_password'
+            )
+        response = self.client.get(f'/media/edit_single/{self.single.id}')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'media_app/edit_single.html')
+
+    def test_must_be_staff_to_edit_single(self):
+        url = reverse('edit_single', args=[self.single.id])
+        response = self.client.get(url)
+
+        self.assertRedirects(response,
+                             f"{reverse('account_login')}"
+                             f"?next=/media/edit_single/1")
 
     def test_get_comments(self):
         url = reverse('get_comments')
@@ -204,5 +308,7 @@ class TestMediaViews(TestCase):
         comments = Comment.objects.all()
         self.assertEqual(len(comments), 1)
         self.assertEqual(response.status_code, 403)
+
+
 
 # coverage run --source /workspace/radiohead manage.py test

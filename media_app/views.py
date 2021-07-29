@@ -1,12 +1,14 @@
-from django.shortcuts import render, get_list_or_404, redirect
+import json
+from django.shortcuts import render, get_list_or_404, redirect, reverse
 from django.core import serializers
 from django.core.paginator import Paginator
 from django.http import HttpResponse, JsonResponse
-import json
-from .models import Single, Comment
+from django.contrib import messages
+from django.contrib.admin.views.decorators import staff_member_required
 from shop.models import Album
 from profiles.models import Profile
-from .forms import CommentForm
+from .forms import CommentForm, AddSingleForm
+from .models import Single, Comment
 
 
 def media(request):
@@ -100,3 +102,72 @@ def delete_comment(request):
     else:
         comment.delete()
     return HttpResponse(status=200)
+
+
+@staff_member_required(login_url='account_login')
+def add_single(request):
+    if request.method == 'POST':
+        form = AddSingleForm(request.POST, request.FILES)
+        if form.is_valid():
+            single = form.save()
+            messages.success(request, f'{str(single)} added to Album')
+            return redirect(
+                reverse('album_singles', args=[single.album.id])
+                )
+        else:
+            print(form.errors)
+            messages.error(request,
+                           'Error adding single, please check form data')
+
+    form = AddSingleForm()
+    context = {
+        'form': form,
+    }
+
+    return render(request, 'media_app/add_single.html', context)
+
+
+@staff_member_required(login_url='account_login')
+def edit_single(request, single_id):
+    single = Single.objects.get(pk=single_id)
+    if request.method == 'POST':
+        form = AddSingleForm(request.POST, request.FILES, instance=single)
+        if form.is_valid():
+            single = form.save()
+            messages.success(request, f'{str(single)} updated!')
+            return redirect(
+                reverse('album_singles', args=[single.album.id])
+                )
+        else:
+            print(form.errors)
+            messages.error(request, 'Error with form data, please try again!')
+    else:
+        form = AddSingleForm(instance=single)
+        context = {
+            'form': form,
+            'single': single
+        }
+
+    return render(request, 'media_app/edit_single.html', context)
+
+
+@staff_member_required(login_url='account_login')
+def delete_single(request, single_id):
+    # if request.method == 'POST':
+    #     form = AddSingleForm(request.POST, request.FILES)
+    #     if form.is_valid():
+    #         item = form.save()
+    #         messages.success(request, f'{str(item)} added to Album')
+    #         return redirect(
+    #             reverse('album_singles', args=[item.album.id])
+    #             )
+    #     else:
+    #         print(form.errors)
+    #         messages.error(request, 'Error adding product, please try again.')
+    # else:
+    #     form = AddSingleForm()
+    #     context = {
+    #         'form': form,
+    #     }
+
+    return render(request, 'media_app/add_single.html', context)

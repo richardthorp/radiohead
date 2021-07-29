@@ -7,6 +7,41 @@
 <div class="container content-container">
     <h1 class="page-header header-font text-center">{{ single.title }}</h1>
     <a href="{% url 'album_singles' single.album.id %}"><i class="fas fa-backward"></i> Back to album</a>
+    {% if user.is_staff %}
+    <div class="row">
+        <div class="col-12 custom-border p-2 my-3">
+            <h6 class="header-font text-center">Would you like to edit or delete this single?</h6>
+            <div class="d-flex justify-content-center">
+                <a href="{% url 'edit_single' single.id %}" class="btn btn-dark custom-btn mr-2">
+                    Edit Single</a>
+                <!-- Button trigger modal -->
+                <button type="button" class="btn custom-btn btn-danger btn-sm custom-btn ml-2" data-toggle="modal"
+                    data-target="#delete-single-modal">
+                    Delete Single
+                </button>
+            </div>
+        </div>
+    </div>
+    <!-- Delete Product Modal -->
+    <div class="modal fade" id="delete-single-modal" tabindex="-1" role="dialog" aria-labelledby="delete-item"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body custom-modal text-center">
+                    Are you sure you want to delete<br>
+                    <strong>{{ single.title }}</strong><br>
+                    from the database? This action cannot be undone!
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn custom-btn btn-sm btn-dark custom-btn"
+                        data-dismiss="modal">BACK</button>
+                    <a href="{% url 'delete_single' single.id %}"
+                        class="btn custom-btn btn-sm btn-danger custom-btn">Delete</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
     <div class="row">
         <div class="col video-container pt-1 pt-sm-2 pt-md-3">
             <iframe id="iFrame" height="" class="w-100" src="{{ single.video_url }}" title="YouTube video player"
