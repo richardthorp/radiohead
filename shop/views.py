@@ -1,9 +1,10 @@
+import ast
+from itertools import chain
 from django.shortcuts import render, reverse, redirect
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
 from .models import Album, Product
 from .forms import AddProductForm, AddAlbumForm
-from itertools import chain
 
 
 def shop(request):
@@ -40,8 +41,18 @@ def shop(request):
 
 def shop_detail(request, item_type, item_id):
     if item_type == 'album':
+        album = Album.objects.get(id=item_id)
+        # Check type of tracklist data as tracklists uploaded via JSON
+        # fixtures come from DB as dict objects whereas tracklists added via
+        # the 'AddAlbumForm' are returned as a str
+        if isinstance(album.tracklist, str):
+            tracklist = ast.literal_eval(album.tracklist)
+        else:
+            tracklist = album.tracklist
+
         context = {
-            'album': Album.objects.get(id=item_id)
+            'album': album,
+            'tracklist': tracklist,
         }
         return render(request, 'shop/album.html', context)
     else:
