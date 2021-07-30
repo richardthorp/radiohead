@@ -9,6 +9,16 @@
     <h1 class="text-center header-font page-header">MEDIA</h1>
     <p class="text-center text-muted">Click on an album to view singles</p>
     <hr>
+    {% if user.is_staff %}
+    <div class="row">
+        <div class="col-12 custom-border p-2 mb-5 text-center">
+            <h5 class="header-font">Admin</h5>
+            <p class="text-center my-3"><strong>Please note:</strong> To add a new single, you must first add the album and then 
+                click on an album on this page.</p>
+                <a href="{% url 'add_product' 'album' %}" class="btn custom-btn btn-outline-dark my-2">Add album</a>
+        </div>
+    </div>
+    {% endif %}
     <div class="row">
         {% for album in albums %}
         <div class="col-12 col-md-6 col-lg-4">

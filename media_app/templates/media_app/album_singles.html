@@ -10,6 +10,14 @@
     <p class="text-center text-muted">Click on a single to view media</p>
     <a href="{% url 'media' %}"><i class="fas fa-backward"></i> Back to Media</a>
     <hr>
+    {% if user.is_staff %}
+    <div class="row">
+        <div class="col-12 custom-border p-2 my-3 text-center mb-5">
+            <h5 class="header-font">Admin</h5>
+            <a href="{% url 'add_single' %}" class="btn custom-btn btn-outline-dark my-2">Add single</a>
+        </div>
+    </div>
+    {% endif %}
     <div class="row">
         {% for single in singles %}
         <div class="col-12 col-md-6 col-lg-4">
