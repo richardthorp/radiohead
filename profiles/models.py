@@ -19,12 +19,12 @@ class Profile(models.Model):
 
     # Profile image manipulation credit: Corey Schafer Youtube
     # https://bit.ly/3wf9hHz
-    def save(self, *args, **kwargs):
-        super().save()
+    # def save(self, *args, **kwargs):
+    #     super().save()
 
-        img = Image.open(self.image.path)
+    #     img = Image.open(self.image.path)
 
-        if img.height > 150 or img.width > 150:
-            output_size = (150, 150)
-            img.thumbnail(output_size)
-            img.save(self.image.path)
+    #     if img.height > 150 or img.width > 150:
+    #         output_size = (150, 150)
+    #         img.thumbnail(output_size)
+    #         img.save(self.image.path)
