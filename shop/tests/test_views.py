@@ -232,8 +232,28 @@ class TestShopViews(TestCase):
         # Remove the test_image from the file system
         unlink(added_album.image.path)
 
+    def test_add_product_error_message_with_bad_data(self):
+        self.client.login(
+            username='staff_user',
+            password='test_password'
+            )
+        form_data = {
+            "name": '',
+            "category": '',
+            "price": 9.99,
+            'description': "testing",
+            "image": 'test_image',
+        }
+        url = reverse('add_product', args=['product'])
+        response = self.client.post(url, data=form_data)
+        messages = list(response.wsgi_request._messages)
+
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]),
+                         'Error adding product, please try again.')
+
     # Edit product tests
-    def test_get_edit_product_page(self):
+    def test_get_edit_product_page_for_album(self):
         self.client.login(
             username='staff_user',
             password='test_password'
@@ -241,6 +261,19 @@ class TestShopViews(TestCase):
         url = reverse('edit_product', args=['album', self.album.id])
         response = self.client.get(url)
 
+        self.assertEqual(str(response.context['form']), 'AddAlbumForm')
+        self.assertTemplateUsed('shop/edit_product.html')
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_edit_product_page_for_product(self):
+        self.client.login(
+            username='staff_user',
+            password='test_password'
+            )
+        url = reverse('edit_product', args=['product', self.other_product.id])
+        response = self.client.get(url)
+
+        self.assertEqual(str(response.context['form']), 'AddProductForm')
         self.assertTemplateUsed('shop/edit_product.html')
         self.assertEqual(response.status_code, 200)
 
@@ -252,8 +285,97 @@ class TestShopViews(TestCase):
                              f"{reverse('account_login')}"
                              f"?next=/shop/edit_product/album/1")
 
+    def test_edit_product_view_updates_product(self):
+        self.client.login(
+            username='staff_user',
+            password='test_password'
+            )
+        # Set up test_image
+        temp_file = tempfile.NamedTemporaryFile(suffix='.jpg')
+        test_image = get_temporary_image(temp_file)
+        test_image.seek(0)
+
+        form_data = {
+            'name': 'updated_other_item',
+            'category': 'other',
+            'price': 9.99,
+            'description': "testing",
+            'image': test_image,
+        }
+        url = reverse('edit_product',
+                      args=['product', self.clothing_product.id])
+        response = self.client.post(url, data=form_data)
+        messages = list(response.wsgi_request._messages)
+        updated_product = Product.objects.get(pk=self.clothing_product.id)
+
+        self.assertEqual(updated_product.name, 'updated_other_item')
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), 'Product updated!')
+        self.assertRedirects(response,
+                             reverse('shop_detail',
+                                     args=['product', updated_product.id]))
+        # Remove the test_image from the file system
+        unlink(updated_product.image.path)
+
+    def test_edit_product_view_updates_album(self):
+        self.client.login(
+            username='staff_user',
+            password='test_password'
+            )
+        # Set up test_image
+        temp_file = tempfile.NamedTemporaryFile(suffix='.jpg')
+        test_image = get_temporary_image(temp_file)
+        test_image.seek(0)
+
+        form_data = {
+            'title': 'updated_album',
+            'year': 2021,
+            'cd_price': 9.99,
+            'vinyl_price': 19.99,
+            'spotify_url': 'www.testurl.com',
+            'tracklist': json.dumps("test: test"),
+            'image': test_image,
+        }
+        url = reverse('edit_product',
+                      args=['album', self.album.id])
+        response = self.client.post(url, data=form_data)
+        messages = list(response.wsgi_request._messages)
+        updated_product = Album.objects.get(pk=self.album.id)
+
+        self.assertEqual(updated_product.title, 'updated_album')
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]), 'Product updated!')
+        self.assertRedirects(response,
+                             reverse('shop_detail',
+                                     args=['album', updated_product.id]))
+        # Remove the test_image from the file system
+        unlink(updated_product.image.path)
+
+    def test_edit_album_error_message_with_bad_data(self):
+        self.client.login(
+            username='staff_user',
+            password='test_password'
+            )
+
+        form_data = {
+            'title': '',
+            'year': 2021,
+            'cd_price': 9.99,
+            'vinyl_price': 19.99,
+            'spotify_url': 'www.testurl.com',
+            'tracklist': json.dumps("test: test"),
+            'image': 'test_image',
+        }
+        url = reverse('edit_product', args=['album', self.album.id])
+        response = self.client.post(url, data=form_data)
+        messages = list(response.wsgi_request._messages)
+
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]),
+                         'Error with form data, please try again!')
+
     # Delete product tests
-    def test_delete_product(self):
+    def test_delete_album(self):
         self.client.login(
             username='staff_user',
             password='test_password'
@@ -263,6 +385,18 @@ class TestShopViews(TestCase):
         albums = Album.objects.all()
 
         self.assertEqual(len(albums), 0)
+        self.assertRedirects(response, reverse('shop'))
+
+    def test_delete_product(self):
+        self.client.login(
+            username='staff_user',
+            password='test_password'
+            )
+        url = reverse('delete_product', args=['product', self.other_product.id])
+        response = self.client.get(url)
+        products = Product.objects.all()
+
+        self.assertEqual(len(products), 1)
         self.assertRedirects(response, reverse('shop'))
 
     def test_must_be_staff_to_delete_product(self):

@@ -107,24 +107,26 @@ def edit_product(request, item_type, item_id):
         if form.is_valid():
             form.save()
             messages.success(request, 'Product updated!')
-            return redirect(reverse('product_detail', args=[product.id]))
+            return redirect(reverse('shop_detail',
+                                    args=[item_type, product.id]))
         else:
+            print(form.errors)
             messages.error(request,
                            'Error with form data, please try again!')
+
+    if item_type == 'album':
+        product = Album.objects.get(pk=item_id)
+        form = AddAlbumForm(instance=product)
+
     else:
-        if item_type == 'album':
-            product = Album.objects.get(pk=item_id)
-            form = AddAlbumForm(instance=product)
+        product = Product.objects.get(pk=item_id)
+        form = AddProductForm(instance=product)
 
-        else:
-            product = Product.objects.get(pk=item_id)
-            form = AddProductForm(instance=product)
-
-        context = {
-            'form': form,
-            'item_type': item_type,
-            'product': product,
-            }
+    context = {
+        'form': form,
+        'item_type': item_type,
+        'product': product,
+        }
 
     return render(request, 'shop/edit_product.html', context)
 
