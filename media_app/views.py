@@ -127,7 +127,7 @@ def add_single(request):
     return render(request, 'media_app/add_single.html', context)
 
 
-@staff_member_required(login_url='account_login')
+@staff_member_required()
 def edit_single(request, single_id):
     single = Single.objects.get(pk=single_id)
     if request.method == 'POST':
@@ -141,33 +141,20 @@ def edit_single(request, single_id):
         else:
             print(form.errors)
             messages.error(request, 'Error with form data, please try again!')
-    else:
-        form = AddSingleForm(instance=single)
-        context = {
-            'form': form,
-            'single': single
-        }
+
+    form = AddSingleForm(instance=single)
+    context = {
+        'form': form,
+        'single': single
+    }
 
     return render(request, 'media_app/edit_single.html', context)
 
 
-@staff_member_required(login_url='account_login')
+@staff_member_required()
 def delete_single(request, single_id):
-    # if request.method == 'POST':
-    #     form = AddSingleForm(request.POST, request.FILES)
-    #     if form.is_valid():
-    #         item = form.save()
-    #         messages.success(request, f'{str(item)} added to Album')
-    #         return redirect(
-    #             reverse('album_singles', args=[item.album.id])
-    #             )
-    #     else:
-    #         print(form.errors)
-    #         messages.error(request, 'Error adding product, please try again.')
-    # else:
-    #     form = AddSingleForm()
-    #     context = {
-    #         'form': form,
-    #     }
+    single = Single.objects.get(pk=single_id)
+    single.delete()
+    messages.success(request, 'Single deleted.')
 
-    return render(request, 'media_app/add_single.html', context)
+    return redirect(reverse('media'))

@@ -158,12 +158,95 @@ class TestMediaViews(TestCase):
         self.assertTemplateUsed(response, 'media_app/edit_single.html')
 
     def test_must_be_staff_to_edit_single(self):
+        self.client.login(
+            username='test_user_1',
+            password='test_password'
+            )
         url = reverse('edit_single', args=[self.single.id])
         response = self.client.get(url)
 
         self.assertRedirects(response,
-                             f"{reverse('account_login')}"
-                             f"?next=/media/edit_single/1")
+                             "/admin/login/?next=/media/edit_single/1")
+
+    def test_edit_single_view_updates_single(self):
+        self.client.login(
+            username='staff_user',
+            password='test_password'
+            )
+        # Set up test_image
+        temp_file = tempfile.NamedTemporaryFile(suffix='.jpg')
+        test_image = get_temporary_image(temp_file)
+        test_image.seek(0)
+
+        form_data = {
+            "title": 'Updated_single',
+            "album": self.album.id,
+            "spotify_url": 'www.testurl.com',
+            "video_url": 'www.testurl.com',
+            "image": test_image,
+        }
+        url = reverse('edit_single', args=[self.single.id])
+        response = self.client.post(url, data=form_data)
+        messages = list(response.wsgi_request._messages)
+        updated_single = Single.objects.get(title='Updated_single')
+        updated_single = Single.objects.first()
+
+        self.assertEqual(updated_single.title, 'Updated_single')
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]),
+                         f'{str(updated_single)} updated!')
+        self.assertRedirects(response,
+                             reverse('album_singles',
+                                     args=[updated_single.album.id]))
+        # Remove the test_image from the file system
+        unlink(updated_single.image.path)
+
+    def test_edit_single_error_message_with_bad_data(self):
+        self.client.login(
+            username='staff_user',
+            password='test_password'
+            )
+
+        form_data = {
+            "title": '',
+            "album": self.album.id,
+            "spotify_url": 'bad url',
+            "video_url": 'www.testurl.com',
+            "image": "test_image",
+        }
+        url = reverse('edit_single', args=[self.single.id])
+        response = self.client.post(url, data=form_data)
+        messages = list(response.wsgi_request._messages)
+
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]),
+                         'Error with form data, please try again!')
+
+    def test_delete_single(self):
+        self.client.login(
+            username='staff_user',
+            password='test_password'
+            )
+        url = reverse('delete_single', args=[self.single.id])
+        response = self.client.get(url)
+        messages = list(response.wsgi_request._messages)
+        singles = Single.objects.all()
+        self.assertEqual(len(singles), 0)
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]),
+                         'Single deleted.')
+
+    def test_must_be_staff_to_delete_single(self):
+        self.client.login(
+            username='test_user_1',
+            password='test_password'
+            )
+        url = reverse('delete_single', args=[self.single.id])
+        response = self.client.get(url)
+        singles = Single.objects.all()
+        self.assertEquals(len(singles), 1)
+        self.assertRedirects(response,
+                             "/admin/login/?next=/media/delete_single/1")
 
     def test_get_comments(self):
         url = reverse('get_comments')
@@ -308,7 +391,5 @@ class TestMediaViews(TestCase):
         comments = Comment.objects.all()
         self.assertEqual(len(comments), 1)
         self.assertEqual(response.status_code, 403)
-
-
 
 # coverage run --source /workspace/radiohead manage.py test
