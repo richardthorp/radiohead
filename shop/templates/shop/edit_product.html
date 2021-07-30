@@ -1,17 +1,46 @@
 {% extends 'base.html' %}
+{% load static %}
 {% load crispy_forms_tags %}
 {% block content %}
 <div class="container content-container">
     <h1 class="text-center header-font page-header">Edit {{ item_type }}</h1>
-    <a href="{% url 'shop_detail' item_type product.id %}" class="mb-3 d-block"><i class="fas fa-backward"></i>Back to item in shop</a>
+    <a href="{% url 'shop_detail' item_type product.id %}" class="mb-3 d-block"><i class="fas fa-backward"></i>Back to
+        item in shop</a>
     <div class="row">
         <div class="col-12 col-lg-6">
-            <form action="{% url 'edit_product' item_type product.id %}" enctype="multipart/form-data" method="POST">
+            <form action="{% url 'edit_product' item_type product.id %}" enctype="multipart/form-data" method="POST" 
+                {% if item_type == 'album' %} id="add-album-form" {% endif %}> <!--Add form id for js tracklist function -->
                 {% csrf_token %}
                 {{ form|crispy }}
-                <button type="submit" class="btn btn-dark custom-btn">Edit {{ item_type }}</button>
+                {% if item_type == 'album' %}
+                <!-- Default JSON field form widget replaced with these inputs to make more user friendly. -->
+                <p class="mb-2">Tracklist *</p>
+                <div id="tracklist">
+                    {% for track in tracklist.values %}
+                    <label for="track_{{ forloop.counter }}" class="sr-only">Track {{ forloop.counter|add:1 }}</label>
+                    <input type="text" id="track_{{ forloop.counter }}" class="w-75 mb-1 add-track-input"
+                        placeholder="Enter track {{ forloop.counter }}" required value="{{ track }}">
+                    <!-- If the first track also the last track, render the add input button -->
+                    {% if forloop.counter == 1 and tracklist|length == 1 %}
+                    <i class="fas fa-plus-circle ml-3 pointer " title="Click to add another track"
+                        onclick="renderNewInput({{ forloop.counter|add:1 }})"></i>
+                    <!-- Else, render the add input and remove input buttons on the last track -->
+                    {% elif forloop.last %}
+                    <i class="fas fa-plus-circle ml-3 pointer " title="Click to add another track"
+                        onclick="renderNewInput({{ forloop.counter|add:1 }})"></i>
+                    <i class="fas fa-minus-circle ml-2 pointer" id="minus-btn-2" title="Click to remove track"
+                        onclick="removeInput({{ forloop.counter }})" aria-hidden="true"></i>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <button type="submit" id="submit-album" class="btn btn-dark custom-btn">Edit {{ item_type }}</button>
             </form>
         </div>
     </div>
 </div>
+{% endblock %}
+{% block postloadjs %}
+{{ block.super }}
+<script src="{% static 'shop/js/shop.js' %}"></script>
 {% endblock %}

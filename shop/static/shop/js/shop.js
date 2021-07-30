@@ -23,13 +23,14 @@ function renderNewInput(inputNumber){
     
         const tracklistContainer = $("#tracklist");
         tracklistContainer.append(newInputHtml);
-    } else {  
-        // Text input has no content - render a tooltip
-        $(`#track_${inputNumber - 1}`).tooltip({
-            title: "Please use this input first!"
-        }).tooltip('show');
-        clearTooltip($(`#track_${inputNumber - 1}`))
-    }
+    } 
+    // else {  
+    //    // Text input has no content - render a tooltip
+    //     $(`#track_${inputNumber - 1}`).tooltip({
+    //         title: "Please use this input first!"
+    //     }).tooltip('show');
+    //     clearTooltip($(`#track_${inputNumber - 1}`))
+    // }
 }
 
 /* After 2.5 seconds, clear any tooltips */

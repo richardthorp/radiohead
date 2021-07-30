@@ -117,6 +117,10 @@ def edit_product(request, item_type, item_id):
     if item_type == 'album':
         product = Album.objects.get(pk=item_id)
         form = AddAlbumForm(instance=product)
+        if isinstance(product.tracklist, str):
+            tracklist = ast.literal_eval(product.tracklist)
+        else:
+            tracklist = product.tracklist
 
     else:
         product = Product.objects.get(pk=item_id)
@@ -126,8 +130,8 @@ def edit_product(request, item_type, item_id):
         'form': form,
         'item_type': item_type,
         'product': product,
+        'tracklist': tracklist,
         }
-
     return render(request, 'shop/edit_product.html', context)
 
 
