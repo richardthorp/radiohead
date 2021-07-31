@@ -178,10 +178,17 @@ nav {
 }
 
 .custom-nav-dropdown{
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
     width: fit-content;
     background-color: #f8f9fa;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
     z-index: 9999;
     position: fixed;
     top: 56px;
@@ -208,6 +215,8 @@ nav {
 .grand-total {
     border-top: 2px solid #212529;
     border-bottom: 2px solid #212529;
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
     width: fit-content;
     margin-left: auto;
 }
@@ -223,7 +232,8 @@ nav {
 /*---------------------------------------------------------------------------------LIVE APP--*/
 .live-image-container img {
     width: 100%;
-    object-fit: cover;
+    -o-object-fit: cover;
+       object-fit: cover;
 }
 
 #map {
@@ -238,6 +248,8 @@ nav {
 }
 
 .social-links-container {
+    width: -webkit-fit-content;
+    width: -moz-fit-content;
     width: fit-content;
     margin: 0 auto;
     font-size: 1.3rem;
@@ -287,8 +299,10 @@ nav {
     border-radius: 100%;
     height: 40px;
     width: 40px;
-    object-fit: cover;
-    object-position: center;
+    -o-object-fit: cover;
+       object-fit: cover;
+    -o-object-position: center;
+       object-position: center;
 }
 
 #add-comment-input, #edit-comment-input{

@@ -14,7 +14,8 @@ https://bootstrapcreative.com/pattern/responsive-tables-that-stacks-on-mobile-in
 .table-responsive-stack th {
     display: block;
     -ms-flex: 1 1 auto;
-    flex: 1 1 auto;
+    -webkit-box-flex: 1;
+            flex: 1 1 auto;
 }
 
 .table-responsive-stack .table-responsive-stack-thead {
