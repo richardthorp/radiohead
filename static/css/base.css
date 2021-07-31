@@ -213,7 +213,7 @@ nav {
 }
 
 .bag-image {
-    max-width: 300px;
+    width: 50%;
 }
 
 .delivery-shortfall-text {
@@ -344,6 +344,9 @@ nav {
     }
     .navbar-margin{
         margin-top: 67px;
+    }
+    .bag-image {
+        width: 100%;
     }
     .bag-summary {
         right: 80px;
