@@ -94,6 +94,7 @@ def add_product(request, item_type):
 
 @staff_member_required(login_url='account_login')
 def edit_product(request, item_type, item_id):
+    tracklist = None
     if request.method == 'POST':
         if item_type == 'album':
             product = Album.objects.get(pk=item_id)
