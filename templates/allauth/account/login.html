@@ -8,13 +8,13 @@
 
 {% block content %}
 <div class="container content-container">
-    <h1 class="text-center header-font page-header">Sign In</h1>
+    <h1 class="text-center header-font page-header">{% trans "Sign In" %}</h1>
     <p class="text-center">Sign in to join in the conversation with fellow Radiohead fans, add your favourite videos
         from the media area to your personal profile, save your details for a quick checkout in the shop, and access all
         the exclusive content via the Portal (subsciption required).</p>
     <div class="row">
-        <div class="col-12 col-md-6 pb-4 pb-md-0">
-            <h1 class="header-font">{% trans "Sign In" %}</h1>
+        <div class="col-12 col-md-6">
+            {% comment %} <h1 class="header-font">{% trans "Sign In" %}</h1> {% endcomment %}
             <form class="login" method="POST" action="{% url 'account_login' %}">
                 {% csrf_token %}
                 {{ form|crispy }}
@@ -22,10 +22,11 @@
                 <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
                 {% endif %}
                 <button class="primaryAction btn custom-btn btn-dark" type="submit">{% trans "Sign In" %}</button>
-                <a class="button secondaryAction btn custom-btn btn-light" href="{% url 'account_reset_password' %}">
-                    {% trans "Forgot Password?" %}</a>
+                <p class="mt-3">
+                    <a href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+                </p>
             </form>
-            <p class="mt-5">Need an account? <a href="{% url 'account_signup' %}">Register here.</a></p>
+            <p class="mt-3 mt-md-4 mb-0">Need an account? <a href="{% url 'account_signup' %}">Register here.</a></p>
         </div>
     </div>
 </div>
