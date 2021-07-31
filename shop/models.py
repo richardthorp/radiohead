@@ -1,9 +1,14 @@
 from django.db import models
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Album(models.Model):
     title = models.CharField(blank=False, max_length=80)
-    year = models.IntegerField(blank=False, null=False)
+    year = models.IntegerField(
+        blank=False, null=False, validators=[
+            MinValueValidator(1985, message='The year must be at least 1985'),
+            MaxValueValidator(2050, message='The year must be less than 2050')
+        ])
     tracklist = models.JSONField(null=False, blank=False)
     cd_price = models.DecimalField(blank=False, null=False, max_digits=5,
                                    decimal_places=2)
