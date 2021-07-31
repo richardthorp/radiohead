@@ -12,9 +12,13 @@ def profile(request):
         if form.is_valid():
             form.save()
         else:
-            print('Form not valid')
-    else:
-        form = ProfileForm(instance=profile)
+            context = {
+                'profile': profile,
+                'form': form,
+            }
+            return render(request, 'profiles/profile.html', context)
+
+    form = ProfileForm(instance=profile)
     context = {
         'profile': profile,
         'form': form,

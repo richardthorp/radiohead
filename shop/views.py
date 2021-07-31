@@ -77,8 +77,12 @@ def add_product(request, item_type):
                 reverse('shop_detail', args=[item_type, item.id])
                 )
         else:
-            print(form.errors)
             messages.error(request, 'Error adding product, please try again.')
+            context = {
+                'form': form,
+                'item_type': item_type,
+            }
+            return render(request, 'shop/add_product.html', context)
 
     if item_type == 'album':
         form = AddAlbumForm()
@@ -111,9 +115,15 @@ def edit_product(request, item_type, item_id):
             return redirect(reverse('shop_detail',
                                     args=[item_type, product.id]))
         else:
-            print(form.errors)
+            context = {
+                'form': form,
+                'item_type': item_type,
+                'product': product,
+                'tracklist': tracklist,
+            }
             messages.error(request,
                            'Error with form data, please try again!')
+            return render(request, 'shop/edit_product.html', context)
 
     if item_type == 'album':
         product = Album.objects.get(pk=item_id)

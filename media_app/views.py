@@ -115,16 +115,13 @@ def add_single(request):
                 reverse('album_singles', args=[single.album.id])
                 )
         else:
-            print(form.errors)
             messages.error(request,
                            'Error adding single, please check form data')
+            return render(request, 'media_app/add_single.html', {'form': form})
 
     form = AddSingleForm()
-    context = {
-        'form': form,
-    }
 
-    return render(request, 'media_app/add_single.html', context)
+    return render(request, 'media_app/add_single.html', {'form': form})
 
 
 @staff_member_required()
@@ -139,8 +136,12 @@ def edit_single(request, single_id):
                 reverse('album_singles', args=[single.album.id])
                 )
         else:
-            print(form.errors)
+            context = {
+                'form': form,
+                'single': single
+            }
             messages.error(request, 'Error with form data, please try again!')
+            return render(request, 'media_app/edit_single.html', context)
 
     form = AddSingleForm(instance=single)
     context = {
