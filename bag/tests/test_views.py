@@ -49,13 +49,13 @@ class TestBagViews(TestCase):
         }
         self.client.post(url, data=data)
         bag = self.client.session['bag']
-        expected_dict = {
+        expected_bag = {
             'test_album': {
                 'type': 'album',
                 'cd': 1
             }
         }
-        self.assertEqual(bag, expected_dict)
+        self.assertEqual(bag, expected_bag)
         self.assertEqual(len(bag), 1)
 
     def test_add_sized_product_to_bag_adds_to_session(self):
@@ -67,13 +67,13 @@ class TestBagViews(TestCase):
         }
         self.client.post(url, data=data)
         bag = self.client.session['bag']
-        expected_dict = {
+        expected_bag = {
             'test_clothing_item': {
                 'type': 'sized',
                 'M': 1
             }
         }
-        self.assertEqual(bag, expected_dict)
+        self.assertEqual(bag, expected_bag)
         self.assertEqual(len(bag), 1)
 
     def test_product_quantity_must_be_more_than_one(self):
@@ -128,13 +128,13 @@ class TestBagViews(TestCase):
         self.client.post(url, data=second_add)
         bag = self.client.session['bag']
 
-        expected_dict = {
+        expected_bag = {
             album.title: {
                 'type': 'album',
                 'cd': 2
             }
         }
-        self.assertEqual(bag, expected_dict)
+        self.assertEqual(bag, expected_bag)
 
     def test_add_same_album_different_format(self):
         album = Album.objects.first()
@@ -154,14 +154,14 @@ class TestBagViews(TestCase):
 
         bag = self.client.session['bag']
 
-        expected_dict = {
+        expected_bag = {
             album.title: {
                 'type': 'album',
                 'cd': 1,
                 'vinyl': 1
             }
         }
-        self.assertEqual(bag, expected_dict)
+        self.assertEqual(bag, expected_bag)
 
     def test_add_same_product_and_size_twice(self):
         product = Product.objects.first()
@@ -180,13 +180,13 @@ class TestBagViews(TestCase):
         self.client.post(url, data=second_add)
         bag = self.client.session['bag']
 
-        expected_dict = {
+        expected_bag = {
             product.name: {
                 'type': 'sized',
                 'M': 2
             }
         }
-        self.assertEqual(bag, expected_dict)
+        self.assertEqual(bag, expected_bag)
 
     def test_add_same_product_different_size(self):
         product = Product.objects.first()
@@ -206,14 +206,14 @@ class TestBagViews(TestCase):
 
         bag = self.client.session['bag']
 
-        expected_dict = {
+        expected_bag = {
             product.name: {
                 'type': 'sized',
                 'M': 1,
                 'L': 1
             }
         }
-        self.assertEqual(bag, expected_dict)
+        self.assertEqual(bag, expected_bag)
 
     def test_add_same_nonsized_product(self):
         product = Product.objects.get(name='test_other_item')
@@ -228,13 +228,13 @@ class TestBagViews(TestCase):
         }
         self.client.post(url, data=second_add)
 
-        expected_dict = {
+        expected_bag = {
             product.name: 2
         }
 
         bag = self.client.session['bag']
 
-        self.assertEqual(bag, expected_dict)
+        self.assertEqual(bag, expected_bag)
 
     def test_add_to_bag_get_request_redirects(self):
         product = Product.objects.get(name='test_other_item')
@@ -276,7 +276,13 @@ class TestBagViews(TestCase):
         update_bag_url = reverse('update_bag', args=['cd', album.id])
         response = self.client.post(update_bag_url, data={'quantity': 5})
         bag = self.client.session['bag']
+        messages = list(response.wsgi_request._messages)
 
+        # There should be 2 messages as one would be created in the call to
+        # add_to_bag function above
+        self.assertEqual(len(messages), 2)
+        self.assertEqual(str(messages[1]),
+                         'Item successfully updated in your bag.')
         self.assertEqual(bag, {'test_album': {'type': 'album', 'cd': 5}})
         self.assertRedirects(response, reverse('view_bag'))
 
@@ -297,7 +303,13 @@ class TestBagViews(TestCase):
         update_bag_url = reverse('update_bag', args=['M', product.id])
         response = self.client.post(update_bag_url, data={'quantity': 5})
         bag = self.client.session['bag']
+        messages = list(response.wsgi_request._messages)
 
+        # There should be 2 messages as one would be created in the call to
+        # add_to_bag function above
+        self.assertEqual(len(messages), 2)
+        self.assertEqual(str(messages[1]),
+                         'Item successfully updated in your bag.')
         self.assertEqual(bag, {product.name: {'type': 'sized', 'M': 5}})
         self.assertRedirects(response, reverse('view_bag'))
 
@@ -317,7 +329,13 @@ class TestBagViews(TestCase):
         update_bag_url = reverse('update_bag', args=['other', product.id])
         response = self.client.post(update_bag_url, data={'quantity': 5})
         bag = self.client.session['bag']
+        messages = list(response.wsgi_request._messages)
 
+        # There should be 2 messages as one would be created in the call to
+        # add_to_bag function above
+        self.assertEqual(len(messages), 2)
+        self.assertEqual(str(messages[1]),
+                         'Item successfully updated in your bag.')
         self.assertEqual(bag, {product.name: 5})
         self.assertRedirects(response, reverse('view_bag'))
 
@@ -327,3 +345,134 @@ class TestBagViews(TestCase):
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 302)
+
+    # REMOVE ITEM FROM BAG VIEW TESTS
+    def test_remove_album_from_bag(self):
+        album = Album.objects.first()
+        # First, add items to the bag
+        add_to_bag_url = reverse('add_to_bag', args=[album.id])
+        add_to_bag_data = {
+            'format': 'cd',
+            'quantity': 2,
+        }      
+        self.client.post(add_to_bag_url, data=add_to_bag_data)
+        bag = self.client.session['bag']
+        # Ensure 2 albums have been added to bag
+        self.assertEqual(bag, {album.title: {'type': 'album', 'cd': 2}})
+
+        remove_item_url = reverse('remove_item', args=['cd', album.id])
+        response = self.client.get(remove_item_url)
+        bag = self.client.session['bag']
+        messages = list(response.wsgi_request._messages)
+
+        # There should be 2 messages as one would be created in the call to
+        # add_to_bag function above
+        self.assertEqual(len(messages), 2)
+        self.assertEqual(str(messages[1]),
+                         'Item successfully removed from your bag.')
+        self.assertEqual(bag, {})
+        self.assertEqual(response.status_code, 302)
+
+    def test_remove_sized_product_from_bag(self):
+        product = Product.objects.get(name='test_clothing_item')
+        # First, add items to the bag
+        add_to_bag_url = reverse('add_to_bag', args=[product.id])
+        add_to_bag_data = {
+            'size': 'M',
+            'quantity': 2,
+        }
+        self.client.post(add_to_bag_url, data=add_to_bag_data)
+        # Ensure 2 items have been added to bag
+        bag = self.client.session['bag']
+        self.assertEqual(bag, {product.name: {'type': 'sized', 'M': 2}})
+        
+        remove_item_url = reverse('remove_item', args=['M', product.id])
+        response = self.client.get(remove_item_url)
+        bag = self.client.session['bag']
+        messages = list(response.wsgi_request._messages)
+
+        # There should be 2 messages as one would be created in the call to
+        # add_to_bag function above
+        self.assertEqual(len(messages), 2)
+        self.assertEqual(str(messages[1]),
+                         'Item successfully removed from your bag.')
+        self.assertEqual(bag, {})
+        self.assertEqual(response.status_code, 302)
+
+    def test_remove_nonsized_product_from_bag(self):
+        product = Product.objects.get(name='test_other_item')
+        # First, add items to the bag
+        add_to_bag_url = reverse('add_to_bag', args=[product.id])
+        add_to_bag_data = {
+            'quantity': 2,
+        }
+        self.client.post(add_to_bag_url, data=add_to_bag_data)
+        # Ensure 2 items have been added to bag
+        bag = self.client.session['bag']
+        self.assertEqual(bag, {product.name: 2})
+
+        remove_item_url = reverse('remove_item', args=['other', product.id])
+        response = self.client.get(remove_item_url)
+        bag = self.client.session['bag']
+        messages = list(response.wsgi_request._messages)
+
+        # There should be 2 messages as one would be created in the call to
+        # add_to_bag function above
+        self.assertEqual(len(messages), 2)
+        self.assertEqual(str(messages[1]),
+                         'Item successfully removed from your bag.')
+        self.assertEqual(bag, {})
+        self.assertEqual(response.status_code, 302)
+
+    def test_remove_item_removes_correct_item(self):
+        # First, add 'other' item to the bag
+        other_product = Product.objects.get(name='test_other_item')
+        add_to_bag_url = reverse('add_to_bag', args=[other_product.id])
+        other_item_data = {
+            'quantity': 1,
+        }
+        self.client.post(add_to_bag_url, data=other_item_data)
+
+        # Then add 'sized' item to the bag
+        sized_product = Product.objects.get(name='test_clothing_item')
+        add_to_bag_url = reverse('add_to_bag', args=[sized_product.id])
+        sized_item_data = {
+            'size': 'M',
+            'quantity': 1,
+        }
+        self.client.post(add_to_bag_url, data=sized_item_data)
+
+        # Then add 'album' item to the bag
+        album = Album.objects.first()
+        # First, add items to the bag
+        add_to_bag_url = reverse('add_to_bag', args=[album.id])
+        album_data = {
+            'format': 'cd',
+            'quantity': 1,
+        }      
+        self.client.post(add_to_bag_url, data=album_data)
+
+        # Ensure 3 items have been added to bag
+        bag = self.client.session['bag']
+        self.assertEqual(len(bag), 3)
+
+        # Just remove the 'other' item from the bag
+        remove_item_url = reverse('remove_item',
+                                  args=['other', other_product.id])
+        response = self.client.get(remove_item_url)
+        bag = self.client.session['bag']
+        messages = list(response.wsgi_request._messages)
+
+        # There should be 4 messages as 3 are created in the calls to
+        # add_to_bag function above
+        self.assertEqual(len(messages), 4)
+        self.assertEqual(str(messages[3]),
+                         'Item successfully removed from your bag.')
+        expected_bag = {
+            'test_clothing_item':
+                {'type': 'sized', 'M': 1},
+            'test_album':
+                {'type': 'album', 'cd': 1}}
+        self.assertEqual(bag, expected_bag)
+        self.assertEqual(response.status_code, 302)
+        print(response.context)
