@@ -32,7 +32,7 @@ class TestBagViews(TestCase):
             price=9.99,
             image='self.image'
         )
-
+    # ADD TO BAG VIEW TESTS
     def test_get_view_bag_page(self):
         url = reverse('view_bag')
         response = self.client.get(url)
@@ -239,6 +239,91 @@ class TestBagViews(TestCase):
     def test_add_to_bag_get_request_redirects(self):
         product = Product.objects.get(name='test_other_item')
         url = reverse('add_to_bag', args=[product.id])
+        response = self.client.get(url)
+
+        self.assertEqual(response.status_code, 302)
+
+    # UPDATE BAG VIEW TESTS
+    def test_update_item_to_less_than_one(self):
+        product = Product.objects.first()
+        url = reverse('update_bag', args=['product', product.id])
+        data = {
+            'quantity': 0
+        }
+
+        response = self.client.post(url, data=data)
+        messages = list(response.wsgi_request._messages)
+
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]),
+                         'Click on the remove button to remove item from bag.')
+        self.assertRedirects(response, reverse('view_bag'))
+
+    def test_update_album_quantity_in_bag(self):
+        album = Album.objects.first()
+        # First, add items to the bag
+        add_to_bag_url = reverse('add_to_bag', args=[album.id])
+        add_to_bag_data = {
+            'format': 'cd',
+            'quantity': 2,
+        }
+        self.client.post(add_to_bag_url, data=add_to_bag_data)
+        bag = self.client.session['bag']
+        # Ensure 2 albums have been added to bag
+        self.assertEqual(bag, {album.title: {'type': 'album', 'cd': 2}})
+
+        # Update album quantity to 5
+        update_bag_url = reverse('update_bag', args=['cd', album.id])
+        response = self.client.post(update_bag_url, data={'quantity': 5})
+        bag = self.client.session['bag']
+
+        self.assertEqual(bag, {'test_album': {'type': 'album', 'cd': 5}})
+        self.assertRedirects(response, reverse('view_bag'))
+
+    def test_update_sized_product_quantity_in_bag(self):
+        product = Product.objects.get(name='test_clothing_item')
+        # First, add items to the bag
+        add_to_bag_url = reverse('add_to_bag', args=[product.id])
+        add_to_bag_data = {
+            'size': 'M',
+            'quantity': 2,
+        }
+        self.client.post(add_to_bag_url, data=add_to_bag_data)
+        # Ensure 2 items have been added to bag
+        bag = self.client.session['bag']
+        self.assertEqual(bag, {product.name: {'type': 'sized', 'M': 2}})
+
+        # Update product quantity to 5
+        update_bag_url = reverse('update_bag', args=['M', product.id])
+        response = self.client.post(update_bag_url, data={'quantity': 5})
+        bag = self.client.session['bag']
+
+        self.assertEqual(bag, {product.name: {'type': 'sized', 'M': 5}})
+        self.assertRedirects(response, reverse('view_bag'))
+
+    def test_update_nonsized_product_quantity_in_bag(self):
+        product = Product.objects.get(name='test_other_item')
+        # First, add items to the bag
+        add_to_bag_url = reverse('add_to_bag', args=[product.id])
+        add_to_bag_data = {
+            'quantity': 2
+        }
+        self.client.post(add_to_bag_url, data=add_to_bag_data)
+        # Ensure 2 items have been added to bag
+        bag = self.client.session['bag']
+        self.assertEqual(bag, {product.name: 2})
+
+        # Update product quantity to 5
+        update_bag_url = reverse('update_bag', args=['other', product.id])
+        response = self.client.post(update_bag_url, data={'quantity': 5})
+        bag = self.client.session['bag']
+
+        self.assertEqual(bag, {product.name: 5})
+        self.assertRedirects(response, reverse('view_bag'))
+
+    def test_update_bag_get_request_redirects(self):
+        product = Product.objects.get(name='test_other_item')
+        url = reverse('update_bag', args=['other', product.id])
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 302)
