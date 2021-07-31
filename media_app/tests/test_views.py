@@ -188,7 +188,6 @@ class TestMediaViews(TestCase):
         url = reverse('edit_single', args=[self.single.id])
         response = self.client.post(url, data=form_data)
         messages = list(response.wsgi_request._messages)
-        updated_single = Single.objects.get(title='Updated_single')
         updated_single = Single.objects.first()
 
         self.assertEqual(updated_single.title, 'Updated_single')
