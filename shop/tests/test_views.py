@@ -48,6 +48,15 @@ class TestShopViews(TestCase):
             tracklist={"test": "test"},
             image=self.image
         )
+        self.album_str_tracklist = Album.objects.create(
+            title='album_str_tracklist',
+            year=2021,
+            cd_price=9.99,
+            vinyl_price=19.99,
+            spotify_url='www.testurl.com',
+            tracklist=json.dumps({"test": "test"}),
+            image=self.image
+        )
         self.clothing_product = Product.objects.create(
             name='test_clothing_item',
             category='clothing',
@@ -223,8 +232,8 @@ class TestShopViews(TestCase):
         added_album = Album.objects.get(title='test_add_album')
 
         self.assertEqual(response.status_code, 302)
-        # Expect 2 albums in db - 1 is created in setUp()
-        self.assertEqual(len(albums), 2)
+        # Expect 3 albums in db as 2 is created in setUp()
+        self.assertEqual(len(albums), 3)
         self.assertRedirects(response,
                              reverse('shop_detail',
                                      args=['album', added_album.id]))
@@ -259,6 +268,19 @@ class TestShopViews(TestCase):
             password='test_password'
             )
         url = reverse('edit_product', args=['album', self.album.id])
+        response = self.client.get(url)
+
+        self.assertEqual(str(response.context['form']), 'AddAlbumForm')
+        self.assertTemplateUsed('shop/edit_product.html')
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_edit_product_page_for_album_with_str_tracklist(self):
+        self.client.login(
+            username='staff_user',
+            password='test_password'
+            )
+        url = reverse('edit_product',
+                      args=['album', self.album_str_tracklist.id])
         response = self.client.get(url)
 
         self.assertEqual(str(response.context['form']), 'AddAlbumForm')
@@ -384,7 +406,8 @@ class TestShopViews(TestCase):
         response = self.client.get(url)
         albums = Album.objects.all()
 
-        self.assertEqual(len(albums), 0)
+        # There should be 1 album left as 2 are created in setUp()
+        self.assertEqual(len(albums), 1)
         self.assertRedirects(response, reverse('shop'))
 
     def test_delete_product(self):
