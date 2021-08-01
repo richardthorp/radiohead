@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'shop/css/shop.css' %}">
+{% endblock %}
 {% load crispy_forms_tags %}
 {% block content %}
 <div class="container content-container">
@@ -17,7 +20,7 @@
                 <div id="tracklist">
                     <label for="track_1" class="sr-only">Track 1</label>
                     <input type="text" id="track_1" class="w-75 mb-1 add-track-input" placeholder="Enter track 1" required>
-                    <i class="fas fa-plus-circle ml-3 pointer " title="Click to add another track" onclick="renderNewInput(2)"></i>
+                    <i class="fas fa-plus-circle ml-1 pointer " title="Click to add another track" onclick="renderNewInput(2)"></i>
                 </div>
                 {% endif %}
                 <button type="submit" id="submit-album" class="btn btn-dark custom-btn d-block mt-5 ">Add {{ item_type }}</button>

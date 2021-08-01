@@ -16,9 +16,9 @@ function renderNewInput(inputNumber){
         const newInputHtml = 
         `<label for="track_${inputNumber}" class="sr-only">Track ${inputNumber}</label>
         <input type="text" id="track_${inputNumber}" class="w-75 mb-1 add-track-input" placeholder="Enter track ${inputNumber}" required>
-        <i class="fas fa-plus-circle ml-3 pointer" id="plus-btn-${inputNumber}" 
+        <i class="fas fa-plus-circle ml-1 ml-sm-2 pointer" id="plus-btn-${inputNumber}" 
             title="Click to add another track" onclick="renderNewInput(${inputNumber + 1})"></i>
-        <i class="fas fa-minus-circle ml-2 pointer" id="minus-btn-${inputNumber}"
+        <i class="fas fa-minus-circle ml-2 ml-sm-3 pointer" id="minus-btn-${inputNumber}"
             title="Click to remove track" onclick="removeInput(${inputNumber})"></i>`
     
         const tracklistContainer = $("#tracklist");
@@ -50,13 +50,13 @@ function removeInput(inputNumber){
 
     // Render a new plus button
     let newButtonsHtml = 
-        `<i class="fas fa-plus-circle ml-3 pointer" id="plus-btn-${inputNumber}" 
+        `<i class="fas fa-plus-circle ml-1 ml-sm-2 pointer" id="plus-btn-${inputNumber}" 
             title="Click to add another track" onclick="renderNewInput(${inputNumber})"></i>`
     
     // As long as the input previous to the current input isn't input 1, render a minus button
     if(inputNumber > 2){
         newButtonsHtml +=
-        `<i class="fas fa-minus-circle ml-2 pointer" id="minus-btn-${inputNumber}"
+        `<i class="fas fa-minus-circle ml-2 ml-sm-3 pointer" id="minus-btn-${inputNumber}"
             title="Click to remove track" onclick="removeInput(${inputNumber - 1})"></i>`
     }
     $("#tracklist").append(newButtonsHtml);

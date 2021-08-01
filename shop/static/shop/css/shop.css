@@ -5,6 +5,12 @@
 .product-links a:hover {
     color: initial;
 }
+
+#tracklist i {
+    position: relative;
+    top: 3px;
+    font-size: 1.5rem;
+}
 /* .shop-label {
     display: block;
     font-family: national-old;

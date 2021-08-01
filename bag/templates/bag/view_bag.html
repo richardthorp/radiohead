@@ -8,11 +8,10 @@
         <a href="{% url 'shop' %}" class="btn btn-dark custom-btn">Go to shop</a>
 </div>
 {% else %}
-{% for item in bag_items %}
 <a href="{% url 'shop' %}"><i class="fas fa-backward"></i> Back to shop</a>
+{% for item in bag_items %}
 <div class="row mt-3">
     <div class="col-12 col-sm-4">
-        {% comment %} <img src="{{ item.product.image.url }}" class="w-100 bag-image d-block mx-auto" {% endcomment %}
         <img src="{{ item.product.image.url }}" class="bag-image mb-2"
             alt="A picture of the {% if item.type == 'album' %}{{ item.product.title }} cover{% else %}{{ item.product.name }}{% endif %}">
     </div>
