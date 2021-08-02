@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'live',
     'profiles',
     'bag',
+    'checkout',
 ]
 
 MIDDLEWARE = [
