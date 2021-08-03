@@ -20,14 +20,17 @@ class Order(models.Model):
     address_line2 = models.CharField(max_length=80)
     town_or_city = models.CharField(null=False, blank=False, max_length=50)
     county = models.CharField(max_length=80)
+    postcode = models.CharField(max_length=20, null=True, blank=True)
     country = models.CharField(blank=False, null=False, max_length=80)
     date = models.DateTimeField(auto_now_add=True)
     delivery_cost = models.DecimalField(null=False, decimal_places=2,
-                                        max_digits=4)
+                                        max_digits=4, default=0)
     order_total = models.DecimalField(null=False, blank=False,
-                                      decimal_places=2, max_digits=10)
+                                      decimal_places=2, max_digits=10,
+                                      default=0)
     grand_total = models.DecimalField(null=False, blank=False,
-                                      decimal_places=2, max_digits=10)
+                                      decimal_places=2, max_digits=10,
+                                      default=0)
 
     def _generate_order_number(self):
         # Return a random number to attach to the order instance
@@ -50,7 +53,7 @@ class Order(models.Model):
         # number attached (the first time this instance has been saved),
         # attach an order number using the generate_order_method above.
         if not self.order_number:
-            self.order_number = self.generate_order_number()
+            self.order_number = self._generate_order_number()
 
         super().save(*args, **kwargs)
 
@@ -63,10 +66,13 @@ class OrderLineItem(models.Model):
                               on_delete=models.CASCADE, related_name='lineiems')
     product = models.ForeignKey(Product, null=True, blank=True,
                                 on_delete=models.SET_NULL)
-    size = models.CharField(max_length=1)
+    size = models.CharField(max_length=1, null=True, blank=True,
+                            choices=[('s', 'S'), ('m', 'M'), ('l', 'L')])
     album = models.ForeignKey(Album, null=True, blank=True,
                               on_delete=models.SET_NULL)
-    format = models.CharField(max_length=5, null=True, blank=True)
+    # format = models.CharField(max_length=5, null=True, blank=True)
+    format = models.CharField(max_length=5, blank=True, null=True, 
+                              choices=[('cd', 'CD'), ('vinyl', 'Vinyl')])
     quantity = models.IntegerField(null=False, blank=False)
     lineitem_total = models.DecimalField(decimal_places=2, max_digits=6,
                                          null=False, blank=False,

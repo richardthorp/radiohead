@@ -175,7 +175,7 @@
             </div>
             <div class="row justify-content-center py-3">
                 <a href="{% url 'view_bag' %}" class="border btn btn-light custom-btn mr-1">View bag</a>
-                <a href="#" class="btn btn-dark custom-btn ml-1">Checkout</a>
+                <a href="{% url 'checkout' %}" class="btn btn-dark custom-btn ml-1">Checkout</a>
             </div>
             {% else %}
             <p class="text-center">Your bag is empty.</p>
