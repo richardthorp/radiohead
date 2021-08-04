@@ -1,7 +1,7 @@
 import uuid
 from django.db import models
 from django.db.models import Sum
-from django.conf import Settings
+from django.conf import settings
 
 from profiles.models import Profile
 from shop.models import Album, Product
@@ -17,7 +17,7 @@ class Order(models.Model):
     name = models.CharField(null=False, blank=False, max_length=60)
     phone_number = models.CharField(null=False, blank=False, max_length=30)
     address_line1 = models.CharField(null=False, blank=False, max_length=80)
-    address_line2 = models.CharField(max_length=80)
+    address_line2 = models.CharField(null=True, blank=True, max_length=80)
     town_or_city = models.CharField(null=False, blank=False, max_length=50)
     county = models.CharField(max_length=80)
     postcode = models.CharField(max_length=20, null=True, blank=True)
@@ -38,10 +38,10 @@ class Order(models.Model):
 
     def update_total(self):
         self.order_total = self.lineitems.aggregate(
-            Sum('lineitems_total'))['lineitems_total__sum']
+            Sum('lineitem_total'))['lineitem_total__sum'] or 0
 
-        if self.order_total < Settings.FREE_DELIVERY_THRESHOLD:
-            self.delivery_cost = Settings.STANDARD_DELIVERY_COST
+        if self.order_total < settings.FREE_DELIVERY_THRESHOLD:
+            self.delivery_cost = settings.STANDARD_DELIVERY_COST
         else:
             self.delivery_cost = 0
 
@@ -63,7 +63,8 @@ class Order(models.Model):
 
 class OrderLineItem(models.Model):
     order = models.ForeignKey(Order, null=False, blank=False,
-                              on_delete=models.CASCADE, related_name='lineiems')
+                              on_delete=models.CASCADE,
+                              related_name='lineitems')
     product = models.ForeignKey(Product, null=True, blank=True,
                                 on_delete=models.SET_NULL)
     size = models.CharField(max_length=1, null=True, blank=True,
@@ -79,7 +80,7 @@ class OrderLineItem(models.Model):
                                          editable=False)
 
     def save(self, *args, **kwargs):
-        if self.product:
+        if 'product' in args:
             self.lineitem_total = self.product.price * self.quantity
         else:
             if self.format == 'cd':

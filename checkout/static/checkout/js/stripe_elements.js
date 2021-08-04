@@ -18,15 +18,13 @@ var style = {
 var card = elements.create("card"); // ADD STYLE ELEMENTS AS OBJECT HERE '{ style: style }'
 card.mount("#card-element");
 
-// Listen to change events on the card Element and display any errors
-card.on('change', ({
-    error
-}) => {
-    let displayError = $('#card-errors');
+// Listen to change events on the card Element and display any errors in the
+// card-errors div
+card.on('change', function ({error}) {
     if (error) {
-        displayError.text(error.message);
+        $('#card-errors').text(error.message);
     } else {
-        displayError.text("");
+        $('#card-errors').text("");
     }
 });
 
@@ -34,6 +32,13 @@ var form = document.getElementById('payment-form');
 
 form.addEventListener('submit', function (ev) {
     ev.preventDefault();
+
+    // Block user interaction with the card element and form submit button
+    card.update({
+        'disabled': true
+    });
+    $("#card-button").attr('disabled', true)
+
     // Get the client secret from the form data-secret attribute
     const clientSecret = form.dataset.secret;
     stripe.confirmCardPayment(clientSecret, {
@@ -69,15 +74,13 @@ form.addEventListener('submit', function (ev) {
         if (result.error) {
             // Show error to your customer (e.g., insufficient funds)
             $("#card-errors").text(result.error.message);
-            console.log(result.error.message);
+            // Unblock the card element and form submit button to allow user to fix error
+            card.update({'disabled': false});
+            $("#card-button").attr('disabled', false);
         } else {
             // The payment has been processed!
             if (result.paymentIntent.status === 'succeeded') {
-                // Show a success message to your customer
-                // There's a risk of the customer closing the window before callback
-                // execution. Set up a webhook or plugin to listen for the
-                // payment_intent.succeeded event that handles any business critical
-                // post-payment actions.
+                form.submit();
             }
         }
     });

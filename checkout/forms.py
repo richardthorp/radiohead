@@ -17,4 +17,6 @@ class OrderForm(forms.ModelForm):
             'country',
             )
     address_line1 = forms.CharField(label='Address Line 1')
-    address_line2 = forms.CharField(label='Address Line 2')
+    address_line2 = forms.CharField(label='Address Line 2', required=False)
+    postcode = forms.CharField(required=False)
+    county = forms.CharField(required=False)
