@@ -11,61 +11,126 @@ def view_bag(request):
 def add_to_bag(request, product_id):
     bag = request.session.get('bag', {})
     if request.method == 'POST':
-        if request.POST.get('format'):
-            album = get_object_or_404(Album, pk=product_id)
-            album_name = album.title
-            format = request.POST.get('format')
-            size = False
-            type = 'album'
-        else:
-            product = get_object_or_404(Product, pk=product_id)
-            product_name = product.name
-            size = request.POST.get('size')
-            album = False
-            type = 'product'
-
         quantity = int(request.POST.get('quantity'))
-        if quantity < 1:
-            messages.error(request,
-                           'You can not add less than one item to your bag!')
-            if type == 'album':
-                return redirect(reverse('shop_detail',
-                                        args=[type, album.id]))
-            if type == 'product':
-                return redirect(reverse('shop_detail',
-                                        args=[type, product.id]))
 
-        if album:
-            if album_name in bag.keys():
-                if format in bag[album_name].keys():
-                    bag[album_name][format] += quantity
+        if request.POST.get('format'):
+            # Added item is an album
+            album = get_object_or_404(Album, pk=product_id)
+            format = request.POST.get('format')
+
+            if quantity < 1:
+                messages.error(
+                    request, 'You can not add less than one item to your bag!'
+                    )
+                return redirect(
+                    reverse('shop_detail', args=['album', album.id])
+                    )
+
+            if album.title in list(bag.keys()):
+                # Album already exists in bag
+                if format in bag[album.title]['items_by_format']:
+                    # Format already exists in bag - update quantity
+                    bag[album.title]['items_by_format'][format] += quantity
+                    messages.success(
+                        request,
+                        (f"Updated quantity of '{album.title}' "
+                         f"{format.capitalize()} to "
+                         f"{ bag[album.title]['items_by_format'][format]}")
+                    )
                 else:
-                    bag[album_name][format] = quantity
+                    # Add new format to bag
+                    bag[album.title]['items_by_format'][format] = quantity
+                    messages.success(
+                        request,
+                        f"Added '{album.title}' "
+                        f"{format.capitalize()} to your bag.")
             else:
-                bag[album_name] = {
+                # Add new album to bag
+                bag[album.title] = {
                     'type': 'album',
-                    format: quantity,
+                    'items_by_format': {
+                        format: quantity,
+                    }
                 }
-        elif size:
-            if product_name in bag.keys():
-                if size in bag[product_name].keys():
-                    bag[product_name][size] += quantity
+                messages.success(
+                    request,
+                    f"Added '{album.title}' "
+                    f"{format.capitalize()} to your bag.")
+
+        elif request.POST.get('size'):
+            # Added item is a sized product
+            product = get_object_or_404(Product, pk=product_id)
+            size = request.POST.get('size')
+
+            # Get friendly name to display in messages
+            if size == 'S':
+                friendly_size = 'Small'
+            if size == 'M':
+                friendly_size = 'Medium'
+            if size == 'L':
+                friendly_size = 'Large'
+
+            if quantity < 1:
+                messages.error(
+                    request, 'You can not add less than one item to your bag!'
+                    )
+                return redirect(
+                    reverse('shop_detail', args=['product', product.id])
+                    )
+
+            if product.name in list(bag.keys()):
+                # Product already exists in bag
+                if size in bag[product.name]['items_by_size']:
+                    # Size already exists in bag - update quantity
+                    bag[product.name]['items_by_size'][size] += quantity
+                    messages.success(
+                        request,
+                        (f"Updated quantity of {friendly_size} {product.name}"
+                         f" to {bag[product.name]['items_by_size'][size]}")
+                    )
+
                 else:
-                    bag[product_name][size] = quantity
+                    # Add new size to bag
+                    bag[product.name]['items_by_size'][size] = quantity
+                    messages.success(
+                        request,
+                        f'Added {friendly_size} {product.name} to your bag.')
             else:
-                bag[product_name] = {
-                    'type': 'sized',
-                    size: quantity
+                # Add new product to bag
+                bag[product.name] = {
+                    'type': 'product',
+                    'items_by_size': {
+                        size: quantity,
+                    }
                 }
+                messages.success(
+                    request,
+                    f'Added {friendly_size} {product.name} to your bag.')
         else:
-            if product_name in bag.keys():
-                bag[product_name] += quantity
+            # Added item is a non-sized product
+            product = get_object_or_404(Product, pk=product_id)
+            if quantity < 1:
+                messages.error(
+                    request, 'You can not add less than one item to your bag!'
+                    )
+                return redirect(
+                    reverse('shop_detail', args=['product', product.id])
+                    )
+
+            if product.name in list(bag.keys()):
+                # Product already exists in bag - update quantity
+                bag[product.name] += quantity
+                messages.success(
+                    request,
+                    f'Updated {product.name} quantity to {bag[product.name]}.')
             else:
-                bag[product_name] = quantity
+                # Add new product to bag
+                bag[product.name] = quantity
+                messages.success(request, f'Added {product.name} to your bag.')
 
         request.session['bag'] = bag
-        messages.success(request, 'Item successfully added to your bag.')
         return redirect(reverse('view_bag'))
+
     else:  # Request method is not post, redirect request
         return redirect(reverse('shop'))
 
