@@ -64,7 +64,7 @@
                     <p class="clear-font mb-1">Subtotal: £ {{ total }}</p>
                     <p class="clear-font mb-1">Delivery: £ {{ delivery_cost }}</p>
                     {% if delivery_shortfall > 0 %}
-                    <p class="clear-font mb-2 delivery-shortfall-text text-danger">Spend another 
+                    <p class="clear-font mb-2 small-text-danger">Spend another 
                     £{{ delivery_shortfall }} to get free postage</p>
                     {% endif %}
                     <p class="clear-font font-weight-bold grand-total text-left ml-md-0 mb-3">Total: £ {{ grand_total }}</p>
@@ -82,7 +82,12 @@
         </div>
         <div class="col-12 col-md-8">
             <!-- CHECKOUT FORM -->
-            <form action="{% url 'checkout' %}" method="POST">
+            {% if not user.is_authenticated %}
+            <p><a href="{% url 'account_login' %}?next={% url 'checkout' %}">Sign in</a> or 
+                <a href="{% url 'account_signup' %}?next={% url 'checkout' %}">register</a> to save
+                your details for a quicker checkout.</p>
+            {% endif %}
+            <form action="{% url 'checkout' %}" method="POST" id="payment-form" data-secret="{{ client_secret }}">
                 {% csrf_token %}
                 <fieldset>
                     <legend class="header-font">Your Details</legend>
@@ -95,6 +100,7 @@
                     {{ form.address_line1|as_crispy_field }}
                     {{ form.address_line2|as_crispy_field }}
                     {{ form.town_or_city|as_crispy_field }}
+                    {{ form.county|as_crispy_field }}
                     {{ form.postcode|as_crispy_field }}
                     {{ form.country|as_crispy_field }}
                     {% if user.is_authenticated %}
@@ -102,15 +108,23 @@
                     <input type="checkbox" id="save_details" name="save_details">
                     {% endif %}
                 </fieldset>
-                <fieldset>
+                <fieldset class="mt-2">
                     <legend class="header-font">Payment Details</legend>
-                    <div id="card-element"></div>
-                    <div id="card-errors"></div>
+                    <div id="card-element" class="form-control"></div>
+                    <p id="card-errors" class="text-danger" role="alert"></p>
                 </fieldset>
+                <p class="clear-font mb-1 mt-3 small-text-danger">Your card will be charged £{{ grand_total }}</p>
+                <button id="card-button" class="btn btn-dark custom-btn">Submit Payment</button>
             </form>
         </div>
     </div>
 
 </div>
 
+{% endblock %}
+{% block postloadjs %}
+{{ block.super }}
+{{ stripe_public_key|json_script:"id_stripe_public_key" }}
+{{ client_secret|json_script:"id_client_secret" }}
+<script src="{% static 'checkout/js/stripe_elements.js' %}"></script>
 {% endblock %}

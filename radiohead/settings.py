@@ -208,9 +208,12 @@ if 'USE_AWS' in os.environ:
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-
+# Payment settings
 FREE_DELIVERY_THRESHOLD = 25
 STANDARD_DELIVERY_COST = round(Decimal(4.99), 2)
+STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY', "")
+STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', "")
+
 
 SONGKICK_API_KEY = os.environ.get('SONGKICK_API_KEY')
 

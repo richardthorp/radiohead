@@ -102,7 +102,7 @@
         <p class="clear-font mb-1">Subtotal: £ {{ total }}</p>
         <p class="clear-font mb-2">Delivery: £ {{ delivery_cost }}</p>
         {% if delivery_shortfall > 0 %}
-        <p class="clear-font mb-2 delivery-shortfall-text text-danger">Spend another £{{ delivery_shortfall }} to get
+        <p class="clear-font mb-2 small-text-danger">Spend another £{{ delivery_shortfall }} to get
             free postage</p>
         {% endif %}
         <p class="clear-font font-weight-bold grand-total">Total: £ {{ grand_total }}</p>

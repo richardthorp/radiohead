@@ -236,8 +236,9 @@ nav {
     width: 50%;
 }
 
-.delivery-shortfall-text {
+.small-text-danger {
     font-size: 0.8rem;
+    color: #dc3545;
 }
 
 /*---------------------------------------------------------------------------------LIVE APP--*/
