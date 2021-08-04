@@ -98,7 +98,7 @@ def add_to_bag(request, product_id):
             else:
                 # Add new product to bag
                 bag[product.name] = {
-                    'type': 'product',
+                    'type': 'sized',
                     'items_by_size': {
                         size: quantity,
                     }
@@ -148,11 +148,11 @@ def update_bag(request, product_type, product_id):
 
         if product_type == 'cd' or product_type == 'vinyl':
             album = get_object_or_404(Album, pk=product_id)
-            bag[album.title][product_type] = quantity
+            bag[album.title]['items_by_format'][product_type] = quantity
 
         if product_type == 'S' or product_type == 'M' or product_type == 'L':
             product = get_object_or_404(Product, pk=product_id)
-            bag[product.name][product_type] = quantity
+            bag[product.name]['items_by_size'][product_type] = quantity
 
         if product_type == 'other':
             product = get_object_or_404(Product, pk=product_id)
@@ -170,16 +170,20 @@ def remove_item(request, product_type, product_id):
 
     if product_type == 'cd' or product_type == 'vinyl':
         album = get_object_or_404(Album, pk=product_id)
-        del bag[album.title][product_type]
-        if not bag[album.title].get('cd') and \
-           not bag[album.title].get('vinyl'):
+        del bag[album.title]['items_by_format'][product_type]
+        # Ensure that the album is removed from the bag if no other
+        # format types for the same album are in the bag
+        if not bag[album.title]['items_by_format'].get('cd') and \
+           not bag[album.title]['items_by_format'].get('vinyl'):
             del bag[album.title]
     if product_type == 'S' or product_type == 'M' or product_type == 'L':
         product = get_object_or_404(Product, pk=product_id)
-        del bag[product.name][product_type]
-        if not bag[product.name].get('S') and \
-           not bag[product.name].get('M') and \
-           not bag[product.name].get('L'):
+        del bag[product.name]['items_by_size'][product_type]
+        # Ensure that the product is removed from the bag if no other
+        # sizes for the same product are in the bag
+        if not bag[product.name]['items_by_size'].get('S') and \
+           not bag[product.name]['items_by_size'].get('M') and \
+           not bag[product.name]['items_by_size'].get('L'):
             del bag[product.name]
     if product_type == 'other':
         product = get_object_or_404(Product, pk=product_id)
