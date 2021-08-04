@@ -1,6 +1,6 @@
 from shop.models import Album, Product
 from django.conf import settings
-from decimal import Decimal
+# from decimal import Decimal
 
 
 def bag_details(request):
@@ -23,8 +23,8 @@ def bag_details(request):
 
         elif bag[item]['type'] == 'album':
             product = Album.objects.get(title=item)
-            cd_count = bag[item].get('cd', 0)
-            vinyl_count = bag[item].get('vinyl', 0)
+            cd_count = bag[item]['items_by_format'].get('cd', 0)
+            vinyl_count = bag[item]['items_by_format'].get('vinyl', 0)
             cd_total = cd_count * product.cd_price
             vinyl_total = vinyl_count * product.vinyl_price
             item_total = cd_total + vinyl_total
@@ -33,17 +33,15 @@ def bag_details(request):
                 'type': 'album',
                 'product': product,
                 'cd_count': cd_count,
-                # 'cd_total': cd_total,
                 'vinyl_count': vinyl_count,
                 'item_total': item_total,
-                # 'vinyl_total': vinyl_total,
             })
 
         elif bag[item]['type'] == 'sized':
             product = Product.objects.get(name=item)
-            small_count = bag[item].get('S', 0)
-            medium_count = bag[item].get('M', 0)
-            large_count = bag[item].get('L', 0)
+            small_count = bag[item]['items_by_size'].get('S', 0)
+            medium_count = bag[item]['items_by_size'].get('M', 0)
+            large_count = bag[item]['items_by_size'].get('L', 0)
             count_total = small_count + medium_count + large_count
             item_total = count_total * product.price
             total += item_total
@@ -51,11 +49,8 @@ def bag_details(request):
                 'type': 'sized',
                 'product': product,
                 'small_count': small_count,
-                # 'small_total': small_count * product.price,
                 'medium_count': medium_count,
-                # 'medium_total': medium_count * product.price,
                 'large_count': large_count,
-                # 'large_total': large_count * product.price,
                 'item_total': item_total,
             })
 
@@ -76,5 +71,7 @@ def bag_details(request):
         'delivery_shortfall': delivery_shortfall,
         'grand_total': grand_total,
     }
+
+    print(context)
 
     return context
