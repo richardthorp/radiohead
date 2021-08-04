@@ -68,10 +68,9 @@ class OrderLineItem(models.Model):
     product = models.ForeignKey(Product, null=True, blank=True,
                                 on_delete=models.SET_NULL)
     size = models.CharField(max_length=1, null=True, blank=True,
-                            choices=[('s', 'S'), ('m', 'M'), ('l', 'L')])
+                            choices=[('S', 'S'), ('M', 'M'), ('l', 'L')])
     album = models.ForeignKey(Album, null=True, blank=True,
                               on_delete=models.SET_NULL)
-    # format = models.CharField(max_length=5, null=True, blank=True)
     format = models.CharField(max_length=5, blank=True, null=True, 
                               choices=[('cd', 'CD'), ('vinyl', 'Vinyl')])
     quantity = models.IntegerField(null=False, blank=False)
@@ -80,14 +79,12 @@ class OrderLineItem(models.Model):
                                          editable=False)
 
     def save(self, *args, **kwargs):
-        if 'product' in args:
-            self.lineitem_total = self.product.price * self.quantity
+        if self.format == 'cd':
+            self.lineitem_total = self.album.cd_price * self.quantity
+        elif self.format == 'vinyl':
+            self.lineitem_total = self.album.vinyl_price * self.quantity
         else:
-            if self.format == 'cd':
-                self.lineitem_total = self.album.cd_price * self.quantity
-            else:
-                self.lineitem_total = self.album.vinyl_price * self.quantity
-
+            self.lineitem_total = self.product.price * self.quantity
         super().save(*args, **kwargs)
 
     def __str__(self):

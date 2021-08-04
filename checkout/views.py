@@ -14,7 +14,6 @@ def checkout(request):
     bag = request.session.get('bag', {})
     stripe_secret_key = settings.STRIPE_SECRET_KEY
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
-    print(bag)
     if request.method == 'POST':
         form_data = {
             'name': request.POST['name'],
@@ -39,25 +38,31 @@ def checkout(request):
                         product=Product.objects.get(name=item),
                         quantity=bag[item]
                     )
-                    order_line_item.save('product')
+                    order_line_item.save()
 
                 elif bag[item]['type'] == 'sized':
                     # Item is a sized-product
-                    if 'S' in bag[item]:
-                        size = 'S'
-                    elif 'M' in bag[item]:
-                        size = 'M'
-                    else:
-                        size = 'L'
+                    for size, quantity in bag[item]['items_by_size'].items():
+                        item_details = {
+                            'order': order,
+                            'product': Product.objects.get(name=item),
+                            'size': size,
+                            'quantity': quantity,
+                        }
+                        print(item_details)
+                        order_line_item = OrderLineItem(**item_details)
+                        order_line_item.save()
 
-                    item_details = {
-                        'order': order,
-                        'product': Product.objects.get(name=item),
-                        'size': size,
-                        'quantity': bag[item][size]
-                    }
-                    order_line_item = OrderLineItem(**item_details)
-                    order_line_item.save('product')
+                elif bag[item]['type'] == 'album':
+                    for format, quantity in bag[item]['items_by_format'].items():
+                        item_details = {
+                                'order': order,
+                                'album': Album.objects.get(title=item),
+                                'format': format,
+                                'quantity': quantity,
+                            }
+                        order_line_item = OrderLineItem(**item_details)
+                        order_line_item.save()
 
                 elif bag[item]['type'] == 'album':
                     # Item is an album
@@ -81,21 +86,6 @@ def checkout(request):
                 pass
         else:
             print(order_form.errors)
-
-
-# {'Wind up me window T-shirt - Black': {
-#       'type': 'sized',
-#       'M': 1,
-#       'S': 1
-# },
-# 'In Rainbows 1000 piece jigsaw': 1,
-# 'A Moon Shaped Pool': {
-#       'type': 'album',
-#       'cd': 1,
-#       'vinyl': 1},
-# 'In Rainbows': {
-#       'type': 'album',
-#       'vinyl': 1}}
 
     # GET REQUEST
     if not bag:
