@@ -32,6 +32,7 @@ class TestBagViews(TestCase):
             price=9.99,
             image='self.image'
         )
+
     # ADD TO BAG VIEW TESTS
     def test_get_view_bag_page(self):
         url = reverse('view_bag')
@@ -50,11 +51,14 @@ class TestBagViews(TestCase):
         self.client.post(url, data=data)
         bag = self.client.session['bag']
         expected_bag = {
-            'test_album': {
+            album.title: {
                 'type': 'album',
-                'cd': 1
+                'items_by_format': {
+                    'cd': 1
+                }
             }
         }
+
         self.assertEqual(bag, expected_bag)
         self.assertEqual(len(bag), 1)
 
@@ -68,11 +72,14 @@ class TestBagViews(TestCase):
         self.client.post(url, data=data)
         bag = self.client.session['bag']
         expected_bag = {
-            'test_clothing_item': {
+            product.name: {
                 'type': 'sized',
-                'M': 1
+                'items_by_size': {
+                    'M': 1
+                }
             }
         }
+
         self.assertEqual(bag, expected_bag)
         self.assertEqual(len(bag), 1)
 
@@ -131,9 +138,12 @@ class TestBagViews(TestCase):
         expected_bag = {
             album.title: {
                 'type': 'album',
-                'cd': 2
+                'items_by_format': {
+                    'cd': 2
+                }
             }
         }
+
         self.assertEqual(bag, expected_bag)
 
     def test_add_same_album_different_format(self):
@@ -157,10 +167,13 @@ class TestBagViews(TestCase):
         expected_bag = {
             album.title: {
                 'type': 'album',
-                'cd': 1,
-                'vinyl': 1
+                'items_by_format': {
+                    'cd': 1,
+                    'vinyl': 1
+                }
             }
         }
+
         self.assertEqual(bag, expected_bag)
 
     def test_add_same_product_and_size_twice(self):
@@ -183,9 +196,12 @@ class TestBagViews(TestCase):
         expected_bag = {
             product.name: {
                 'type': 'sized',
-                'M': 2
+                'items_by_size': {
+                    'M': 2
+                }
             }
         }
+
         self.assertEqual(bag, expected_bag)
 
     def test_add_same_product_different_size(self):
@@ -209,10 +225,13 @@ class TestBagViews(TestCase):
         expected_bag = {
             product.name: {
                 'type': 'sized',
-                'M': 1,
-                'L': 1
+                'items_by_size': {
+                    'M': 1,
+                    'L': 1
+                }
             }
         }
+
         self.assertEqual(bag, expected_bag)
 
     def test_add_same_nonsized_product(self):
@@ -269,8 +288,16 @@ class TestBagViews(TestCase):
         }
         self.client.post(add_to_bag_url, data=add_to_bag_data)
         bag = self.client.session['bag']
+        expected_initial_bag = {
+            album.title: {
+                'type': 'album',
+                'items_by_format': {
+                    'cd': 2
+                }
+            }
+        }
         # Ensure 2 albums have been added to bag
-        self.assertEqual(bag, {album.title: {'type': 'album', 'cd': 2}})
+        self.assertEqual(bag, expected_initial_bag)
 
         # Update album quantity to 5
         update_bag_url = reverse('update_bag', args=['cd', album.id])
@@ -278,12 +305,20 @@ class TestBagViews(TestCase):
         bag = self.client.session['bag']
         messages = list(response.wsgi_request._messages)
 
+        expected_bag = {
+            album.title: {
+                'type': 'album',
+                'items_by_format': {
+                    'cd': 5
+                }
+            }
+        }
         # There should be 2 messages as one would be created in the call to
         # add_to_bag function above
         self.assertEqual(len(messages), 2)
         self.assertEqual(str(messages[1]),
                          'Item successfully updated in your bag.')
-        self.assertEqual(bag, {'test_album': {'type': 'album', 'cd': 5}})
+        self.assertEqual(bag, expected_bag)
         self.assertRedirects(response, reverse('view_bag'))
 
     def test_update_sized_product_quantity_in_bag(self):
@@ -297,7 +332,15 @@ class TestBagViews(TestCase):
         self.client.post(add_to_bag_url, data=add_to_bag_data)
         # Ensure 2 items have been added to bag
         bag = self.client.session['bag']
-        self.assertEqual(bag, {product.name: {'type': 'sized', 'M': 2}})
+        expected_initial_bag = {
+            product.name: {
+                'type': 'sized',
+                'items_by_size': {
+                    'M': 2
+                }
+            }
+        }
+        self.assertEqual(bag, expected_initial_bag)
 
         # Update product quantity to 5
         update_bag_url = reverse('update_bag', args=['M', product.id])
@@ -305,12 +348,21 @@ class TestBagViews(TestCase):
         bag = self.client.session['bag']
         messages = list(response.wsgi_request._messages)
 
+        expected_bag = {
+            product.name: {
+                'type': 'sized',
+                'items_by_size': {
+                    'M': 5
+                }
+            }
+        }
+
         # There should be 2 messages as one would be created in the call to
         # add_to_bag function above
         self.assertEqual(len(messages), 2)
         self.assertEqual(str(messages[1]),
                          'Item successfully updated in your bag.')
-        self.assertEqual(bag, {product.name: {'type': 'sized', 'M': 5}})
+        self.assertEqual(bag, expected_bag)
         self.assertRedirects(response, reverse('view_bag'))
 
     def test_update_nonsized_product_quantity_in_bag(self):
@@ -354,11 +406,19 @@ class TestBagViews(TestCase):
         add_to_bag_data = {
             'format': 'cd',
             'quantity': 2,
-        }      
+        }
         self.client.post(add_to_bag_url, data=add_to_bag_data)
         bag = self.client.session['bag']
+        expected_initial_bag = {
+            'test_album': {
+                'type': 'album',
+                'items_by_format': {
+                    'cd': 2
+                }
+            }
+        }
         # Ensure 2 albums have been added to bag
-        self.assertEqual(bag, {album.title: {'type': 'album', 'cd': 2}})
+        self.assertEqual(bag, expected_initial_bag)
 
         remove_item_url = reverse('remove_item', args=['cd', album.id])
         response = self.client.get(remove_item_url)
@@ -384,8 +444,16 @@ class TestBagViews(TestCase):
         self.client.post(add_to_bag_url, data=add_to_bag_data)
         # Ensure 2 items have been added to bag
         bag = self.client.session['bag']
-        self.assertEqual(bag, {product.name: {'type': 'sized', 'M': 2}})
-        
+        expected_initial_bag = {
+            product.name: {
+                'type': 'sized',
+                'items_by_size': {
+                    'M': 2
+                }
+            }
+        }
+        self.assertEqual(bag, expected_initial_bag)
+
         remove_item_url = reverse('remove_item', args=['M', product.id])
         response = self.client.get(remove_item_url)
         bag = self.client.session['bag']
@@ -449,7 +517,7 @@ class TestBagViews(TestCase):
         album_data = {
             'format': 'cd',
             'quantity': 1,
-        }      
+        }
         self.client.post(add_to_bag_url, data=album_data)
 
         # Ensure 3 items have been added to bag
@@ -469,10 +537,18 @@ class TestBagViews(TestCase):
         self.assertEqual(str(messages[3]),
                          'Item successfully removed from your bag.')
         expected_bag = {
-            'test_clothing_item':
-                {'type': 'sized', 'M': 1},
-            'test_album':
-                {'type': 'album', 'cd': 1}}
+            sized_product.name: {
+                'type': 'sized',
+                'items_by_size': {
+                    'M': 1
+                }
+            },
+            album.title: {
+                'type': 'album',
+                'items_by_format': {
+                    'cd': 1
+                }
+            }
+        }
         self.assertEqual(bag, expected_bag)
         self.assertEqual(response.status_code, 302)
-        print(response.context)
