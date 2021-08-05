@@ -80,7 +80,8 @@ hr {
 
 .clear-font {
     font-family: 'Oswald', sans-serif;
-    letter-spacing: 0.04rem;
+    letter-spacing: 0.05rem;
+    font-size: 1rem;
 }
 
 .page-header {
@@ -238,6 +239,7 @@ nav {
 
 .small-text-danger {
     font-size: 0.8rem;
+    font-weight: 600;
     color: #dc3545;
 }
 

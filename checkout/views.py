@@ -6,7 +6,7 @@ import stripe
 
 from bag.contexts import bag_details
 from .forms import OrderForm
-from .models import ProductOrderLineItem, AlbumOrderLineItem
+from .models import Order, ProductOrderLineItem, AlbumOrderLineItem
 from shop.models import Album, Product
 
 
@@ -72,7 +72,7 @@ def checkout(request):
                         format = 'cd'
                     else:
                         format = 'vinyl'
-                    # album = Album.objects.get(title=item)
+
                     item_details = {
                         'order': order,
                         'album': Album.objects.get(title=item),
@@ -84,9 +84,14 @@ def checkout(request):
 
             # Check if user checked the 'save_details' box
             if 'save_details' in request.POST:
-                # Add save details logic here
-                pass
+                request.session['save_details'] = True
+
+            return redirect(reverse('checkout_success',
+                                    args=[order.order_number]))
+        # Inavlid order form
         else:
+            messages.error(request, ('There is an issue with your information,'
+                                     ' please check the form and try again.'))
             print(order_form.errors)
 
     # GET REQUEST
@@ -116,3 +121,16 @@ def checkout(request):
     }
 
     return render(request, 'checkout/checkout.html', context)
+
+
+def checkout_success(request, order_number):
+    if 'bag' in request.session:
+        del request.session['bag']
+
+    if 'save_details' in request.session:
+        pass
+
+    context = {
+        'order': Order.objects.get(order_number=order_number),
+    }
+    return render(request, 'checkout/checkout_success.html', context)
