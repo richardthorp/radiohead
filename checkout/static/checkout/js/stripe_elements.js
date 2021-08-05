@@ -45,7 +45,7 @@ form.addEventListener('submit', function (ev) {
     // Get the client secret from the form data-secret attribute
     const clientSecret = form.dataset.secret;
     // Did the user check the save info box?
-    const saveDetails = 'save_details' in form;
+    const saveDetails = form.save_details.checked;
     const csrfToken = $("input[name=csrfmiddlewaretoken]").val();
 
     const postData = {

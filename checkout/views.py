@@ -1,5 +1,5 @@
 import json
-from django.shortcuts import render,HttpResponse
+from django.shortcuts import render, HttpResponse
 from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.shortcuts import reverse, redirect
@@ -29,7 +29,8 @@ def cache_checkout_data(request):
 
         return HttpResponse(status=200)
     except Exception as e:
-        messages.error(request, 'Something went wrong! Please try your payment again.')
+        messages.error(request,
+                       'Something went wrong! Please try your payment again.')
         return HttpResponse(content=e, status=400)
 
 
@@ -52,7 +53,12 @@ def checkout(request):
 
         order_form = OrderForm(form_data)
         if order_form.is_valid():
-            order = order_form.save()
+            order = order_form.save(commit=False)
+            pid = request.POST.get('client_secret').split('_secret')[0]
+            order.stripe_pid = pid
+            order.original_bag = json.dumps(bag)
+            order.save()
+
             for item in bag:
                 if type(bag[item]) is int:
                     # Item is non-sized product
@@ -88,22 +94,6 @@ def checkout(request):
                             }
                         order_line_item = AlbumOrderLineItem(**item_details)
                         order_line_item.save()
-
-                elif bag[item]['type'] == 'album':
-                    # Item is an album
-                    if 'cd' in bag[item]:
-                        format = 'cd'
-                    else:
-                        format = 'vinyl'
-
-                    item_details = {
-                        'order': order,
-                        'album': Album.objects.get(title=item),
-                        'format': format,
-                        'quantity': bag[item][format]
-                    }
-                    order_line_item = AlbumOrderLineItem(**item_details)
-                    order_line_item.save('album')
 
             # Check if user checked the 'save_details' box
             if 'save_details' in request.POST:

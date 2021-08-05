@@ -108,6 +108,8 @@
             free postage</p>
         {% endif %}
         <p class="clear-font font-weight-bold grand-total">Total: £ {{ grand_total }}</p>
+        <a href="{% url 'checkout' %}" class="btn btn-dark custom-btn p-1 mt-md-2 mt-lg-3">Go To Checkout</a>
+        <a href="{% url 'shop' %}" class="d-block mt-3"><i class="fas fa-backward"></i> Or back to shop</a>
     </div>
 </div>
 {% endif %}
