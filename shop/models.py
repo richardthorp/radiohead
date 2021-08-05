@@ -3,7 +3,7 @@ from django.core.validators import MinValueValidator, MaxValueValidator
 
 
 class Album(models.Model):
-    title = models.CharField(blank=False, max_length=80)
+    title = models.CharField(blank=False, max_length=80, unique=True)
     year = models.IntegerField(
         blank=False, null=False, validators=[
             MinValueValidator(1985, message='The year must be at least 1985'),
@@ -24,7 +24,7 @@ class Album(models.Model):
 
 
 class Product(models.Model):
-    name = models.CharField(max_length=80)
+    name = models.CharField(max_length=80, blank=False, unique=True)
     category = models.TextField(choices=[('clothing', 'Clothing'),
                                          ('other', 'Other')])
     price = models.DecimalField(max_digits=5,
