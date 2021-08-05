@@ -17,10 +17,10 @@ class Order(models.Model):
     name = models.CharField(null=False, blank=False, max_length=60)
     phone_number = models.CharField(null=False, blank=False, max_length=30)
     address_line1 = models.CharField(null=False, blank=False, max_length=80)
-    address_line2 = models.CharField(null=True, blank=True, max_length=80)
+    address_line2 = models.CharField(blank=True, default="", max_length=80)
     town_or_city = models.CharField(null=False, blank=False, max_length=50)
     county = models.CharField(max_length=80)
-    postcode = models.CharField(max_length=20, null=True, blank=True)
+    postcode = models.CharField(blank=True, default="", max_length=20)
     country = models.CharField(blank=False, null=False, max_length=80)
     date = models.DateTimeField(auto_now_add=True)
     delivery_cost = models.DecimalField(null=False, decimal_places=2,
@@ -37,8 +37,13 @@ class Order(models.Model):
         return uuid.uuid4().hex.upper()
 
     def update_total(self):
-        self.order_total = self.lineitems.aggregate(
+        product_total = self.productlineitems.aggregate(
             Sum('lineitem_total'))['lineitem_total__sum'] or 0
+
+        album_total = self.albumlineitems.aggregate(
+            Sum('lineitem_total'))['lineitem_total__sum'] or 0
+
+        self.order_total = product_total + album_total
 
         if self.order_total < settings.FREE_DELIVERY_THRESHOLD:
             self.delivery_cost = settings.STANDARD_DELIVERY_COST
@@ -61,17 +66,13 @@ class Order(models.Model):
         return self.order_number
 
 
-class OrderLineItem(models.Model):
+class AlbumOrderLineItem(models.Model):
     order = models.ForeignKey(Order, null=False, blank=False,
                               on_delete=models.CASCADE,
-                              related_name='lineitems')
-    product = models.ForeignKey(Product, null=True, blank=True,
-                                on_delete=models.SET_NULL)
-    size = models.CharField(max_length=1, null=True, blank=True,
-                            choices=[('S', 'S'), ('M', 'M'), ('l', 'L')])
-    album = models.ForeignKey(Album, null=True, blank=True,
+                              related_name='albumlineitems')
+    album = models.ForeignKey(Album, null=True, blank=False,
                               on_delete=models.SET_NULL)
-    format = models.CharField(max_length=5, blank=True, null=True, 
+    format = models.CharField(max_length=5, blank=False, null=False,
                               choices=[('cd', 'CD'), ('vinyl', 'Vinyl')])
     quantity = models.IntegerField(null=False, blank=False)
     lineitem_total = models.DecimalField(decimal_places=2, max_digits=6,
@@ -83,16 +84,33 @@ class OrderLineItem(models.Model):
             self.lineitem_total = self.album.cd_price * self.quantity
         elif self.format == 'vinyl':
             self.lineitem_total = self.album.vinyl_price * self.quantity
-        else:
-            self.lineitem_total = self.product.price * self.quantity
+
         super().save(*args, **kwargs)
 
     def __str__(self):
-        if self.product:
-            return (f'Line item in order {self.order.order_number} - '
-                    f'{self.product.name}, {self.quantity}: '
-                    f'{self.lineitem_total}')
-        else:
-            return (f'Line item in order {self.order.order_number} - '
-                    f'{self.album.title}, {self.quantity}: '
-                    f'{self.lineitem_total}')
+        return (f'Album in order {self.order.order_number} - '
+                f'{self.album.title}, {self.quantity}: '
+                f'{self.lineitem_total}')
+
+
+class ProductOrderLineItem(models.Model):
+    order = models.ForeignKey(Order, null=False, blank=False,
+                              on_delete=models.CASCADE,
+                              related_name='productlineitems')
+    product = models.ForeignKey(Product, null=True, blank=False,
+                                on_delete=models.SET_NULL)
+    size = models.CharField(max_length=1, blank=True, default="",
+                            choices=[('S', 'S'), ('M', 'M'), ('L', 'L')])
+    quantity = models.IntegerField(null=False, blank=False)
+    lineitem_total = models.DecimalField(decimal_places=2, max_digits=6,
+                                         null=False, blank=False,
+                                         editable=False)
+
+    def save(self, *args, **kwargs):
+        self.lineitem_total = self.product.price * self.quantity
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return (f'Line item in order {self.order.order_number} - '
+                f'{self.product.name}, {self.quantity}: '
+                f'{self.lineitem_total}')

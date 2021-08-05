@@ -6,7 +6,7 @@ import stripe
 
 from bag.contexts import bag_details
 from .forms import OrderForm
-from .models import Order, OrderLineItem
+from .models import ProductOrderLineItem, AlbumOrderLineItem
 from shop.models import Album, Product
 
 
@@ -33,7 +33,7 @@ def checkout(request):
             for item in bag:
                 if type(bag[item]) is int:
                     # Item is non-sized product
-                    order_line_item = OrderLineItem(
+                    order_line_item = ProductOrderLineItem(
                         order=order,
                         product=Product.objects.get(name=item),
                         quantity=bag[item]
@@ -50,18 +50,20 @@ def checkout(request):
                             'quantity': quantity,
                         }
                         print(item_details)
-                        order_line_item = OrderLineItem(**item_details)
+                        order_line_item = ProductOrderLineItem(**item_details)
                         order_line_item.save()
 
                 elif bag[item]['type'] == 'album':
-                    for format, quantity in bag[item]['items_by_format'].items():
+                    for format, quantity in (
+                            bag[item]['items_by_format'].items()):
+
                         item_details = {
                                 'order': order,
                                 'album': Album.objects.get(title=item),
                                 'format': format,
                                 'quantity': quantity,
                             }
-                        order_line_item = OrderLineItem(**item_details)
+                        order_line_item = AlbumOrderLineItem(**item_details)
                         order_line_item.save()
 
                 elif bag[item]['type'] == 'album':
@@ -77,7 +79,7 @@ def checkout(request):
                         'format': format,
                         'quantity': bag[item][format]
                     }
-                    order_line_item = OrderLineItem(**item_details)
+                    order_line_item = AlbumOrderLineItem(**item_details)
                     order_line_item.save('album')
 
             # Check if user checked the 'save_details' box

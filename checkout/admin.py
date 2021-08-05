@@ -1,24 +1,24 @@
 from django.contrib import admin
 
-from .models import Order, OrderLineItem
+from .models import Order, ProductOrderLineItem, AlbumOrderLineItem
 
 
-class OrderLineItemProductAdminInline(admin.TabularInline):
-    model = OrderLineItem
-    verbose_name = 'Order Line Items (Products)'
+class ProductOrderLineItemAdminInline(admin.TabularInline):
+    model = ProductOrderLineItem
+    # verbose_name = 'Product Order Line Items'
     fields = ('order', 'product', 'size', 'quantity', 'lineitem_total')
     readonly_fields = ('lineitem_total',)
 
 
-class OrderLineItemAlbumAdminInline(admin.TabularInline):
-    model = OrderLineItem
-    verbose_name = 'Order Line Items (Albums)'
+class AlbumOrderLineItemAdminInline(admin.TabularInline):
+    model = AlbumOrderLineItem
+    # verbose_name = 'Albums Order Line Items'
     fields = ('order', 'album', 'format', 'quantity', 'lineitem_total')
     readonly_fields = ('lineitem_total',)
 
 
 class OrderAdmin(admin.ModelAdmin):
-    inlines = (OrderLineItemProductAdminInline, OrderLineItemAlbumAdminInline,)
+    inlines = (AlbumOrderLineItemAdminInline, ProductOrderLineItemAdminInline,)
     readonly_fields = ('order_number',
                        'date',
                        'profile',
