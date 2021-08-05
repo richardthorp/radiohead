@@ -6,6 +6,16 @@
 {% endblock %}
 {% block content %}
 <div class="container content-container border">
+    <!-- LOADING OVERLAY -->
+    <div id="loading-overlay" class="text-center">
+        <div class="d-flex h-100 text-center flex-column justify-content-center align-items-center">
+            <p class="header-font">Please wait...</p>
+            <p class="header-font">Loading</p>
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading</span>
+            </div>
+        </div>
+    </div>
     <h1 class="header-font page-header text-center">Checkout</h1>
     <div class="row">
         <div class="col-12 col-md-4">

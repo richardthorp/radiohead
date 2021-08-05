@@ -11,6 +11,8 @@
     <div class="row">
         <div class="col-12 col-md-6 confirmation-page-border">
             <h5 class="header-font">Order Details</h5>
+            <p class="clear-font"><strong>Order Number: </strong>{{ order.order_number }}</p>
+            <!-- PRODUCT ITEMS -->
             {% for item in order.productlineitems.all %}
             <div class="row mb-3">
                 <div class="col-3 pr-0">
@@ -25,8 +27,20 @@
                     <p class="clear-font mb-0">Subtotal: £{{ item.lineitem_total }}</p>
                 </div>
             </div>
-            {% if not forloop.last %}
-            {% endif %}
+            {% endfor %}
+            <!-- ALBUM ITEMS -->
+            {% for item in order.albumlineitems.all %}
+            <div class="row mb-3">
+                <div class="col-3 pr-0">
+                    <img src="{{ item.album.image.url }}" class="w-100" alt="">
+                </div>
+                <div class="col-9">
+                    <h6 class="header-font mb-0">{{ item.album.title }}</h6>
+                    <p class="clear-font mb-0">Format: {{ item.format }}</p>
+                    <p class="clear-font mb-0">Quantity: {{ item.quantity }}</p>
+                    <p class="clear-font mb-0">Subtotal: £{{ item.lineitem_total }}</p>
+                </div>
+            </div>
             {% endfor %}
         </div>
         <hr class="d-md-none">
@@ -66,10 +80,16 @@
                             </div>
                             <div class="col-9 clear-font">
                                 {{ order.address_line1 }}<br>
-                                {{ order.address_line2 }}<br>
+                                {% if order.address_line2 %}
+                                    {{ order.address_line2 }}<br>
+                                {% endif %}
                                 {{ order.town_or_city }}<br>
-                                {{ order.county }}<br>
-                                {{ order.postcode }}<br>
+                                {% if order.county %}
+                                    {{ order.county }}<br>
+                                {% endif %}
+                                {% if order.postcode %}
+                                    {{ order.postcode }}<br>
+                                {% endif %}
                                 {{ order.country }}<br>
                             </div>
                         </div>

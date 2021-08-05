@@ -118,6 +118,18 @@ hr {
     cursor: pointer;
 }
 
+#loading-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 99999;
+    background-color: #f8f9fae0;
+
+    
+}
 /*---------------------------------------------------------------------------------NAVBAR--*/
 nav {
     background-color: #f8f9fae0;
@@ -201,7 +213,7 @@ nav {
     -webkit-box-direction: normal;
         -ms-flex-direction: column;
             flex-direction: column;
-    z-index: 9999;
+    z-index: 999;
     position: fixed;
     top: 56px;
     font-family: block-font;
@@ -283,7 +295,7 @@ nav {
     background-color: #f8f9fa;
     width: 300px;
     opacity: 1;
-    z-index: 99999;
+    z-index: 9999;
 }
 
 .success-toast-highlight {

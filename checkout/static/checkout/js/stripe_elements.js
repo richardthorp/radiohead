@@ -38,6 +38,7 @@ form.addEventListener('submit', function (ev) {
         'disabled': true
     });
     $("#card-button").attr('disabled', true)
+    $("#loading-overlay").fadeToggle(100);
 
     // Get the client secret from the form data-secret attribute
     const clientSecret = form.dataset.secret;
@@ -77,6 +78,7 @@ form.addEventListener('submit', function (ev) {
             // Unblock the card element and form submit button to allow user to fix error
             card.update({'disabled': false});
             $("#card-button").attr('disabled', false);
+            $("#loading-overlay").fadeToggle(100);
         } else {
             // The payment has been processed!
             if (result.paymentIntent.status === 'succeeded') {
