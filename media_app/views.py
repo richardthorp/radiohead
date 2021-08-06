@@ -20,26 +20,24 @@ def media(request):
 
 def album_singles(request, slug):
     album = Album.objects.get(slug=slug)
-    singles = Single.objects.filter(album=album)
     context = {
         'album': album,
-        'singles': singles
+        'singles': album.singles.all()
     }
     return render(request, 'media_app/album_singles.html', context)
 
 
-def single_content(request, single_id):
-    single = Single.objects.get(id=single_id)
+def single_content(request, album_slug, single_slug):
+    single = Single.objects.get(slug=single_slug)
     context = {
         'single': single,
-        'comments': Comment.objects.filter(on_single=single_id),
+        'comments': Comment.objects.filter(on_single=single.id),
         'form': CommentForm(),
     }
     return render(request, 'media_app/single_content.html', context)
 
 
 def add_comment(request):
-    # print(request.POST['comment'])
     posted_by = Profile.objects.get(user=request.POST['user_id'])
     on_single = Single.objects.get(id=request.POST['object_id'])
     text = request.POST['comment']
@@ -117,6 +115,7 @@ def add_single(request):
                 reverse('album_singles', args=[single.album.slug])
                 )
         else:
+            print(form.errors)
             messages.error(request,
                            'Error adding single, please check form data')
             return render(request, 'media_app/add_single.html', {'form': form})
@@ -157,7 +156,8 @@ def edit_single(request, slug):
 @staff_member_required()
 def delete_single(request, slug):
     single = Single.objects.get(slug=slug)
+    album = single.album
     single.delete()
     messages.success(request, 'Single deleted.')
 
-    return redirect(reverse('media'))
+    return redirect(reverse('album_singles', args=[album.slug]))

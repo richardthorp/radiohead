@@ -12,7 +12,7 @@
         <div class="col-12 custom-border p-2 my-3">
             <h6 class="header-font text-center">Would you like to edit or delete this single?</h6>
             <div class="d-flex justify-content-center">
-                <a href="{% url 'edit_single' single.id %}" class="btn btn-dark custom-btn mr-2">
+                <a href="{% url 'edit_single' single.slug %}" class="btn btn-dark custom-btn mr-2">
                     Edit Single</a>
                 <!-- Button trigger modal -->
                 <button type="button" class="btn custom-btn btn-danger btn-sm custom-btn ml-2" data-toggle="modal"
@@ -35,7 +35,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn custom-btn btn-sm btn-dark custom-btn"
                         data-dismiss="modal">BACK</button>
-                    <a href="{% url 'delete_single' single.id %}"
+                    <a href="{% url 'delete_single' single.slug %}"
                         class="btn custom-btn btn-sm btn-danger custom-btn">Delete</a>
                 </div>
             </div>

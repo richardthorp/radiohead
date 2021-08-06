@@ -83,6 +83,7 @@ def add_product(request, item_type):
                 'form': form,
                 'item_type': item_type,
             }
+            print(form.errors)
             return render(request, 'shop/add_product.html', context)
 
     if item_type == 'album':

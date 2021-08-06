@@ -7,7 +7,7 @@ import datetime
 class AddAlbumForm(forms.ModelForm):
     class Meta:
         model = Album
-        fields = '__all__'
+        exclude = ('slug',)
 
     tracklist = forms.CharField(
         label="",
@@ -27,7 +27,7 @@ class AddAlbumForm(forms.ModelForm):
 class AddProductForm(forms.ModelForm):
     class Meta:
         model = Product
-        fields = '__all__'
+        exclude = ('slug',)
 
     def __str__(self):
         return 'AddProductForm'

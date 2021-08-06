@@ -1,10 +1,12 @@
 from django.db import models
 from profiles.models import Profile
 from django.utils import timezone
+from django.utils.text import slugify
 
 
 class Single(models.Model):
-    title = models.TextField(blank=False, unique=True)
+    title = models.CharField(blank=False, max_length=80, unique=True)
+    slug = models.SlugField(default="")
     image = models.ImageField(blank=False, null=False,
                               upload_to="single_covers")
     album = models.ForeignKey('shop.Album', null=True,
@@ -12,6 +14,12 @@ class Single(models.Model):
                               related_name='singles')
     video_url = models.URLField(blank=False, null=False)
     spotify_url = models.URLField(blank=False, null=False)
+
+    def save(self, *args, **kwargs):
+        if self.slug != slugify(self.title):
+            self.slug = slugify(self.title)
+
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return self.title

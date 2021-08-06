@@ -149,7 +149,7 @@ class TestShopViews(TestCase):
 
         self.assertRedirects(response,
                              f"{reverse('account_login')}"
-                             f"?next=/shop/add_product/album")
+                             f"?next=/shop/add_product/album/")
 
     def test_add_album_view_returns_correct_form(self):
         self.client.login(
@@ -280,7 +280,7 @@ class TestShopViews(TestCase):
             password='test_password'
             )
         url = reverse('edit_product',
-                      args=['album', self.album_str_tracklist.id])
+                      args=['album', self.album_str_tracklist.slug])
         response = self.client.get(url)
 
         self.assertEqual(str(response.context['form']), 'AddAlbumForm')
@@ -292,7 +292,8 @@ class TestShopViews(TestCase):
             username='staff_user',
             password='test_password'
             )
-        url = reverse('edit_product', args=['product', self.other_product.slug])
+        url = reverse('edit_product',
+                      args=['product', self.other_product.slug])
         response = self.client.get(url)
 
         self.assertEqual(str(response.context['form']), 'AddProductForm')
@@ -305,7 +306,9 @@ class TestShopViews(TestCase):
 
         self.assertRedirects(response,
                              f"{reverse('account_login')}"
-                             f"?next=/shop/edit_product/album/1")
+                             f"?next=/shop/edit_product/album/"
+                             f"{self.album.slug}"
+                             )
 
     def test_edit_product_view_updates_product(self):
         self.client.login(
@@ -328,7 +331,7 @@ class TestShopViews(TestCase):
                       args=['product', self.clothing_product.slug])
         response = self.client.post(url, data=form_data)
         messages = list(response.wsgi_request._messages)
-        updated_product = Product.objects.get(slug=self.clothing.slug)
+        updated_product = Product.objects.get(pk=self.clothing_product.id)
 
         self.assertEqual(updated_product.name, 'updated_other_item')
         self.assertEqual(len(messages), 1)
@@ -362,7 +365,7 @@ class TestShopViews(TestCase):
                       args=['album', self.album.slug])
         response = self.client.post(url, data=form_data)
         messages = list(response.wsgi_request._messages)
-        updated_product = Album.objects.get(slug=self.album.slug)
+        updated_product = Album.objects.get(pk=self.album.id)
 
         self.assertEqual(updated_product.title, 'updated_album')
         self.assertEqual(len(messages), 1)
@@ -428,4 +431,5 @@ class TestShopViews(TestCase):
 
         self.assertRedirects(response,
                              f"{reverse('account_login')}"
-                             f"?next=/shop/delete_product/album/1")
+                             f"?next=/shop/delete_product/album/"
+                             f"{self.album.slug}")

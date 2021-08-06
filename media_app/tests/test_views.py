@@ -70,12 +70,15 @@ class TestMediaViews(TestCase):
         self.assertTemplateUsed(response, 'media_app/media.html')
 
     def test_get_album_singles_page(self):
-        response = self.client.get(f'/media/album_singles/{self.album.slug}')
+        url = reverse('album_singles', args=[self.album.slug])
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'media_app/album_singles.html')
 
     def test_get_single_content_page(self):
-        response = self.client.get(f'/media/single_content/{self.single.id}')
+        url = reverse('single_content',
+                      args=[self.album.slug, self.single.slug])
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'media_app/single_content.html')
 
@@ -105,17 +108,17 @@ class TestMediaViews(TestCase):
         temp_file = tempfile.NamedTemporaryFile(suffix='.jpg')
         test_image = get_temporary_image(temp_file)
         test_image.seek(0)
+        album = Album.objects.first()
 
         form_data = {
             "title": 'Another_test_single',
             "image": test_image,
-            "album": self.album.slug,
-            'video_url': 'www.testurl.com',
-            "spotify_url": 'www.testurl.com',
+            "album": album.id,
+            'video_url': 'http://www.testurl.com',
+            "spotify_url": 'http://www.testurl.com',
             }
         url = reverse('add_single')
         response = self.client.post(url, data=form_data)
-
         singles = Single.objects.all()
         added_single = Single.objects.get(title='Another_test_single')
 
@@ -153,7 +156,8 @@ class TestMediaViews(TestCase):
             username='staff_user',
             password='test_password'
             )
-        response = self.client.get(f'/media/edit_single/{self.single.id}')
+        url = reverse('edit_single', args=[self.single.slug])
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'media_app/edit_single.html')
 
@@ -180,12 +184,13 @@ class TestMediaViews(TestCase):
 
         form_data = {
             "title": 'Updated_single',
-            "album": self.album.slug,
-            "spotify_url": 'www.testurl.com',
-            "video_url": 'www.testurl.com',
+            "album": self.album.id,
+            "spotify_url": 'http://www.testurl.com',
+            "video_url": 'http://www.testurl.com',
             "image": test_image,
         }
-        url = reverse('edit_single', args=[self.single.id])
+        single = Single.objects.first()
+        url = reverse('edit_single', args=[single.slug])
         response = self.client.post(url, data=form_data)
         messages = list(response.wsgi_request._messages)
         updated_single = Single.objects.first()
@@ -213,7 +218,7 @@ class TestMediaViews(TestCase):
             "video_url": 'www.testurl.com',
             "image": "test_image",
         }
-        url = reverse('edit_single', args=[self.single.id])
+        url = reverse('edit_single', args=[self.single.slug])
         response = self.client.post(url, data=form_data)
         messages = list(response.wsgi_request._messages)
 
@@ -226,7 +231,7 @@ class TestMediaViews(TestCase):
             username='staff_user',
             password='test_password'
             )
-        url = reverse('delete_single', args=[self.single.id])
+        url = reverse('delete_single', args=[self.single.slug])
         response = self.client.get(url)
         messages = list(response.wsgi_request._messages)
         singles = Single.objects.all()
@@ -240,12 +245,13 @@ class TestMediaViews(TestCase):
             username='test_user_1',
             password='test_password'
             )
-        url = reverse('delete_single', args=[self.single.id])
+        url = reverse('delete_single', args=[self.single.slug])
         response = self.client.get(url)
         singles = Single.objects.all()
         self.assertEquals(len(singles), 1)
         self.assertRedirects(response,
-                             "/admin/login/?next=/media/delete_single/1")
+                             f"/admin/login/?next=/media/delete_single/"
+                             f"{self.single.slug}")
 
     def test_get_comments(self):
         url = reverse('get_comments')

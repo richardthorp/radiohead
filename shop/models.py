@@ -5,7 +5,7 @@ from django.utils.text import slugify
 
 class Album(models.Model):
     title = models.CharField(blank=False, max_length=80, unique=True)
-    slug = models.SlugField(max_length=256, default="")
+    slug = models.SlugField(default="")
     year = models.IntegerField(
         blank=False, null=False, validators=[
             MinValueValidator(1985, message='The year must be at least 1985'),
@@ -22,7 +22,7 @@ class Album(models.Model):
     spotify_url = models.URLField(blank=False, null=False)
 
     def save(self, *args, **kwargs):
-        if not self.slug:
+        if self.slug != slugify(self.title):
             self.slug = slugify(self.title)
 
         super().save(*args, **kwargs)
@@ -44,7 +44,7 @@ class Product(models.Model):
                               null=False, default='missing_item.jpg')
 
     def save(self, *args, **kwargs):
-        if not self.slug:
+        if self.slug != slugify(self.name):
             self.slug = slugify(self.name)
 
         super().save(*args, **kwargs)

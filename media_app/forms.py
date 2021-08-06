@@ -1,15 +1,16 @@
-from django.forms import ModelForm
+from django import forms
 from .models import Comment, Single
 
 
-class CommentForm(ModelForm):
+class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['text']
 
 
-class AddSingleForm(ModelForm):
+class AddSingleForm(forms.ModelForm):
     class Meta:
         model = Single
-        fields = '__all__'
+        exclude = ('slug',)
 
+    video_url = forms.CharField(label='Youtube embed link*')
