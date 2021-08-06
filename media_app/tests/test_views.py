@@ -70,7 +70,7 @@ class TestMediaViews(TestCase):
         self.assertTemplateUsed(response, 'media_app/media.html')
 
     def test_get_album_singles_page(self):
-        response = self.client.get(f'/media/album_singles/{self.album.id}')
+        response = self.client.get(f'/media/album_singles/{self.album.slug}')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'media_app/album_singles.html')
 
@@ -109,7 +109,7 @@ class TestMediaViews(TestCase):
         form_data = {
             "title": 'Another_test_single',
             "image": test_image,
-            "album": self.album.id,
+            "album": self.album.slug,
             'video_url': 'www.testurl.com',
             "spotify_url": 'www.testurl.com',
             }
@@ -124,7 +124,7 @@ class TestMediaViews(TestCase):
         self.assertEqual(len(singles), 2)
         self.assertRedirects(response,
                              reverse('album_singles',
-                                     args=[added_single.album.id]))
+                                     args=[added_single.album.slug]))
 
         # Remove the test_image from the file system
         unlink(added_single.image.path)
@@ -180,7 +180,7 @@ class TestMediaViews(TestCase):
 
         form_data = {
             "title": 'Updated_single',
-            "album": self.album.id,
+            "album": self.album.slug,
             "spotify_url": 'www.testurl.com',
             "video_url": 'www.testurl.com',
             "image": test_image,
@@ -196,7 +196,7 @@ class TestMediaViews(TestCase):
                          f'{str(updated_single)} updated!')
         self.assertRedirects(response,
                              reverse('album_singles',
-                                     args=[updated_single.album.id]))
+                                     args=[updated_single.album.slug]))
         # Remove the test_image from the file system
         unlink(updated_single.image.path)
 
@@ -208,7 +208,7 @@ class TestMediaViews(TestCase):
 
         form_data = {
             "title": '',
-            "album": self.album.id,
+            "album": self.album.slug,
             "spotify_url": 'bad url',
             "video_url": 'www.testurl.com',
             "image": "test_image",

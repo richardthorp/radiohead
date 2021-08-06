@@ -8,14 +8,14 @@ def view_bag(request):
     return render(request, 'bag/view_bag.html')
 
 
-def add_to_bag(request, product_id):
+def add_to_bag(request, slug):
     bag = request.session.get('bag', {})
     if request.method == 'POST':
         quantity = int(request.POST.get('quantity'))
 
         if request.POST.get('format'):
             # Added item is an album
-            album = get_object_or_404(Album, pk=product_id)
+            album = get_object_or_404(Album, slug=slug)
             format = request.POST.get('format')
 
             if quantity < 1:
@@ -23,7 +23,7 @@ def add_to_bag(request, product_id):
                     request, 'You can not add less than one item to your bag!'
                     )
                 return redirect(
-                    reverse('shop_detail', args=['album', album.id])
+                    reverse('shop_detail', args=['album', album.slug])
                     )
 
             if album.title in list(bag.keys()):
@@ -59,7 +59,7 @@ def add_to_bag(request, product_id):
 
         elif request.POST.get('size'):
             # Added item is a sized product
-            product = get_object_or_404(Product, pk=product_id)
+            product = get_object_or_404(Product, slug=slug)
             size = request.POST.get('size')
 
             # Get friendly name to display in messages
@@ -75,7 +75,7 @@ def add_to_bag(request, product_id):
                     request, 'You can not add less than one item to your bag!'
                     )
                 return redirect(
-                    reverse('shop_detail', args=['product', product.id])
+                    reverse('shop_detail', args=['product', product.slug])
                     )
 
             if product.name in list(bag.keys()):
@@ -108,13 +108,13 @@ def add_to_bag(request, product_id):
                     f'Added {friendly_size} {product.name} to your bag.')
         else:
             # Added item is a non-sized product
-            product = get_object_or_404(Product, pk=product_id)
+            product = get_object_or_404(Product, slug=slug)
             if quantity < 1:
                 messages.error(
                     request, 'You can not add less than one item to your bag!'
                     )
                 return redirect(
-                    reverse('shop_detail', args=['product', product.id])
+                    reverse('shop_detail', args=['product', product.slug])
                     )
 
             if product.name in list(bag.keys()):
@@ -135,7 +135,7 @@ def add_to_bag(request, product_id):
         return redirect(reverse('shop'))
 
 
-def update_bag(request, product_type, product_id):
+def update_bag(request, product_type, slug):
     bag = request.session.get('bag', {})
     if request.method == 'POST':
         quantity = int(request.POST.get('quantity'))
@@ -147,15 +147,15 @@ def update_bag(request, product_type, product_id):
             return redirect(reverse('view_bag'))
 
         if product_type == 'cd' or product_type == 'vinyl':
-            album = get_object_or_404(Album, pk=product_id)
+            album = get_object_or_404(Album, slug=slug)
             bag[album.title]['items_by_format'][product_type] = quantity
 
         if product_type == 'S' or product_type == 'M' or product_type == 'L':
-            product = get_object_or_404(Product, pk=product_id)
+            product = get_object_or_404(Product, slug=slug)
             bag[product.name]['items_by_size'][product_type] = quantity
 
         if product_type == 'other':
-            product = get_object_or_404(Product, pk=product_id)
+            product = get_object_or_404(Product, slug=slug)
             bag[product.name] = quantity
 
         request.session['bag'] = bag
@@ -165,11 +165,11 @@ def update_bag(request, product_type, product_id):
         return redirect(reverse('view_bag'))
 
 
-def remove_item(request, product_type, product_id):
+def remove_item(request, product_type, slug):
     bag = request.session.get('bag', {})
 
     if product_type == 'cd' or product_type == 'vinyl':
-        album = get_object_or_404(Album, pk=product_id)
+        album = get_object_or_404(Album, slug=slug)
         del bag[album.title]['items_by_format'][product_type]
         # Ensure that the album is removed from the bag if no other
         # format types for the same album are in the bag
@@ -177,7 +177,7 @@ def remove_item(request, product_type, product_id):
            not bag[album.title]['items_by_format'].get('vinyl'):
             del bag[album.title]
     if product_type == 'S' or product_type == 'M' or product_type == 'L':
-        product = get_object_or_404(Product, pk=product_id)
+        product = get_object_or_404(Product, slug=slug)
         del bag[product.name]['items_by_size'][product_type]
         # Ensure that the product is removed from the bag if no other
         # sizes for the same product are in the bag
@@ -186,7 +186,7 @@ def remove_item(request, product_type, product_id):
            not bag[product.name]['items_by_size'].get('L'):
             del bag[product.name]
     if product_type == 'other':
-        product = get_object_or_404(Product, pk=product_id)
+        product = get_object_or_404(Product, slug=slug)
         del bag[product.name]
 
     request.session['bag'] = bag

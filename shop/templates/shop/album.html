@@ -15,7 +15,7 @@
         <div class="col-12 custom-border p-2 my-3">
             <h6 class="header-font text-center">Would you like to edit or delete this product?</h6>
             <div class="d-flex justify-content-center">
-                <a href="{% url 'edit_product' 'album' album.id %}" class="btn btn-dark custom-btn mr-2">
+                <a href="{% url 'edit_product' 'album' album.slug %}" class="btn btn-dark custom-btn mr-2">
                     Edit Product</a>
                 <!-- Button trigger modal -->
                 <button type="button" class="btn custom-btn btn-danger btn-sm custom-btn ml-2" data-toggle="modal"
@@ -38,7 +38,7 @@
                 <div class="modal-footer">
                     <button type="button" class="btn custom-btn btn-sm btn-dark custom-btn"
                         data-dismiss="modal">BACK</button>
-                    <a href="{% url 'delete_product' 'album' album.id %}"
+                    <a href="{% url 'delete_product' 'album' album.slug %}"
                         class="btn custom-btn btn-sm btn-danger custom-btn">Delete</a>
                 </div>
             </div>
@@ -51,7 +51,7 @@
         </div>
         <div class="col-12 col-lg-6">
             <!-- <p class="mb-1 mt-2 mt-lg-0">Format:</p> -->
-            <form action="{% url 'add_to_bag' album.id %}" method="POST">
+            <form action="{% url 'add_to_bag' album.slug %}" method="POST">
                 {% csrf_token %}
                 <label for="format" class="shop-label mt-3 mt-lg-0">Choose Format:</label>
                 <select id="format" name="format" class="form-select form-select-lg mb-3"

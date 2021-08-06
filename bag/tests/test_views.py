@@ -43,7 +43,7 @@ class TestBagViews(TestCase):
 
     def test_add_album_to_bag_adds_to_session(self):
         album = Album.objects.first()
-        url = reverse('add_to_bag', args=[album.id])
+        url = reverse('add_to_bag', args=[album.slug])
         data = {
             'format': 'cd',
             'quantity': 1,
@@ -64,7 +64,7 @@ class TestBagViews(TestCase):
 
     def test_add_sized_product_to_bag_adds_to_session(self):
         product = Product.objects.get(name='test_clothing_item')
-        url = reverse('add_to_bag', args=[product.id])
+        url = reverse('add_to_bag', args=[product.slug])
         data = {
             'size': 'M',
             'quantity': 1,
@@ -85,7 +85,7 @@ class TestBagViews(TestCase):
 
     def test_product_quantity_must_be_more_than_one(self):
         product = Product.objects.first()
-        url = reverse('add_to_bag', args=[product.id])
+        url = reverse('add_to_bag', args=[product.slug])
         data = {
             'size': 'M',
             'quantity': 0,
@@ -98,11 +98,11 @@ class TestBagViews(TestCase):
                          'You can not add less than one item to your bag!')
         self.assertNotIn('bag', self.client.session)
         self.assertRedirects(response, reverse('shop_detail',
-                                               args=['product', product.id]))
+                                               args=['product', product.slug]))
 
     def test_album_quantity_must_be_more_than_one(self):
         album = Album.objects.first()
-        url = reverse('add_to_bag', args=[album.id])
+        url = reverse('add_to_bag', args=[album.slug])
         data = {
             'format': 'cd',
             'quantity': 0,
@@ -116,11 +116,11 @@ class TestBagViews(TestCase):
                          'You can not add less than one item to your bag!')
         self.assertNotIn('bag', self.client.session)
         self.assertRedirects(response, reverse('shop_detail',
-                                               args=['album', album.id]))
+                                               args=['album', album.slug]))
 
     def test_add_same_album_and_format_twice(self):
         album = Album.objects.first()
-        url = reverse('add_to_bag', args=[album.id])
+        url = reverse('add_to_bag', args=[album.slug])
 
         initial_add = {
             'format': 'cd',
@@ -148,7 +148,7 @@ class TestBagViews(TestCase):
 
     def test_add_same_album_different_format(self):
         album = Album.objects.first()
-        url = reverse('add_to_bag', args=[album.id])
+        url = reverse('add_to_bag', args=[album.slug])
 
         initial_add = {
             'format': 'cd',
@@ -178,7 +178,7 @@ class TestBagViews(TestCase):
 
     def test_add_same_product_and_size_twice(self):
         product = Product.objects.first()
-        url = reverse('add_to_bag', args=[product.id])
+        url = reverse('add_to_bag', args=[product.slug])
 
         initial_add = {
             'size': 'M',
@@ -206,7 +206,7 @@ class TestBagViews(TestCase):
 
     def test_add_same_product_different_size(self):
         product = Product.objects.first()
-        url = reverse('add_to_bag', args=[product.id])
+        url = reverse('add_to_bag', args=[product.slug])
 
         initial_add = {
             'size': 'M',
@@ -236,7 +236,7 @@ class TestBagViews(TestCase):
 
     def test_add_same_nonsized_product(self):
         product = Product.objects.get(name='test_other_item')
-        url = reverse('add_to_bag', args=[product.id])
+        url = reverse('add_to_bag', args=[product.slug])
         initial_add = {
             'quantity': 1,
         }
@@ -257,7 +257,7 @@ class TestBagViews(TestCase):
 
     def test_add_to_bag_get_request_redirects(self):
         product = Product.objects.get(name='test_other_item')
-        url = reverse('add_to_bag', args=[product.id])
+        url = reverse('add_to_bag', args=[product.slug])
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 302)
@@ -265,7 +265,7 @@ class TestBagViews(TestCase):
     # UPDATE BAG VIEW TESTS
     def test_update_item_to_less_than_one(self):
         product = Product.objects.first()
-        url = reverse('update_bag', args=['product', product.id])
+        url = reverse('update_bag', args=['product', product.slug])
         data = {
             'quantity': 0
         }
@@ -281,7 +281,7 @@ class TestBagViews(TestCase):
     def test_update_album_quantity_in_bag(self):
         album = Album.objects.first()
         # First, add items to the bag
-        add_to_bag_url = reverse('add_to_bag', args=[album.id])
+        add_to_bag_url = reverse('add_to_bag', args=[album.slug])
         add_to_bag_data = {
             'format': 'cd',
             'quantity': 2,
@@ -300,7 +300,7 @@ class TestBagViews(TestCase):
         self.assertEqual(bag, expected_initial_bag)
 
         # Update album quantity to 5
-        update_bag_url = reverse('update_bag', args=['cd', album.id])
+        update_bag_url = reverse('update_bag', args=['cd', album.slug])
         response = self.client.post(update_bag_url, data={'quantity': 5})
         bag = self.client.session['bag']
         messages = list(response.wsgi_request._messages)
@@ -324,7 +324,7 @@ class TestBagViews(TestCase):
     def test_update_sized_product_quantity_in_bag(self):
         product = Product.objects.get(name='test_clothing_item')
         # First, add items to the bag
-        add_to_bag_url = reverse('add_to_bag', args=[product.id])
+        add_to_bag_url = reverse('add_to_bag', args=[product.slug])
         add_to_bag_data = {
             'size': 'M',
             'quantity': 2,
@@ -343,7 +343,7 @@ class TestBagViews(TestCase):
         self.assertEqual(bag, expected_initial_bag)
 
         # Update product quantity to 5
-        update_bag_url = reverse('update_bag', args=['M', product.id])
+        update_bag_url = reverse('update_bag', args=['M', product.slug])
         response = self.client.post(update_bag_url, data={'quantity': 5})
         bag = self.client.session['bag']
         messages = list(response.wsgi_request._messages)
@@ -368,7 +368,7 @@ class TestBagViews(TestCase):
     def test_update_nonsized_product_quantity_in_bag(self):
         product = Product.objects.get(name='test_other_item')
         # First, add items to the bag
-        add_to_bag_url = reverse('add_to_bag', args=[product.id])
+        add_to_bag_url = reverse('add_to_bag', args=[product.slug])
         add_to_bag_data = {
             'quantity': 2
         }
@@ -378,7 +378,7 @@ class TestBagViews(TestCase):
         self.assertEqual(bag, {product.name: 2})
 
         # Update product quantity to 5
-        update_bag_url = reverse('update_bag', args=['other', product.id])
+        update_bag_url = reverse('update_bag', args=['other', product.slug])
         response = self.client.post(update_bag_url, data={'quantity': 5})
         bag = self.client.session['bag']
         messages = list(response.wsgi_request._messages)
@@ -393,7 +393,7 @@ class TestBagViews(TestCase):
 
     def test_update_bag_get_request_redirects(self):
         product = Product.objects.get(name='test_other_item')
-        url = reverse('update_bag', args=['other', product.id])
+        url = reverse('update_bag', args=['other', product.slug])
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 302)
@@ -402,7 +402,7 @@ class TestBagViews(TestCase):
     def test_remove_album_from_bag(self):
         album = Album.objects.first()
         # First, add items to the bag
-        add_to_bag_url = reverse('add_to_bag', args=[album.id])
+        add_to_bag_url = reverse('add_to_bag', args=[album.slug])
         add_to_bag_data = {
             'format': 'cd',
             'quantity': 2,
@@ -420,7 +420,7 @@ class TestBagViews(TestCase):
         # Ensure 2 albums have been added to bag
         self.assertEqual(bag, expected_initial_bag)
 
-        remove_item_url = reverse('remove_item', args=['cd', album.id])
+        remove_item_url = reverse('remove_item', args=['cd', album.slug])
         response = self.client.get(remove_item_url)
         bag = self.client.session['bag']
         messages = list(response.wsgi_request._messages)
@@ -436,7 +436,7 @@ class TestBagViews(TestCase):
     def test_remove_sized_product_from_bag(self):
         product = Product.objects.get(name='test_clothing_item')
         # First, add items to the bag
-        add_to_bag_url = reverse('add_to_bag', args=[product.id])
+        add_to_bag_url = reverse('add_to_bag', args=[product.slug])
         add_to_bag_data = {
             'size': 'M',
             'quantity': 2,
@@ -454,7 +454,7 @@ class TestBagViews(TestCase):
         }
         self.assertEqual(bag, expected_initial_bag)
 
-        remove_item_url = reverse('remove_item', args=['M', product.id])
+        remove_item_url = reverse('remove_item', args=['M', product.slug])
         response = self.client.get(remove_item_url)
         bag = self.client.session['bag']
         messages = list(response.wsgi_request._messages)
@@ -470,7 +470,7 @@ class TestBagViews(TestCase):
     def test_remove_nonsized_product_from_bag(self):
         product = Product.objects.get(name='test_other_item')
         # First, add items to the bag
-        add_to_bag_url = reverse('add_to_bag', args=[product.id])
+        add_to_bag_url = reverse('add_to_bag', args=[product.slug])
         add_to_bag_data = {
             'quantity': 2,
         }
@@ -479,7 +479,7 @@ class TestBagViews(TestCase):
         bag = self.client.session['bag']
         self.assertEqual(bag, {product.name: 2})
 
-        remove_item_url = reverse('remove_item', args=['other', product.id])
+        remove_item_url = reverse('remove_item', args=['other', product.slug])
         response = self.client.get(remove_item_url)
         bag = self.client.session['bag']
         messages = list(response.wsgi_request._messages)
@@ -495,7 +495,7 @@ class TestBagViews(TestCase):
     def test_remove_item_removes_correct_item(self):
         # First, add 'other' item to the bag
         other_product = Product.objects.get(name='test_other_item')
-        add_to_bag_url = reverse('add_to_bag', args=[other_product.id])
+        add_to_bag_url = reverse('add_to_bag', args=[other_product.slug])
         other_item_data = {
             'quantity': 1,
         }
@@ -503,7 +503,7 @@ class TestBagViews(TestCase):
 
         # Then add 'sized' item to the bag
         sized_product = Product.objects.get(name='test_clothing_item')
-        add_to_bag_url = reverse('add_to_bag', args=[sized_product.id])
+        add_to_bag_url = reverse('add_to_bag', args=[sized_product.slug])
         sized_item_data = {
             'size': 'M',
             'quantity': 1,
@@ -513,7 +513,7 @@ class TestBagViews(TestCase):
         # Then add 'album' item to the bag
         album = Album.objects.first()
         # First, add items to the bag
-        add_to_bag_url = reverse('add_to_bag', args=[album.id])
+        add_to_bag_url = reverse('add_to_bag', args=[album.slug])
         album_data = {
             'format': 'cd',
             'quantity': 1,
@@ -526,7 +526,7 @@ class TestBagViews(TestCase):
 
         # Just remove the 'other' item from the bag
         remove_item_url = reverse('remove_item',
-                                  args=['other', other_product.id])
+                                  args=['other', other_product.slug])
         response = self.client.get(remove_item_url)
         bag = self.client.session['bag']
         messages = list(response.wsgi_request._messages)

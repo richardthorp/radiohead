@@ -39,9 +39,10 @@ def shop(request):
     return render(request, 'shop/shop.html', context)
 
 
-def shop_detail(request, item_type, item_id):
+# def shop_detail(request, item_type, item_id):
+def shop_detail(request, item_type, slug):
     if item_type == 'album':
-        album = Album.objects.get(id=item_id)
+        album = Album.objects.get(slug=slug)
         # Check type of tracklist data as tracklists uploaded via JSON
         # fixtures come from DB as dict objects whereas tracklists added via
         # the 'AddAlbumForm' are returned as a str
@@ -57,7 +58,7 @@ def shop_detail(request, item_type, item_id):
         return render(request, 'shop/album.html', context)
     else:
         context = {
-            'product': Product.objects.get(id=item_id)
+            'product': Product.objects.get(slug=slug)
         }
         return render(request, 'shop/product.html', context)
 
@@ -74,7 +75,7 @@ def add_product(request, item_type):
             item = form.save()
             messages.success(request, f'{str(item)} added to store')
             return redirect(
-                reverse('shop_detail', args=[item_type, item.id])
+                reverse('shop_detail', args=[item_type, item.slug])
                 )
         else:
             messages.error(request, 'Error adding product, please try again.')
@@ -97,15 +98,15 @@ def add_product(request, item_type):
 
 
 @staff_member_required(login_url='account_login')
-def edit_product(request, item_type, item_id):
+def edit_product(request, item_type, slug):
     tracklist = None
     if request.method == 'POST':
         if item_type == 'album':
-            product = Album.objects.get(pk=item_id)
+            product = Album.objects.get(slug=slug)
             form = AddAlbumForm(request.POST, request.FILES, instance=product)
 
         else:
-            product = Product.objects.get(pk=item_id)
+            product = Product.objects.get(slug=slug)
             form = AddProductForm(request.POST, request.FILES,
                                   instance=product)
 
@@ -113,7 +114,7 @@ def edit_product(request, item_type, item_id):
             form.save()
             messages.success(request, 'Product updated!')
             return redirect(reverse('shop_detail',
-                                    args=[item_type, product.id]))
+                                    args=[item_type, product.slug]))
         else:
             context = {
                 'form': form,
@@ -126,7 +127,7 @@ def edit_product(request, item_type, item_id):
             return render(request, 'shop/edit_product.html', context)
 
     if item_type == 'album':
-        product = Album.objects.get(pk=item_id)
+        product = Album.objects.get(slug=slug)
         form = AddAlbumForm(instance=product)
         if isinstance(product.tracklist, str):
             tracklist = ast.literal_eval(product.tracklist)
@@ -134,7 +135,7 @@ def edit_product(request, item_type, item_id):
             tracklist = product.tracklist
 
     else:
-        product = Product.objects.get(pk=item_id)
+        product = Product.objects.get(slug=slug)
         form = AddProductForm(instance=product)
 
     context = {
@@ -147,12 +148,12 @@ def edit_product(request, item_type, item_id):
 
 
 @staff_member_required(login_url='account_login')
-def delete_product(request, item_type, item_id):
+def delete_product(request, item_type, slug):
     if item_type == 'album':
-        product = Album.objects.get(pk=item_id)
+        product = Album.objects.get(slug=slug)
         product_name = product.title
     else:
-        product = Product.objects.get(pk=item_id)
+        product = Product.objects.get(slug=slug)
         product_name = product.name
 
     # if product.image:

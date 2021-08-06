@@ -8,7 +8,8 @@ class Single(models.Model):
     image = models.ImageField(blank=False, null=False,
                               upload_to="single_covers")
     album = models.ForeignKey('shop.Album', null=True,
-                              on_delete=models.SET_NULL)
+                              on_delete=models.SET_NULL,
+                              related_name='singles')
     video_url = models.URLField(blank=False, null=False)
     spotify_url = models.URLField(blank=False, null=False)
 

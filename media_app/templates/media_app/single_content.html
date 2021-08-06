@@ -6,7 +6,7 @@
 {% block content %}
 <div class="container content-container">
     <h1 class="page-header header-font text-center">{{ single.title }}</h1>
-    <a href="{% url 'album_singles' single.album.id %}"><i class="fas fa-backward"></i> Back to album</a>
+    <a href="{% url 'album_singles' single.album.slug %}"><i class="fas fa-backward"></i> Back to album</a>
     {% if user.is_staff %}
     <div class="row">
         <div class="col-12 custom-border p-2 my-3">
@@ -52,7 +52,7 @@
     </div>
     <div class="row row-eq-height justify-content-center shop-spotify-links pt-3">
         <div class="col-6 col-sm-4">
-            <a href="{% url 'shop_detail' 'album' single.album.id %}">
+            <a href="{% url 'shop_detail' 'album' single.album.slug %}">
                 <div class="custom-border text-center">
                     <i class="fas fa-shopping-cart icons py-3"></i>
                     <p>View album <br class="d-sm-none"> in shop.</p>

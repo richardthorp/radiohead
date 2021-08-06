@@ -18,10 +18,12 @@ def media(request):
     return render(request, 'media_app/media.html', context)
 
 
-def album_singles(request, album_id):
+def album_singles(request, slug):
+    album = Album.objects.get(slug=slug)
+    singles = Single.objects.filter(album=album)
     context = {
-        'album': Album.objects.get(id=album_id),
-        'singles': Single.objects.filter(album=album_id)
+        'album': album,
+        'singles': singles
     }
     return render(request, 'media_app/album_singles.html', context)
 
@@ -112,7 +114,7 @@ def add_single(request):
             single = form.save()
             messages.success(request, f'{str(single)} added to Album')
             return redirect(
-                reverse('album_singles', args=[single.album.id])
+                reverse('album_singles', args=[single.album.slug])
                 )
         else:
             messages.error(request,
@@ -125,15 +127,15 @@ def add_single(request):
 
 
 @staff_member_required()
-def edit_single(request, single_id):
-    single = Single.objects.get(pk=single_id)
+def edit_single(request, slug):
+    single = Single.objects.get(slug=slug)
     if request.method == 'POST':
         form = AddSingleForm(request.POST, request.FILES, instance=single)
         if form.is_valid():
             single = form.save()
             messages.success(request, f'{str(single)} updated!')
             return redirect(
-                reverse('album_singles', args=[single.album.id])
+                reverse('album_singles', args=[single.album.slug])
                 )
         else:
             context = {
@@ -153,8 +155,8 @@ def edit_single(request, single_id):
 
 
 @staff_member_required()
-def delete_single(request, single_id):
-    single = Single.objects.get(pk=single_id)
+def delete_single(request, slug):
+    single = Single.objects.get(slug=slug)
     single.delete()
     messages.success(request, 'Single deleted.')
 

@@ -121,7 +121,7 @@
                     <div class="col-8">
                         {% if item.type == 'album' %}
                         <!-- Albums in bag -->
-                        <a href="{% url 'shop_detail' 'album' item.product.id %}" class="text-dark"
+                        <a href="{% url 'shop_detail' 'album' item.product.slug %}" class="text-dark"
                             title="Click to view item in shop">
                             <h5 class="header-font mb-0">{{ item.product.title }}</h5>
                         </a>
@@ -134,7 +134,7 @@
                         <p class="clear-font m-0">Subtotal: £{{ item.item_total }}</p>
                         <!-- Sized items in bag -->
                         {% elif item.type == 'sized' %}
-                        <a href="{% url 'shop_detail' 'product' item.product.id %}" class="text-dark"
+                        <a href="{% url 'shop_detail' 'product' item.product.slug %}" class="text-dark"
                             title="Click to view item in shop">
                             <h5 class="header-font">{{ item.product.name }}</h5>
                         </a>
@@ -150,7 +150,7 @@
                         <p class="clear-font m-0">Subtotal: £{{ item.item_total }}</p>
                         {% else %}
                         <!-- Other items in bag -->
-                        <a href="{% url 'shop_detail' 'product' item.product.id %}" class="text-dark"
+                        <a href="{% url 'shop_detail' 'product' item.product.slug %}" class="text-dark"
                             title="Click to view item in shop">
                             <h5 class="header-font mb-0">{{ item.product.name }}</h5>
                         </a>

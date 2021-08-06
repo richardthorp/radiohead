@@ -46,7 +46,7 @@
         {% endfor %}
     </div>
     <div class="row d-flex justify-content-center album-shop-link">
-        <a href="{% url 'shop_detail' 'album' album.id %}">
+        <a href="{% url 'shop_detail' 'album' album.slug %}">
             <div class="col-12 mt-3 text-center custom-border">
                 <i class="fas fa-shopping-cart icons py-3"></i>
                 <p>View the album in the shop.</p>

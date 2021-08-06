@@ -18,11 +18,11 @@
     <div class="col-12 col-sm-8">
         {% if item.type == 'album' %}
         <!-- ALBUM INFO -->
-        <a href="{% url 'shop_detail' 'album' item.product.id %}" class="text-dark" title="Click to view item in shop">
+        <a href="{% url 'shop_detail' 'album' item.product.slug %}" class="text-dark" title="Click to view item in shop">
             <h3 class="header-font">{{ item.product.title }}</h3>
         </a>
         {% if item.cd_count %}
-        <form action="{% url 'update_bag' 'cd' item.product.id %}" method="POST" class="d-inline">
+        <form action="{% url 'update_bag' 'cd' item.product.slug %}" method="POST" class="d-inline">
             {% csrf_token %}
             <label for="cd_quantity" class="clear-font">CD Quantity:</label>
             <input id="cd_quantity" name="quantity" type="number" min="1" max="99" value="{{ item.cd_count }}">
@@ -32,7 +32,7 @@
         <p class="mt-3 clear-font">Item Price: £{{ item.product.cd_price }}</p>
         {% endif %}
         {% if item.vinyl_count %}
-        <form action="{% url 'update_bag' 'vinyl' item.product.id %}" method="POST" class="d-inline">
+        <form action="{% url 'update_bag' 'vinyl' item.product.slug %}" method="POST" class="d-inline">
             {% csrf_token %}
             <label for="vinyl_quantity" class="clear-font">Vinyl Quantity:</label>
             <input id="vinyl_quantity" name="quantity" type="number" min="1" max="99" value="{{ item.vinyl_count }}">
@@ -44,11 +44,11 @@
         {% endif %}
         {% if item.type == 'sized' %}
         <!-- SIZED ITEM INFO -->
-        <a href="{% url 'shop_detail' 'product' item.product.id %}" class="text-dark" title="Click to view item in shop">
+        <a href="{% url 'shop_detail' 'product' item.product.slug %}" class="text-dark" title="Click to view item in shop">
             <h3 class="header-font">{{ item.product.name }}</h3>
         </a>
         {% if item.small_count %}
-        <form action="{% url 'update_bag' 'S' item.product.id %}" method="POST" class="d-inline">
+        <form action="{% url 'update_bag' 'S' item.product.slug %}" method="POST" class="d-inline">
             {% csrf_token %}
             <label for="small_quantity" class="clear-font">Small Quantity:</label>
             <input id="small_quantity" name="quantity" type="number" min="1" max="99" value="{{ item.small_count }}">
@@ -58,7 +58,7 @@
         <p class="mt-3 clear-font">Item Price: £{{ item.product.price }}</p>
         {% endif %}
         {% if item.medium_count %}
-        <form action="{% url 'update_bag' 'M' item.product.id %}" method="POST" class="d-inline">
+        <form action="{% url 'update_bag' 'M' item.product.slug %}" method="POST" class="d-inline">
             {% csrf_token %}
             <label for="medium_quantity" class="clear-font">Medium Quantity:</label>
             <input id="medium_quantity" name="quantity" type="number" min="1" max="99" value="{{ item.medium_count }}">
@@ -68,7 +68,7 @@
         <p class="mt-3 clear-font">Item Price: £{{ item.product.price }}</p>
         {% endif %}
         {% if item.large_count %}
-        <form action="{% url 'update_bag' 'L' item.product.id %}" method="POST" class="d-inline">
+        <form action="{% url 'update_bag' 'L' item.product.slug %}" method="POST" class="d-inline">
             {% csrf_token %}
             <label for="large_quantity" class="clear-font">Large Quantity:</label>
             <input id="large_quantity" name="quantity" type="number" min="1" max="99" value="{{ item.large_count }}">
@@ -80,10 +80,10 @@
         {% endif %}
         {% if not item.type %}
         <!-- OTHER PRODUCT TYPE - NO FORMAT OR SIZES -->
-        <a href="{% url 'shop_detail' 'product' item.product.id %}" class="text-dark" title="Click to view item in shop">
+        <a href="{% url 'shop_detail' 'product' item.product.slug %}" class="text-dark" title="Click to view item in shop">
             <h3 class="header-font">{{ item.product.name }}</h3>
         </a>
-        <form action="{% url 'update_bag' 'other' item.product.id %}" method="POST" class="d-inline">
+        <form action="{% url 'update_bag' 'other' item.product.slug %}" method="POST" class="d-inline">
             {% csrf_token %}
             <label for="quantity" class="clear-font">Quantity:</label>
             <input id="quantity" name="quantity" type="number" min="1" max="99" value="{{ item.quantity }}">

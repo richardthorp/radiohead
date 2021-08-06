@@ -114,7 +114,7 @@ class TestShopViews(TestCase):
     # SHOP DETAIL VIEW TESTS
     # Album template
     def test_shop_detail_view_with_album(self):
-        url = reverse('shop_detail', args=['album', self.album.id])
+        url = reverse('shop_detail', args=['album', self.album.slug])
         response = self.client.get(url)
 
         self.assertEqual(response.status_code, 200)
@@ -123,7 +123,7 @@ class TestShopViews(TestCase):
     # Product template
     def test_shop_detail_view_with_product(self):
         url = reverse(
-            'shop_detail', args=['product', self.clothing_product.id]
+            'shop_detail', args=['product', self.clothing_product.slug]
             )
         response = self.client.get(url)
 
@@ -201,7 +201,7 @@ class TestShopViews(TestCase):
         self.assertEqual(len(products), 3)
         self.assertRedirects(response,
                              reverse('shop_detail',
-                                     args=['product', added_product.id]))
+                                     args=['product', added_product.slug]))
         # Remove the test_image from the file system
         unlink(added_product.image.path)
 
@@ -236,7 +236,7 @@ class TestShopViews(TestCase):
         self.assertEqual(len(albums), 3)
         self.assertRedirects(response,
                              reverse('shop_detail',
-                                     args=['album', added_album.id]))
+                                     args=['album', added_album.slug]))
 
         # Remove the test_image from the file system
         unlink(added_album.image.path)
@@ -267,7 +267,7 @@ class TestShopViews(TestCase):
             username='staff_user',
             password='test_password'
             )
-        url = reverse('edit_product', args=['album', self.album.id])
+        url = reverse('edit_product', args=['album', self.album.slug])
         response = self.client.get(url)
 
         self.assertEqual(str(response.context['form']), 'AddAlbumForm')
@@ -292,7 +292,7 @@ class TestShopViews(TestCase):
             username='staff_user',
             password='test_password'
             )
-        url = reverse('edit_product', args=['product', self.other_product.id])
+        url = reverse('edit_product', args=['product', self.other_product.slug])
         response = self.client.get(url)
 
         self.assertEqual(str(response.context['form']), 'AddProductForm')
@@ -300,7 +300,7 @@ class TestShopViews(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_must_be_staff_to_edit_product(self):
-        url = reverse('edit_product', args=['album', self.album.id])
+        url = reverse('edit_product', args=['album', self.album.slug])
         response = self.client.get(url)
 
         self.assertRedirects(response,
@@ -325,17 +325,17 @@ class TestShopViews(TestCase):
             'image': test_image,
         }
         url = reverse('edit_product',
-                      args=['product', self.clothing_product.id])
+                      args=['product', self.clothing_product.slug])
         response = self.client.post(url, data=form_data)
         messages = list(response.wsgi_request._messages)
-        updated_product = Product.objects.get(pk=self.clothing_product.id)
+        updated_product = Product.objects.get(slug=self.clothing.slug)
 
         self.assertEqual(updated_product.name, 'updated_other_item')
         self.assertEqual(len(messages), 1)
         self.assertEqual(str(messages[0]), 'Product updated!')
         self.assertRedirects(response,
                              reverse('shop_detail',
-                                     args=['product', updated_product.id]))
+                                     args=['product', updated_product.slug]))
         # Remove the test_image from the file system
         unlink(updated_product.image.path)
 
@@ -359,17 +359,17 @@ class TestShopViews(TestCase):
             'image': test_image,
         }
         url = reverse('edit_product',
-                      args=['album', self.album.id])
+                      args=['album', self.album.slug])
         response = self.client.post(url, data=form_data)
         messages = list(response.wsgi_request._messages)
-        updated_product = Album.objects.get(pk=self.album.id)
+        updated_product = Album.objects.get(slug=self.album.slug)
 
         self.assertEqual(updated_product.title, 'updated_album')
         self.assertEqual(len(messages), 1)
         self.assertEqual(str(messages[0]), 'Product updated!')
         self.assertRedirects(response,
                              reverse('shop_detail',
-                                     args=['album', updated_product.id]))
+                                     args=['album', updated_product.slug]))
         # Remove the test_image from the file system
         unlink(updated_product.image.path)
 
@@ -388,7 +388,7 @@ class TestShopViews(TestCase):
             'tracklist': json.dumps("test: test"),
             'image': 'test_image',
         }
-        url = reverse('edit_product', args=['album', self.album.id])
+        url = reverse('edit_product', args=['album', self.album.slug])
         response = self.client.post(url, data=form_data)
         messages = list(response.wsgi_request._messages)
 
@@ -402,7 +402,7 @@ class TestShopViews(TestCase):
             username='staff_user',
             password='test_password'
             )
-        url = reverse('delete_product', args=['album', self.album.id])
+        url = reverse('delete_product', args=['album', self.album.slug])
         response = self.client.get(url)
         albums = Album.objects.all()
 
@@ -415,7 +415,7 @@ class TestShopViews(TestCase):
             username='staff_user',
             password='test_password'
             )
-        url = reverse('delete_product', args=['product', self.other_product.id])
+        url = reverse('delete_product', args=['product', self.other_product.slug])
         response = self.client.get(url)
         products = Product.objects.all()
 
@@ -423,7 +423,7 @@ class TestShopViews(TestCase):
         self.assertRedirects(response, reverse('shop'))
 
     def test_must_be_staff_to_delete_product(self):
-        url = reverse('delete_product', args=['album', self.album.id])
+        url = reverse('delete_product', args=['album', self.album.slug])
         response = self.client.get(url)
 
         self.assertRedirects(response,
