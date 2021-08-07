@@ -127,7 +127,24 @@ def checkout(request):
 
     client_secret = intent['client_secret']
 
-    form = OrderForm()
+    if request.user.is_authenticated:
+        try:
+            profile = Profile.objects.get(user=request.user)
+            form = OrderForm(initial={
+                'name': profile.default_name,
+                'email': profile.default_email,
+                'phone_number': profile.default_phone_number,
+                'address_line1': profile.default_street_address_1,
+                'address_line2': profile.default_street_address_2,
+                'town_or_city': profile.default_town_or_city,
+                'county': profile.default_county,
+                'postcode': profile.default_postcode,
+                'country': profile.default_country,
+            })
+        except Profile.DoesNotExist:
+            form = OrderForm()
+    else:
+        form = OrderForm()
 
     context = {
         'form': form,
@@ -150,6 +167,8 @@ def checkout_success(request, order_number):
 
     if 'save_details' in request.session:
         profile_data = {
+            'default_name': order.name,
+            'default_email': order.email,
             'default_phone_number': order.phone_number,
             'default_street_address_1': order.address_line1,
             'default_street_address_2': order.address_line2,

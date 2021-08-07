@@ -7,6 +7,8 @@ class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     image = models.ImageField(null=True, upload_to="profile_pics",
                               default='profile_pics/default_profile_pic.jpg')
+    default_name = models.CharField(max_length=150, blank=True)
+    default_email = models.EmailField(max_length=256, blank=True)
     default_phone_number = models.CharField(max_length=20, blank=True)
     default_street_address_1 = models.CharField(max_length=80, blank=True)
     default_street_address_2 = models.CharField(max_length=80, blank=True)
