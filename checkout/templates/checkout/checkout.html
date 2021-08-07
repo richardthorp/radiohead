@@ -108,7 +108,7 @@
                     {{ form.country|as_crispy_field }}
                     {% if user.is_authenticated %}
                     <label for="save_details" class="d-inline mr-3">Tick box to save delivery details.</label>
-                    <input type="checkbox" id="save_details" name="save_details">
+                    <input type="checkbox" id="save_details" name="save_details" checked>
                     {% endif %}
                 </fieldset>
                 <fieldset class="mt-2">

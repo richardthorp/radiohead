@@ -3,6 +3,7 @@ import json
 from django.http import HttpResponse
 from .models import Order, AlbumOrderLineItem, ProductOrderLineItem
 from shop.models import Product, Album
+from profiles.models import Profile
 
 
 # Webhook handler copied from Boutique Ado project
@@ -21,11 +22,23 @@ class StripeWH_Handler:
         # Handle a payment_intent.succeeded webhook
         intent = event.data.object
         pid = intent.id
-        save_details = intent.metadata.save_details
         bag = intent.metadata.bag
         billing_details = intent.charges.data[0].billing_details
         shipping_details = intent.shipping
         grand_total = round(intent.amount / 100, 2)
+
+        if intent.metadata.save_details == 'true':
+            profile = Profile.objects.get(user__username=intent.metadata.user)
+            profile.default_email = billing_details.email
+            profile.default_name = shipping_details.name
+            profile.default_phone_number = shipping_details.phone
+            profile.default_address_line1 = shipping_details.address.line1
+            profile.default_address_line2 = shipping_details.address.line2
+            profile.default_town_or_city = shipping_details.address.city
+            profile.default_county = shipping_details.address.state
+            profile.default_postcode = shipping_details.address.postal_code
+            profile.default_country = shipping_details.address.country
+            profile.save()
 
         order_exists = False
         attempt = 1
@@ -55,7 +68,7 @@ class StripeWH_Handler:
 
         if order_exists:
             return HttpResponse(
-                content=f'Webhook received: {event["type"]}.'
+                content=f'Webhook received: {event["type"]}. '
                         'Order is in database',
                 status=200
             )
@@ -120,7 +133,7 @@ class StripeWH_Handler:
                 return HttpResponse(content=f'Webhook received: '
                                     f'{event["type"]}. Error: {e}',
                                     status=500)
-        return HttpResponse(content=f'Webhook received: {event["type"]}.'
+        return HttpResponse(content=f'Webhook received: {event["type"]}. '
                             f'Order created in webhook.')
 
     def handle_payment_intent_failed(self, event):
