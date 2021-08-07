@@ -2,6 +2,7 @@ import uuid
 from django.db import models
 from django.db.models import Sum
 from django.conf import settings
+from django_countries.fields import CountryField
 
 from profiles.models import Profile
 from shop.models import Album, Product
@@ -21,7 +22,8 @@ class Order(models.Model):
     town_or_city = models.CharField(null=False, blank=False, max_length=50)
     county = models.CharField(max_length=80)
     postcode = models.CharField(blank=True, default="", max_length=20)
-    country = models.CharField(blank=False, null=False, max_length=80)
+    country = CountryField(blank_label='Select Country', null=False,
+                           blank=False)
     date = models.DateTimeField(auto_now_add=True)
     delivery_cost = models.DecimalField(null=False, decimal_places=2,
                                         max_digits=4, default=0)
