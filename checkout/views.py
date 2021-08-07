@@ -1,15 +1,17 @@
 import json
+import stripe
 from django.shortcuts import render, HttpResponse
 from django.views.decorators.http import require_POST
 from django.contrib import messages
 from django.shortcuts import reverse, redirect
 from django.conf import settings
-import stripe
 
 from bag.contexts import bag_details
-from .forms import OrderForm
-from .models import Order, ProductOrderLineItem, AlbumOrderLineItem
 from shop.models import Album, Product
+from profiles.forms import ProfileForm
+from profiles.models import Profile
+from .models import Order, ProductOrderLineItem, AlbumOrderLineItem
+from .forms import OrderForm
 
 
 # cache_checkout_data function copied from Boutique Ado project
@@ -140,10 +142,28 @@ def checkout_success(request, order_number):
     if 'bag' in request.session:
         del request.session['bag']
 
+    if request.user.is_authenticated:
+        profile = request.user.profile
+        order = Order.objects.get(order_number=order_number)
+        order.profile = profile
+        order.save()
+
     if 'save_details' in request.session:
-        pass
+        profile_data = {
+            'default_phone_number': order.phone_number,
+            'default_street_address_1': order.address_line1,
+            'default_street_address_2': order.address_line2,
+            'default_town_or_city': order.town_or_city,
+            'default_county': order.county,
+            'default_postcode': order.postcode,
+            'default_country': order.country,
+        }
+        form = ProfileForm(profile_data, instance=profile)
+        if form.is_valid():
+            form.save()
 
     context = {
         'order': Order.objects.get(order_number=order_number),
     }
+
     return render(request, 'checkout/checkout_success.html', context)

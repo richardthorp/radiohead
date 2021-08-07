@@ -6,7 +6,7 @@ from .models import Order, ProductOrderLineItem, AlbumOrderLineItem
 class ProductOrderLineItemAdminInline(admin.TabularInline):
     model = ProductOrderLineItem
     # verbose_name = 'Product Order Line Items'
-    fields = ('order', 'product', 'size', 'quantity', 'lineitem_total')
+    fields = ('order','product', 'size', 'quantity', 'lineitem_total')
     readonly_fields = ('lineitem_total',)
 
 
@@ -21,7 +21,6 @@ class OrderAdmin(admin.ModelAdmin):
     inlines = (AlbumOrderLineItemAdminInline, ProductOrderLineItemAdminInline,)
     readonly_fields = ('order_number',
                        'date',
-                       'profile',
                        'delivery_cost',
                        'order_total',
                        'grand_total',

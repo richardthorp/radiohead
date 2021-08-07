@@ -15,12 +15,52 @@
             </form>
         </div>
         <div class="col-12 col-md-6">
-                <h3 class="header-font">Subscriptions</h3>
-                <hr>
-                <h3 class="header-font">Orders</h3>
-
+            <h3 class="header-font">Subscriptions</h3>
+            <hr>
+            <h3 class="header-font">Orders</h3>
+            <p class="text-muted text-center">Click on an order to see order summary.</p>
+            <table class="table table-hover table-responsive-stack">
+                <thead>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">Total</th>
+                        <th scope="col">Order #</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td>
+                            <a href="{% url 'order_history' order.order_number %}" class="text-decoration-none">
+                                <div class="h-100 w-100 clear-font text-dark order-date">
+                                    {{ order.date }}
+                                </div>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{% url 'order_history' order.order_number %}" class="text-decoration-none">
+                                <div class="h-100 w-100 clear-font text-dark">
+                                    £{{ order.grand_total }}
+                                </div>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="{% url 'order_history' order.order_number %}" class="text-decoration-none">
+                                <div class="h-100 w-100 clear-font text-dark">
+                                    {{ order.order_number|truncatechars:6 }}
+                                </div>
+                            </a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>
 
+{% endblock %}
+{% block postloadjs %}
+{{ block.super }}
+<script src="{% static 'profiles/js/profiles.js' %}"></script>
 {% endblock %}
