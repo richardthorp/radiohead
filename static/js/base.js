@@ -66,3 +66,14 @@ $(document).ready(function() {
         addWelcomeText();
     }, 10000)
 })
+
+// Fix onscroll whitespace bug for background image on mobile
+// Solution by Stack Overflow user 'Jason' from:
+//https://stackoverflow.com/questions/24944925/background-image-jumps-when-address-bar-hides-ios-android-mobile-chrome
+const bg = $(".main-site-bg")
+function resizeBackground() {
+    bg.height($(window).height() + 60);
+}
+
+$(window).resize(resizeBackground);
+resizeBackground();
