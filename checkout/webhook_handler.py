@@ -1,5 +1,8 @@
 from time import sleep
 import json
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.conf import settings
 from django.http import HttpResponse
 from .models import Order, AlbumOrderLineItem, ProductOrderLineItem
 from shop.models import Product, Album
@@ -10,6 +13,25 @@ from profiles.models import Profile
 class StripeWH_Handler:
     def __init__(self, request):
         self.request = request
+
+    def _send_confirmation_email(self, order):
+        customer_email = order.email
+        subject = render_to_string(
+            'checkout/confirmation_emails/confirmation_email_subject.txt',
+            {'order': order}
+        )
+
+        body = render_to_string(
+            'checkout/confirmation_emails/confirmation_email_body.txt',
+            {'order': order, 'contact_email': settings.DEFAULT_FROM_EMAIL}
+        )
+
+        send_mail(
+            subject,
+            body,
+            settings.DEFAULT_FROM_EMAIL,
+            [customer_email]
+        )
 
     def handle_event(self, event):
         # Handle a generic/unknown/unexpected webhook
@@ -67,6 +89,7 @@ class StripeWH_Handler:
                 sleep(1)
 
         if order_exists:
+            self._send_confirmation_email(order)
             return HttpResponse(
                 content=f'Webhook received: {event["type"]}. '
                         'Order is in database',
@@ -133,6 +156,7 @@ class StripeWH_Handler:
                 return HttpResponse(content=f'Webhook received: '
                                     f'{event["type"]}. Error: {e}',
                                     status=500)
+        self._send_confirmation_email(order)
         return HttpResponse(content=f'Webhook received: {event["type"]}. '
                             f'Order created in webhook.')
 

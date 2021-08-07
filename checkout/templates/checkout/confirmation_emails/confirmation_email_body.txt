@@ -1,0 +1,19 @@
+Hello {{ order.name }},
+
+This is your order confirmation email for order number {{ order.order_number }}.
+
+Your order will be sent to:
+Name:           {{ order.name }}
+Address Line 1: {{ order.address_line1 }}
+Address Line 2: {{ order.address_line2 }}
+Town or City:   {{ order.town_or_city }}
+County:         {{ order.county }}
+Postcode:       {{ order.postcode }}
+Country:        {{ order.country }}
+
+Your card has been charged £{{ order.grand_total }}.
+
+If there are any issues, please contact us at {{ contact_email }}.
+
+Thank you for your support,
+Team Radiohead
