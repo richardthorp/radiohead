@@ -46,7 +46,7 @@ function getComments(page=1){
         error: function(xhr,status,error){
             if(xhr.status === 404){
                 htmlContent = 
-                    `<p>This video currently has no comments.</p>`;
+                    `<p class="text-center">This video currently has no comments.</p>`;
                 
             } else {
                 htmlContent = 
