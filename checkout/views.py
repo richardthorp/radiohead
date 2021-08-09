@@ -80,7 +80,7 @@ def checkout(request):
                             'size': size,
                             'quantity': quantity,
                         }
-                        print(item_details)
+                        # print(item_details)
                         order_line_item = ProductOrderLineItem(**item_details)
                         order_line_item.save()
 
@@ -107,7 +107,7 @@ def checkout(request):
         else:
             messages.error(request, ('There is an issue with your information,'
                                      ' please check the form and try again.'))
-            print(order_form.errors)
+            # print(order_form.errors)
 
     # GET REQUEST
     if not bag:
@@ -134,8 +134,8 @@ def checkout(request):
                 'name': profile.default_name,
                 'email': profile.default_email,
                 'phone_number': profile.default_phone_number,
-                'address_line1': profile.default_street_address_1,
-                'address_line2': profile.default_street_address_2,
+                'address_line1': profile.default_address_line1,
+                'address_line2': profile.default_address_line2,
                 'town_or_city': profile.default_town_or_city,
                 'county': profile.default_county,
                 'postcode': profile.default_postcode,
