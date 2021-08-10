@@ -1,4 +1,3 @@
-from decimal import Decimal
 from django.test import TestCase
 from shop.models import Album, Product
 from ..models import Order, ProductOrderLineItem, AlbumOrderLineItem
