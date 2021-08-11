@@ -1,4 +1,5 @@
-import stripe
+# from stripe.PaymentIntent import modify
+from decimal import Decimal
 from django.test import TestCase
 from django.shortcuts import reverse
 from django.contrib.auth.models import User
@@ -37,6 +38,36 @@ class TestCheckoutViews(TestCase):
             price=9.99,
             image='test_image'
         )
+        # {'email': 'test@email.com',
+        # 'name': 'Test User',
+        # 'phone_number': '12345678901',
+        # 'address_line1': 'Test Line 1',
+        # 'town_or_city': 'Test Town',
+        # 'country': 'GB',
+        # 'delivery_cost': 0,
+        # 'order_total': 50.00,
+        # 'grand_total': 50.00,
+        # 'stripe_pid': 'test_pid'}
+        self.order = Order.objects.create(
+            email='test@email.com',
+            name='Test User',
+            phone_number='12345678901',
+            address_line1='Test Line 1',
+            town_or_city='Test Town',
+            country='GB'
+            )
+        self.product_line_item = ProductOrderLineItem.objects.create(
+            order=self.order,
+            product=self.clothing_product,
+            size='S',
+            quantity=1
+            )
+        self.album_line_item = AlbumOrderLineItem.objects.create(
+            order=self.order,
+            album=self.album,
+            format='cd',
+            quantity=1
+            )
 
     def test_get_checkout_page_with_empty_bag(self):
         url = reverse('checkout')
@@ -86,7 +117,7 @@ class TestCheckoutViews(TestCase):
         })
         checkout_url = reverse('checkout')
         post_data = {
-            'name': 'Test User',
+            'name': 'New Test User',
             'email': 'test@user.com',
             'phone_number': 12345678901,
             'address_line1': 'Test Line 1',
@@ -100,20 +131,24 @@ class TestCheckoutViews(TestCase):
         }
         response = self.client.post(checkout_url, data=post_data)
 
-        # Ensure an order has been created
+        # Ensure an order has been created -
+        # One already created in SetUp
         orders = Order.objects.all()
-        self.assertEqual(len(orders), 1)
+        self.assertEqual(len(orders), 2)
 
         # Check AlbumOrderLineItem has been created
+        # One already created in SetUp
         album_line_items = AlbumOrderLineItem.objects.all()
-        self.assertEqual(len(album_line_items), 1)
+        self.assertEqual(len(album_line_items), 2)
 
-        # Check 2 ProductOrderLineItems have been created
+        # Check 3 ProductOrderLineItems have been created -
+        # 1 created in SetUp and 2 created from bag in call to
+        # checkout above
         product_line_items = ProductOrderLineItem.objects.all()
-        self.assertEqual(len(product_line_items), 2)
+        self.assertEqual(len(product_line_items), 3)
 
         # Get the newly created order
-        order = Order.objects.first()
+        order = Order.objects.get(name='New Test User')
 
         self.assertRedirects(response,
                              reverse('checkout_success',
@@ -131,7 +166,7 @@ class TestCheckoutViews(TestCase):
         })
         checkout_url = reverse('checkout')
         post_data = {
-            'name': 'Test User',
+            'name': 'Anonymous Test User',
             'email': 'test@user.com',
             'phone_number': 12345678901,
             'address_line1': 'Test Line 1',
@@ -144,17 +179,18 @@ class TestCheckoutViews(TestCase):
         }
         response = self.client.post(checkout_url, data=post_data)
 
-        # Ensure an order has been created
+        # Ensure an order has been created -
+        # one already created in SetUp
         orders = Order.objects.all()
-        self.assertEqual(len(orders), 1)
+        self.assertEqual(len(orders), 2)
 
-        # Ensure AlbumOrderLineItem has been created
+        # Ensure AlbumOrderLineItem has been created -
+        # one already created in SetUp
         album_line_items = AlbumOrderLineItem.objects.all()
-        self.assertEqual(len(album_line_items), 1)
+        self.assertEqual(len(album_line_items), 2)
 
         # Get the newly created order
-        order = Order.objects.first()
-
+        order = Order.objects.get(name='Anonymous Test User')
         self.assertRedirects(response,
                              reverse('checkout_success',
                                      args=[order.order_number]))
@@ -255,3 +291,39 @@ class TestCheckoutViews(TestCase):
         with self.assertRaises(Profile.DoesNotExist):
             Profile.objects.get(user=response.wsgi_request.user)
         self.assertIsInstance(response.context['form'], OrderForm)
+
+    def test_product_order_line_item_updates_order_total_on_delete(self):
+        # Get the order containing the line items created in SetUp
+        order = Order.objects.get(name='Test User',
+                                  email='test@email.com')
+
+        # Get the initial grand total of the order
+        initial_total = order.grand_total
+
+        # Delete the ProductOrderLineItem and ensure the related
+        # order grand total is now £9.99 less than before
+        product_line_item = order.productlineitems.first()
+        product_line_item.delete()
+
+        new_total = round(order.grand_total, 2)
+
+        self.assertEqual(new_total,
+                         initial_total - round(Decimal(9.99), 2))
+
+    def test_album_order_line_item_updates_order_total_on_delete(self):
+        # Get the order containing the line items created in SetUp
+        order = Order.objects.get(name='Test User',
+                                  email='test@email.com')
+
+        # Get the initial grand total of the order
+        initial_total = order.grand_total
+
+        # Delete the ProductOrderLineItem and ensure the related
+        # order grand total is now £9.99 less than before
+        album_line_item = order.albumlineitems.first()
+        album_line_item.delete()
+
+        new_total = round(order.grand_total, 2)
+
+        self.assertEqual(new_total,
+                         initial_total - round(Decimal(9.99), 2))
