@@ -100,6 +100,38 @@ class TestBagViews(TestCase):
         self.assertRedirects(response, reverse('shop_detail',
                                                args=['product', product.slug]))
 
+    def test_add_sized_product_returns_message_and_redirects(self):
+        product = Product.objects.get(name='test_clothing_item')
+        url = reverse('add_to_bag', args=[product.slug])
+        data = {
+            'size': 'S',
+            'quantity': 1,
+        }
+        response = self.client.post(url, data=data)
+
+        self.assertRedirects(response, reverse('view_bag'))
+
+        messages = list(response.wsgi_request._messages)
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]),
+                         f'Added Small {product.name} to your bag.')
+
+    def test_non_sized_product_quantity_must_be_more_than_one(self):
+        product = Product.objects.get(name='test_other_item')
+        url = reverse('add_to_bag', args=[product.slug])
+        data = {
+            'quantity': 0,
+        }
+        response = self.client.post(url, data=data)
+        messages = list(response.wsgi_request._messages)
+
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]),
+                         'You can not add less than one item to your bag!')
+        self.assertNotIn('bag', self.client.session)
+        self.assertRedirects(response, reverse('shop_detail',
+                                               args=['product', product.slug]))
+
     def test_album_quantity_must_be_more_than_one(self):
         album = Album.objects.first()
         url = reverse('add_to_bag', args=[album.slug])
