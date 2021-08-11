@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'profiles',
     'bag',
     'checkout',
+    'portal',
 ]
 
 MIDDLEWARE = [
@@ -223,6 +224,7 @@ STANDARD_DELIVERY_COST = round(Decimal(4.99), 2)
 STRIPE_PUBLIC_KEY = os.environ.get('STRIPE_PUBLIC_KEY', "")
 STRIPE_SECRET_KEY = os.environ.get('STRIPE_SECRET_KEY', "")
 STRIPE_WEBHOOK_SECRET = os.environ.get('STRIPE_WEBHOOK_SECRET', "")
+SUBSCRIPTION_PRICE_ID = os.environ.get('SUBSCRIPTION_PRICE_ID', "")
 
 SONGKICK_API_KEY = os.environ.get('SONGKICK_API_KEY')
 
@@ -231,5 +233,3 @@ SONGKICK_API_KEY = os.environ.get('SONGKICK_API_KEY')
 SECURE_REFERRER_POLICY = "no-referrer-when-downgrade"
 
 DEFAULT_FROM_EMAIL = 'radiohead_ms4@googlemail.com'
-
-
