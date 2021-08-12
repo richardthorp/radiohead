@@ -9,6 +9,12 @@
     <a href="{% url 'create_portal_customer' %}">Sign Up</a>
     {% else %}
     <!-- ADD REGISTER/SIGN IN LINKS HERE -->
+    <p>
+        You must be registered and signed in to subscribe to Portal.<br>
+        <a href="{% url 'account_login' %}?next={% url 'portal_info' %}">Sign in</a> or 
+        <a href="{% url 'account_signup' %}?next={% url 'portal_info' %}">register</a> to save
+        your details for a quicker checkout.
+    </p>
     {% endif %}
 </div>
 {% endblock %}

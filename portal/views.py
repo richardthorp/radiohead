@@ -1,29 +1,35 @@
 import stripe
 from django.conf import settings
-from django.shortcuts import render
+from django.contrib import messages
+from django.shortcuts import render, redirect, reverse
+from django.contrib.auth.decorators import login_required
 
 
+# This view ensures that the user is logged in
 def portal_info(request):
     return render(request, 'portal/portal_info.html')
 
 
+@login_required
 def create_portal_customer(request):
     stripe.api_key = settings.STRIPE_SECRET_KEY
     email = request.user.email
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
-    print('STRIPE KEY:', stripe_public_key)
     try:
-        # Create a new customer object
-        customer = stripe.Customer.create(
-            email=email
-            )
-        # At this point, associate the ID of the Customer object with your
-        # own internal representation of a customer, if you have one.
-        # print(customer)
+        user_profile = request.user.profile
+        if not user_profile.portal_cust_id:
+            # Create a new customer object
+            customer = stripe.Customer.create(
+                email=email
+                )
+            # Add the Stripe customer ID to the users profile model
+            user_profile.portal_cust_id = customer.id
+            user_profile.save()
 
-        customer_id = customer.id
+        customer_id = request.user.profile.portal_cust_id
         price_id = settings.SUBSCRIPTION_PRICE_ID
 
+        # CHECK HERE FOR AN ACITVE SUBSCRIPTION AND REDIRECT TO PORTAL CONTENT IF SO
         subscription = stripe.Subscription.create(
             customer=customer_id,
             items=[{
@@ -47,7 +53,9 @@ def create_portal_customer(request):
         return render(request, 'portal/portal_sign_up.html', context)
 
     except Exception as e:
-        print('IN THE EXCEPTION', e)
+        messages.error(request, 'Sorry, there was an issue generating the new subscription, \
+            "please try again later')
+        redirect(reverse('portal_info'))
 
 
 def portal_sign_up(request):

@@ -16,6 +16,9 @@ class Profile(models.Model):
     default_county = models.CharField(max_length=80, blank=True)
     default_postcode = models.CharField(max_length=20, blank=True)
     default_country = CountryField(blank_label='Select Country', blank=True)
+    portal_cust_id = models.CharField(max_length=256, blank=True)
+    subscription_id = models.CharField(max_length=256, blank=True)
+    subscription_status = models.CharField(max_length=256, blank=True)
 
     def __str__(self):
         return f"{self.user.username}'s Profile"
