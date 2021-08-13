@@ -9,8 +9,7 @@ from profiles.models import Profile
 @require_POST
 @csrf_exempt
 def portal_webhook(request):
-    # wh_secret = settings.STRIPE_WEBHOOK_SECRET
-    wh_secret = 'whsec_jn4ADzYjMwC8hI0kL3C534UWQL6I9Bkj'
+    wh_secret = settings.STRIPE_WEBHOOK_SECRET
     stripe.api_key = settings.STRIPE_SECRET_KEY
     try:
         signature = request.headers['stripe-signature']
@@ -24,16 +23,16 @@ def portal_webhook(request):
         return e
 
     data_object = data['object']
-    # Get the user profile associated with the Stripe customer ID
-    try:
-        profile = Profile.objects.get(portal_cust_id=data_object['customer'])
-    except Profile.DoesNotExist:
-        return HttpResponse(
-            content='Error finding User in DB',
-            status=500
-        )
 
     if event_type == 'customer.subscription.updated':
+        # Get the user profile associated with the Stripe customer ID
+        try:
+            profile = Profile.objects.get(portal_cust_id=data_object['customer'])
+        except Profile.DoesNotExist:
+            return HttpResponse(
+                content='Error finding User in DB',
+                status=500
+            )
         profile.subscription_status = 'active'
         profile.save()
         return HttpResponse(
