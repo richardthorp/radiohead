@@ -79,6 +79,10 @@ def portal_webhook(request):
         # upon your subscription settings. Or if the user cancels it.
         # print(data)
         print('SUB DELETED')
+        return HttpResponse(
+            content=f'Webhook received: {event["type"]}',
+            status=200
+        )
 
     # Set the default payment method for recurring charges
     elif event_type == 'invoice.payment_succeeded':

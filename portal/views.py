@@ -20,6 +20,7 @@ def create_portal_customer(request):
         if not user_profile.portal_cust_id:
             # If the user doesn't have an existing stripe customer ID,
             # create a new customer object
+            print('SHOULDNT BE HERE')
             customer = stripe.Customer.create(
                 email=email
                 )
