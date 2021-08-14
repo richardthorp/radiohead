@@ -21,31 +21,29 @@ def profile(request):
             form.save()
             messages.success(request, 'Profile updated')
     if profile.subscription_status == 'active':
-        # Get the subscription object fom Stripe
-        subscription = stripe.Subscription.retrieve(
-            profile.subscription_id
-        )
-        print(subscription)
-        # Get the subscription end date and format it to render
-        subscription_end_date = datetime.fromtimestamp(
-            subscription.current_period_end
+        # Get the Subscription and Payment objects from Stripe
+        try:
+            subscription = stripe.Subscription.retrieve(
+                profile.subscription_id
             )
-        formatted_end_data = subscription_end_date.strftime("%b %d %Y")
-
-        # # Get customer card details
-        # card_details = stripe.Customer.retrieve_source(
-        #     profile.portal_cust_id,
-        #     # "card_1ItbFKGAzDhDskfJspOwfbNg",
-        #     )
-        # print(card_details)
-        customer = stripe.Customer.retrieve(profile.portal_cust_id)
-        # print(customer)
+            # Get the subscription end date and format it to render to template
+            subscription_end_date = datetime.fromtimestamp(
+                subscription.current_period_end
+                )
+            formatted_end_data = subscription_end_date.strftime("%b %d %Y")
+            default_payment_method = stripe.PaymentMethod.retrieve(
+                subscription.default_payment_method
+            )
+            # customer = stripe.Customer.retrieve(profile.portal_cust_id)
+        except Exception:
+            messages.error(request, f"We couldn't find a Portal subscription \
+                for your profile. If you think this is an error, please \
+                contact us at {settings.DEFAULT_FROM_EMAIL}")
 
         # Collate the subscription details to pass to template
         subscription_details = {
             'end_date': formatted_end_data,
             'portal_price': settings.PORTAL_PRICE,
-
         }
     else:
         subscription_details = None
@@ -54,6 +52,11 @@ def profile(request):
         'profile': profile,
         'orders': profile.orders.all().order_by('-date'),
         'subscription_details': subscription_details,
+        'default_payment_details': {
+            'last_4': default_payment_method.card.last4,
+            'exp_year': default_payment_method.card.exp_year,
+            'exp_month': default_payment_method.card.exp_month,
+        },
         'form': form,
     }
 

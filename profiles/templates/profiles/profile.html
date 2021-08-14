@@ -17,8 +17,16 @@
         <div class="col-12 col-md-6">
             <h3 class="header-font ">Subscriptions</h3>
             {%  if subscription_details %}
-            <p class="text-center">Your Portal subscription is active. Your renewal date is on {{ subscription_details.end_date }}.</p>
-            <p class="text-center">On this day your card will be charged £{{ subscription_details.portal_price }}</p>
+            <p>
+                Your Portal subscription is active. Your renewal date is on {{ subscription_details.end_date }}.<br>
+                On this day your card will be charged £{{ subscription_details.portal_price }}
+            </p>
+            <h6 class="header-font">Card Details:</h6>
+            <p class="clear-font">
+                Last 4 digits: {{ default_payment_details.last_4 }}<br>
+                Expires: {{ default_payment_details.exp_month }}/{{ default_payment_details.exp_year }}<br>
+                <!-- Last 4 digits: {{ default_payment_details.last_4 }}<br> -->
+            </p>
             {% else %}
             <p>
                 You do not currrently have a Portal subscription.<br>
