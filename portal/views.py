@@ -15,23 +15,35 @@ def create_portal_customer(request):
     stripe.api_key = settings.STRIPE_SECRET_KEY
     email = request.user.email
     stripe_public_key = settings.STRIPE_PUBLIC_KEY
+    user_profile = request.user.profile
     try:
-        user_profile = request.user.profile
-        if not user_profile.portal_cust_id:
-            # If the user doesn't have an existing stripe customer ID,
-            # create a new customer object
-            print('SHOULDNT BE HERE')
-            customer = stripe.Customer.create(
-                email=email
+        # If the user profile already has a stripe customer ID, try to
+        # retrieve the Stripe customer object associated with the profile
+        if user_profile.portal_cust_id:
+            try:
+                customer = stripe.Customer.retrieve(
+                    user_profile.portal_cust_id
                 )
-            # Add the Stripe customer ID to the users profile model
-            user_profile.portal_cust_id = customer.id
-            user_profile.save()
+                # If the customer object has been deleted on Stripe, create a
+                # new stripe customer object
+                if 'deleted' in customer.keys():
+                    customer = stripe.Customer.create(email=email)
 
-        customer_id = request.user.profile.portal_cust_id
-        price_id = settings.SUBSCRIPTION_PRICE_ID
+            # Stripe failed to retrieve the customer object
+            except Exception:
+                customer = stripe.Customer.create(email=email)
 
-        # Check whether the user already has a subscription ID with Stripe
+        # No customer ID attached to profile - create a new Stripe
+        # customer object
+        else:
+            customer = stripe.Customer.create(email=email)
+
+        # Add the Stripe customer ID to the users profile model
+        user_profile.portal_cust_id = customer.id
+        user_profile.save()
+
+        # If the user profile has a subscription ID, try to retrieve the
+        # subscription from Stripe
         if user_profile.subscription_id:
             try:
                 subscription = stripe.Subscription.retrieve(
@@ -41,14 +53,19 @@ def create_portal_customer(request):
                 # Portal Content
                 if subscription.status == 'active':
                     return redirect(reverse('shop'))  # NEED TO CHANGE THIS TO PORTAL CONTENT
+
             # If Stripe returns anything but an active subscription, delete the
-            # Subscription ID on the user profile and create a new Subscription
+            # Subscription ID on the user profile
                 else:
                     user_profile.subscription_id = ""
                     user_profile.save()
             except Exception:
                 user_profile.subscription_id = ""
                 user_profile.save()
+
+        # Create a new subscription for the user
+        customer_id = request.user.profile.portal_cust_id
+        price_id = settings.SUBSCRIPTION_PRICE_ID
 
         subscription = stripe.Subscription.create(
             customer=customer_id,
@@ -60,8 +77,8 @@ def create_portal_customer(request):
             metadata={'email': request.user.email}
         )
 
-        # Save the Subscription ID on the Profile model to use for changing
-        # or deleting subscription
+        # Save the Subscription ID on the Profile model to use when retrieving
+        # subscription
         user_profile.subscription_id = subscription.id
         user_profile.save()
 
@@ -70,11 +87,7 @@ def create_portal_customer(request):
             'client_secret': (subscription.latest_invoice.
                               payment_intent.client_secret),
             'stripe_public_key': stripe_public_key,
-
         }
-        # request.session['requestsubscriptionId'] = subscription.id,
-        # request.session['clientSecret'] = (subscription.latest_invoice.
-        #                                    payment_intent.client_secret)
 
         return render(request, 'portal/portal_sign_up.html', context)
 
