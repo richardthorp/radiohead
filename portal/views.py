@@ -1,8 +1,11 @@
 import stripe
 from django.conf import settings
 from django.contrib import messages
-from django.shortcuts import render, redirect, reverse
+from django.shortcuts import render, redirect, reverse, HttpResponse
 from django.contrib.auth.decorators import login_required
+
+stripe.api_key = settings.STRIPE_SECRET_KEY
+stripe_public_key = settings.STRIPE_PUBLIC_KEY
 
 
 # This view ensures that the user is logged in
@@ -12,9 +15,7 @@ def portal_info(request):
 
 @login_required
 def create_portal_customer(request):
-    stripe.api_key = settings.STRIPE_SECRET_KEY
     email = request.user.email
-    stripe_public_key = settings.STRIPE_PUBLIC_KEY
     user_profile = request.user.profile
     try:
         # If the user profile already has a stripe customer ID, try to
@@ -99,9 +100,45 @@ def create_portal_customer(request):
 
 
 def portal_sign_up(request):
-    # context = {
-    #     'client_secret': request.session.get('clientSecret'),
-    #     'subscription_id': request.session.get('requestsubscriptionId'),
-    # }
+    context = {
+        'client_secret': request.session.get('clientSecret'),
+        'subscription_id': request.session.get('requestsubscriptionId'),
+    }
     # print('SUB ID: ', request.session.get('requestsubscriptionId'))
     return render(request, 'portal/portal_sign_up.html', context)
+
+
+def update_payment_card(request):
+    # Get the customer object
+    user_profile = request.user.profile
+    customer = stripe.Customer.retrieve(
+        user_profile.portal_cust_id
+    )
+    # Create a new payment intent
+    intent = stripe.SetupIntent.create(
+        customer=customer['id']
+    )
+    context = {
+        'stripe_public_key': stripe_public_key,
+        'client_secret': intent.client_secret,
+    }
+    return render(request, 'portal/update_payment_card.html', context)
+
+
+def set_default_card(request):
+    user_profile = request.user.profile
+    payment_method_id = request.POST['payment_method_id']
+    subscription_id = user_profile.subscription_id
+
+    try:
+        stripe.Subscription.modify(
+            subscription_id,
+            default_payment_method=payment_method_id
+        )
+
+        messages.success(request, 'Payment method updated')
+        return HttpResponse(status=200)
+    except Exception:
+        messages.error(request, 'Error updating card details, \
+            please try again later.')
+        return HttpResponse(status=500)

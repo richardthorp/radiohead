@@ -15,6 +15,7 @@
             </form>
         </div>
         <div class="col-12 col-md-6">
+            <hr class="d-md-none">
             <h3 class="header-font ">Subscriptions</h3>
             {%  if subscription_details %}
             <p>
@@ -25,8 +26,9 @@
             <p class="clear-font">
                 Last 4 digits: {{ default_payment_details.last_4 }}<br>
                 Expires: {{ default_payment_details.exp_month }}/{{ default_payment_details.exp_year }}<br>
-                <!-- Last 4 digits: {{ default_payment_details.last_4 }}<br> -->
+                <a href="{% url 'update_payment_card' %}" class="btn btn-dark custom-btn mt-3">Update Card Details</a>
             </p>
+
             {% else %}
             <p>
                 You do not currrently have a Portal subscription.<br>

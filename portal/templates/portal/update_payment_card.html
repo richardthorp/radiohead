@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container content-container">
+    <h1 class="text-center header-font page-header">Update Card Details</h1>
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <a href="{% url 'profile' %}">Back to Profile</a>
+            <form action="{% url 'profile' %}" method="GET" id="update-card-form" data-secret="{{ client_secret }}">
+                {% csrf_token %}
+                    <legend class="header-font">Payment Details</legend>
+                    <label for="cardholder-name">Cardholder Name:</label>
+                    <input type="text" name="cardholder-name" id="cardholder-name" class="mb-3 w-100">
+                    <div id="card-element" class="form-control"></div>
+                    <p id="card-errors" class="text-danger" role="alert"></p>
+                    <input type="hidden" value="{{ client_secret }}" name="client_secret">
+                <button id="update-button" class="btn btn-dark custom-btn" type="submit">Update</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+{% block postloadjs %}
+{{ block.super }}
+{{ stripe_public_key|json_script:"id_stripe_public_key" }}
+{{ checkout_session_id|json_script:"id_checkout_session_id" }}
+{{ client_secret|json_script:"id_client_secret" }}
+<script src="{% static 'portal/js/stripe-elements.js' %}"></script>
+<script src="{% static 'portal/js/update-card.js' %}"></script>
+{% endblock %}

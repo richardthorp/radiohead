@@ -9,4 +9,9 @@ urlpatterns = [
     path('portal_sign_up/', views.portal_sign_up,
          name='portal_sign_up'),
     path('portal_wh/', portal_webhook, name='portal_webhook'),
+    path('update_payment_card/', views.update_payment_card,
+         name='update_payment_card'),
+    path('set_default_card/', views.set_default_card,
+         name='set_default_card'),
+
 ]

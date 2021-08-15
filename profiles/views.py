@@ -34,6 +34,11 @@ def profile(request):
             default_payment_method = stripe.PaymentMethod.retrieve(
                 subscription.default_payment_method
             )
+            default_payment_details = {
+                'last_4': default_payment_method.card.last4,
+                'exp_year': default_payment_method.card.exp_year,
+                'exp_month': default_payment_method.card.exp_month
+            }
             # customer = stripe.Customer.retrieve(profile.portal_cust_id)
         except Exception:
             messages.error(request, f"We couldn't find a Portal subscription \
@@ -47,16 +52,13 @@ def profile(request):
         }
     else:
         subscription_details = None
+        default_payment_details = None
 
     context = {
         'profile': profile,
         'orders': profile.orders.all().order_by('-date'),
         'subscription_details': subscription_details,
-        'default_payment_details': {
-            'last_4': default_payment_method.card.last4,
-            'exp_year': default_payment_method.card.exp_year,
-            'exp_month': default_payment_method.card.exp_month,
-        },
+        'default_payment_details': default_payment_details,
         'form': form,
     }
 
