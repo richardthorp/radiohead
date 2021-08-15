@@ -22,9 +22,8 @@ updateCardForm.addEventListener('submit', function (ev) {
     .then(function(result) {
         if (result.error) {
             // Display error.message in your UI.
-            $('#card-errors').text(result.error);
-
-            console.log(result.error)
+            $('#card-errors').text(result.error.message);
+            $("#loading-overlay").fadeToggle(100);
         } else {
             // The setup has succeeded. Display a success message.
             const csrfToken = $("input[name=csrfmiddlewaretoken]").val();

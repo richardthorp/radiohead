@@ -2,10 +2,20 @@
 {% load static %}
 {% block content %}
 <div class="container content-container">
+    <!-- LOADING OVERLAY -->
+    <div id="loading-overlay" class="text-center">
+        <div class="d-flex h-100 text-center flex-column justify-content-center align-items-center">
+            <p class="header-font">Please wait...</p>
+            <p class="header-font">Loading</p>
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading</span>
+            </div>
+        </div>
+    </div>
     <h1 class="text-center header-font page-header">Update Card Details</h1>
     <div class="row">
         <div class="col-12 col-md-6">
-            <a href="{% url 'profile' %}">Back to Profile</a>
+            <a href="{% url 'profile' %}"><i class="fas fa-backward"></i> Back to Profile</a>
             <form action="{% url 'profile' %}" method="GET" id="update-card-form" data-secret="{{ client_secret }}">
                 {% csrf_token %}
                     <legend class="header-font">Payment Details</legend>
