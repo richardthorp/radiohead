@@ -13,5 +13,7 @@ urlpatterns = [
          name='update_payment_card'),
     path('set_default_card/', views.set_default_card,
          name='set_default_card'),
+    path('cancel_subscription/<subscription_id>', views.cancel_subscription,
+         name='cancel_subscription'),
 
 ]

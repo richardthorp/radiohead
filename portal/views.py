@@ -1,3 +1,4 @@
+from datetime import datetime
 import stripe
 from django.conf import settings
 from django.contrib import messages
@@ -142,3 +143,22 @@ def set_default_card(request):
         messages.error(request, 'Error updating card details, \
             please try again later.')
         return HttpResponse(status=500)
+
+
+def cancel_subscription(request, subscription_id):
+    try:
+        # Cancel the subscription at the end of the current billing period
+        subscription = stripe.Subscription.modify(
+            subscription_id,
+            cancel_at_period_end=True
+        )
+        # Get the subscription end date and format it to render to message
+        subscription_end_date = datetime.fromtimestamp(
+            subscription.current_period_end
+            )
+        formatted_end_data = subscription_end_date.strftime("%b %d %Y")
+        messages.success(request, f'Subscription Cancelled. \
+            You may access the Portal until {formatted_end_data}')
+        return redirect(reverse('profile'))
+    except Exception as e:
+        print(e)

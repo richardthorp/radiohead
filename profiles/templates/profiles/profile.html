@@ -17,7 +17,7 @@
         <div class="col-12 col-md-6">
             <hr class="d-md-none">
             <h3 class="header-font ">Subscriptions</h3>
-            {%  if subscription_details %}
+            {% if subscription_details %}
             <p>
                 Your Portal subscription is active. Your renewal date is on {{ subscription_details.end_date }}.<br>
                 On this day your card will be charged £{{ subscription_details.portal_price }}
@@ -26,8 +26,29 @@
             <p class="clear-font">
                 Last 4 digits: {{ default_payment_details.last_4 }}<br>
                 Expires: {{ default_payment_details.exp_month }}/{{ default_payment_details.exp_year }}<br>
-                <a href="{% url 'update_payment_card' %}" class="btn btn-dark custom-btn mt-3">Update Card Details</a>
+                <a href="{% url 'update_payment_card' %}" class="btn btn-dark custom-btn mt-3 mr-3">Update Card Details</a>
+                <button type="button" class="btn custom-btn btn-danger btn-sm custom-btn mt-3" data-toggle="modal"
+                    data-target="#cancel-subsciption-modal" id="cancel-subsciption">
+                    Cancel Subscription
+                </button>
             </p>
+            <!-- Cancel Subscription Modal -->
+            <div class="modal fade" id="cancel-subsciption-modal" tabindex="-1" role="dialog" aria-labelledby="cancel-subsciption"
+                aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-body custom-modal text-center">
+                            Are you sure you want to cancel your Portal subscription?
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn custom-btn btn-sm btn-dark custom-btn"
+                                data-dismiss="modal">BACK</button>
+                            <a href="{% url 'cancel_subscription' subscription_details.subscription_id %}"
+                                class="btn custom-btn btn-sm btn-danger custom-btn">Cancel Subscription</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
 
             {% else %}
             <p>

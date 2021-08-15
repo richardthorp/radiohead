@@ -49,6 +49,7 @@ def profile(request):
         subscription_details = {
             'end_date': formatted_end_data,
             'portal_price': settings.PORTAL_PRICE,
+            'subscription_id': profile.subscription_id
         }
     else:
         subscription_details = None
