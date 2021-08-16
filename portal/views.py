@@ -1,9 +1,11 @@
 from datetime import datetime
+from time import sleep
 import stripe
 from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import render, redirect, reverse, HttpResponse
 from django.contrib.auth.decorators import login_required
+from profiles.models import Profile
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 stripe_public_key = settings.STRIPE_PUBLIC_KEY
@@ -14,6 +16,7 @@ def portal_info(request):
     return render(request, 'portal/portal_info.html')
 
 
+# Generate or find Stripe Customer and create a new Subscription
 @login_required
 def create_portal_customer(request):
     email = request.user.email
@@ -54,7 +57,7 @@ def create_portal_customer(request):
                 # If the subscription is active, redirect user to
                 # Portal Content
                 if subscription.status == 'active':
-                    return redirect(reverse('shop'))  # NEED TO CHANGE THIS TO PORTAL CONTENT
+                    return redirect(reverse('portal_content'))
 
             # If Stripe returns anything but an active subscription, delete the
             # Subscription ID on the user profile
@@ -89,6 +92,7 @@ def create_portal_customer(request):
             'client_secret': (subscription.latest_invoice.
                               payment_intent.client_secret),
             'stripe_public_key': stripe_public_key,
+            'portal_price': settings.PORTAL_PRICE,
         }
 
         return render(request, 'portal/portal_sign_up.html', context)
@@ -100,13 +104,17 @@ def create_portal_customer(request):
         return redirect(reverse('portal_info'))
 
 
-def portal_sign_up(request):
-    context = {
-        'client_secret': request.session.get('clientSecret'),
-        'subscription_id': request.session.get('requestsubscriptionId'),
-    }
-    # print('SUB ID: ', request.session.get('requestsubscriptionId'))
-    return render(request, 'portal/portal_sign_up.html', context)
+# Collect card details and process payment
+# (payment processed in portal-payment.js and stripe-elements.js)
+# def portal_sign_up(request):
+#     context = {
+#         'client_secret': request.session.get('clientSecret'),
+#         'subscription_id': request.session.get('requestsubscriptionId'),
+#         # 'portal_price': str(settings.PORTAL_PRICE),
+#         'portal_price': 'HAHA',
+#     }
+#     # print('SUB ID: ', request.session.get('requestsubscriptionId'))
+#     return render(request, 'portal/portal_sign_up.html', context)
 
 
 def update_payment_card(request):
@@ -162,3 +170,48 @@ def cancel_subscription(request, subscription_id):
         return redirect(reverse('profile'))
     except Exception as e:
         print(e)
+
+
+# This view renders the actual portal content for subscribed users
+@login_required
+def portal_content(request):
+    if request.user.profile.subscription_status == 'active':
+        return render(request, 'portal/portal_content.html')
+    else:
+        # If the user doesn't have an active subscription status on their
+        # profile, allow 5 seconds for the Stripe webhook to be sent to
+        # update the profile
+        attempt = 1
+        active_subscription = False
+        while attempt <= 5:
+            sleep(1)
+            print('ATTEMPT:', attempt)
+            profile = Profile.objects.get(user=request.user)
+            if profile.subscription_status == 'active':
+                active_subscription = True
+                break
+            attempt += 1
+        if active_subscription:
+            return render(request, 'portal/portal_content.html')
+        else:
+            messages.error(request, 'Sorry, you must have an active \
+                subscription to Portal to view this page.')
+            return redirect(reverse('portal_info'))
+
+    # if not request.user.profile.subscription_status == 'active':
+    #     # If the user doesn't have an active subscription status on their
+    #     # profile, allow 5 seconds for the Stripe webhook to be sent to
+    #     # update the profile
+    #     attempt = 1
+    #     while attempt <= 5:
+    #         sleep(1)
+    #         if request.user.profile.subscription_status == 'active':
+    #             active_subscription = True
+    #             break
+    #         attempt += 1            # THIS WHOLE THING NEEDS A VALID SUBSCRIBER OUTCOME!!
+    #     if active_subscription:
+    #         return render(request, 'portal/portal_content.html')
+    #     else:
+    #         messages.error(request, 'You must have an active Portal \
+    #             subscription to view this page')
+    #         return redirect(reverse('portal_info'))

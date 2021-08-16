@@ -2,16 +2,34 @@
 {% load static %}
 {% block content %}
 <div class="container content-container">
+    <!-- LOADING OVERLAY -->
+    <div id="loading-overlay" class="text-center">
+        <div class="d-flex h-100 text-center flex-column justify-content-center align-items-center">
+            <p class="header-font">Please wait...</p>
+            <p class="header-font">Loading</p>
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading</span>
+            </div>
+        </div>
+    </div>
     <h1 class="text-center header-font page-header">Sign Up to Portal</h1>
-    <form action="{% url 'checkout' %}" method="POST" id="signup-form" data-secret="{{ client_secret }}">
-        {% csrf_token %}
-            <legend class="header-font">Payment Details</legend>
-            <div id="card-element" class="form-control"></div>
-            <p id="card-errors" class="text-danger" role="alert"></p>
-            <input type="hidden" value="{{ client_secret }}" name="client_secret">
-        <!-- <p class="clear-font mb-1 mt-3 small-text-danger">Your card will be charged £{{ grand_total }}</p> -->
-        <button id="card-button" class="btn btn-dark custom-btn" type="submit">Submit Payment</button>
-    </form>
+    <div class="row">
+        <div class="col-12 col-md-6">
+            <form action="{% url 'portal_content' %}" method="POST" id="signup-form">
+                {% csrf_token %}
+                    <legend class="header-font">Payment Details</legend>
+                    <div id="card-element" class="form-control"></div>
+                    <p id="card-errors" class="text-danger" role="alert"></p>
+                    <input type="hidden" value="{{ client_secret }}" name="client_secret">
+                <p class="clear-font mb-1 mt-3 small-text-danger">
+                    Your card will be charged £{{ portal_price }} now, and every month unless the Portal subscription
+                    is cancelled. You may cancel at any time.
+
+                </p>
+                <button id="card-button" class="btn btn-dark custom-btn" type="submit">Submit Payment</button>
+            </form>
+        </div>
+    </div>
 </div>
 {% endblock %}
 {% block postloadjs %}

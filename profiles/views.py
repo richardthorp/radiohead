@@ -26,11 +26,12 @@ def profile(request):
             subscription = stripe.Subscription.retrieve(
                 profile.subscription_id
             )
+            print(subscription)
             # Get the subscription end date and format it to render to template
             subscription_end_date = datetime.fromtimestamp(
                 subscription.current_period_end
                 )
-            formatted_end_data = subscription_end_date.strftime("%b %d %Y")
+            formatted_end_date = subscription_end_date.strftime("%b %d %Y")
             default_payment_method = stripe.PaymentMethod.retrieve(
                 subscription.default_payment_method
             )
@@ -40,14 +41,17 @@ def profile(request):
                 'exp_month': default_payment_method.card.exp_month
             }
             # customer = stripe.Customer.retrieve(profile.portal_cust_id)
-        except Exception:
+        except Exception as e:
+            print(e)
+            default_payment_details = None
+            formatted_end_date = None
             messages.error(request, f"We couldn't find a Portal subscription \
                 for your profile. If you think this is an error, please \
                 contact us at {settings.DEFAULT_FROM_EMAIL}")
 
         # Collate the subscription details to pass to template
         subscription_details = {
-            'end_date': formatted_end_data,
+            'end_date': formatted_end_date,
             'portal_price': settings.PORTAL_PRICE,
             'subscription_id': profile.subscription_id
         }
