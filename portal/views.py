@@ -201,6 +201,19 @@ def portal_content(request):
                 subscription to Portal to view this page.')
             return redirect(reverse('portal_info'))
 
+
+@login_required
+def reactivate_subscription(request, subscription_id):
+    if request.user.profile.subscription_id == subscription_id:
+        stripe.Subscription.modify(
+            subscription_id,
+            cancel_at_period_end=False
+        )
+        return redirect(reverse('profile'))
+    else:
+        messages.error(request, 'You can not reactivate this subscription')
+        return redirect(reverse('profile'))
+
     # if not request.user.profile.subscription_status == 'active':
     #     # If the user doesn't have an active subscription status on their
     #     # profile, allow 5 seconds for the Stripe webhook to be sent to

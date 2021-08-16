@@ -26,12 +26,19 @@ def profile(request):
             subscription = stripe.Subscription.retrieve(
                 profile.subscription_id
             )
-            print(subscription)
             # Get the subscription end date and format it to render to template
             subscription_end_date = datetime.fromtimestamp(
                 subscription.current_period_end
                 )
             formatted_end_date = subscription_end_date.strftime("%b %d %Y")
+
+            # Check whether the user has cancelled the subscription - if so
+            # render re-join button in profile template.
+            if subscription.cancel_at_period_end is True:
+                reactivation_link = True
+            else:
+                reactivation_link = False
+
             default_payment_method = stripe.PaymentMethod.retrieve(
                 subscription.default_payment_method
             )
@@ -42,7 +49,6 @@ def profile(request):
             }
             # customer = stripe.Customer.retrieve(profile.portal_cust_id)
         except Exception as e:
-            print(e)
             default_payment_details = None
             formatted_end_date = None
             messages.error(request, f"We couldn't find a Portal subscription \
@@ -58,12 +64,14 @@ def profile(request):
     else:
         subscription_details = None
         default_payment_details = None
+        reactivation_link = None
 
     context = {
         'profile': profile,
         'orders': profile.orders.all().order_by('-date'),
         'subscription_details': subscription_details,
         'default_payment_details': default_payment_details,
+        'reactivation_link': reactivation_link,
         'form': form,
     }
 

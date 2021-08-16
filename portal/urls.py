@@ -14,5 +14,6 @@ urlpatterns = [
          name='set_default_card'),
     path('cancel_subscription/<subscription_id>', views.cancel_subscription,
          name='cancel_subscription'),
-
+    path('reactivate_subscription/<subscription_id>',
+         views.reactivate_subscription, name='reactivate_subscription'),
 ]
