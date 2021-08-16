@@ -27,36 +27,18 @@ def portal_webhook(request):
     data_object = data['object']
 
     if event_type == 'customer.subscription.created':
-        # print(data)
         return HttpResponse(
             content=f'Webhook received: {event["type"]}',
             status=200
         )
 
     elif event_type == 'customer.subscription.updated':
-        # If the user has not completed the subscription payment within 23
-        # hours, the subscription object expires -
-        # delete the subscription object
-        # if data_object['status'] == 'incomplete_expired':
-        #     stripe.SubscriptionItem.delete(
-        #         data_object['id'],
-        #         )
-
+        # This webhook event contains the current state of a customers
+        # subscription. If the status is 'active', access is granted to the
+        # portal content
         user = User.objects.get(email=data_object['metadata']['email'])
-        if data_object['status'] == 'active':
-            # The subscription is active - set the the user profile
-            # subsctiption_status to active to allow access to Portal
-            # try:
-            #     profile = Profile.objects.get(
-            #         portal_cust_id=data_object['customer']
-            #         )
-            # except Profile.DoesNotExist:
-            #     return HttpResponse(
-            #         content='Error finding User in DB',
-            #         status=500
-            #     )
-            user.profile.subscription_status = 'active'
-            user.profile.save()
+        user.profile.subscription_status = data_object['status']
+        user.profile.save()
         return HttpResponse(
             content=f'Webhook received: {event["type"]}',
             status=200
@@ -68,7 +50,6 @@ def portal_webhook(request):
         # Use this webhook to notify your user that their payment has
         # failed and to retrieve new card details.
         print('TESTING FAILED PAYMENT')
-        # print(data)
         return HttpResponse(
             content=f'Webhook received: {event["type"]}',
             status=200
@@ -104,8 +85,6 @@ def portal_webhook(request):
             )
 
     elif event_type == 'invoice.paid':
-        # profile.subscription_status = 'active'
-        # profile.save()
         return HttpResponse(
             content=f'Webhook received: {event["type"]}',
             status=200
