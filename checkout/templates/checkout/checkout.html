@@ -74,7 +74,7 @@
                     <p class="clear-font mb-1">Subtotal: £ {{ total }}</p>
                     <p class="clear-font mb-1">Delivery: £ {{ delivery_cost }}</p>
                     {% if delivery_shortfall > 0 %}
-                    <p class="clear-font mb-2 small-text-danger">Spend another 
+                    <p class="clear-font mb-2 small-text text-danger">Spend another 
                     £{{ delivery_shortfall }} to get free postage</p>
                     {% endif %}
                     <p class="clear-font font-weight-bold grand-total text-left ml-md-0 mb-3">Total: £ {{ grand_total }}</p>
@@ -117,7 +117,7 @@
                     <p id="card-errors" class="text-danger" role="alert"></p>
                     <input type="hidden" value="{{ client_secret }}" name="client_secret">
                 </fieldset>
-                <p class="clear-font mb-1 mt-3 small-text-danger">Your card will be charged £{{ grand_total }}</p>
+                <p class="clear-font mb-1 mt-3 small-text text-danger">Your card will be charged £{{ grand_total }}</p>
                 <button id="card-button" class="btn btn-dark custom-btn">Submit Payment</button>
             </form>
         </div>

@@ -1,0 +1,59 @@
+.portal-info {   
+    background-image: url("/media_files/portal-bg.jpg");
+    width: 100%;
+    min-height: 600px;
+    border-radius: 10px;
+    background-position: -140px center;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-color: black;
+}
+
+.portal-info-content {
+    margin-left: 25%;
+}
+
+.portal-info h2 {
+    font-size: 3rem
+}
+.portal-info p {
+    font-size: 1.2rem;
+}
+
+.d-hidden {
+    visibility: hidden;
+}
+
+/*---------------------------------------------------------------------------------MEDIA QUERIES--*/
+@media only screen and (min-width: 400px) {
+    .portal-info {
+        background-position: -120px;
+    }
+}
+
+@media only screen and (min-width: 576px) {
+    .portal-info {
+        background-position: -80px;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+    .portal-info {
+        background-position: -45px;
+    }
+    .portal-info p {
+        font-size: 1.5rem;
+    }
+}
+
+@media only screen and (min-width: 992px) {
+    .portal-info-content {
+        margin-left: 25%;
+    }
+}
+
+@media only screen and (min-width: 1200px) {
+    .portal-info-content {
+        margin-left: 25%;
+    }
+}

@@ -1,26 +1,29 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block content %}
-<div class="container content-container">
-    <h1 class="text-center header-font page-header">Welcome to Portal</h1>
-    <p>Insert blurb about portal here along with image from home page</p>
-    <!-- ENSURE THE USER IS SIGNED IN WITH AN EMAIL TO PASS TO THE INPUT BELOW -->
-    {% if user.is_authenticated %}
-    <a href="{% url 'create_portal_customer' %}">Sign Up</a>
-    {% else %}
-    <!-- ADD REGISTER/SIGN IN LINKS HERE -->
-    <p>
-        You must be registered and signed in to subscribe to Portal.<br>
-        <a href="{% url 'account_login' %}?next={% url 'portal_info' %}">Sign in</a> or 
-        <a href="{% url 'account_signup' %}?next={% url 'portal_info' %}">register</a> to save
-        your details for a quicker checkout.
-    </p>
-    {% endif %}
-</div>
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'portal/css/portal.css' %}">
 {% endblock %}
-{% block postloadjs %}
-{{ block.super }}
-{{ stripe_public_key|json_script:"id_stripe_public_key" }}
-{{ client_secret|json_script:"id_client_secret" }}
-<script src="{% static 'portal/js/stripe-elements.js' %}"></script>
+{% block content %}
+<div class="container content-container p-0">
+    <div class="row mx-auto">
+        <div class="portal-info text-white text-center col-12">
+            <div class="portal-info-content h-100 d-flex flex-column justify-content-around p-3">
+                <h1 class="header-font page-header">Enter the Portal</h1>
+                <p>Subscribe to Radiohead's Portal for only £9.99 per month to be the first to hear new music, see new
+                    videos, read exclusive
+                    interviews with the band and get a 10% discount on all items in the store</p>
+                {% if user.is_authenticated %}
+                <a href="{% url 'create_portal_customer' %}"
+                    class="btn btn-outline-light custom-btn p-3 d-block">Subscribe Now</a>
+                {% else %}
+                <div class="border border-white rounded px-1 py-2">
+                    <p class="clear-font small-text">You must be registered and logged in to subscribe</p>
+                    <a href="{% url 'account_login' %}?next={% url 'create_portal_customer' %}" class="btn btn-light custom-btn mr-1">Login</a>
+                    <a href="{% url 'account_signup' %}?next={% url 'create_portal_customer' %}" class="btn btn-light custom-btn ml-1">Register</a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
