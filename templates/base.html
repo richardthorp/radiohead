@@ -189,13 +189,13 @@
     <!-- MESSAGES SECTION -->
     <div class="navbar-margin">
         {% if messages %}
-        {% for message in messages %}
-        <div class="toast custom-toast" data-delay="3000" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast custom-toast" data-delay="4000" role="alert" aria-live="assertive" aria-atomic="true">
             <div class="toast-header">
                 <button type="button" class="ml-auto mb-1 close" data-dismiss="toast" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            {% for message in messages %}
             {% if message.level == 40 %}
             <!-- ERROR TOAST-->
             <div class="toast-body error-toast-highlight text-center clear-font">
@@ -217,8 +217,8 @@
                 {{ message }}
             </div>
             {% endif %}
+            {% endfor %}
         </div>
-        {% endfor %}
         {% endif %}
     </div>
 
