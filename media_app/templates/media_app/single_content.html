@@ -77,6 +77,7 @@
         </div>
         <div class="col-10 col-md-11">
             <textarea name="text" id="add-comment-input"></textarea>
+            <p id="add-comment-errors" class="text-danger mb-1"></p>
             <button onclick="addComment({{single.id }}, {{ request.user.id }})"
                 class="btn custom-btn btn-outline-dark">Add Comment</button>
         </div>

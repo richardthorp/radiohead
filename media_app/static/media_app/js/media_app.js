@@ -147,15 +147,22 @@ function renderPaginationButtons(data){
 }
 
 function addComment(objectId, userId){
-    const data = {
-        'object_id': parseInt(objectId),
-        'user_id': parseInt(userId),
-        'comment': $("#add-comment-input").val(),
-        'csrfmiddlewaretoken': $("input[name='csrfmiddlewaretoken']").val(),
+    // Prevent empty text box being submitted
+    if ( $("#add-comment-input").val() == ""){
+        $("#add-comment-errors").text('You cannot submit an empty comment!');
+        return;
+    }else {
+        $("#add-comment-errors").text("");
+        const data = {
+            'object_id': parseInt(objectId),
+            'user_id': parseInt(userId),
+            'comment': $("#add-comment-input").val(),
+            'csrfmiddlewaretoken': $("input[name='csrfmiddlewaretoken']").val(),
+        }
+        $.post('/media/add_comment', data)
+            .done(setTimeout(getComments, 500))
+            .then($("#add-comment-input").val(""));
     }
-    $.post('/media/add_comment', data)
-        .done(setTimeout(getComments, 500))
-        .then($("#add-comment-input").val(""));
 }
 
 function renderEditCommentSection(clickedLink, commentId){
@@ -164,6 +171,7 @@ function renderEditCommentSection(clickedLink, commentId){
     const currentPage = $(".current-page").text();
     const TextAreaHtml = 
         `<textarea id="edit-comment-input">${existingComment}</textarea>
+        <p id="edit-comment-errors" class="text-danger mb-1"></p>
         <div class="mb-2">
             <button onclick="getComments(${currentPage})" class="btn custom-btn btn-outline-secondary">Cancel</button>
             <button onclick="submitEditedComment(${commentId})" class="custom-btn btn btn-dark">Edit Comment</button>
@@ -173,13 +181,19 @@ function renderEditCommentSection(clickedLink, commentId){
 
 function submitEditedComment(commentId){
     const editedComment = $("#edit-comment-input").val()
-    const data = {
-        'comment_id': parseInt(commentId),
-        'edited_comment': editedComment,
-        'csrfmiddlewaretoken': $("input[name='csrfmiddlewaretoken']").val(),
+    if (editedComment == ""){
+        $("#edit-comment-errors").text('You can not submit an empty comment!');
+        return;
+    } else {
+        $("#edit-comment-errors").text("");
+        const data = {
+            'comment_id': parseInt(commentId),
+            'edited_comment': editedComment,
+            'csrfmiddlewaretoken': $("input[name='csrfmiddlewaretoken']").val(),
+        }
+        $.post('/media/edit_comment', data)
+            .done(setTimeout(getComments, 500));
     }
-    $.post('/media/edit_comment', data)
-        .done(setTimeout(getComments, 500));
 }
 
 function renderDeleteButton(clickedLink, commentId){

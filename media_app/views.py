@@ -97,7 +97,7 @@ def edit_comment(request):
 
 def delete_comment(request):
     comment = Comment.objects.get(pk=request.POST['comment_id'])
-    if request.user.profile != comment.posted_by:
+    if request.user.profile != comment.posted_by and not request.user.is_staff:
         return HttpResponse(status=403)
     else:
         comment.delete()
