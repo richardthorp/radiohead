@@ -32,3 +32,6 @@ urlpatterns = [
     path('checkout/', include('checkout.urls')),
     path('portal/', include('portal.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+handler404 = 'radiohead.views.handle_404_error'
+handler500 = 'radiohead.views.handle_500_error'

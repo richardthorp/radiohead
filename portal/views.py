@@ -14,8 +14,9 @@ stripe_public_key = settings.STRIPE_PUBLIC_KEY
 # This view ensures that the user is logged in as well as redirecting
 # logged in users with active subscriptions
 def portal_info(request):
-    if request.user.profile.subscription_status == 'active':
-        return redirect(reverse('portal_content'))
+    if str(request.user) != 'AnonymousUser':
+        if request.user.profile.subscription_status == 'active':
+            return redirect(reverse('portal_content'))
     return render(request, 'portal/portal_info.html')
 
 
