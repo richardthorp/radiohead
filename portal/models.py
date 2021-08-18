@@ -5,7 +5,8 @@ from django.utils.text import slugify
 
 class PortalTextPost(models.Model):
     title = models.CharField(blank=False, max_length=80)
-    slug = models.SlugField(default="")
+    post_blurb = models.CharField(blank=False, max_length=250)
+    slug = models.SlugField(default="", max_length=80)
     lead_image = models.ImageField(blank=False, null=False,
                                    upload_to="portal_images")
     lead_image_summary = models.CharField(blank=False, max_length=60)
@@ -25,7 +26,8 @@ class PortalTextPost(models.Model):
 
 class PortalVideoPost(models.Model):
     title = models.CharField(blank=False, max_length=80)
-    slug = models.SlugField(default="")
+    post_blurb = models.CharField(blank=False, max_length=250)
+    slug = models.SlugField(default="", max_length=80)
     lead_image = models.ImageField(blank=False, null=False,
                                    upload_to="portal_images")
     lead_image_summary = models.CharField(blank=False, max_length=60)
@@ -46,7 +48,8 @@ class PortalVideoPost(models.Model):
 
 class PortalImagesPost(models.Model):
     title = models.CharField(blank=False, max_length=80)
-    slug = models.SlugField(default="")
+    post_blurb = models.CharField(blank=False, max_length=250)
+    slug = models.SlugField(default="", max_length=80)
     lead_image = models.ImageField(blank=False, null=False,
                                    upload_to="portal_images")
     lead_image_summary = models.CharField(blank=False, max_length=60)

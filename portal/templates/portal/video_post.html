@@ -1,5 +1,30 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<h1>VIDEO</h1>
+<div class="container content-container">
+    <div class="row">
+        <div class="col-12">
+            <a href="{% url 'portal_content' %}"><i class="fas fa-backward mt-3"></i> Back to Portal</a>
+            <img src="{{ post.lead_image.url }}" alt="{{ post.lead_image_summary }}" class="mx-auto d-block">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <h1 class="header-font text-center mt-3">{{ post.title }}</h1>
+            <p class="text-muted clear-font">Posted on: {{ post.date_posted }}</p>
+            {{ post.text_content|safe }}
+            <p>Watch the video below:</p>
+        </div>
+    </div>
+
+    <!-- VIDEO CONTENT -->
+    <div class="row">
+        <div class="col video-container pt-1 pt-sm-2 pt-md-3">
+            <iframe id="iFrame" height="" class="w-100" src="{{ post.video_url }}" title="YouTube video player"
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen></iframe>
+        </div>
+    </div>
+</div>
 {% endblock %}

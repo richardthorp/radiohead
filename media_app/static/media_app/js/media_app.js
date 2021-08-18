@@ -1,21 +1,21 @@
-// Size iframe video player depending on sceen width
-function resizeIframe() {
-    const containerWidth = $(".video-container").width();
-    const iFrame = $("#iFrame");
-    const iFrameHeight = containerWidth * 0.67;
+// // Size iframe video player depending on sceen width
+// function resizeIframe() {
+//     const containerWidth = $(".video-container").width();
+//     const iFrame = $("#iFrame");
+//     const iFrameHeight = containerWidth * 0.67;
 
-    iFrame.attr('height', iFrameHeight);
-}
+//     iFrame.attr('height', iFrameHeight);
+// }
 
-// Size iframe on document load
-$(document).ready(function () {
-    resizeIframe();
-});
+// // Size iframe on document load
+// $(document).ready(function () {
+//     resizeIframe();
+// });
 
-// Resize iframe when screen width changes
-$(window).resize(function () {
-    resizeIframe();
-})
+// // Resize iframe when screen width changes
+// $(window).resize(function () {
+//     resizeIframe();
+// })
 
 // Auto resize textarea inputs when user types.
 // Code copied from https://stackoverflow.com/questions/2948230/auto-expand-a-textarea-using-jquery User: SpYk3HH
