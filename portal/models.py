@@ -30,8 +30,7 @@ class TextPostComment(models.Model):
     text = models.TextField(blank=False)
     posted_by = models.ForeignKey(Profile, on_delete=models.CASCADE)
     date_posted = models.DateTimeField(default=timezone.now)
-    post_id = models.ForeignKey(PortalTextPost,
-                                           on_delete=models.CASCADE)
+    post = models.ForeignKey(PortalTextPost, on_delete=models.CASCADE)
     edited = models.BooleanField(default=False)
 
     def __str__(self):
@@ -64,8 +63,7 @@ class VideoPostComment(models.Model):
     text = models.TextField(blank=False)
     posted_by = models.ForeignKey(Profile, on_delete=models.CASCADE)
     date_posted = models.DateTimeField(default=timezone.now)
-    post_id = models.ForeignKey(PortalVideoPost,
-                                on_delete=models.CASCADE)
+    post = models.ForeignKey(PortalVideoPost, on_delete=models.CASCADE)
     edited = models.BooleanField(default=False)
 
     def __str__(self):
@@ -121,8 +119,8 @@ class ImagesPostComment(models.Model):
     text = models.TextField(blank=False)
     posted_by = models.ForeignKey(Profile, on_delete=models.CASCADE)
     date_posted = models.DateTimeField(default=timezone.now)
-    post_id = models.ForeignKey(PortalImagesPost,
-                                on_delete=models.CASCADE)
+    post = models.ForeignKey(PortalImagesPost,
+                             on_delete=models.CASCADE)
     edited = models.BooleanField(default=False)
 
     def __str__(self):

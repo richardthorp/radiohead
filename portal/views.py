@@ -265,19 +265,25 @@ def portal_post_detail(request, post_type, slug):
 # COMMENTS
 def add_comment(request):
     posted_by = Profile.objects.get(user=request.POST['user_id'])
-    post_id = request.POST['object_id']
+    post_id = request.POST['post_id']
     text = request.POST['comment']
     post_type = request.POST['post_type']
+    print('post_id', post_id)
+    print('text', text)
+    print('post_id', post_id)
 
     if post_type == 'text_post':
+        post = PortalTextPost.objects.get(id=post_id)
         comment = TextPostComment(posted_by=posted_by, text=text,
-                                  post_id=post_id)
+                                  post=post)
     elif post_type == 'images_post':
+        post = PortalImagesPost.objects.get(id=post_id)
         comment = ImagesPostComment(posted_by=posted_by, text=text,
-                                    post_id=post_id)
+                                    post=post)
     elif post_type == 'video_post':
+        post = PortalVideoPost.objects.get(id=post_id)
         comment = VideoPostComment(posted_by=posted_by, text=text,
-                                   post_id=post_id)
+                                   post=post)
     comment.save()
 
     return HttpResponse(status=200)
@@ -331,21 +337,37 @@ def get_comments(request):
     return JsonResponse(formatted_data, safe=False)
 
 
-# def edit_comment(request):
-#     comment = Comment.objects.get(pk=request.POST['comment_id'])
-#     if request.user.profile != comment.posted_by:
-#         return HttpResponse(status=403)
-#     else:
-#         comment.text = request.POST['edited_comment']
-#         comment.edited = True
-#         comment.save()
-#     return HttpResponse(status=200)
+def edit_comment(request):
+    post_type = request.POST['post_type']
+    comment_id = request.POST['comment_id']
+    if post_type == 'text_post':
+        comment = TextPostComment.objects.get(pk=comment_id)
+    elif post_type == 'images_post':
+        comment = ImagesPostComment.objects.get(pk=comment_id)
+    elif post_type == 'video_post':
+        comment = VideoPostComment.objects.get(pk=comment_id)
+
+    if request.user.profile != comment.posted_by:
+        return HttpResponse(status=403)
+    else:
+        comment.text = request.POST['edited_comment']
+        comment.edited = True
+        comment.save()
+    return HttpResponse(status=200)
 
 
-# def delete_comment(request):
-#     comment = Comment.objects.get(pk=request.POST['comment_id'])
-#     if request.user.profile != comment.posted_by and not request.user.is_staff:
-#         return HttpResponse(status=403)
-#     else:
-#         comment.delete()
-#     return HttpResponse(status=200)
+def delete_comment(request):
+    post_type = request.POST['post_type']
+    comment_id = request.POST['comment_id']
+    if post_type == 'text_post':
+        comment = TextPostComment.objects.get(pk=comment_id)
+    elif post_type == 'images_post':
+        comment = ImagesPostComment.objects.get(pk=comment_id)
+    elif post_type == 'video_post':
+        comment = VideoPostComment.objects.get(pk=comment_id)
+
+    if request.user.profile != comment.posted_by and not request.user.is_staff:
+        return HttpResponse(status=403)
+    else:
+        comment.delete()
+    return HttpResponse(status=200)

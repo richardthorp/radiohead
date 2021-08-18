@@ -15,6 +15,7 @@
             {{ post.text_content|safe }}
         </div>
     </div>
+    <hr>
     <!-- ADD COMMENT SECTION -->
     <h4 class="header-font my-3">Add comment</h4>
     {% if user.is_authenticated %}
@@ -26,7 +27,7 @@
             <textarea name="text" id="add-comment-input"></textarea>
             <p id="add-comment-errors" class="text-danger mb-1"></p>
             <!-- pass the post-type to the onclick function so that the view function knows which post object to find -->
-            <button onclick="addComment('text_post', {{ post.id }}, {{ request.user.id }})"
+            <button onclick="addComment({{ post.id }}, {{ request.user.id }})"
                 class="btn custom-btn btn-outline-dark">Add Comment</button>
         </div>
     </div>
@@ -43,10 +44,10 @@
     <div id="post-id" class="d-none">{{ post.id }}</div>
     <div id="post-type" class="d-none">text_post</div>
     <div id="comment-section"></div>
+    <div>{% csrf_token %}</div>
 </div>
-<div>{% csrf_token %}</div>
 {% endblock %}
 {% block postloadjs %}
 {{ block.super }}
-<script src="{% static 'media_app/js/media_app.js' %}"></script>
+<script src="{% static 'portal/js/comments.js' %}"></script>
 {% endblock %}
