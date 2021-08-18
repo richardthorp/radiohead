@@ -18,4 +18,12 @@ urlpatterns = [
          views.reactivate_subscription, name='reactivate_subscription'),
     path('portal_post_detail/<post_type>/<slug:slug>',
          views.portal_post_detail, name='portal_post_detail'),
+    path('get_comments', views.get_comments,
+         name='get_comments'),
+    path('add_comment', views.add_comment,
+         name='add_comment'),
+    path('edit_comment', views.edit_comment,
+         name='edit_comment'),
+    path('delete_comment', views.delete_comment,
+         name='delete_comment'),
 ]

@@ -15,5 +15,38 @@
             {{ post.text_content|safe }}
         </div>
     </div>
+    <!-- ADD COMMENT SECTION -->
+    <h4 class="header-font my-3">Add comment</h4>
+    {% if user.is_authenticated %}
+    <div class="row no-gutters">
+        <div class="col-2 col-md-1">
+            <img class="profile-pic" src="{{ user.profile.image.url }}" alt="">
+        </div>
+        <div class="col-10 col-md-11">
+            <textarea name="text" id="add-comment-input"></textarea>
+            <p id="add-comment-errors" class="text-danger mb-1"></p>
+            <!-- pass the post-type to the onclick function so that the view function knows which post object to find -->
+            <button onclick="addComment('text_post', {{ post.id }}, {{ request.user.id }})"
+                class="btn custom-btn btn-outline-dark">Add Comment</button>
+        </div>
+    </div>
+    {% else %}
+    <div class="row">
+        <div class="col-12 text-center">
+            <p><strong>You must be logged in to add a comment! <a href="{% url 'account_signup' %}">Click here to
+                        register</a> or <a href="{% url 'account_login' %}">sign in here.</a></strong></p>
+        </div>
+    </div>
+    {% endif %}
+    <!-- COMMENTS SECTION - Rendered in portal/comment.js -->
+    <h4 class="header-font my-3">Comments</h4>
+    <div id="post-id" class="d-none">{{ post.id }}</div>
+    <div id="post-type" class="d-none">text_post</div>
+    <div id="comment-section"></div>
 </div>
+<div>{% csrf_token %}</div>
+{% endblock %}
+{% block postloadjs %}
+{{ block.super }}
+<script src="{% static 'media_app/js/media_app.js' %}"></script>
 {% endblock %}

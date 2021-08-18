@@ -1,13 +1,18 @@
 from datetime import datetime
 from time import sleep
 from itertools import chain
+import json
 import stripe
 from django.conf import settings
 from django.contrib import messages
-from django.shortcuts import render, redirect, reverse, HttpResponse
+from django.core.paginator import Paginator
+from django.core import serializers
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.decorators import login_required
 from profiles.models import Profile
-from .models import PortalTextPost, PortalVideoPost, PortalImagesPost
+from .models import (PortalTextPost, PortalVideoPost, PortalImagesPost,
+                     ImagesPostComment, VideoPostComment, TextPostComment)
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 stripe_public_key = settings.STRIPE_PUBLIC_KEY
@@ -255,3 +260,92 @@ def portal_post_detail(request, post_type, slug):
         messages.error(request, 'Sorry, you must have an active \
             subscription to Portal to view this page.')
         return redirect(reverse('portal_info'))
+
+
+# COMMENTS
+def add_comment(request):
+    posted_by = Profile.objects.get(user=request.POST['user_id'])
+    post_id = request.POST['object_id']
+    text = request.POST['comment']
+    post_type = request.POST['post_type']
+
+    if post_type == 'text_post':
+        comment = TextPostComment(posted_by=posted_by, text=text,
+                                  post_id=post_id)
+    elif post_type == 'images_post':
+        comment = ImagesPostComment(posted_by=posted_by, text=text,
+                                    post_id=post_id)
+    elif post_type == 'video_post':
+        comment = VideoPostComment(posted_by=posted_by, text=text,
+                                   post_id=post_id)
+    comment.save()
+
+    return HttpResponse(status=200)
+
+
+def get_comments(request):
+    object_id = request.GET.get('object_id')
+    page = request.GET.get('page')
+    post_type = request.GET.get('post_type')
+
+    if post_type == 'text_post':
+        queryset = TextPostComment.objects.filter(
+            post_id=object_id).order_by('-date_posted')
+    elif post_type == 'images_post':
+        queryset = ImagesPostComment.objects.filter(
+            post_id=object_id).order_by('-date_posted')
+    elif post_type == 'video_post':
+        queryset = VideoPostComment.objects.filter(
+            post_id=object_id).order_by('-date_posted')
+
+    paginator = Paginator(queryset, 8)  # Show 8 comments per page.
+    paginated_query = paginator.get_page(page)
+    current_page = paginator.page(page)
+    json_queryset = serializers.serialize('json', paginated_query)
+
+    formatted_data = []
+    for comment in json.loads(json_queryset):
+        time = comment['fields']['date_posted']
+        posted_by = Profile.objects.get(
+            pk=int(comment['fields']['posted_by'])
+            )
+        posted_by_img = posted_by.image.url
+        if request.user == posted_by.user or request.user.is_staff:
+            comment_permissions = True
+        else:
+            comment_permissions = False
+        data = {
+            'time': time,
+            'posted_by': posted_by.user.username,
+            'id': comment['pk'],
+            'posted_by_img': posted_by_img,
+            'comment_permissions': comment_permissions,
+            'text': comment['fields']['text'],
+            'edited': comment['fields']['edited'],
+            'has_prev': current_page.has_previous(),
+            'has_next': current_page.has_next(),
+            'current_page': int(page),
+        }
+        formatted_data.append(data)
+
+    return JsonResponse(formatted_data, safe=False)
+
+
+# def edit_comment(request):
+#     comment = Comment.objects.get(pk=request.POST['comment_id'])
+#     if request.user.profile != comment.posted_by:
+#         return HttpResponse(status=403)
+#     else:
+#         comment.text = request.POST['edited_comment']
+#         comment.edited = True
+#         comment.save()
+#     return HttpResponse(status=200)
+
+
+# def delete_comment(request):
+#     comment = Comment.objects.get(pk=request.POST['comment_id'])
+#     if request.user.profile != comment.posted_by and not request.user.is_staff:
+#         return HttpResponse(status=403)
+#     else:
+#         comment.delete()
+#     return HttpResponse(status=200)

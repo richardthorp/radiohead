@@ -2,6 +2,8 @@ from django.db import models
 from django.utils import timezone
 from django.utils.text import slugify
 
+from profiles.models import Profile
+
 
 class PortalTextPost(models.Model):
     title = models.CharField(blank=False, max_length=80)
@@ -24,6 +26,18 @@ class PortalTextPost(models.Model):
         super().save(*args, **kwargs)
 
 
+class TextPostComment(models.Model):
+    text = models.TextField(blank=False)
+    posted_by = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    date_posted = models.DateTimeField(default=timezone.now)
+    post_id = models.ForeignKey(PortalTextPost,
+                                           on_delete=models.CASCADE)
+    edited = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'Comment by {self.posted_by} on {self.date_posted}.'
+
+
 class PortalVideoPost(models.Model):
     title = models.CharField(blank=False, max_length=80)
     post_blurb = models.CharField(blank=False, max_length=250)
@@ -44,6 +58,18 @@ class PortalVideoPost(models.Model):
             self.slug = slugify(self.title)
 
         super().save(*args, **kwargs)
+
+
+class VideoPostComment(models.Model):
+    text = models.TextField(blank=False)
+    posted_by = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    date_posted = models.DateTimeField(default=timezone.now)
+    post_id = models.ForeignKey(PortalVideoPost,
+                                on_delete=models.CASCADE)
+    edited = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'Comment by {self.posted_by} on {self.date_posted}.'
 
 
 class PortalImagesPost(models.Model):
@@ -89,3 +115,15 @@ class PortalImagesPost(models.Model):
             self.slug = slugify(self.title)
 
         super().save(*args, **kwargs)
+
+
+class ImagesPostComment(models.Model):
+    text = models.TextField(blank=False)
+    posted_by = models.ForeignKey(Profile, on_delete=models.CASCADE)
+    date_posted = models.DateTimeField(default=timezone.now)
+    post_id = models.ForeignKey(PortalImagesPost,
+                                on_delete=models.CASCADE)
+    edited = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f'Comment by {self.posted_by} on {self.date_posted}.'
