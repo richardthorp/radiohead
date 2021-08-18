@@ -1,9 +1,3 @@
-// SHOP TEMPLATE
-// Auto submit sort-by form
-$(".sort-by-form").click(function(){
-    $(this).submit();
-})
-
 // ADD ALBUM FORM
 // Add tracklist input to AddAlbumForm
 function renderNewInput(inputNumber){    

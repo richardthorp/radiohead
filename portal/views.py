@@ -182,6 +182,14 @@ def reactivate_subscription(request, subscription_id):
 @login_required
 def portal_content(request):
     if request.user.profile.subscription_status == 'active':
+        text_posts = PortalTextPost.objects.all()
+        video_posts = PortalVideoPost.objects.all()
+        images_posts = PortalImagesPost.objects.all()
+        all_posts = list(chain(text_posts, video_posts, images_posts))
+        context = {
+            'posts': all_posts,
+            'all': True,
+        }
         if request.POST:
             post_filter = request.POST.get('filter')
             if post_filter == 'videos':
@@ -199,18 +207,6 @@ def portal_content(request):
                     'posts': PortalImagesPost.objects.all(),
                     'images': True,
                 }
-        # GET request
-        else:
-            text_posts = PortalTextPost.objects.all()
-            video_posts = PortalVideoPost.objects.all()
-            images_posts = PortalImagesPost.objects.all()
-            all_posts = list(chain(text_posts, video_posts, images_posts))
-
-            context = {
-                'posts': all_posts,
-                'all': True,
-            }
-
         return render(request, 'portal/portal_content.html', context)
 
     else:

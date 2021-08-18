@@ -2,29 +2,30 @@
 {% load static %}
 {% block content %}
 <div class="container content-container">
-    <h1 class="text-center header-font page-header">Welcome to Portal</h1>
-    <form action="{% url 'portal_content' %}" method="POST" class="d-flex justify-content-center mb-3 mt-2"><!--sort-by-form-->
+    <h1 class="text-center header-font page-header">Radiohead Portal</h1>
+    <p class="text-center">Welcome to the home of exclusive Radiohead content. Scroll though the archive or filter the items by their content type.</p>
+    <form action="{% url 'portal_content' %}" method="POST" class="sort-by-form d-flex justify-content-center mb-3 mt-2">
         {% csrf_token %}
         <input type="radio" id="all" name="filter" value="all" class="d-none">
         <label for="all" class="btn custom-btn btn-outline-dark {% if all %} active {% endif %}">ALL</label><br>
         <input type="radio" id="text" name="filter" value="text" class="d-none">
         <label for="text" class="btn custom-btn btn-outline-dark {% if text %} active {% endif %}">Text</label><br>
-        <input type="radio" id="video" name="filter" value="videos" class="d-none">
+        <input type="radio" id="videos" name="filter" value="videos" class="d-none">
         <label for="videos"
             class="btn custom-btn btn-outline-dark {% if videos %} active {% endif %}">Video</label><br>
         <input type="radio" id="images" name="filter" value="images" class="d-none">
         <label for="images" class="btn custom-btn btn-outline-dark {% if images %} active {% endif %}">Images</label><br>
     </form>
     <hr>
-    {% for post in posts %}
     <div class="row">
-        <div class="col-12">
+        {% for post in posts %}
+        <div class="col-12 col-md-6">
             {% if post.text %}
             <!-- TEXT POST -->
             <h3 class="header-font"><a href="{% url 'portal_post_detail' 'text' post.slug %}" class="text-dark">{{ post.title }}</a></h3>
             <p class="text-muted clear-font">Posted on: {{ post.date_posted }}</p>
             <a href="{% url 'portal_post_detail' 'text' post.slug %}">
-                <img src="{{ post.lead_image.url }}" alt="{{ post.lead_image_summary }}">
+                <img src="{{ post.lead_image.url }}" alt="{{ post.lead_image_summary }}" class="mw-100">
             </a>
             <p>{{ post.post_blurb }} <a href="{% url 'portal_post_detail' 'text' post.slug %}">View more...</a></p>
             {% endif %}
@@ -33,7 +34,7 @@
             <h3 class="header-font"><a href="{% url 'portal_post_detail' 'video' post.slug %}" class="text-dark">{{ post.title }}</a></h3>
             <p class="text-muted clear-font">Posted on: {{ post.date_posted }}</p>
             <a href="{% url 'portal_post_detail' 'video' post.slug %}">
-                <img src="{{ post.lead_image.url }}" alt="{{ post.lead_image_summary }}">
+                <img src="{{ post.lead_image.url }}" alt="{{ post.lead_image_summary }}" class="mw-100">
             </a>
             <p>{{ post.post_blurb}} <a href="{% url 'portal_post_detail' 'video' post.slug %}">View more...</a></p>
             {% endif %}
@@ -42,15 +43,26 @@
             <h3 class="header-font"><a href="{% url 'portal_post_detail' 'images' post.slug %}" class="text-dark">{{ post.title }}</a></h3>
             <p class="text-muted clear-font">Posted on: {{ post.date_posted }}</p>
             <a href="{% url 'portal_post_detail' 'images' post.slug %}">
-                <img src="{{ post.lead_image.url }}" alt="{{ post.lead_image_summary }}">
+                <img src="{{ post.lead_image.url }}" alt="{{ post.lead_image_summary }}" class="mw-100">
             </a>
             <p>{{ post.post_blurb }} <a href="{% url 'portal_post_detail' 'images' post.slug %}">View more...</a></p>
             {% endif %}
         </div>
+        <!-- HR FOR LOOP LOGIC MODIFIED FROM BOUTIQUE ADO PROJECT -->
+        {% if not forloop.last %}
+        {% if forloop.counter|divisibleby:1 %}
+        <div class="col-12 d-md-none mb-2">
+            <hr>
+        </div>
+        {% endif %}
+        {% if forloop.counter|divisibleby:2 %}
+        <div class="col-12 d-none d-md-block mb-3">
+            <hr>
+        </div>
+        {% endif %}
+
+        {% endif %}
+        {% endfor %}
     </div>
-    {% if not forloop.last %}
-    <hr>
-    {% endif %}
-    {% endfor %}
 </div>
 {% endblock %}
