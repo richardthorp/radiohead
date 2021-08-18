@@ -12,7 +12,7 @@ from .webhook_handler import StripeWH_Handler
 @csrf_exempt
 def webhook(request):
     # Listen for webhooks from Stripe
-    wh_secret = settings.STRIPE_WEBHOOK_SECRET
+    wh_secret = settings.STRIPE_CHECKOUT_WEBHOOK_SECRET
     stripe.api_key = settings.STRIPE_SECRET_KEY
 
     payload = request.body

@@ -11,7 +11,7 @@ from profiles.models import Profile
 @require_POST
 @csrf_exempt
 def portal_webhook(request):
-    wh_secret = settings.STRIPE_WEBHOOK_SECRET
+    wh_secret = settings.STRIPE_PORTAL_WEBHOOK_SECRET
     stripe.api_key = settings.STRIPE_SECRET_KEY
     try:
         signature = request.headers['stripe-signature']
