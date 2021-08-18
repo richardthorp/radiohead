@@ -9,7 +9,7 @@ updateCardForm.addEventListener('submit', function (ev) {
     $("#update-button").attr('disabled', true);
     $("#loading-overlay").fadeToggle(100);
     const cardholderName = $('#cardholder-name').val();
-    const clientSecret = updateCardForm.dataset.secret;
+    const clientSecret = $("#id_client_secret").text().slice(1, -1);
     stripe.confirmCardSetup(
         clientSecret,
         {payment_method: {
@@ -32,7 +32,7 @@ updateCardForm.addEventListener('submit', function (ev) {
                 'csrfmiddlewaretoken': csrfToken,
                 'payment_method_id': result['setupIntent']['payment_method'],
             };
-            // Send data to set_default_card view for processing and then submit for to direct user
+            // Send data to set_default_card view for processing and then submit form to direct user
             // back to profile page
             $.post(url, postData).done(function(){
                 updateCardForm.submit()

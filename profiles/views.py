@@ -15,7 +15,9 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 def profile(request):
     profile = request.user.profile
     form = ProfileForm(instance=profile)
-    if request.method == 'POST':
+    # Check that the POST request contains the ProfileForm - If not, the request came from
+    # update_default_card view so don't update default profile info.
+    if request.method == 'POST' and 'default_name' in request.POST:
         form = ProfileForm(request.POST, instance=profile)
         if form.is_valid():
             form.save()
