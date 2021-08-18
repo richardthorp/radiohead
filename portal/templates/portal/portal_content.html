@@ -3,5 +3,31 @@
 {% block content %}
 <div class="container content-container">
     <h1 class="text-center header-font page-header">Welcome to Portal</h1>
-    <p>EXCITING PORTAL CONTENT HERE!!</p>
+    <form action="{% url 'portal_content' %}" method="POST" class="d-flex justify-content-center mb-3 mt-2"><!--sort-by-form-->
+        {% csrf_token %}
+        <input type="radio" id="all" name="filter" value="all" class="d-none">
+        <label for="all" class="btn custom-btn btn-outline-dark {% if all %} active {% endif %}">ALL</label><br>
+        <input type="radio" id="text" name="filter" value="text" class="d-none">
+        <label for="text" class="btn custom-btn btn-outline-dark {% if text %} active {% endif %}">Text</label><br>
+        <input type="radio" id="video" name="filter" value="videos" class="d-none">
+        <label for="videos"
+            class="btn custom-btn btn-outline-dark {% if videos %} active {% endif %}">Video</label><br>
+        <input type="radio" id="images" name="filter" value="images" class="d-none">
+        <label for="images" class="btn custom-btn btn-outline-dark {% if images %} active {% endif %}">Images</label><br>
+    </form>
+    <hr>
+    {% for post in posts %}
+    <div class="row">
+        <div class="col-12">
+            <h3 class="header-font">{{ post.title }}</h3>
+            <p class="text-muted clear-font">Posted on: {{ post.date_posted }}</p>
+            <img src="{{ post.lead_image.url }}" alt="{{ post.lead_image_summary }}">
+            <p>{{ post.text_content|truncatechars:200 }} <a href="">view more</a></p>
+        </div>
+    </div>
+    {% if not forloop.last %}
+    <hr>
+    {% endif %}
+    {% endfor %}
+</div>
 {% endblock %}

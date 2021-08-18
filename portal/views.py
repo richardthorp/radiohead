@@ -1,11 +1,13 @@
 from datetime import datetime
 from time import sleep
+from itertools import chain
 import stripe
 from django.conf import settings
 from django.contrib import messages
 from django.shortcuts import render, redirect, reverse, HttpResponse
 from django.contrib.auth.decorators import login_required
 from profiles.models import Profile
+from .models import PortalTextPost, PortalVideoPost, PortalImagesPost
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 stripe_public_key = settings.STRIPE_PUBLIC_KEY
@@ -108,19 +110,6 @@ def create_portal_customer(request):
         return redirect(reverse('portal_info'))
 
 
-# Collect card details and process payment
-# (payment processed in portal-payment.js and stripe-elements.js)
-# def portal_sign_up(request):
-#     context = {
-#         'client_secret': request.session.get('clientSecret'),
-#         'subscription_id': request.session.get('requestsubscriptionId'),
-#         # 'portal_price': str(settings.PORTAL_PRICE),
-#         'portal_price': 'HAHA',
-#     }
-#     # print('SUB ID: ', request.session.get('requestsubscriptionId'))
-#     return render(request, 'portal/portal_sign_up.html', context)
-
-
 def update_payment_card(request):
     # Get the customer object
     user_profile = request.user.profile
@@ -180,7 +169,37 @@ def cancel_subscription(request, subscription_id):
 @login_required
 def portal_content(request):
     if request.user.profile.subscription_status == 'active':
-        return render(request, 'portal/portal_content.html')
+        if request.POST:
+            post_filter = request.POST.get('filter')
+            if post_filter == 'videos':
+                context = {
+                    'posts': PortalVideoPost.objects.all(),
+                    'videos': True,
+                }
+            elif post_filter == 'text':
+                context = {
+                    'posts': PortalTextPost.objects.all(),
+                    'text': True,
+                }
+            elif post_filter == 'images':
+                context = {
+                    'posts': PortalImagesPost.objects.all(),
+                    'images': True,
+                }
+        # GET request
+        else:
+            text_posts = PortalTextPost.objects.all()
+            video_posts = PortalVideoPost.objects.all()
+            images_posts = PortalImagesPost.objects.all()
+            all_posts = list(chain(text_posts, video_posts, images_posts))
+
+            context = {
+                'posts': all_posts,
+                'all': True,
+            }
+
+        return render(request, 'portal/portal_content.html', context)
+
     else:
         # If the user doesn't have an active subscription status on their
         # profile, allow 5 seconds for the Stripe webhook to be sent to
