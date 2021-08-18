@@ -19,10 +19,33 @@
     {% for post in posts %}
     <div class="row">
         <div class="col-12">
-            <h3 class="header-font">{{ post.title }}</h3>
+            {% if post.text %}
+            <!-- TEXT POST -->
+            <h3 class="header-font"><a href="{% url 'portal_post_detail' 'text' post.slug %}" class="text-dark">{{ post.title }}</a></h3>
             <p class="text-muted clear-font">Posted on: {{ post.date_posted }}</p>
-            <img src="{{ post.lead_image.url }}" alt="{{ post.lead_image_summary }}">
-            <p>{{ post.text_content|truncatechars:200 }} <a href="">view more</a></p>
+            <a href="{% url 'portal_post_detail' 'text' post.slug %}">
+                <img src="{{ post.lead_image.url }}" alt="{{ post.lead_image_summary }}">
+            </a>
+            <p>{{ post.text_content|safe|truncatechars:200 }} <a href="{% url 'portal_post_detail' 'text' post.slug %}">view more</a></p>
+            {% endif %}
+            {% if post.video %}
+            <!-- VIDEO POST -->
+            <h3 class="header-font"><a href="{% url 'portal_post_detail' 'video' post.slug %}" class="text-dark">{{ post.title }}</a></h3>
+            <p class="text-muted clear-font">Posted on: {{ post.date_posted }}</p>
+            <a href="{% url 'portal_post_detail' 'video' post.slug %}">
+                <img src="{{ post.lead_image.url }}" alt="{{ post.lead_image_summary }}">
+            </a>
+            <p>{{ post.text_content|truncatechars:200 }} <a href="{% url 'portal_post_detail' 'video' post.slug %}">view more</a></p>
+            {% endif %}
+            {% if post.images %}
+            <!-- IMAGES POST -->
+            <h3 class="header-font"><a href="{% url 'portal_post_detail' 'images' post.slug %}" class="text-dark">{{ post.title }}</a></h3>
+            <p class="text-muted clear-font">Posted on: {{ post.date_posted }}</p>
+            <a href="{% url 'portal_post_detail' 'images' post.slug %}">
+                <img src="{{ post.lead_image.url }}" alt="{{ post.lead_image_summary }}">
+            </a>
+            <p>{{ post.text_content|truncatechars:200 }} <a href="{% url 'portal_post_detail' 'images' post.slug %}">view more</a></p>
+            {% endif %}
         </div>
     </div>
     {% if not forloop.last %}

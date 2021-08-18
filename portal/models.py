@@ -1,34 +1,52 @@
 from django.db import models
 from django.utils import timezone
+from django.utils.text import slugify
 
 
 class PortalTextPost(models.Model):
     title = models.CharField(blank=False, max_length=80)
+    slug = models.SlugField(default="")
     lead_image = models.ImageField(blank=False, null=False,
                                    upload_to="portal_images")
     lead_image_summary = models.CharField(blank=False, max_length=60)
     text_content = models.TextField(blank=False)
     date_posted = models.DateTimeField(default=timezone.now)
+    text = models.BooleanField(default=True, editable=False)
 
     def __str__(self):
         return f"Text post: {self.title}"
 
+    def save(self, *args, **kwargs):
+        if self.slug != slugify(self.title):
+            self.slug = slugify(self.title)
+
+        super().save(*args, **kwargs)
+
 
 class PortalVideoPost(models.Model):
     title = models.CharField(blank=False, max_length=80)
+    slug = models.SlugField(default="")
     lead_image = models.ImageField(blank=False, null=False,
                                    upload_to="portal_images")
     lead_image_summary = models.CharField(blank=False, max_length=60)
     video_url = models.URLField(blank=False, null=False)
     text_content = models.TextField(blank=False)
     date_posted = models.DateTimeField(default=timezone.now)
+    video = models.BooleanField(default=True, editable=False)
 
     def __str__(self):
         return f"Video post: {self.title}"
 
+    def save(self, *args, **kwargs):
+        if self.slug != slugify(self.title):
+            self.slug = slugify(self.title)
+
+        super().save(*args, **kwargs)
+
 
 class PortalImagesPost(models.Model):
     title = models.CharField(blank=False, max_length=80)
+    slug = models.SlugField(default="")
     lead_image = models.ImageField(blank=False, null=False,
                                    upload_to="portal_images")
     lead_image_summary = models.CharField(blank=False, max_length=60)
@@ -58,6 +76,13 @@ class PortalImagesPost(models.Model):
                                 upload_to="portal_images")
     image_8_summary = models.CharField(blank=True, max_length=60)
     date_posted = models.DateTimeField(default=timezone.now)
+    images = models.BooleanField(default=True, editable=False)
 
     def __str__(self):
         return f"Images post: {self.post_title}"
+
+    def save(self, *args, **kwargs):
+        if self.slug != slugify(self.title):
+            self.slug = slugify(self.title)
+
+        super().save(*args, **kwargs)

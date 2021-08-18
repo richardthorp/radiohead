@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container content-container">
+    <div class="row">
+        <div class="col-12">
+            <a href="{% url 'portal_content' %}"><i class="fas fa-backward mt-3"></i> Back to Portal</a>
+            <img src="{{ post.lead_image.url }}" alt="{{ post.lead_image_summary }}" class="mx-auto d-block">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <h1 class="header-font text-center mt-3">{{ post.title }}</h1>
+            <p class="text-muted clear-font">Posted on: {{ post.date_posted }}</p>
+            {{ post.text_content|safe }}
+        </div>
+    </div>
+</div>
+{% endblock %}

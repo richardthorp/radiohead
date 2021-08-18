@@ -16,4 +16,6 @@ urlpatterns = [
          name='cancel_subscription'),
     path('reactivate_subscription/<subscription_id>',
          views.reactivate_subscription, name='reactivate_subscription'),
+    path('portal_post_detail/<post_type>/<slug:slug>',
+         views.portal_post_detail, name='portal_post_detail'),
 ]

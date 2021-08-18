@@ -165,6 +165,19 @@ def cancel_subscription(request, subscription_id):
         print(e)
 
 
+@login_required
+def reactivate_subscription(request, subscription_id):
+    if request.user.profile.subscription_id == subscription_id:
+        stripe.Subscription.modify(
+            subscription_id,
+            cancel_at_period_end=False
+        )
+        return redirect(reverse('profile'))
+    else:
+        messages.error(request, 'You can not reactivate this subscription')
+        return redirect(reverse('profile'))
+
+
 # This view renders the actual portal content for subscribed users
 @login_required
 def portal_content(request):
@@ -222,32 +235,27 @@ def portal_content(request):
             return redirect(reverse('portal_info'))
 
 
+# This view renders the portal post detail pages subscribed users
 @login_required
-def reactivate_subscription(request, subscription_id):
-    if request.user.profile.subscription_id == subscription_id:
-        stripe.Subscription.modify(
-            subscription_id,
-            cancel_at_period_end=False
-        )
-        return redirect(reverse('profile'))
-    else:
-        messages.error(request, 'You can not reactivate this subscription')
-        return redirect(reverse('profile'))
+def portal_post_detail(request, post_type, slug):
+    if request.user.profile.subscription_status == 'active':
+        if post_type == 'text':
+            post = PortalTextPost.objects.get(slug=slug)
+            template = 'portal/text_post.html'
+        if post_type == 'video':
+            post = PortalVideoPost.objects.get(slug=slug)
+            template = 'portal/video_post.html'
+        if post_type == 'images':
+            post = PortalImagesPost.objects.get(slug=slug)
+            template = 'portal/images_post.html'
 
-    # if not request.user.profile.subscription_status == 'active':
-    #     # If the user doesn't have an active subscription status on their
-    #     # profile, allow 5 seconds for the Stripe webhook to be sent to
-    #     # update the profile
-    #     attempt = 1
-    #     while attempt <= 5:
-    #         sleep(1)
-    #         if request.user.profile.subscription_status == 'active':
-    #             active_subscription = True
-    #             break
-    #         attempt += 1            # THIS WHOLE THING NEEDS A VALID SUBSCRIBER OUTCOME!!
-    #     if active_subscription:
-    #         return render(request, 'portal/portal_content.html')
-    #     else:
-    #         messages.error(request, 'You must have an active Portal \
-    #             subscription to view this page')
-    #         return redirect(reverse('portal_info'))
+        context = {
+            'post': post,
+        }
+
+        return render(request, template, context)
+
+    else:
+        messages.error(request, 'Sorry, you must have an active \
+            subscription to Portal to view this page.')
+        return redirect(reverse('portal_info'))
