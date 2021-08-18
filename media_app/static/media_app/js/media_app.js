@@ -1,22 +1,3 @@
-// // Size iframe video player depending on sceen width
-// function resizeIframe() {
-//     const containerWidth = $(".video-container").width();
-//     const iFrame = $("#iFrame");
-//     const iFrameHeight = containerWidth * 0.67;
-
-//     iFrame.attr('height', iFrameHeight);
-// }
-
-// // Size iframe on document load
-// $(document).ready(function () {
-//     resizeIframe();
-// });
-
-// // Resize iframe when screen width changes
-// $(window).resize(function () {
-//     resizeIframe();
-// })
-
 // Auto resize textarea inputs when user types.
 // Code copied from https://stackoverflow.com/questions/2948230/auto-expand-a-textarea-using-jquery User: SpYk3HH
 $("textarea").keyup(function(e) {
@@ -43,22 +24,17 @@ function getComments(page=1){
         success: function (data) {
             renderComments(data);
         },
-        error: function(xhr,status,error){
-            if(xhr.status === 404){
-                htmlContent = 
-                    `<p class="text-center">This video currently has no comments.</p>`;
-                
-            } else {
-                htmlContent = 
-                    `<p>Sorry, we're having trouble getting comments. Please try again later.</p>`;
-            }
-            $("#comment-section").html(htmlContent)
-            
+        error: function(){
+            $("#comment-section").html("<p>Sorry, we're having touble loading comments at the moment.</p>")
         },
     })
 }
 
 function renderComments(data){
+    if (data.length == 0){
+        $("#comment-section").html(`<p class="text-center">This video currently has no comments.</p>`);
+        return;
+    }
     let htmlContent = "";
     data.forEach(commentObj =>{
         console.log(commentObj)

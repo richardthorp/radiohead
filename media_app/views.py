@@ -49,8 +49,8 @@ def add_comment(request):
 def get_comments(request):
     object_id = request.GET.get('objectID')
     page = request.GET.get('page')
-    queryset = get_list_or_404(Comment.objects.order_by('-date_posted'),
-                               on_single=object_id)
+    queryset = Comment.objects.filter(
+        on_single=object_id).order_by('-date_posted')
     paginator = Paginator(queryset, 8)  # Show 8 comments per page.
     paginated_query = paginator.get_page(page)
     current_page = paginator.page(page)
