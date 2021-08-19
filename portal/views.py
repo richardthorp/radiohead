@@ -268,9 +268,6 @@ def add_comment(request):
     post_id = request.POST['post_id']
     text = request.POST['comment']
     post_type = request.POST['post_type']
-    print('post_id', post_id)
-    print('text', text)
-    print('post_id', post_id)
 
     if post_type == 'text_post':
         post = PortalTextPost.objects.get(id=post_id)

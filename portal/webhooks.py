@@ -5,7 +5,6 @@ from django.http import HttpResponse
 from django.views.decorators.http import require_POST
 from django.contrib.auth.models import User
 from django.views.decorators.csrf import csrf_exempt
-from profiles.models import Profile
 
 
 @require_POST
@@ -15,13 +14,14 @@ def portal_webhook(request):
     stripe.api_key = settings.STRIPE_SECRET_KEY
     try:
         signature = request.headers['stripe-signature']
+        print('SIGNATURE: ', signature)
         event = stripe.Webhook.construct_event(
             payload=request.body, sig_header=signature,
             secret=wh_secret)
         data = event['data']
         event_type = event['type']
     except Exception as e:
-        print('WE HIT THE EXCEPT')
+        print('ERROR:', e)
         return e
 
     data_object = data['object']

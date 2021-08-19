@@ -27,6 +27,7 @@ def cache_checkout_data(request):
             'bag': json.dumps(request.session.get('bag')),
             'save_details': request.POST.get('save_details'),
             'user': request.user,
+            'shop_order': 'true',
         })
 
         return HttpResponse(status=200)
