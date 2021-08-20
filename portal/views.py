@@ -101,7 +101,6 @@ def create_portal_customer(request):
         user_profile.save()
         form = OrderForm(initial={
                         'name': user_profile.default_name,
-                        'email': user_profile.default_email,
                         'phone_number': user_profile.default_phone_number,
                         'address_line1': user_profile.default_address_line1,
                         'address_line2': user_profile.default_address_line2,
@@ -130,29 +129,39 @@ def create_portal_customer(request):
 
 
 def save_customer_details(request):
-    default_name = request.POST.get('customerDetails[name]')
-    default_phone_number = request.POST.get('customerDetails[phone]')
-    default_address_line1 = request.POST.get('customerDetails[address][line1]')
-    default_address_line2 = request.POST.get('customerDetails[address][line2]')
-    default_town_or_city = request.POST.get('customerDetails[address][city]')
-    default_county = request.POST.get('customerDetails[address][state]')
-    default_postcode = request.POST.get(
-        'customerDetails[address][postal_code]')
-    default_country = request.POST.get('customerDetails[address][country]')
-    profile = request.user.profile
-    form = ProfileForm(
-        {'default_name': default_name,
-         'default_phone_number': default_phone_number,
-         'default_address_line1': default_address_line1,
-         'default_address_line2': default_address_line2,
-         'default_town_or_city': default_town_or_city,
-         'default_county': default_county,
-         'default_postcode': default_postcode,
-         'default_country': default_country},
-        instance=profile
+    customer_details = {
+        'name': request.POST.get('customer_details[name]'),
+        'phone_number': request.POST.get('customer_details[phone]'),
+        'address_line1': request.POST.get('customer_details[address][line1]'),
+        'address_line2': request.POST.get('customer_details[address][line2]'),
+        'town_or_city': request.POST.get('customer_details[address][city]'),
+        'county': request.POST.get('customer_details[address][state]'),
+        'postcode': request.POST.get(
+            'customer_details[address][postal_code]'),
+        'country': request.POST.get('customer_details[address][country]')
+    }
+
+    subscription_id = request.POST['subscription_id']
+    stripe.Subscription.modify(
+        subscription_id,
+        metadata=customer_details,
     )
-    if form.is_valid():
-        form.save()
+
+    if request.POST['save_details'] == 'true':
+        profile = request.user.profile
+        form = ProfileForm(
+            {'default_name': customer_details['name'],
+             'default_phone_number': customer_details['phone_number'],
+             'default_address_line1': customer_details['address_line1'],
+             'default_address_line2': customer_details['address_line2'],
+             'default_town_or_city': customer_details['town_or_city'],
+             'default_county': customer_details['county'],
+             'default_postcode': customer_details['postcode'],
+             'default_country': customer_details['country']},
+            instance=profile
+        )
+        if form.is_valid():
+            form.save()
     return HttpResponse(status=200)
 
 
