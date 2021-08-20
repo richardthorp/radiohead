@@ -7,6 +7,8 @@ urlpatterns = [
     path('content/', views.portal_content, name='portal_content'),
     path('subscribe-to-portal/', views.create_portal_customer,
          name='create_portal_customer'),
+    path('save-customer-details/', views.save_customer_details,
+         name='save_customer_details'),
     path('portal_wh/', portal_webhook, name='portal_webhook'),
     path('update_payment_card/', views.update_payment_card,
          name='update_payment_card'),

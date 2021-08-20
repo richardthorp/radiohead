@@ -13,9 +13,34 @@ form.addEventListener('submit', function (ev) {
     const clientSecret = $("#id_client_secret").text().slice(1, -1);
     const csrfToken = $("input[name=csrfmiddlewaretoken]").val();
 
+    customerDetails = {
+        name: $.trim(form.name.value),
+        phone: $.trim(form.phone_number.value),
+        address: {
+            city: $.trim(form.town_or_city.value),
+            country: $.trim(form.country.value),
+            line1: $.trim(form.address_line1.value),
+            line2: $.trim(form.address_line2.value),
+            postal_code: $.trim(form.postcode.value),
+            state: $.trim(form.county.value)
+        }
+    }
+    
+    const saveDetails = form.save_details.checked;
+    const postData = {
+        'csrfmiddlewaretoken': csrfToken,
+        'customerDetails': customerDetails,
+    };
+    
+    if (saveDetails){
+        const url = '/portal/save-customer-details/';
+        $.post(url, postData);
+    }
+
     stripe.confirmCardPayment(clientSecret, {
         payment_method: {
             card: card,
+            billing_details: customerDetails
         }
     })
     .then(function (result) {

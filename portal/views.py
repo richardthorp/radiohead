@@ -11,6 +11,8 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.decorators import login_required
 from profiles.models import Profile
+from profiles.forms import ProfileForm
+from checkout.forms import OrderForm
 from .models import (PortalTextPost, PortalVideoPost, PortalImagesPost,
                      ImagesPostComment, VideoPostComment, TextPostComment)
 
@@ -97,6 +99,17 @@ def create_portal_customer(request):
         # subscription
         user_profile.subscription_id = subscription.id
         user_profile.save()
+        form = OrderForm(initial={
+                        'name': user_profile.default_name,
+                        'email': user_profile.default_email,
+                        'phone_number': user_profile.default_phone_number,
+                        'address_line1': user_profile.default_address_line1,
+                        'address_line2': user_profile.default_address_line2,
+                        'town_or_city': user_profile.default_town_or_city,
+                        'county': user_profile.default_county,
+                        'postcode': user_profile.default_postcode,
+                        'country': user_profile.default_country,
+                    })
 
         context = {
             'subscription_id': subscription.id,
@@ -104,6 +117,7 @@ def create_portal_customer(request):
                               payment_intent.client_secret),
             'stripe_public_key': stripe_public_key,
             'portal_price': settings.PORTAL_PRICE,
+            'form': form,
         }
 
         return render(request, 'portal/portal_sign_up.html', context)
@@ -113,6 +127,33 @@ def create_portal_customer(request):
         messages.error(request, 'Sorry, there was an issue generating the new subscription, \
             "please try again later')
         return redirect(reverse('portal_info'))
+
+
+def save_customer_details(request):
+    default_name = request.POST.get('customerDetails[name]')
+    default_phone_number = request.POST.get('customerDetails[phone]')
+    default_address_line1 = request.POST.get('customerDetails[address][line1]')
+    default_address_line2 = request.POST.get('customerDetails[address][line2]')
+    default_town_or_city = request.POST.get('customerDetails[address][city]')
+    default_county = request.POST.get('customerDetails[address][state]')
+    default_postcode = request.POST.get(
+        'customerDetails[address][postal_code]')
+    default_country = request.POST.get('customerDetails[address][country]')
+    profile = request.user.profile
+    form = ProfileForm(
+        {'default_name': default_name,
+         'default_phone_number': default_phone_number,
+         'default_address_line1': default_address_line1,
+         'default_address_line2': default_address_line2,
+         'default_town_or_city': default_town_or_city,
+         'default_county': default_county,
+         'default_postcode': default_postcode,
+         'default_country': default_country},
+        instance=profile
+    )
+    if form.is_valid():
+        form.save()
+    return HttpResponse(status=200)
 
 
 def update_payment_card(request):
@@ -236,7 +277,7 @@ def portal_content(request):
             return redirect(reverse('portal_info'))
 
 
-# This view renders the portal post detail pages subscribed users
+# This view renders the portal post detail pages for subscribed users
 @login_required
 def portal_post_detail(request, post_type, slug):
     if request.user.profile.subscription_status == 'active':

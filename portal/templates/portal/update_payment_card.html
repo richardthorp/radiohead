@@ -19,8 +19,6 @@
             <form action="{% url 'profile' %}" method="POST" id="update-card-form">
                 {% csrf_token %}
                     <legend class="header-font">Payment Details</legend>
-                    <label for="cardholder-name">Cardholder Name:</label>
-                    <input type="text" name="cardholder-name" id="cardholder-name" class="mb-3 w-100">
                     <div id="card-element" class="form-control"></div>
                     <p id="card-errors" class="text-danger" role="alert"></p>
                     <input type="hidden" value="{{ client_secret }}" name="client_secret">

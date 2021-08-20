@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load crispy_forms_tags %}
 {% block content %}
 <div class="container content-container">
     <!-- LOADING OVERLAY -->
@@ -17,10 +18,18 @@
         <div class="col-12 col-md-6">
             <form action="{% url 'portal_content' %}" method="POST" id="signup-form">
                 {% csrf_token %}
-                    <legend class="header-font">Payment Details</legend>
-                    <div id="card-element" class="form-control"></div>
-                    <p id="card-errors" class="text-danger" role="alert"></p>
-                    <input type="hidden" value="{{ client_secret }}" name="client_secret">
+                <legend class="header-font">Please enter your details</legend>
+                {% for field in form %}
+                    {% if field.name != "email" %}
+                        {{ field|as_crispy_field }}
+                    {% endif %}
+                {% endfor %}
+                <label for="save_details" class="d-inline mr-3">Tick box to save your details.</label>
+                <input type="checkbox" id="save_details" name="save_details" checked>
+                <legend class="header-font">Payment Details</legend>
+                <div id="card-element" class="form-control"></div>
+                <p id="card-errors" class="text-danger" role="alert"></p>
+                <input type="hidden" value="{{ client_secret }}" name="client_secret">
                 <p class="clear-font mb-2 mt-4 small-text text-danger">
                     Your card will be charged £{{ portal_price }} now, and every month unless the Portal subscription
                     is cancelled. You may cancel at any time.
