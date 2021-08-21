@@ -87,15 +87,8 @@
                     <a href="{% url 'account_logout' %}" class="text-dark">SIGN OUT</a>
                 </li>
                 {% if user.is_staff %}
-                <h6 class="py-2 pl-3 m-0 border-top">Admin Links:</h6>
                 <li class="nav-link">
-                    <a href="{% url 'add_product' 'album' %}" class="text-dark">ADD ALBUM</a>
-                </li>
-                <li class="nav-link">
-                    <a href="{% url 'add_product' 'product' %}" class="text-dark">ADD PRODUCT</a>
-                </li>
-                <li class="nav-link">
-                    <a href="" class="text-dark">ADD PORTAL POST</a>
+                    <a href="{% url 'admin_hub' %}" class="text-dark">ADMIN HUB</a>
                 </li>
                 {% endif %}
                 {% else %}

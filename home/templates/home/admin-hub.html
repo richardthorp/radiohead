@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container content-container">
+    <h1 class="text-center header-font page-header">Admin Hub</h1>
+    <div class="row">
+        <div class="col-12 col-md-6 form-border">
+            <h3 class="header-font">Add Shop Items</h3>
+            <p><strong>Please note:</strong> To edit or delete an item in the shop, navigate to the album
+                or product page in the shop and click on the 'Edit Product' or 'Delete Product' buttons at the top of
+                the page</p>
+            <p><a href="{% url 'add_product' 'album' %}" class="clear-font text-uppercase">
+                    <strong>Click here to add an album</strong></a></p>
+            <p><a href="{% url 'add_product' 'product' %}" class="clear-font text-uppercase">
+                    <strong>Click here to add a product</strong></a></p>
+        </div>
+        <div class="col-12 col-md-6">
+            <h3 class="header-font">Add Media Items</h3>
+            <p><strong>Please note:</strong> You must add an album before adding any singles that belong to that
+                album.<br>
+                To edit or delete a single from Media, navigate to the single page in Media and click on the 'Edit
+                Product' or 'Delete Product' buttons at the top of
+                the page</p>
+            <p><a href="{% url 'add_single' %}" class="clear-font text-uppercase">
+                    <strong>Click here to add a single</strong></a></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12 col-md-6 form-border">
+            <h3 class="header-font">Add Portal Items</h3>
+            <p><strong>Please note:</strong> To edit or delete an item in the shop, navigate to the album
+                or product page in the shop and click on the 'Edit Product' or 'Delete Product' buttons at the top of
+                the page</p>
+            <p><a href="#" class="clear-font text-uppercase">
+                    <strong>Click here to add an Portal Video Post</strong></a></p>
+            <p><a href="#" class="clear-font text-uppercase">
+                    <strong>Click here to add a Portal Text Post</strong></a></p>
+            <p><a href="#" class="clear-font text-uppercase">
+                    <strong>Click here to add a Portal Images Post</strong></a></p>
+        </div>
+    </div>
+
+</div>
+{% endblock %}
