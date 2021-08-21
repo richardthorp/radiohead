@@ -3,8 +3,6 @@
 {% block content %}
 <div class="container content-container">
     <h1 class="text-center header-font page-header">Radiohead Portal</h1>
-    <p class="text-center">Welcome to the home of exclusive Radiohead content. Scroll though the archive or filter the
-        items by their content type.</p>
     {% if user.is_staff %}
     <div class="row">
         <div class="col-12 custom-border p-2 mb-3">
@@ -20,6 +18,9 @@
             </div>
         </div>
     </div>
+    {% else %}
+    <p class="text-center">Welcome to the home of exclusive Radiohead content. Scroll though the archive or filter the
+        items by their content type.</p>
     {% endif %}
     <form action="{% url 'portal_content' %}" method="POST"
         class="sort-by-form d-flex justify-content-center mb-3 mt-2">
