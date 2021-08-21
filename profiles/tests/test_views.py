@@ -37,7 +37,7 @@ class TestProfileView(TestCase):
     def test_save_profile_form_returns_message(self):
         self.client.login(username='test_user', password="test_password")
         url = reverse('profile')
-        response = self.client.post(url)
+        response = self.client.post(url, data={'default_name': True})
 
         messages = list(response.wsgi_request._messages)
         self.assertEqual(len(messages), 1)

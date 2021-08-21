@@ -238,7 +238,24 @@ class TestCheckoutViews(TestCase):
             else:
                 initial_form_data[f"default_{field}"] = value
 
-        self.assertEqual(profile_data, initial_form_data)
+        self.assertEqual(profile_data['default_name'],
+                         initial_form_data['default_name'])
+        self.assertEqual(profile_data['default_phone_number'],
+                         initial_form_data['default_phone_number'])
+        self.assertEqual(profile_data['default_address_line1'],
+                         initial_form_data['default_address_line1'])
+        self.assertEqual(profile_data['default_address_line2'],
+                         initial_form_data['default_address_line2'])
+        self.assertEqual(profile_data['default_town_or_city'],
+                         initial_form_data['default_town_or_city'])
+        self.assertEqual(profile_data['default_county'],
+                         initial_form_data['default_county'])
+        self.assertEqual(profile_data['default_postcode'],
+                         initial_form_data['default_postcode'])
+        self.assertEqual(profile_data['default_country'],
+                         initial_form_data['default_country'])
+        self.assertEqual(profile_data['default_name'],
+                         initial_form_data['default_name'])
 
     def test_invalid_order_form_returns_message(self):
         # Add an item to session['bag']
