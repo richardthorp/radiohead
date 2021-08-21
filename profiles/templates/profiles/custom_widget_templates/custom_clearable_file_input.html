@@ -1,0 +1,27 @@
+<!-- Custom Clearable File widget modified from Boutique Ado project -->
+{% if widget.is_initial %}
+    <!-- <p>{{ widget.initial_text }}:</p> -->
+    <a href="{{ widget.value.url }}">
+        <img class="profile-pic-large" src="{{ widget.value.url }}">
+    </a>
+    {% if not widget.required %}
+        <div class="custom-control custom-checkbox mt-2">
+            <input class="custom-control-input" type="checkbox" name="{{ widget.checkbox_name }}" id="{{ widget.checkbox_id }}">
+            <label class="custom-control-label clear-font d-inline" for="{{ widget.checkbox_id }}">{{ widget.clear_checkbox_label }}</label>
+            <span class="clear-font text-muted">(Image will be removed on form submission)</span>
+        </div>
+    {% endif %}
+    {{ widget.input_text }}
+    <div>
+        <p class="mb-2 mt-3">Select new image</p>
+        <label for="new-image" class="btn btn-dark custom-btn">Choose file</label>
+        <input id="new-image" class="d-none" type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
+    </div>
+    <!-- <strong><p class="text-danger" id="filename"></p></strong> -->
+{% else %}
+<div>
+    <label for="new-image" class="btn btn-dark custom-btn">Choose file</label>
+    <input id="new-image" class="d-none" type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
+</div>
+<strong><p class="text-muted clear-font" id="filename"></p></strong>
+{% endif %}

@@ -18,10 +18,11 @@ def profile(request):
     # Check that the POST request contains the ProfileForm - If not, the request came from
     # update_default_card view so don't update default profile info.
     if request.method == 'POST' and 'default_name' in request.POST:
-        form = ProfileForm(request.POST, instance=profile)
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
             messages.success(request, 'Profile updated')
+            form = ProfileForm(instance=profile)
     if profile.subscription_status == 'active':
         # Get the Subscription and Payment objects from Stripe
         try:
