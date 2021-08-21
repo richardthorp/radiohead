@@ -14,7 +14,7 @@ function getComments(page=1){
     const objectId = $("#post-id").text();
     const postType = $("#post-type").text();
     $.ajax({
-        url: `/portal/get_comments`,
+        url: `/portal/get_portal_comments`,
         type: "GET",
         data: {
             'object_id': objectId,
@@ -137,7 +137,7 @@ function addComment(objectId, userId){
             'comment': $("#add-comment-input").val(),
             'csrfmiddlewaretoken': $("input[name='csrfmiddlewaretoken']").val(),
         }
-        $.post('/portal/add_comment', data)
+        $.post('/portal/add_portal_comment', data)
             .done(setTimeout(getComments, 500))
             .then($("#add-comment-input").val(""));
     }
@@ -171,7 +171,7 @@ function submitEditedComment(commentId){
             'edited_comment': editedComment,
             'csrfmiddlewaretoken': $("input[name='csrfmiddlewaretoken']").val(),
         }
-        $.post('/portal/edit_comment', data)
+        $.post('/portal/edit_portal_comment', data)
             .done(setTimeout(getComments, 500));
     }
 }
@@ -198,7 +198,7 @@ function deleteComment(commentId){
         'comment_id': parseInt(commentId),
         'csrfmiddlewaretoken': $("input[name='csrfmiddlewaretoken']").val(),
     }
-    $.post('/portal/delete_comment', data)
+    $.post('/portal/delete_portal_comment', data)
         .done(setTimeout(getComments, 500));
 }
 

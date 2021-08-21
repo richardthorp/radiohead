@@ -12,6 +12,7 @@ form.addEventListener('submit', function (ev) {
 
     const clientSecret = $("#id_client_secret").text().slice(1, -1);
     const csrfToken = $("input[name=csrfmiddlewaretoken]").val();
+    const subscriptionId = $("#subscription_id").text();
 
     customerDetails = {
         name: $.trim(form.name.value),
@@ -25,17 +26,19 @@ form.addEventListener('submit', function (ev) {
             state: $.trim(form.county.value)
         }
     }
-    
+   
+    // Send the customer details to the save-customer-details view where they are added to 
+    // the subscription object metadata, and if the user selected 'save-details' checked, saved 
+    // to the user profile
     const saveDetails = form.save_details.checked;
+    const url = '/portal/save-customer-details/';
     const postData = {
         'csrfmiddlewaretoken': csrfToken,
-        'customerDetails': customerDetails,
+        'customer_details': customerDetails,
+        'save_details': saveDetails,
+        'subscription_id': subscriptionId,
     };
-    
-    if (saveDetails){
-        const url = '/portal/save-customer-details/';
-        $.post(url, postData);
-    }
+    $.post(url, postData);
 
     stripe.confirmCardPayment(clientSecret, {
         payment_method: {

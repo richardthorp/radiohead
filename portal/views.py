@@ -313,7 +313,7 @@ def portal_post_detail(request, post_type, slug):
 
 
 # COMMENTS
-def add_comment(request):
+def add_portal_comment(request):
     posted_by = Profile.objects.get(user=request.POST['user_id'])
     post_id = request.POST['post_id']
     text = request.POST['comment']
@@ -336,7 +336,7 @@ def add_comment(request):
     return HttpResponse(status=200)
 
 
-def get_comments(request):
+def get_portal_comments(request):
     object_id = request.GET.get('object_id')
     page = request.GET.get('page')
     post_type = request.GET.get('post_type')
@@ -384,7 +384,7 @@ def get_comments(request):
     return JsonResponse(formatted_data, safe=False)
 
 
-def edit_comment(request):
+def edit_portal_comment(request):
     post_type = request.POST['post_type']
     comment_id = request.POST['comment_id']
     if post_type == 'text_post':
@@ -403,7 +403,7 @@ def edit_comment(request):
     return HttpResponse(status=200)
 
 
-def delete_comment(request):
+def delete_portal_comment(request):
     post_type = request.POST['post_type']
     comment_id = request.POST['comment_id']
     if post_type == 'text_post':
