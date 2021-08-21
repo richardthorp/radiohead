@@ -12,4 +12,5 @@ class ProfileForm(forms.ModelForm):
                              widget=CustomClearableFileInput)
 
     default_address_line1 = forms.CharField(label='Default Address Line 1')
-    default_address_line2 = forms.CharField(label='Default Address Line 2')
+    default_address_line2 = forms.CharField(label='Default Address Line 2',
+                                            required=False)
