@@ -385,6 +385,64 @@ def add_portal_post(request, post_type):
         return render(request, 'portal/add_images_post.html', context)
 
 
+@login_required
+def edit_portal_post(request, post_type, post_id):
+    if request.method == 'POST':
+        if post_type == 'text_post':
+            post = PortalTextPost.objects.get(pk=post_id)
+            form = AddTextPostForm(request.POST, request.FILES, instance=post)
+        if post_type == 'video_post':
+            post = PortalVideoPost.objects.get(pk=post_id)
+            form = AddVideoPostForm(request.POST, request.FILES, instance=post)
+        if post_type == 'images_post':
+            post = PortalImagesPost.objects.get(pk=post_id)
+            form = AddImagesPostForm(request.POST, request.FILES,
+                                     instance=post)
+        if form.is_valid():
+            post = form.save()
+            messages.success(request, 'Post updated')
+            return redirect(reverse('portal_post_detail',
+                                    args=[post_type, post.slug]))
+        else:
+            print(form.errors)
+            messages.error(request,
+                           'Error with form data, please check and try again.')
+    if post_type == 'text_post':
+        post = PortalTextPost.objects.get(pk=post_id)
+        form = AddTextPostForm(instance=post)
+    if post_type == 'video_post':
+        post = PortalVideoPost.objects.get(pk=post_id)
+        form = AddVideoPostForm(instance=post)
+    if post_type == 'images_post':
+        post = PortalImagesPost.objects.get(pk=post_id)
+        form = AddImagesPostForm(instance=post)
+
+    context = {
+        'form': form,
+        'post_type': post_type,
+        'post_id': post_id
+    }
+    return render(request, 'portal/edit_post.html', context)
+
+
+@login_required
+def delete_portal_post(request, post_type, post_id):
+    if not request.user.is_staff:
+        messages.error(request, 'You must be a staff member to delete posts.')
+        return redirect(reverse('portal_info'))
+    if post_type == 'text_post':
+        post = PortalTextPost.objects.get(pk=post_id)
+        post.delete()
+    if post_type == 'video_post':
+        post = PortalVideoPost.objects.get(pk=post_id)
+        post.delete()
+    if post_type == 'images_post':
+        post = PortalImagesPost.objects.get(pk=post_id)
+        post.delete()
+    messages.success(request, 'Post Deleted.')
+    return redirect(reverse('portal_content'))
+
+
 # COMMENTS
 def add_portal_comment(request):
     posted_by = Profile.objects.get(user=request.POST['user_id'])
