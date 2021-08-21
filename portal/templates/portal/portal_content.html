@@ -3,18 +3,36 @@
 {% block content %}
 <div class="container content-container">
     <h1 class="text-center header-font page-header">Radiohead Portal</h1>
-    <p class="text-center">Welcome to the home of exclusive Radiohead content. Scroll though the archive or filter the items by their content type.</p>
-    <form action="{% url 'portal_content' %}" method="POST" class="sort-by-form d-flex justify-content-center mb-3 mt-2">
+    <p class="text-center">Welcome to the home of exclusive Radiohead content. Scroll though the archive or filter the
+        items by their content type.</p>
+    {% if user.is_staff %}
+    <div class="row">
+        <div class="col-12 custom-border p-2 mb-3">
+            <h5 class="header-font text-center">Admin</h5>
+            <p class="text-center">Click on an a post to edit or delete.</p>
+            <div class="d-flex justify-content-center">
+                <a href="{% url 'add_portal_post' 'text_post' %}" class="btn custom-btn btn-outline-dark mr-2 my-2">
+                    Add Text Post</a>
+                <a href="{% url 'add_portal_post' 'images_post' %}" class="btn custom-btn btn-outline-dark ml-2 my-2">
+                    Add Images Post</a>
+                <a href="{% url 'add_portal_post' 'video_post' %}" class="btn custom-btn btn-outline-dark ml-2 my-2">
+                    Add Video Post</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    <form action="{% url 'portal_content' %}" method="POST"
+        class="sort-by-form d-flex justify-content-center mb-3 mt-2">
         {% csrf_token %}
         <input type="radio" id="all" name="filter" value="all" class="d-none">
         <label for="all" class="btn custom-btn btn-outline-dark {% if all %} active {% endif %}">ALL</label><br>
         <input type="radio" id="text" name="filter" value="text" class="d-none">
         <label for="text" class="btn custom-btn btn-outline-dark {% if text %} active {% endif %}">Text</label><br>
         <input type="radio" id="videos" name="filter" value="videos" class="d-none">
-        <label for="videos"
-            class="btn custom-btn btn-outline-dark {% if videos %} active {% endif %}">Video</label><br>
+        <label for="videos" class="btn custom-btn btn-outline-dark {% if videos %} active {% endif %}">Video</label><br>
         <input type="radio" id="images" name="filter" value="images" class="d-none">
-        <label for="images" class="btn custom-btn btn-outline-dark {% if images %} active {% endif %}">Images</label><br>
+        <label for="images"
+            class="btn custom-btn btn-outline-dark {% if images %} active {% endif %}">Images</label><br>
     </form>
     <hr>
     <div class="row">
@@ -22,30 +40,34 @@
         <div class="col-12 col-md-6">
             {% if post.text %}
             <!-- TEXT POST -->
-            <h3 class="header-font"><a href="{% url 'portal_post_detail' 'text' post.slug %}" class="text-dark">{{ post.title }}</a></h3>
+            <h3 class="header-font"><a href="{% url 'portal_post_detail' 'text_post' post.slug %}" class="text-dark">
+                    {{ post.title }}</a></h3>
             <p class="text-muted clear-font">Posted on: {{ post.date_posted }}</p>
-            <a href="{% url 'portal_post_detail' 'text' post.slug %}">
+            <a href="{% url 'portal_post_detail' 'text_post' post.slug %}">
                 <img src="{{ post.lead_image.url }}" alt="{{ post.lead_image_summary }}" class="mw-100">
             </a>
-            <p>{{ post.post_blurb }} <a href="{% url 'portal_post_detail' 'text' post.slug %}">View more...</a></p>
+            <p>{{ post.post_blurb }} <a href="{% url 'portal_post_detail' 'text_post' post.slug %}">View more...</a></p>
             {% endif %}
             {% if post.video %}
             <!-- VIDEO POST -->
-            <h3 class="header-font"><a href="{% url 'portal_post_detail' 'video' post.slug %}" class="text-dark">{{ post.title }}</a></h3>
+            <h3 class="header-font"><a href="{% url 'portal_post_detail' 'video_post' post.slug %}" class="text-dark">
+                    {{ post.title }}</a></h3>
             <p class="text-muted clear-font">Posted on: {{ post.date_posted }}</p>
-            <a href="{% url 'portal_post_detail' 'video' post.slug %}">
+            <a href="{% url 'portal_post_detail' 'video_post' post.slug %}">
                 <img src="{{ post.lead_image.url }}" alt="{{ post.lead_image_summary }}" class="mw-100">
             </a>
-            <p>{{ post.post_blurb}} <a href="{% url 'portal_post_detail' 'video' post.slug %}">View more...</a></p>
+            <p>{{ post.post_blurb}} <a href="{% url 'portal_post_detail' 'video_post' post.slug %}">View more...</a></p>
             {% endif %}
             {% if post.images %}
             <!-- IMAGES POST -->
-            <h3 class="header-font"><a href="{% url 'portal_post_detail' 'images' post.slug %}" class="text-dark">{{ post.title }}</a></h3>
+            <h3 class="header-font"><a href="{% url 'portal_post_detail' 'images_post' post.slug %}" class="text-dark">
+                    {{ post.title }}</a></h3>
             <p class="text-muted clear-font">Posted on: {{ post.date_posted }}</p>
-            <a href="{% url 'portal_post_detail' 'images' post.slug %}">
+            <a href="{% url 'portal_post_detail' 'images_post' post.slug %}">
                 <img src="{{ post.lead_image.url }}" alt="{{ post.lead_image_summary }}" class="mw-100">
             </a>
-            <p>{{ post.post_blurb }} <a href="{% url 'portal_post_detail' 'images' post.slug %}">View more...</a></p>
+            <p>{{ post.post_blurb }} <a href="{% url 'portal_post_detail' 'images_post' post.slug %}">View more...</a>
+            </p>
             {% endif %}
         </div>
         <!-- HR FOR LOOP LOGIC MODIFIED FROM BOUTIQUE ADO PROJECT -->

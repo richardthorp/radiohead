@@ -15,6 +15,7 @@ from profiles.forms import ProfileForm
 from checkout.forms import OrderForm
 from .models import (PortalTextPost, PortalVideoPost, PortalImagesPost,
                      ImagesPostComment, VideoPostComment, TextPostComment)
+from .forms import AddImagesPostForm, AddTextPostForm, AddVideoPostForm
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 stripe_public_key = settings.STRIPE_PUBLIC_KEY
@@ -290,13 +291,13 @@ def portal_content(request):
 @login_required
 def portal_post_detail(request, post_type, slug):
     if request.user.profile.subscription_status == 'active':
-        if post_type == 'text':
+        if post_type == 'text_post':
             post = PortalTextPost.objects.get(slug=slug)
             template = 'portal/text_post.html'
-        if post_type == 'video':
+        if post_type == 'video_post':
             post = PortalVideoPost.objects.get(slug=slug)
             template = 'portal/video_post.html'
-        if post_type == 'images':
+        if post_type == 'images_post':
             post = PortalImagesPost.objects.get(slug=slug)
             template = 'portal/images_post.html'
 
@@ -310,6 +311,78 @@ def portal_post_detail(request, post_type, slug):
         messages.error(request, 'Sorry, you must have an active \
             subscription to Portal to view this page.')
         return redirect(reverse('portal_info'))
+
+
+@login_required
+def add_portal_post(request, post_type):
+    if not request.user.is_staff:
+        messages.error(request, 'You must be a staff member add Portal posts.')
+        return redirect(reverse('portal_info'))
+
+    if request.method == 'POST':
+        if post_type == 'text_post':
+            form = AddTextPostForm(request.POST, request.FILES)
+            if form.is_valid():
+                post = form.save()
+                messages.success(request, 'Text post added to Portal')
+                return redirect(
+                    reverse('portal_post_detail',
+                            args=['text_post', post.slug]))
+            else:
+                messages.error(request, 'Error adding post, please try again.')
+                context = {
+                    'form': PortalTextPost(request.POST, request.FILES)
+                }
+                print(form.errors)
+                return render(request, 'portal/add_text_post.html', context)
+
+        if post_type == 'video_post':
+            form = AddVideoPostForm(request.POST, request.FILES)
+            if form.is_valid():
+                post = form.save()
+                messages.success(request, 'Video post added to Portal')
+                return redirect(
+                    reverse('portal_post_detail',
+                            args=['video_post', post.slug]))
+            else:
+                messages.error(request, 'Error adding post, please try again.')
+                context = {
+                    'form': PortalVideoPost(request.POST, request.FILES)
+                }
+                print(form.errors)
+                return render(request, 'portal/add_video_post.html', context)
+
+        if post_type == 'images_post':
+            form = AddImagesPostForm(request.POST, request.FILES)
+            if form.is_valid():
+                post = form.save()
+                messages.success(request, 'Images post added to Portal')
+                return redirect(reverse('portal_post_detail',
+                                args=['images_post', post.slug]))
+            else:
+                messages.error(request, 'Error adding post, please try again.')
+                context = {
+                    'form': PortalImagesPost(request.POST, request.FILES)
+                }
+                print(form.errors)
+                return render(request, 'portal/add_images_post.html', context)
+
+    # GET Request
+    if post_type == 'text_post':
+        context = {
+            'form': AddTextPostForm()
+        }
+        return render(request, 'portal/add_text_post.html', context)
+    if post_type == 'video_post':
+        context = {
+            'form': AddVideoPostForm()
+        }
+        return render(request, 'portal/add_video_post.html', context)
+    if post_type == 'images_post':
+        context = {
+            'form': AddImagesPostForm()
+        }
+        return render(request, 'portal/add_images_post.html', context)
 
 
 # COMMENTS

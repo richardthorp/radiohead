@@ -5,6 +5,8 @@ from .webhooks import portal_webhook
 urlpatterns = [
     path('', views.portal_info, name='portal_info'),
     path('content/', views.portal_content, name='portal_content'),
+    path('add-portal-post/<post_type>', views.add_portal_post,
+         name='add_portal_post'),
     path('subscribe-to-portal/', views.create_portal_customer,
          name='create_portal_customer'),
     path('save-customer-details/', views.save_customer_details,
