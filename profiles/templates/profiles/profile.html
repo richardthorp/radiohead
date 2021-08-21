@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
-
 {% block content %}
 <div class="container content-container">
     <h1 class="page-header header-font text-center">{{ profile.user.username }}'s Profile</h1>
@@ -117,4 +116,15 @@
 {% block postloadjs %}
 {{ block.super }}
 <script src="{% static 'profiles/js/profiles.js' %}"></script>
+<!-- File name renderer copied from Boutique Ado project -->
+<script type="text/javascript">
+    $("#new-image").change(function(){
+        let file = $(this)[0].files[0];
+        $("#filename").text(`Image will be set to ${file.name}`);
+    });
+</script>
+<!-- Add 'profile-pic-large' class to image only in profile page file input widget -->
+<script type="text/javascript">
+$("#profile-pic").addClass('profile-pic-large')
+</script>
 {% endblock %}

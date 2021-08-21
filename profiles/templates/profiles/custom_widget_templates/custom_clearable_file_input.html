@@ -2,7 +2,7 @@
 {% if widget.is_initial %}
     <!-- <p>{{ widget.initial_text }}:</p> -->
     <a href="{{ widget.value.url }}">
-        <img class="profile-pic-large" src="{{ widget.value.url }}">
+        <img id="profile-pic" class="mw-100" src="{{ widget.value.url }}">
     </a>
     {% if not widget.required %}
         <div class="custom-control custom-checkbox mt-2">
@@ -17,7 +17,7 @@
         <label for="new-image" class="btn btn-dark custom-btn">Choose file</label>
         <input id="new-image" class="d-none" type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
     </div>
-    <!-- <strong><p class="text-danger" id="filename"></p></strong> -->
+    <strong><p class="text-muted clear-font" id="filename"></p></strong>
 {% else %}
 <div>
     <label for="new-image" class="btn btn-dark custom-btn">Choose file</label>
