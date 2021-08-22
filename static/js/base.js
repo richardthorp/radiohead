@@ -61,10 +61,12 @@ function addWelcomeText(){
 
 // Repeat welcome text animation
 $(document).ready(function() {
-    addWelcomeText();
-    setInterval(() => {
+    setTimeout(function(){
         addWelcomeText();
-    }, 10000)
+        setInterval(() => {
+            addWelcomeText();
+        }, 10000)
+    }, 100);
 })
 
 // Fix onscroll whitespace bug for background image on mobile
