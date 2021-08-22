@@ -25,7 +25,8 @@ stripe_public_key = settings.STRIPE_PUBLIC_KEY
 # logged in users with active subscriptions
 def portal_info(request):
     if str(request.user) != 'AnonymousUser':
-        if request.user.profile.subscription_status == 'active':
+        if (request.user.profile.subscription_status == 'active' or
+                request.user.is_staff):
             return redirect(reverse('portal_content'))
     return render(request, 'portal/portal_info.html')
 
@@ -33,6 +34,8 @@ def portal_info(request):
 # Generate or find Stripe Customer and create a new Subscription
 @login_required
 def create_portal_customer(request):
+    if request.user.is_staff:
+        return redirect(reverse('portal_content'))
     email = request.user.email
     user_profile = request.user.profile
     try:
@@ -237,7 +240,8 @@ def reactivate_subscription(request, subscription_id):
 # This view renders the actual portal content for subscribed users
 @login_required
 def portal_content(request):
-    if request.user.profile.subscription_status == 'active':
+    if (request.user.profile.subscription_status == 'active' or
+            request.user.is_staff):
         text_posts = PortalTextPost.objects.all()
         video_posts = PortalVideoPost.objects.all()
         images_posts = PortalImagesPost.objects.all()
@@ -290,7 +294,8 @@ def portal_content(request):
 # This view renders the portal post detail pages for subscribed users
 @login_required
 def portal_post_detail(request, post_type, slug):
-    if request.user.profile.subscription_status == 'active':
+    if (request.user.profile.subscription_status == 'active' or
+            request.user.is_staff):
         if post_type == 'text_post':
             post = PortalTextPost.objects.get(slug=slug)
             template = 'portal/text_post.html'
@@ -387,6 +392,9 @@ def add_portal_post(request, post_type):
 
 @login_required
 def edit_portal_post(request, post_type, post_id):
+    if not request.user.is_staff:
+        messages.error(request, 'You must be a staff member to edit posts.')
+        return redirect(reverse('portal_info'))
     if request.method == 'POST':
         if post_type == 'text_post':
             post = PortalTextPost.objects.get(pk=post_id)
@@ -444,7 +452,14 @@ def delete_portal_post(request, post_type, post_id):
 
 
 # COMMENTS
+@login_required
 def add_portal_comment(request):
+    if not (request.user.profile.subscription_status == 'active' or
+            not request.user.is_staff):
+        messages.error(request, 'You must have an active subscription \
+            to add comments')
+        return redirect(reverse('portal_info'))
+
     posted_by = Profile.objects.get(user=request.POST['user_id'])
     post_id = request.POST['post_id']
     text = request.POST['comment']
