@@ -13,14 +13,14 @@
     {{ widget.input_text }}
     <div>
         <p class="mb-2 mt-3">Select new image</p>
-        <label for="new-image" class="btn btn-dark custom-btn">Choose file</label>
-        <input id="new-image" class="d-none" type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
+        <label for="{{ widget.name }}" class="btn btn-dark custom-btn">Choose file</label>
+        <input id="{{ widget.name }}" class="hidden-input" type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
+        <strong><p class="text-muted clear-font filename"></p></strong>
     </div>
-    <strong><p class="text-muted clear-font" id="filename"></p></strong>
 {% else %}
 <div>
-    <label for="new-image" class="btn btn-dark custom-btn">Choose file</label>
-    <input id="new-image" class="d-none" type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
+    <label for="{{ widget.name }}" class="btn btn-dark custom-btn">Choose file</label>
+    <input id="{{ widget.name }}" class="hidden-input" type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
+    <strong><p class="text-muted clear-font filename" ></p></strong>
 </div>
-<strong><p class="text-muted clear-font" id="filename"></p></strong>
 {% endif %}

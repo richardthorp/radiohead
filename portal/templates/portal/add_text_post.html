@@ -28,11 +28,11 @@
 {% endblock %}
 {% block postloadjs %}
 {{ block.super }}
-<!-- File name renderer copied from Boutique Ado project -->
+<!-- File name renderer modified from Boutique Ado project -->
 <script type="text/javascript">
-    $("#new-image").change(function(){
+    $("#lead_image").change(function(){
         let file = $(this)[0].files[0];
-        $("#filename").text(`Image will be set to ${file.name}`);
+        $(this).siblings("strong").children("p").first().text(`Image will be set to ${file.name}`);
     });
 </script>
 {% endblock %}

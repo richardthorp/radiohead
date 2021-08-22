@@ -137,6 +137,16 @@ hr {
     -o-object-position: center;
        object-position: center;
 }
+
+/* Used to hide file inputs but allow client side validation to still focus on input */
+.hidden-input {
+    height: 1px;
+    display: block;
+    position: relative;
+    bottom: 10px;
+    width: 1px;
+    left: 50px;
+}
 /*---------------------------------------------------------------------------------NAVBAR--*/
 nav {
     background-color: #f8f9fae0;
