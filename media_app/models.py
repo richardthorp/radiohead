@@ -6,7 +6,7 @@ from django.utils.text import slugify
 
 class Single(models.Model):
     title = models.CharField(blank=False, max_length=80, unique=True)
-    slug = models.SlugField(default="")
+    slug = models.SlugField(default="", max_length=80, unique=True)
     image = models.ImageField(blank=False, null=False,
                               upload_to="single_covers")
     album = models.ForeignKey('shop.Album', null=True,

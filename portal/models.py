@@ -6,9 +6,9 @@ from profiles.models import Profile
 
 
 class PortalTextPost(models.Model):
-    title = models.CharField(blank=False, max_length=80)
+    title = models.CharField(blank=False, max_length=80, unique=True)
     post_blurb = models.CharField(blank=False, max_length=250)
-    slug = models.SlugField(default="", max_length=80)
+    slug = models.SlugField(default="", max_length=80, unique=True)
     lead_image = models.ImageField(blank=False, null=False,
                                    upload_to="portal_images")
     lead_image_summary = models.CharField(blank=False, max_length=200)
@@ -38,9 +38,9 @@ class TextPostComment(models.Model):
 
 
 class PortalVideoPost(models.Model):
-    title = models.CharField(blank=False, max_length=80)
+    title = models.CharField(blank=False, max_length=80, unique=True)
     post_blurb = models.CharField(blank=False, max_length=250)
-    slug = models.SlugField(default="", max_length=80)
+    slug = models.SlugField(default="", max_length=80, unique=True)
     lead_image = models.ImageField(blank=False, null=False,
                                    upload_to="portal_images")
     lead_image_summary = models.CharField(blank=False, max_length=200)
@@ -71,9 +71,9 @@ class VideoPostComment(models.Model):
 
 
 class PortalImagesPost(models.Model):
-    title = models.CharField(blank=False, max_length=80)
+    title = models.CharField(blank=False, max_length=80, unique=True)
     post_blurb = models.CharField(blank=False, max_length=250)
-    slug = models.SlugField(default="", max_length=80)
+    slug = models.SlugField(default="", max_length=80, unique=True)
     lead_image = models.ImageField(blank=False, null=False,
                                    upload_to="portal_images")
     lead_image_summary = models.CharField(blank=False, max_length=200)
