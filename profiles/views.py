@@ -15,14 +15,22 @@ stripe.api_key = settings.STRIPE_SECRET_KEY
 def profile(request):
     profile = request.user.profile
     form = ProfileForm(instance=profile)
-    # Check that the POST request contains the ProfileForm - If not, the request came from
-    # update_default_card view so don't update default profile info.
+    # Check that the POST request contains the ProfileForm - If not, the
+    # request came from update_default_card view so don't update default
+    # profile info.
     if request.method == 'POST' and 'default_name' in request.POST:
         form = ProfileForm(request.POST, request.FILES, instance=profile)
         if form.is_valid():
             form.save()
             messages.success(request, 'Profile updated')
             form = ProfileForm(instance=profile)
+        else:
+            messages.error(request,
+                           'Form data is not valid, please try again.')
+            context = {
+                'form': form
+            }
+            return render(request, 'profiles/profile.html', context)
     if profile.subscription_status == 'active':
         # Get the Subscription and Payment objects from Stripe
         try:

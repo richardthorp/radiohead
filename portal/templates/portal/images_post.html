@@ -130,7 +130,11 @@
     {% if user.is_authenticated %}
     <div class="row no-gutters">
         <div class="col-2 col-md-1">
-            <img class="profile-pic" src="{{ user.profile.image.url }}" alt="">
+            {% if user.profile.image %}
+            <img class="profile-pic" src="{{ user.profile.image.url }}" alt="{{ request.user }}'s profile image">
+            {% else %}
+            <img class="profile-pic" src="{{ MEDIA_URL}}profile_pics/default_profile_pic.jpg" alt="Default profile image">
+            {% endif %}
         </div>
         <div class="col-10 col-md-11">
             <textarea name="text" id="add-comment-input"></textarea>

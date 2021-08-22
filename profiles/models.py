@@ -5,7 +5,7 @@ from django_countries.fields import CountryField
 
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image = models.ImageField(null=True, upload_to="profile_pics",
+    image = models.ImageField(null=True, blank=True, upload_to="profile_pics",
                               default='profile_pics/default_profile_pic.jpg')
     default_name = models.CharField(max_length=150, blank=True)
     default_email = models.EmailField(max_length=256, blank=True)

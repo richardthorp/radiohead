@@ -1,5 +1,6 @@
 import json
-from django.shortcuts import render, get_list_or_404, redirect, reverse
+from django.shortcuts import render, redirect, reverse
+from django.conf import settings
 from django.core import serializers
 from django.core.paginator import Paginator
 from django.http import HttpResponse, JsonResponse
@@ -62,7 +63,11 @@ def get_comments(request):
         posted_by = Profile.objects.get(
             pk=int(comment['fields']['posted_by'])
             )
-        posted_by_img = posted_by.image.url
+        if posted_by.image:
+            posted_by_img = posted_by.image.url
+        else:
+            posted_by_img = (
+                f"{settings.MEDIA_URL}profile_pics/default_profile_pic.jpg")
         if request.user == posted_by.user or request.user.is_staff:
             comment_permissions = True
         else:
