@@ -47,7 +47,7 @@
             <p class="text-muted clear-font">Posted on: {{ post.date_posted }}</p>
             <img src="{{ post.lead_image.url }}" alt="{{ post.lead_image_summary }}" class="mx-auto d-block mw-100">
             <p class="clear-font text-small text-muted text-center">{{ post.lead_image_summary }}</p>
-            {{ post.text_content|safe }}
+            <p>{{ post.text_content|safe }}</p>
             <p>View the images below:</p>
         </div>
     </div>

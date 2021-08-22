@@ -5,6 +5,7 @@
         url('../fonts/bdplakatt-webfont.ttf') format('ttf');
     font-weight: normal;
     font-style: normal;
+    font-display: block;
 }
 
 @font-face {
@@ -67,9 +68,9 @@ label {
 
 hr {
     border: 0;
-    display:block;
-    width: 80%;               
-    background-color:#0000007a;
+    display: block;
+    width: 80%;
+    background-color: #0000007a;
     height: 1px;
 }
 
@@ -104,6 +105,7 @@ hr {
     padding-bottom: 20px;
     /* padding: 0 20px 20px 40px; */
 }
+
 .custom-border {
     border: 2px solid #000;
     border-radius: 10px;
@@ -128,14 +130,15 @@ hr {
     z-index: 99999;
     background-color: #f8f9fae0;
 }
+
 .profile-pic-large {
     border-radius: 100%;
     height: 100px;
     width: 100px;
     -o-object-fit: cover;
-       object-fit: cover;
+    object-fit: cover;
     -o-object-position: center;
-       object-position: center;
+    object-position: center;
 }
 
 /* Used to hide file inputs but allow client side validation to still focus on input */
@@ -147,6 +150,7 @@ hr {
     width: 1px;
     left: 50px;
 }
+
 /*---------------------------------------------------------------------------------NAVBAR--*/
 nav {
     background-color: #f8f9fae0;
@@ -165,28 +169,28 @@ nav {
     position: relative;
     top: 5px;
     cursor: pointer;
-    
+
 }
 
-.navbar-margin{
+.navbar-margin {
     margin-top: 50px;
 }
 
 /* SHOPPING CART CSS MODIFIED FROM https://codepen.io/ehooks/pen/VgwVJR coded by https://codepen.io/ehooks */
-.fa-stack[data-count]:after{
-  position:absolute;
-  right:0%;
-  top:0%;
-  content: attr(data-count);
-  font-size:50%;
-  padding:.6em;
-  border-radius:999px;
-  line-height:.75em;
-  text-align:center;
-  min-width:2em;
-  font-weight:bold;
-  background: white;
-  border-style:solid;
+.fa-stack[data-count]:after {
+    position: absolute;
+    right: 0%;
+    top: 0%;
+    content: attr(data-count);
+    font-size: 50%;
+    padding: .6em;
+    border-radius: 999px;
+    line-height: .75em;
+    text-align: center;
+    min-width: 2em;
+    font-weight: bold;
+    background: white;
+    border-style: solid;
 }
 
 /* Triangle shape credit: Chris Coyier - https://css-tricks.com/the-shapes-of-css/ */
@@ -218,7 +222,7 @@ nav {
     -moz-box-shadow: 0px 0px 5px 0px #6c757d inset;
 }
 
-.custom-nav-dropdown{
+.custom-nav-dropdown {
     width: -webkit-fit-content;
     width: -moz-fit-content;
     width: fit-content;
@@ -228,8 +232,8 @@ nav {
     display: flex;
     -webkit-box-orient: vertical;
     -webkit-box-direction: normal;
-        -ms-flex-direction: column;
-            flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
     z-index: 999;
     position: fixed;
     top: 56px;
@@ -275,7 +279,7 @@ nav {
 .live-image-container img {
     width: 100%;
     -o-object-fit: cover;
-       object-fit: cover;
+    object-fit: cover;
 }
 
 #map {
@@ -300,7 +304,8 @@ nav {
     background-color: #f8f9fab0;
 }
 
-.social-links, .icons {
+.social-links,
+.icons {
     font-size: 1.2rem;
 }
 
@@ -317,12 +322,15 @@ nav {
 .success-toast-highlight {
     border-top: 2px solid green;
 }
+
 .error-toast-highlight {
     border-top: 2px solid red;
 }
+
 .warning-toast-highlight {
     border-top: 2px solid orange;
 }
+
 .info-toast-highlight {
     border-top: 2px solid blue;
 }
@@ -342,17 +350,19 @@ nav {
     height: 40px;
     width: 40px;
     -o-object-fit: cover;
-       object-fit: cover;
+    object-fit: cover;
     -o-object-position: center;
-       object-position: center;
+    object-position: center;
 }
 
-#add-comment-input, #edit-comment-input{
+#add-comment-input,
+#edit-comment-input {
     width: 100%;
     height: 60px;
 }
 
-#delete-confirmation, .comment-permissions {
+#delete-confirmation,
+.comment-permissions {
     font-size: 0.8rem;
 }
 
@@ -375,13 +385,17 @@ nav {
     #logo {
         font-size: 1.4rem;
     }
-    .bag-summary, #account-dropdown {
+
+    .bag-summary,
+    #account-dropdown {
         top: 59px;
     }
+
     .menu-pointer {
         border-bottom: 13px solid #6c757d;
         top: 47px;
     }
+
     .profile-pic {
         height: 50px;
         width: 50px;
@@ -395,34 +409,46 @@ nav {
         padding-left: 20px;
         padding-right: 20px;
     }
+
     #logo {
         font-size: 1.7rem;
     }
-    .navbar-margin{
+
+    .navbar-margin {
         margin-top: 67px;
     }
+
     .bag-image {
         width: 100%;
     }
+
     .bag-summary {
         right: 80px;
     }
-    .bag-summary, #account-dropdown {
+
+    .bag-summary,
+    #account-dropdown {
         top: 66px;
     }
+
     .menu-pointer {
         border-bottom: 17px solid #6c757d;
         top: 50px;
     }
+
     .page-header {
         font-size: 3rem;
     }
-    .social-links, .icons {
+
+    .social-links,
+    .icons {
         font-size: 2rem;
     }
+
     .social-links i {
         padding: 0 10px;
     }
+
     .profile-pic {
         float: none;
         display: block;
@@ -435,37 +461,50 @@ nav {
         padding-left: 30px;
         padding-right: 30px;
     }
+
     .page-header {
         font-size: 4rem;
     }
-    #account-dropdown{
+
+    #account-dropdown {
         right: 85px;
     }
+
     .account-pointer {
         right: 185px;
     }
+
     .bag-summary-pointer {
         right: 113px;
     }
+
     .social-links i {
         padding: 0 20px;
     }
+
     .form-border {
         border-bottom: none;
         border-right: 1px solid #000;
     }
+
     .profile-pic {
         margin: 0;
     }
-    #add-comment-input, #edit-comment-input{
+
+    #add-comment-input,
+    #edit-comment-input {
         height: 80px;
     }
+
     .comment-container p {
         font-size: 1.2rem;
     }
-    #delete-confirmation, .comment-permissions {
+
+    #delete-confirmation,
+    .comment-permissions {
         font-size: 1rem;
     }
+
     .custom-btn {
         font-size: 0.9rem !important;
     }
@@ -476,6 +515,7 @@ nav {
         padding-left: 40px;
         padding-right: 40px;
     }
+
     .page-header {
         font-size: 5rem;
     }
@@ -486,12 +526,15 @@ nav {
         left: 0px;
         min-width: 368px;
     }
+
     .bag-summary-pointer {
         left: 350px;
     }
-    #account-dropdown{
+
+    #account-dropdown {
         left: 180px;
     }
+
     .account-pointer {
         left: 278px;
     }
