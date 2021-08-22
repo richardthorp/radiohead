@@ -160,7 +160,7 @@ class TestPortalViews(TestCase):
         user = User.objects.get(username='test_user')
         user.profile.subscription_status = 'active'
         user.profile.save()
-        url = reverse('portal_post_detail', args=['text', self.text_post.slug])
+        url = reverse('portal_post_detail', args=['text_post', self.text_post.slug])
         response = self.client.get(url)
 
         self.assertTemplateUsed(response, 'portal/text_post.html')
@@ -171,7 +171,7 @@ class TestPortalViews(TestCase):
         user.profile.subscription_status = 'active'
         user.profile.save()
         url = reverse('portal_post_detail',
-                      args=['video', self.video_post.slug])
+                      args=['video_post', self.video_post.slug])
         response = self.client.get(url)
 
         self.assertTemplateUsed(response, 'portal/video_post.html')
@@ -182,7 +182,7 @@ class TestPortalViews(TestCase):
         user.profile.subscription_status = 'active'
         user.profile.save()
         url = reverse('portal_post_detail',
-                      args=['images', self.images_post.slug])
+                      args=['images_post', self.images_post.slug])
         response = self.client.get(url)
 
         self.assertTemplateUsed(response, 'portal/images_post.html')
@@ -278,6 +278,10 @@ class TestPortalViews(TestCase):
         self.assertTrue(response_json['comment_permissions'])
 
     def test_add_portal_text_post_comment(self):
+        self.client.login(username='test_user', password='test_password')
+        user = User.objects.get(username='test_user')
+        user.profile.subscription_status = 'active'
+        user.profile.save()
         url = reverse('add_portal_comment')
         response = self.client.post(
             url,
@@ -295,6 +299,10 @@ class TestPortalViews(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_add_portal_video_post_comment(self):
+        self.client.login(username='test_user', password='test_password')
+        user = User.objects.get(username='test_user')
+        user.profile.subscription_status = 'active'
+        user.profile.save()
         url = reverse('add_portal_comment')
         response = self.client.post(
             url,
@@ -312,6 +320,10 @@ class TestPortalViews(TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_add_portal_images_post_comment(self):
+        self.client.login(username='test_user', password='test_password')
+        user = User.objects.get(username='test_user')
+        user.profile.subscription_status = 'active'
+        user.profile.save()
         url = reverse('add_portal_comment')
         response = self.client.post(
             url,

@@ -43,3 +43,16 @@ class TestProfileView(TestCase):
         self.assertEqual(len(messages), 1)
         self.assertEqual(str(messages[0]),
                          "Profile updated")
+
+    def test_invalid_profile_form_returns_message_and_profile_template(self):
+        self.client.login(username='test_user', password="test_password")
+        url = reverse('profile')
+        invalid_data = 'A string which is much longer than the\
+             default_postcode field will accept'
+        response = self.client.post(url,
+                                    data={'default_name': 'Test Name',
+                                          'default_postcode': invalid_data})
+        messages = list(response.wsgi_request._messages)
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]),
+                         'Form data is not valid, please try again.')  
