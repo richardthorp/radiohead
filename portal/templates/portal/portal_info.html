@@ -17,7 +17,7 @@
                     class="btn btn-outline-light custom-btn p-3 d-block">Subscribe Now</a>
                 {% else %}
                 <div class="border border-white rounded px-1 py-2">
-                    <p class="clear-font small-text">You must be registered and logged in to subscribe</p>
+                    <p class="small-text">You must be registered and logged in to subscribe</p>
                     <a href="{% url 'account_login' %}?next={% url 'create_portal_customer' %}" class="btn btn-light custom-btn mr-1">Login</a>
                     <a href="{% url 'account_signup' %}?next={% url 'create_portal_customer' %}" class="btn btn-light custom-btn ml-1">Register</a>
                 </div>

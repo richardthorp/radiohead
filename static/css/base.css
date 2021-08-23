@@ -17,14 +17,23 @@
     font-style: normal;
 }
 
-@font-face {
+/* @font-face {
     font-family: 'national-old';
     src: url('../fonts/national_oldstyle_hplhs-webfont.woff2') format('woff2'),
         url('../fonts/national_oldstyle_hplhs-webfont.woff') format('woff'),
         url('../fonts/National-Oldstyle.ttf') format('ttf');
     font-weight: normal;
     font-style: normal;
-}
+} */
+
+/* @font-face {
+    font-family: 'mrs-eaves';
+    src: url('../fonts/mrs-eaves.woff2') format('woff2'),
+        url('../fonts/mrs-eaves.woff') format('woff'),
+        url('../fonts/mrs-eaves.ttf') format('ttf');
+    font-weight: normal;
+    font-style: normal;
+} */
 
 /*---------------------------------------------------------------------------------GENERAL--*/
 body {
@@ -32,11 +41,11 @@ body {
 }
 
 .main-site-bg {
-    content: "";
-    display: block;
+    /* content: ""; */
+    /* display: block; */
     position: fixed;
-    left: 0;
-    top: 0;
+    /* left: 0;
+    top: 0; */
     width: 100%;
     height: 100%;
     z-index: -10;
@@ -47,16 +56,41 @@ body {
     background-size: cover;
 }
 
-p {
+/* p {
     font-family: national-old;
     font-size: 1.2rem;
+} */
+
+/* p {
+    font-family: mrs-eaves;
+    font-size: 1.4rem;
+} */
+
+p, label, table, span {
+    font-family: Oswald, sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.3px;
 }
 
 label {
     display: block;
-    font-family: national-old;
+    font-family: Oswald, sans-serif;
     font-size: 1.2rem;
+    letter-spacing: 0.4px;
 }
+
+table {
+    font-family: Oswald, sans-serif;
+    font-size: 1.2rem;
+    letter-spacing: 0.4px;
+
+}
+
+/* label {
+    display: block;
+    font-family: mrs-eaves;
+    font-size: 1.4rem;
+} */
 
 .custom-btn {
     font-family: block-font;
@@ -79,11 +113,11 @@ hr {
     text-transform: uppercase;
 }
 
-.clear-font {
+/* . {
     font-family: 'Oswald', sans-serif;
     letter-spacing: 0.05rem;
     font-size: 1rem;
-}
+} */
 
 .page-header {
     font-size: 2rem;
@@ -109,11 +143,6 @@ hr {
 .custom-border {
     border: 2px solid #000;
     border-radius: 10px;
-}
-
-.custom-modal {
-    font-family: national-old;
-    font-size: 1.2rem;
 }
 
 .pointer {

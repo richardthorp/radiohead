@@ -6,8 +6,8 @@
     {% if not widget.required %}
         <div class="custom-control custom-checkbox mt-2">
             <input class="custom-control-input" type="checkbox" name="{{ widget.checkbox_name }}" id="{{ widget.checkbox_id }}">
-            <label class="custom-control-label clear-font d-inline" for="{{ widget.checkbox_id }}">{{ widget.clear_checkbox_label }}</label>
-            <span class="clear-font text-muted">(Image will be removed on form submission)</span>
+            <label class="custom-control-label  d-inline" for="{{ widget.checkbox_id }}">{{ widget.clear_checkbox_label }}</label>
+            <span class=" text-muted">(Image will be removed on form submission)</span>
         </div>
     {% endif %}
     {{ widget.input_text }}
@@ -15,12 +15,12 @@
         <p class="mb-2 mt-3">Select new image</p>
         <label for="{{ widget.name }}" class="btn btn-dark custom-btn">Choose file</label>
         <input id="{{ widget.name }}" class="hidden-input" type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
-        <strong><p class="text-muted clear-font filename"></p></strong>
+        <strong><p class="text-muted  filename"></p></strong>
     </div>
 {% else %}
 <div>
     <label for="{{ widget.name }}" class="btn btn-dark custom-btn">Choose file</label>
     <input id="{{ widget.name }}" class="hidden-input" type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
-    <strong><p class="text-muted clear-font filename" ></p></strong>
+    <strong><p class="text-muted  filename" ></p></strong>
 </div>
 {% endif %}

@@ -121,12 +121,12 @@
                             <h5 class="header-font mb-0">{{ item.product.title }}</h5>
                         </a>
                         {% if item.cd_count %}
-                        <p class="clear-font m-0">CD: {{ item.cd_count }}</p>
+                        <p class=" m-0">CD: {{ item.cd_count }}</p>
                         {% endif %}
                         {% if item.vinyl_count %}
-                        <p class="clear-font m-0">Vinyl: {{ item.vinyl_count }}</p>
+                        <p class=" m-0">Vinyl: {{ item.vinyl_count }}</p>
                         {% endif %}
-                        <p class="clear-font m-0">Subtotal: £{{ item.item_total }}</p>
+                        <p class=" m-0">Subtotal: £{{ item.item_total }}</p>
                         <!-- Sized items in bag -->
                         {% elif item.type == 'sized' %}
                         <a href="{% url 'shop_detail' 'product' item.product.slug %}" class="text-dark"
@@ -134,23 +134,23 @@
                             <h5 class="header-font">{{ item.product.name }}</h5>
                         </a>
                         {% if item.small_count %}
-                        <p class="clear-font m-0">Small: {{item.small_count}}</p>
+                        <p class=" m-0">Small: {{item.small_count}}</p>
                         {% endif %}
                         {% if item.medium_count %}
-                        <p class="clear-font m-0">Medium: {{item.medium_count}}</p>
+                        <p class=" m-0">Medium: {{item.medium_count}}</p>
                         {% endif %}
                         {% if item.large_count %}
-                        <p class="clear-font m-0">Large: {{item.large_count}}</p>
+                        <p class=" m-0">Large: {{item.large_count}}</p>
                         {% endif %}
-                        <p class="clear-font m-0">Subtotal: £{{ item.item_total }}</p>
+                        <p class=" m-0">Subtotal: £{{ item.item_total }}</p>
                         {% else %}
                         <!-- Other items in bag -->
                         <a href="{% url 'shop_detail' 'product' item.product.slug %}" class="text-dark"
                             title="Click to view item in shop">
                             <h5 class="header-font mb-0">{{ item.product.name }}</h5>
                         </a>
-                        <p class="clear-font m-0">Quantity: {{ item.quantity }}</p>
-                        <p class="clear-font m-0">Subtotal: £{{ item.item_total }}</p>
+                        <p class=" m-0">Quantity: {{ item.quantity }}</p>
+                        <p class=" m-0">Subtotal: £{{ item.item_total }}</p>
                         {% endif %}
                     </div>
                     {% if not forloop.last %}
@@ -161,13 +161,13 @@
             </div>
             <div class="row">
                 <div class="col-12 text-right">
-                    <p class="clear-font mb-1 mt-2">Subtotal: £ {{ total }}</p>
-                    <p class="clear-font mb-1">Delivery: £ {{ delivery_cost }}</p>
+                    <p class=" mb-1 mt-2">Subtotal: £ {{ total }}</p>
+                    <p class=" mb-1">Delivery: £ {{ delivery_cost }}</p>
                     {% if delivery_shortfall > 0 %}
-                    <p class="clear-font mb-2 small-text text-danger">Spend another
+                    <p class=" mb-2 small-text text-danger">Spend another
                         £{{ delivery_shortfall }} to get free postage</p>
                     {% endif %}
-                    <p class="clear-font font-weight-bold grand-total mb-1">Total: £ {{ grand_total }}</p>
+                    <p class=" font-weight-bold grand-total mb-1">Total: £ {{ grand_total }}</p>
                 </div>
             </div>
             <div class="row justify-content-center py-3">
@@ -192,22 +192,22 @@
             {% for message in messages %}
             {% if message.level == 40 %}
             <!-- ERROR TOAST-->
-            <div class="toast-body error-toast-highlight text-center clear-font">
+            <div class="toast-body error-toast-highlight text-center ">
                 {{ message }}
             </div>
             {% elif message.level == 30 %}
             <!-- WARNING TOAST-->
-            <div class="toast-body warning-toast-highlight text-center clear-font">
+            <div class="toast-body warning-toast-highlight text-center ">
                 {{ message }}
             </div>
             {% elif message.level == 25 %}
             <!-- SUCCESS TOAST-->
-            <div class="toast-body success-toast-highlight text-center clear-font">
+            <div class="toast-body success-toast-highlight text-center ">
                 {{ message }}
             </div>
             {% elif message.level == 20 %}
             <!-- INFO TOAST-->
-            <div class="toast-body info-toast-highlight text-center clear-font">
+            <div class="toast-body info-toast-highlight text-center ">
                 {{ message }}
             </div>
             {% endif %}

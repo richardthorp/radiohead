@@ -44,7 +44,7 @@ function renderComments(data){
         let commentPermissionshtml = "";
         if(commentObj['comment_permissions']) {
             commentPermissionshtml = 
-                `<p class="clear-font mb-2">
+                `<p class="mb-2">
                     <a onclick="renderEditCommentSection(this, ${commentObj['id']})"
                         id="edit" class="comment-permissions">Edit comment</a> - 
                     <a onclick="renderDeleteButton(this, ${commentObj['id']})"
@@ -63,10 +63,10 @@ function renderComments(data){
                     <img class="profile-pic" src="${commentObj['posted_by_img']}" alt="The profile picture for ${commentObj['posted_by']}">
                 </div>
                 <div class="col-10 col-md-11 comment-container px-2 px-md-3">
-                <p class="clear-font mb-0 mb-sm-1">
+                <p class="mb-0 mb-sm-1">
                     <strong>${commentObj['posted_by']}</strong> - ${formattedTime} ${edited}
                 </p>
-                    <p class="comment-text clear-font mb-0 mb-sm-1">
+                    <p class="comment-text  mb-0 mb-sm-1">
                         ${commentObj['text']}<br>
                     </p>
                     ${commentPermissionshtml}                    
@@ -181,7 +181,7 @@ function renderDeleteButton(clickedLink, commentId){
     const currentPage = $(".current-page").text();
     const confirmDeleteHtml = 
         `<hr class="my-2 mx-auto">
-        <p id="delete-confirmation" class="clear-font mb-2 font-weight-bold">Are you sure you want to delete this comment?</p>
+        <p id="delete-confirmation" class="mb-2 font-weight-bold">Are you sure you want to delete this comment?</p>
         <div>
             <button onclick="getComments(${currentPage})" class="btn custom-btn btn-outline-secondary">Cancel</button>
             <button onclick="deleteComment(${commentId})" class="btn custom-btn btn-outline-danger">Delete</button>
