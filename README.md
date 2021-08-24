@@ -154,6 +154,11 @@ Below is a diagram detailing the database schema, with the connecting lines show
 * A simple landing page (index.html) featuring a Javascript powered welcome text animation and a brief description of the websites 'Portal' subscription service.
 * An 'Admin Hub', as described in the 'Staff User Features' section above.
 
+#### Profiles App Features
+* The Profile app allows users to add and update delivery information, add a profile image, view the details of their Portal subscription if one exists, and browse a list of previous orders.
+* If a user has an active Portal subscription, the option to cancel the subscription or to change the payment method are presented on the profile page.
+* By clicking on an order in the 'Order History' section of the profile page, the user is directed to an 'Order Details' page containing details about the order.
+
 #### Live App Features
 * The Live app provides users with a paginated list of upcoming concerts. 
 * Concert listings are provided by the Songkick API. As Radiohead don't actually have any upcoming gigs, the results currently on the website are in fact for The Beach Boys. Slightly different vibe but probably still a great concert.
@@ -195,30 +200,85 @@ Below is a diagram detailing the database schema, with the connecting lines show
 
 #### Checkout App
 * By navigating to the checkout page, a payment intent for the value of the users current bag is generated though the Stripe API.
+* The checkout page contains 2 forms:
+    * An order form which collects customer details.
+    * A payment forms generated via the Stripe API, which collects the users payment information.
+* After a succeessful payment, the user is directed to the 'Order Confirmed' page, which features a summary of the order.
 
-#### /404
+#### 404 Page
+* If a user tries to navigate to an non existant URL, a custom '404 Page Not Found' page is rendered with a link back to the home page.
 
-
-#### /500
+#### 500 Page
+* Should there be a server error, the user is presented with a custom '500 Server Error' page containing a link back to the home page.
 
 #### Potential Future Features
+* Social media sign in could be implemented via All-Auth's SocialApp functionality.
+* I would like to be able to allow users to click 'attending' on the 'Event Detail' page in the Live app as well as 'add comment' functionality.
 
 <a name="tech"></a>
 
 ## Languages and Technologies
 ### Languages
+* HTML5 - to structure and add content to the front-end.
+* CSS3 - to add styles and responsivity to the front-end.
+* JavaScript - to provide any interactive elements on the front end including the comment functionality, as well as making calls to the Stripe, Songkick and Google Maps APIs.
+* Python - used to code the back-end of the website.
 
 ### Technologies
+#### Main Libraries, Frameworks and Packages 
+* [Django](https://www.djangoproject.com/) - provides the web app's framework.
+* [Stripe](https://stripe.com/gb) - allows the web app to communicate with the Stripe API
+* [Bootstrap](https://getbootstrap.com/) - for some of the front-end styling, responsive design and interactive features, such as menu drop-downs and modals.
+* [jQuery](https://jquery.com/) - simplifies the apps asyncronous functions syntax, as well as shortening and simplifying JavaScript for DOM manipulation and traversal.
+* [Django-Crispy-Forms](https://django-crispy-forms.readthedocs.io/) - provides additional styles to forms.
+* [Django-Countries](https://pypi.org/project/django-countries/) - ensures the 'Country' field in forms provide valid ISO 3166-1 values.
+* [Gunicorn](https://gunicorn.org/) - to act as the web server once deployed to Heroku.
+* [Coverage](https://coverage.readthedocs.io/en/coverage-5.5/) - to provide information the scope of the apps testing modules.
+* [Boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) - allows the app to communicate and integete with Amazon's S3 services.
+* [dj-database-url](https://pypi.org/project/dj-database-url/) - parses the database URL from the enviromental variables on Heroku.
+* [psycopg2-binary](https://pypi.org/project/psycopg2-binary/) - an adaptor for Python and PostgreSQL databases. 
+
 #### IDE, Version control and Deployment
+* [Gitpod](https://www.gitpod.io/) - The IDE used to write the code for the website.
+   
+* [Git](https://git-scm.com) - Used for version control during the website build via the command terminal in Gitpod
+   
+* [GitHub](https://pages.github.com/) - Used to store the code after being 'committed' and 'pushed' using Git.
+
+* [Heroku](https://www.heroku.com/) - Used to deploy the website.
+
 #### Database
-
-
-#### Libraries, Frameworks and Packages 
+* [SQLite](https://www.sqlite.org/index.html) - The database used during development.
+* [Heroku Postgres](https://www.heroku.com/postgres) - The database used in production.
 
 #### Design and Fonts
+* [Balsamiq](https://balsamiq.com/) - Software used to create wireframes of website.
+
+* [Google Fonts](https://fonts.google.com/) - Used to provide the 'Oswald' and 'Righteous' fonts used throughout the website.
+
+* [Font Squirrel](https://www.fontsquirrel.com/) - Used to convert ttf font files to woff and woff2 formats.
+
+* [RealFaviconGenerator](https://realfavicongenerator.net/) - Used to refine the favicon and provide the HTML to link to the file.
+
+* [dbdiagram](https://dbdiagram.io/) - Used to make image of database schema.
 
 
-#### Testing and Optimisation
+#### Testing, Optimisation and Validation
+* [W3C Markup Validation Service](https://validator.w3.org/) - Validation of the HTML code.
+
+* [W3C CSS Validation Service (Jigsaw)](https://jigsaw.w3.org/css-validator/) - Validation of the CSS code
+
+* [JSHint](https://jshint.com/) - Validation of the JavaScript code.
+
+* [Autoprefixer](https://autoprefixer.github.io/) - Used to ensure cross browser validity for CSS.
+
+* [PEP 8](https://www.python.org/dev/peps/pep-0008/) - Used as a style guide for Python code.
+
+* [TinyPNG](https://tinypng.com/) - Used to compress images.
+
+* [Am I Responsive?](http://ami.responsivedesign.is/) - Used to test for responsive design and to create the mock-ups found at the top of this README.
+
+* [Chrome DevTools](https://developer.chrome.com/docs/devtools/) - Used to test responsivity of website and test contrast between backgrounds and fonts. Also used to check for any JavaScript errors or warnings printing the console.
 
 <a name="testing"></a>
 
