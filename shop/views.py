@@ -10,7 +10,10 @@ from .forms import AddProductForm, AddAlbumForm
 def shop(request):
     albums = Album.objects.all().order_by('-year')
     products = Product.objects.all()
+    # How to sort two querysets solution found at
+    # https://stackoverflow.com/questions/33022879/order-2-different-querysets-by-date
     all_products = list(chain(albums, products))
+    all_products.sort(key=lambda x: x.date_added, reverse=True)
     context = {
         'items': all_products,
         'all': True,
@@ -20,18 +23,20 @@ def shop(request):
         product_filter = request.POST.get('filter')
         if product_filter == 'music':
             context = {
-                'items': Album.objects.all(),
+                'items': Album.objects.all().order_by('-date_added'),
                 'music': True,
             }
         elif product_filter == 'clothing':
             context = {
-                'items': Product.objects.filter(category='clothing'),
+                'items': Product.objects.filter(
+                    category='clothing').order_by('-date_added'),
                 'clothing': True,
 
             }
         elif product_filter == 'other':
             context = {
-                'items': Product.objects.filter(category='other'),
+                'items': Product.objects.filter(
+                    category='other').order_by('-date_added'),
                 'other': True,
 
             }

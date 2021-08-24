@@ -1,6 +1,7 @@
 from django.db import models
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.text import slugify
+from django.utils import timezone
 
 
 class Album(models.Model):
@@ -19,6 +20,7 @@ class Album(models.Model):
     image = models.ImageField(blank=False, null=False,
                               upload_to="album_covers")
     spotify_url = models.URLField(blank=False, null=False)
+    date_added = models.DateField(blank=False, default=timezone.now)
 
     def save(self, *args, **kwargs):
         if self.slug != slugify(self.title):
@@ -41,6 +43,7 @@ class Product(models.Model):
     has_sizes = models.BooleanField(blank=True, null=True, default=False)
     image = models.ImageField(upload_to="product_images", blank=False,
                               null=False, default='missing_item.jpg')
+    date_added = models.DateField(blank=False, default=timezone.now)
 
     def save(self, *args, **kwargs):
         if self.slug != slugify(self.name):
