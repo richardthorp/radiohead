@@ -19,31 +19,38 @@
     </div>
     {% endif %}
     <div class="row">
-        {% for single in singles %}
-        <div class="col-12 col-md-6 col-lg-4">
-            <h6 class="single-names">{{ single.title }}</h6>
-            <a href="{% url 'single_content' album.slug single.slug  %}">
-                <img src="{{ single.image.url }}" alt="The artwork for the single {{ single.title }}"
-                    class="w-95">
-            </a>
-        </div>
-        <!-- HR FOR LOOP LOGIC MODIFIED FROM BOUTIQUE ADO PROJECT - CREDIT -->
-        {% if forloop.counter|divisibleby:1 %}
-        <div class="col-12 d-md-none mb-2">
-            <hr>
+        {% if singles %}
+            {% for single in singles %}
+            <div class="col-12 col-md-6 col-lg-4">
+                <h6 class="single-names">{{ single.title }}</h6>
+                <a href="{% url 'single_content' album.slug single.slug  %}">
+                    <img src="{{ single.image.url }}" alt="The artwork for the single {{ single.title }}"
+                        class="w-95">
+                </a>
+            </div>
+            <!-- HR FOR LOOP LOGIC MODIFIED FROM BOUTIQUE ADO PROJECT - CREDIT -->
+            {% if forloop.counter|divisibleby:1 %}
+            <div class="col-12 d-md-none mb-2">
+                <hr>
+            </div>
+            {% endif %}
+            {% if forloop.counter|divisibleby:2 %}
+            <div class="col-12 d-none d-md-block d-lg-none mb-2">
+                <hr>
+            </div>
+            {% endif %}
+            {% if forloop.counter|divisibleby:3 %}
+            <div class="col-12 d-none d-lg-block mb-2">
+                <hr>
+            </div>
+            {% endif %}
+            {% endfor %}
+        {% else %}
+        <div class="col-12">
+            <h4 class="header-font text-center mb-3">This album doesn't have any singles!</h4>
+            <p class="text-center"><a href="{% url 'media' %}">Click here to return to the Media page</a></p>
         </div>
         {% endif %}
-        {% if forloop.counter|divisibleby:2 %}
-        <div class="col-12 d-none d-md-block d-lg-none mb-2">
-            <hr>
-        </div>
-        {% endif %}
-        {% if forloop.counter|divisibleby:3 %}
-        <div class="col-12 d-none d-lg-block mb-2">
-            <hr>
-        </div>
-        {% endif %}
-        {% endfor %}
     </div>
     <div class="row d-flex justify-content-center album-shop-link">
         <a href="{% url 'shop_detail' 'album' album.slug %}">

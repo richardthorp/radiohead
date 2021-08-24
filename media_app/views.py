@@ -14,7 +14,7 @@ from .models import Single, Comment
 
 def media(request):
     context = {
-        'albums': Album.objects.all()
+        'albums': Album.objects.all().order_by('-year')
     }
     return render(request, 'media_app/media.html', context)
 
