@@ -368,6 +368,42 @@ Below is a diagram detailing the database schema, with the connecting lines show
 * To be able to find recent news, updates and other content.
     * Users can get updates though the Portal app.
 
+### Technical Testing
+#### Validation
+##### HTML
+The HTML code has been validated with the [W3C Markup Validator](https://validator.w3.org/). This was done by copying the HTML code from Chrome Dev Tools once rendered in the browser, for all pages whilst both logged in and logged out of the website, and pasting the code into the validator. This was necessary to test the code in its final state after being processed by the django templates. The HTML code contains no validity issues.
+
+##### CSS and Javascript
+The CSS code has been validated with the [W3C CSS Validator](https://jigsaw.w3.org/css-validator/) and the JavaScript with the [JS Hint](https://jshint.com/) code analysis tool, with any issues highlighted by the validators fixed. The code contains no validity issues.
+
+##### Python
+All Python code was written to be PEP 8 compliant. **ADD ANY FINAL WARNINGS HERE**
+
+#### Responsive testing
+The website has been developed and tested to ensure a high level of responsiveness. This has been achieved using Google Chrome Dev Tools, testing on different physical devices as listed below and by viewing the site on [Am I Responsive?](http://ami.responsivedesign.is/).
+##### Responsive testing procedure
+Check that text, images and all other elements load with correct styles and spacing on all pages. On mobile and tablet, rotate the screen to landscape orientation and repeat the checks. Whilst testing on a laptop, using each browsers developer tools, resize the page and ensure all elements respond to the screen size accordingly.
+
+The tests detailed in this section were all completed using the following web browsers and hardware:
+|                            | Chrome             | Edge             | Firefox            | Safari |
+| -------------             |:------------------:| -----------------:|-------------------:|--------:|
+| Microsoft Surface 3 (15") | :heavy_check_mark: |:heavy_check_mark: | :heavy_check_mark: |         |
+| Samsung Galaxy A6         | :heavy_check_mark: |:heavy_check_mark: | :heavy_check_mark: |         |
+| Huawei P Smart 2019       | :heavy_check_mark: | :heavy_check_mark:| :heavy_check_mark: |         |
+| Macbook Pro 2016 (13")    | :heavy_check_mark: |                   | :heavy_check_mark: | :heavy_check_mark: |
+| iPad 7th generation 2019  | :heavy_check_mark: |                   | :heavy_check_mark: |:heavy_check_mark: |
+
+#### Automated Testing
+The website has been thoroughly tested using the in-build django testing functionality. These tests can ensure the following:
+    * Views return correct templates, status codes, and any additional data expected to be returned, as well as ensuring that they interact with the database correctly. Tests were also written to ensure certain user credentials are required to access restricted areas of the website.
+    * Forms return the correct string method values, any required fields are rendered as such and the ensuring the order of the fields when rendered on the front-end are correct.
+    * Models accept the correct data types and that any functions attached to the model's class behave accordingly.
+
+The package 'Coverage' was used to assess how much of the code is being tested by the automated tests. The coverage report states that **??INSERT FINAL % HERE???** has been covered by the tests.
+
+Any calls to the Stripe API were not included in the unit testing. These areas of the code have been tested manually as detailed in the **Manual Testing** section below.
+
+
 <a name="deployment"></a>
 
 ## Deployment
