@@ -27,14 +27,14 @@
     <form action="{% url 'shop' %}" method="POST" class="d-flex justify-content-center sort-by-form mb-3 mt-2">
         {% csrf_token %}
         <input type="radio" id="all" name="filter" value="all" class="d-none">
-        <label for="all" class="btn custom-btn btn-outline-dark {% if all %} active {% endif %}">ALL</label><br>
+        <label for="all" class="btn custom-btn btn-outline-dark {% if filter == 'all' %} active {% endif %}">ALL</label><br>
         <input type="radio" id="music" name="filter" value="music" class="d-none">
-        <label for="music" class="btn custom-btn btn-outline-dark {% if music %} active {% endif %}">MUSIC</label><br>
+        <label for="music" class="btn custom-btn btn-outline-dark {% if filter == 'music' %} active {% endif %}">MUSIC</label><br>
         <input type="radio" id="clothing" name="filter" value="clothing" class="d-none">
         <label for="clothing"
-            class="btn custom-btn btn-outline-dark {% if clothing %} active {% endif %}">CLOTHING</label><br>
+            class="btn custom-btn btn-outline-dark {% if filter == 'clothing' %} active {% endif %}">CLOTHING</label><br>
         <input type="radio" id="other" name="filter" value="other" class="d-none">
-        <label for="other" class="btn custom-btn btn-outline-dark {% if other %} active {% endif %}">OTHER</label><br>
+        <label for="other" class="btn custom-btn btn-outline-dark {% if filter == 'other' %} active {% endif %}">OTHER</label><br>
     </form>
     <div class="row">
         {% for item in items %}
@@ -77,6 +77,27 @@
         {% endif %}
         {% endif %}
         {% endfor %}
+    </div>
+    <!-- PAGINATION BUTTONS -->
+    <div class="row">
+        <div class="col-12 d-flex justify-content-center">
+            <form action="{% url 'shop' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name='filter' value="{{ filter }}">
+                {% if pagination_data.has_previous %}
+                <button type='submit' value="{{ pagination_data.previous_page }}" name="paginate"
+                    class="btn custom-btn btn-outline-secondary">Previous</button>
+                {% else %}
+                <button class="btn custom-btn btn-outline-secondary" disabled>Previous</button>
+                {% endif %}
+                {% if pagination_data.has_next %}
+                <button type='submit' value="{{ pagination_data.next_page }}" name="paginate"
+                    class="btn custom-btn btn-outline-secondary">Next</button>
+                {% else %}
+                <button class="btn custom-btn btn-outline-secondary" disabled>Next</button>
+                {% endif %}
+            </form>
+        </div>
     </div>
 </div>
 {% endblock %}

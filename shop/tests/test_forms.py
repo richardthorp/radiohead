@@ -31,6 +31,7 @@ class TestShopForms(TestCase):
             "cd_price": 9.99,
             "vinyl_price": 19.99,
             "spotify_url": "https://open.spotify.com/",
+            "date_added": '2021-08-24'
         }, files={'image': self.image})
 
         self.assertTrue(form.is_valid())
@@ -42,6 +43,7 @@ class TestShopForms(TestCase):
             "price": 11,
             "description": 'A test item of clothing',
             "has_sizes": True,
+            "date_added": '2021-08-24'
         }, files={'image': self.image})
 
         self.assertTrue(form.is_valid())

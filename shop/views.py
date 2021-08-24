@@ -1,6 +1,7 @@
 import ast
 from itertools import chain
 from django.shortcuts import render, reverse, redirect
+from django.core.paginator import Paginator
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib import messages
 from .models import Album, Product
@@ -8,40 +9,83 @@ from .forms import AddProductForm, AddAlbumForm
 
 
 def shop(request):
-    albums = Album.objects.all().order_by('-year')
-    products = Product.objects.all()
-    # How to sort two querysets solution found at
-    # https://stackoverflow.com/questions/33022879/order-2-different-querysets-by-date
-    all_products = list(chain(albums, products))
-    all_products.sort(key=lambda x: x.date_added, reverse=True)
-    context = {
-        'items': all_products,
-        'all': True,
-    }
-
     if request.POST:
+        print(request.POST)
         product_filter = request.POST.get('filter')
         if product_filter == 'music':
             context = {
                 'items': Album.objects.all().order_by('-date_added'),
-                'music': True,
+                'filter': 'music',
             }
         elif product_filter == 'clothing':
             context = {
                 'items': Product.objects.filter(
                     category='clothing').order_by('-date_added'),
-                'clothing': True,
-
+                'filter': 'clothing',
             }
         elif product_filter == 'other':
             context = {
                 'items': Product.objects.filter(
                     category='other').order_by('-date_added'),
-                'other': True,
+                'filter': 'other',
+            }
+        elif product_filter == 'all':
+            albums = Album.objects.all().order_by('-year')
+            products = Product.objects.all()
 
+            # How to sort two querysets solution found at
+            # https://stackoverflow.com/questions/33022879/order-2-different-querysets-by-date
+            all_products = list(chain(albums, products))
+            all_products.sort(key=lambda x: x.date_added, reverse=True)
+
+            context = {
+                'items': all_products,
+                'filter': 'all'
             }
 
+        page = request.POST.get('paginate', 1)
+        items = context['items']
+        pagination_data = paginate_query(items, page)
+        context['items'] = pagination_data['paginated_items']
+        context['pagination_data'] = pagination_data
+        return render(request, 'shop/shop.html', context)
+
+    # GET REQUEST
+    albums = Album.objects.all()
+    products = Product.objects.all()
+    all_products = list(chain(albums, products))
+    all_products.sort(key=lambda x: x.date_added, reverse=True)
+
+    pagination_data = paginate_query(all_products, 1)
+    context = {
+        'items': pagination_data['paginated_items'],
+        'pagination_data': pagination_data,
+        # 'has_previous': pagination_data['has_previous'],
+        # 'has_next': pagination_data['has_next'],
+        # 'next_page': pagination_data['next_page'],
+        # 'previous_page': pagination_data['previous_page'],
+        'filter': 'all',
+    }
+
     return render(request, 'shop/shop.html', context)
+
+
+def paginate_query(query_set, page):
+    paginator = Paginator(query_set, 12)  # Show 12 items per page.
+    paginated_items = paginator.get_page(page)
+    current_page = paginator.page(page)
+    has_previous = current_page.has_previous()
+    has_next = current_page.has_next()
+    next_page = int(page) + 1
+    previous_page = int(page) - 1
+    pagination_data = {
+        'paginated_items': paginated_items,
+        'has_previous': has_previous,
+        'has_next': has_next,
+        'next_page': next_page,
+        'previous_page': previous_page,
+    }
+    return pagination_data
 
 
 # def shop_detail(request, item_type, item_id):

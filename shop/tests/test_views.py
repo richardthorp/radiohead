@@ -111,6 +111,14 @@ class TestShopViews(TestCase):
         self.assertNotIn(self.album, response.context['items'])
         self.assertNotIn(self.clothing_product, response.context['items'])
 
+    def test_filter_by_all(self):
+        url = reverse('shop')
+        response = self.client.post(
+            url,
+            data={'filter': 'all'}
+            )
+        self.assertEqual(len(response.context['items']), 4)
+
     # SHOP DETAIL VIEW TESTS
     # Album template
     def test_shop_detail_view_with_album(self):
@@ -188,6 +196,7 @@ class TestShopViews(TestCase):
             "price": 9.99,
             'description': "testing",
             "image": test_image,
+            "date_added": '2021-08-24'
         }
         url = reverse('add_product', args=['product'])
         response = self.client.post(url, data=form_data)
@@ -224,6 +233,7 @@ class TestShopViews(TestCase):
             "spotify_url": 'www.testurl.com',
             "tracklist": json.dumps({"test": "test"}),
             "image": test_image,
+            "date_added": '2021-08-24'
             }
         url = reverse('add_product', args=['album'])
         response = self.client.post(url, data=form_data)
@@ -326,6 +336,7 @@ class TestShopViews(TestCase):
             'price': 9.99,
             'description': "testing",
             'image': test_image,
+            "date_added": '2021-08-24'
         }
         url = reverse('edit_product',
                       args=['product', self.clothing_product.slug])
@@ -360,6 +371,7 @@ class TestShopViews(TestCase):
             'spotify_url': 'www.testurl.com',
             'tracklist': json.dumps("test: test"),
             'image': test_image,
+            "date_added": '2021-08-24'
         }
         url = reverse('edit_product',
                       args=['album', self.album.slug])
