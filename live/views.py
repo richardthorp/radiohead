@@ -2,14 +2,22 @@ from django.shortcuts import render
 from django.conf import settings
 from django.core.paginator import Paginator
 import requests
-import json
 
 
-def live(request, page=1):
+def live(request):
+    if request.method == 'POST':
+        page = request.POST.get('paginate')
+    else:
+        page = 1
     paginated_data = get_paginated_gigs(page)
-
+    gigs = paginated_data.get('gigs')
+    if len(gigs) == 0:
+        no_gigs = True
+    else:
+        no_gigs = False
     return render(request, 'live/live.html',
-                  context={'paginated_data': paginated_data})
+                  context={'paginated_data': paginated_data,
+                           'no_gigs': no_gigs})
 
 
 def event_detail(request, event_id):
@@ -19,7 +27,6 @@ def event_detail(request, event_id):
         f"{event_id}.json?apikey={api_key}"
     )
     response = requests.get(url).json()
-    # print(response)
     all_details = response['resultsPage']['results']['event']
 
     # Get string containing all artists performing - add Radiohead to the bill
@@ -41,9 +48,6 @@ def event_detail(request, event_id):
 
     }
 
-    # with open('event_info.json', 'w') as outfile:
-    #     json.dump(response, outfile)
-
     return render(request, 'live/event_detail.html',
                   context={'event_details': event_details})
 
@@ -56,7 +60,6 @@ def get_paginated_gigs(page):
         f"{artist_id}/calendar.json?apikey={api_key}"
     )
     response = requests.get(url).json()
-    # print(response)
 
     gig_list = response['resultsPage']['results']['event']
 
@@ -67,14 +70,11 @@ def get_paginated_gigs(page):
     has_next = current_page.has_next()
     next_page = int(page) + 1
     previous_page = int(page) - 1
-    # with open('gigs.json', 'w') as outfile:
-    #     json.dump(gig_list, outfile)
 
     gig_details = []
     for gig in paginated_gigs:
         g = {
             'date': gig['start']['date'],
-            # 'venue': gig['venue']['displayName'],
             'event_id': str(gig['id']),
             'city': gig['location']['city'],
             'uri': gig['uri']
@@ -88,7 +88,5 @@ def get_paginated_gigs(page):
         'previous_page': previous_page,
         'next_page': next_page,
     }
-    # with open('event_info.json', 'w') as outfile:
-    #     json.dump(gig_details, outfile)
 
     return paginated_data

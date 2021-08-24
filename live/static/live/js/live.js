@@ -25,7 +25,7 @@ $(document).ready(function () {
         $(this).find("th, td").css('flex-basis', rowGrow);
     });
     function flexTable() {
-        if ($(window).width() < 768) {
+        if ($(window).width() < 769) {
             $(".table-responsive-stack").each(function (i) {
                 $(this).find(".table-responsive-stack-thead").show();
                 $(this).find('thead').hide();
