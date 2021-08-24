@@ -246,6 +246,9 @@ def portal_content(request):
         video_posts = PortalVideoPost.objects.all()
         images_posts = PortalImagesPost.objects.all()
         all_posts = list(chain(text_posts, video_posts, images_posts))
+        # How to sort multiple querysets solution found at
+        # https://stackoverflow.com/questions/33022879/order-2-different-querysets-by-date
+        all_posts.sort(key=lambda x: x.date_posted, reverse=True)
         context = {
             'posts': all_posts,
             'all': True,
@@ -254,17 +257,20 @@ def portal_content(request):
             post_filter = request.POST.get('filter')
             if post_filter == 'videos':
                 context = {
-                    'posts': PortalVideoPost.objects.all(),
+                    'posts': PortalVideoPost.objects.all(
+                        ).order_by('-date_posted'),
                     'videos': True,
                 }
             elif post_filter == 'text':
                 context = {
-                    'posts': PortalTextPost.objects.all(),
+                    'posts': PortalTextPost.objects.all(
+                        ).order_by('-date_posted'),
                     'text': True,
                 }
             elif post_filter == 'images':
                 context = {
-                    'posts': PortalImagesPost.objects.all(),
+                    'posts': PortalImagesPost.objects.all(
+                        ).order_by('-date_posted'),
                     'images': True,
                 }
         return render(request, 'portal/portal_content.html', context)
