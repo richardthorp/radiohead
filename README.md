@@ -22,10 +22,10 @@ A mock website for the band Radiohead, featuring on online shop, exclusive conte
 <a name="objectives"></a>
 ## Website Objectives
 The primary objectives of the website are to:
-* Promote the sales of music and merchandise
-* Promote upcoming concerts
-* Provide a platform for the band to announce news and release content
-* Financially capitalise on 'super' fans
+* Functionality to sell music and merchandise.
+* Promote upcoming concerts.
+* Provide a platform for the band to announce news and release content.
+* Financially capitalise on fans.
 
 <a name="UX"></a>
 ## UX
@@ -33,27 +33,31 @@ The primary objectives of the website are to:
 
 ### User Stories
 #### As a first time user, I want:
-* To quickly understand the purpose of the website
-* To be able to register and sign in easily
-* To be able to sign out easily
-* To be able to navigate through the website intuitively and easily
-* To find content relating to the band Radiohead
+* To quickly understand the purpose of the website.
+* To be able to register and sign in easily.
+* To be able to sign out easily.
+* To be able to navigate through the website intuitively and easily.
+* To find content relating to the band Radiohead.
 
 #### As a returning user, I want:
-* To be able to log in and out easily and to be able to remain signed in
-* To be able to find details about my previous orders
-* To be able to view details about my subscription
-* To be able to save my details to use for any future purchases
-* To be able to find new merchandise quickly in the shop
-* To be able to find new music quickly in the Media section
-* To be able to view new content quickly in the Portal area
+* To be able to log in and out easily and to be able to remain signed in.
+* To be able to reset my password should I forget it.
+* To be able to find details about my previous orders.
+* To be able to view details about my subscription.
+* To be able to easily cancel my subscription.
+* To be able to easily reactivate my subscription after cancelling.
+* To be able to change my subscription payment card.
+* To be able to save my details to use for any future purchases.
+* To be able to find new merchandise quickly in the shop.
+* To be able to find new music quickly in the Media section.
+* To be able to view new content quickly in the Portal area.
 
 #### Shared user requirements:
-* To be able to communicate with other fans of the band
-* To be able to buy music and merchandise from the band
-* To be able to find details about upcoming concerts
-* To be able to find and consume music
-* To be able to find recent news, updates and other content
+* To be able to communicate with other fans of the band.
+* To be able to buy music and merchandise from the band.
+* To be able to find details about upcoming concerts.
+* To be able to find and consume music.
+* To be able to find recent news, updates and other content.
 
 <a name="design"></a>
 ## Design
@@ -227,15 +231,25 @@ Below is a diagram detailing the database schema, with the connecting lines show
 ### Technologies
 #### Main Libraries, Frameworks and Packages 
 * [Django](https://www.djangoproject.com/) - provides the web app's framework.
+
 * [Stripe](https://stripe.com/gb) - allows the web app to communicate with the Stripe API
+
 * [Bootstrap](https://getbootstrap.com/) - for some of the front-end styling, responsive design and interactive features, such as menu drop-downs and modals.
+
 * [jQuery](https://jquery.com/) - simplifies the apps asyncronous functions syntax, as well as shortening and simplifying JavaScript for DOM manipulation and traversal.
+
 * [Django-Crispy-Forms](https://django-crispy-forms.readthedocs.io/) - provides additional styles to forms.
+
 * [Django-Countries](https://pypi.org/project/django-countries/) - ensures the 'Country' field in forms provide valid ISO 3166-1 values.
+
 * [Gunicorn](https://gunicorn.org/) - to act as the web server once deployed to Heroku.
+
 * [Coverage](https://coverage.readthedocs.io/en/coverage-5.5/) - to provide information the scope of the apps testing modules.
+
 * [Boto3](https://boto3.amazonaws.com/v1/documentation/api/latest/index.html) - allows the app to communicate and integete with Amazon's S3 services.
+
 * [dj-database-url](https://pypi.org/project/dj-database-url/) - parses the database URL from the enviromental variables on Heroku.
+
 * [psycopg2-binary](https://pypi.org/project/psycopg2-binary/) - an adaptor for Python and PostgreSQL databases. 
 
 #### IDE, Version control and Deployment
@@ -249,6 +263,7 @@ Below is a diagram detailing the database schema, with the connecting lines show
 
 #### Database
 * [SQLite](https://www.sqlite.org/index.html) - The database used during development.
+
 * [Heroku Postgres](https://www.heroku.com/postgres) - The database used in production.
 
 #### Design and Fonts
@@ -256,12 +271,13 @@ Below is a diagram detailing the database schema, with the connecting lines show
 
 * [Google Fonts](https://fonts.google.com/) - Used to provide the 'Oswald' and 'Righteous' fonts used throughout the website.
 
+* [Font Awesome](https://fontawesome.com/) - Used to provide icons in the website.
+
 * [Font Squirrel](https://www.fontsquirrel.com/) - Used to convert ttf font files to woff and woff2 formats.
 
 * [RealFaviconGenerator](https://realfavicongenerator.net/) - Used to refine the favicon and provide the HTML to link to the file.
 
 * [dbdiagram](https://dbdiagram.io/) - Used to make image of database schema.
-
 
 #### Testing, Optimisation and Validation
 * [W3C Markup Validation Service](https://validator.w3.org/) - Validation of the HTML code.
@@ -283,6 +299,74 @@ Below is a diagram detailing the database schema, with the connecting lines show
 <a name="testing"></a>
 
 ## Testing
+### Testing against Website Objectives
+* Functionality to sell music and merchandise.
+    * This objective is met via the Shop app.
+* Promote upcoming concerts.
+    * This objective is met via the Live app.
+* Provide a platform for the band to announce news and release content.
+    * This objective is met via the Portal app.
+* Financially capitalise on fans.
+    * This objective is met via both the Portal and Shop apps. Additionaly, as users need an email address to sign in to the website, these email addresses can be used for marketing campaigns or upcoming promotions etc.
+
+### Testing against User Stories
+#### As a first time user, I want:
+* To quickly understand the purpose of the website.
+    * The landing page feaures the animated text 'Welcome to the home of Radiohead' ensuring the user understands this is a website about Radiohead.
+    * The home page features a brief summary of what users can find in the Portal app.
+    * The website is designed using standard UX principles, such as providing links to the other pages in the header.
+        * All navigation links have names that are quite clear as to what content they links to.
+* To be able to register and sign in easily.
+    * All pages feature the profile icon which triggers a dropdown with links to the registration and sign in pages.
+    * A profile icon that either links directly to or provides links to account features is a common feature throughout web design and will be recognised by users as such.
+* To be able to sign out easily.
+    * Again, as the profile dropdown is present on every page, the user can quickly and easily sign out.
+* To be able to navigate through the website intuitively and easily.
+    * Navigation links are easily accessible on all pages of the website. As the website features common UX principles, navigating through the pages is intuitive.
+    * All relevant pages feature 'back to' links so the user doesn't have to rely on the main navigation links to navigate the site.
+* To find content relating to the band Radiohead.
+    * As this website features only content relating the band Radiohead, this user story is met!
+
+#### As a returning user, I want:
+* To be able to log in and out easily and to be able to remain signed in.
+    * As with the **first time user** user story, this requirement is met via the profile icon in the navigation bar.
+    * On the sign in page, the option to 'remember me' is presented enabling the user to return to the website and be automatically logged in.
+* To be able to reset my password should I forget it.
+    * The sign in page offers a link that states 'forgot password?' which links to a page that allows users to input their email address and be sent a reset password link. 
+* To be able to find details about my previous orders.
+    * The profile page features a, 'Orders' section containing a list of previous orders.
+        * By clicking on a previous order, users can view th details of that order, including items orderered, costs and delivery information.
+* To be able to view details about my subscription.
+    * The profile page features a 'Subscriptions' section.
+        * The subsciptions section shows users when their subsciption payment is due, as well as which card will be charged.
+        * If the user cancels their subscription, text is rendered tell the user when the subscription will end.
+* To be able to easily cancel my subscription.
+    * The profile page offers an obvious button to 'Cancel Subscription', which stops the user being charged when their susbcription renewal date is reached. Users can still access the Portal content until this date however.
+* To be able to easily reactivate my subscription after cancelling.
+    * If the user wishes to reactivate their subsciption before the current billing period has ended, a button to 'Reactivate Subscription' is presented.
+* To be able to change my subscription payment card.
+    * The profile page offers an obvious link to 'Change Payment Card'
+* To be able to save my details to use for any future purchases.
+    * Any page that includes a form to collect users data features a checkbox which enables the user to save their information for next time.
+    * The profile page features a form for users to add or update their default details.
+* To be able to find new merchandise quickly in the shop.
+    * Items in the shop are by default listed with newest items at the top of the page.
+* To be able to find new music quickly in the Media section.
+    * Albums on the media page are by default listed with the newest albums at the top of the page.
+* To be able to view new content quickly in the Portal area.
+    * Posts on the Portal page are by default listed with the newest posts at the top of the page.
+
+#### Shared user requirements:
+* To be able to communicate with other fans of the band.
+    * Users can comment on pages in both the Media and Portal apps.
+* To be able to buy music and merchandise from the band.
+    * Users can make purchases though the shop app.
+* To be able to find details about upcoming concerts.
+    * Users can view upcoming concerts though the Live app.
+* To be able to find and consume music.
+    * Users can find and consume music though the Media app.
+* To be able to find recent news, updates and other content.
+    * Users can get updates though the Portal app.
 
 <a name="deployment"></a>
 
