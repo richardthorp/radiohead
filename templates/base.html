@@ -193,22 +193,22 @@
             {% if message.level == 40 %}
             <!-- ERROR TOAST-->
             <div class="toast-body error-toast-highlight text-center ">
-                {{ message }}
+                <p class="mb-0">{{ message }}</p>
             </div>
             {% elif message.level == 30 %}
             <!-- WARNING TOAST-->
             <div class="toast-body warning-toast-highlight text-center ">
-                {{ message }}
+                <p class="mb-0">{{ message }}</p>
             </div>
             {% elif message.level == 25 %}
             <!-- SUCCESS TOAST-->
             <div class="toast-body success-toast-highlight text-center ">
-                {{ message }}
+                <p class="mb-0">{{ message }}</p>
             </div>
             {% elif message.level == 20 %}
             <!-- INFO TOAST-->
             <div class="toast-body info-toast-highlight text-center ">
-                {{ message }}
+                <p class="mb-0">{{ message }}</p>
             </div>
             {% endif %}
             {% endfor %}
