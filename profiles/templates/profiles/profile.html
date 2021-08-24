@@ -16,7 +16,13 @@
         <div class="col-12 col-md-6">
             <hr class="d-md-none">
             <h3 class="header-font ">Subscriptions</h3>
+            {% if request.user.is_staff %}
+            <!-- User is a staff member -->
+            <p>You are currrently logged in as a staff member.</p>
+            <p><a href="{% url 'portal_content' %}">Click here to view the Portal.</a></p>
+            {% else %}
             {% if subscription_details %}
+            <!-- User has an active subscription -->
             {% if reactivation_link %}
             <!-- The user has cancelled their subscription, render re-join link -->
             <p>Your Portal subscription is due to expire on {{ subscription_details.end_date }}.<br>
@@ -31,8 +37,8 @@
             <p class="">
                 Last 4 digits: {{ default_payment_details.last_4 }}<br>
                 Expires: {{ default_payment_details.exp_month }}/{{ default_payment_details.exp_year }}<br>
-                <a href="{% url 'update_payment_card' %}" class="btn btn-dark custom-btn mt-3 mr-3">Update Card
-                    Details</a>
+                <a href="{% url 'update_payment_card' %}" class="btn btn-dark custom-btn mt-3 mr-3">
+                    Change Payment Card</a>
                 <button type="button" class="btn custom-btn btn-danger btn-sm custom-btn mt-3" data-toggle="modal"
                     data-target="#cancel-subsciption-modal" id="cancel-subsciption">
                     Cancel Subscription
@@ -57,10 +63,12 @@
             </div>
             {% endif %}
             {% else %}
+            <!-- User does not have an active subscription -->
             <p>
                 You do not currrently have a Portal subscription.<br>
                 <a href="{% url 'portal_info' %}">Click here to sign up!</a>
             </p>
+            {% endif %}
             {% endif %}
             <hr>
             <h3 class="header-font">Orders</h3>
