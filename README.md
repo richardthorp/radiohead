@@ -533,9 +533,78 @@ This is to temporarily stop Heroku collecting the app's static files as these wi
 5. Following the migrate command, create a new superuser for the deploted app using `python3 manage.py createsuperuser`.
 6. The app is now deployed to Heroku.
 
+### Host and serve static files using Amazon's S3
+#### Create an S3 bucket and set up bucket permissions
+1. Navigate to `aws.amazon.com` and click on 'Create a new user', fill in the 'Create a new user' form and submit the form.
+2. On the following page, select the 'Personal - for your own projects' option and fill out the rest of the form and submit.
+3. Next, add payment details for the account and continue with the sign up process.
+4. Once signed up and signed in, search for 'S3' in the search bar at the top of the page and click on the 'S3' option.
+5. On the next page, click 'Create Bucket' and then name the bucket and select the appropriate region. Under 'Block Public Access settings for this bucket', untick the 'Block all public access' option and click 'Create bucket' at the bottom of the page.
+6. In the following 'buckets' page, click on the newly created bucket and in the 'properties' tab, navigate to the bottom of the page and click on 'Edit' under 'Static website hosting', setting the option to enable. Add some values to the 'Index Document' and 'Error Document' and saving the changes.
+7. Click on the 'Permissions' tab and scroll down to 'Cross-origin resource sharing (CORS)', click edit. Paste the following into the textfield and click 'Save changes'
 
+```
+[
+    {
+        "AllowedHeaders": [
+            "Authorization"
+        ],
+        "AllowedMethods": [
+            "GET"
+        ],
+        "AllowedOrigins": [
+            "*"
+        ],
+        "ExposeHeaders": []
+    }
+]
+```
+8. Still in the 'Permissions' tab, navigate to the 'Bucket policy' section and click on 'Edit'. Copy the 'Bucket ARN' from this page before clicking on the 'Policy generator' button.
+9. In the policy generator, make the following changes:
+    * Step 1: Select Policy Type
+        * 'Select Type of Policy' : 'S3 Bucket Policy'
+    * Step 2: Add Statement(s)
+        * 'Principal': '*'
+        * 'Actions': 'GetObject'
+        * 'Amazon Resource Name (ARN)': Paste the ARN copied in step 8.
+    * Click on 'Add Statement' and then 'Generate Policy'.
+        * Copy the policy and paste it into the 'Edit Bucket Policy' back on the main S3 bucket page.
+        * Before saving, add '/*' to the 'Resource' tab to allow access to all resources.
+10. Within the 'Permissions' tab of the bucket, find the 'Access control list (ACL)' section and click on 'Edit'.
+    * Next to 'Everyone (public access)', click on the 'list' checkbox before saving the changes.
 
+#### Create a user to access the bucket
+1. Navigate to the AWS Services menu and search for 'AIM', selecting the resulting IAM option.
+2. Click on 'User Groups' in the menu on the left side of the page and then click 'Create group'.
+3. Name the new group, giving it a name which clearly relates to the S3 bucket created in the last section and then click 'Create group'.
+4. Click on 'Policies' in the menu on the left side of the page and then click 'Create policy'.
+5. Click on the 'JSON' tab and then click 'Import managed policy'. Search for 'S3' in the searchbar and then click on the 'AmazonS3FullAccess' policy. Click 'Import' at the bottom of the page.
+6. Find and copy the bucket ARN in the 'properties' section of the S3 buckets page.
+7. Back in the 'JSON' tab on the 'Create policy' page, add the following the resource section:
+```
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": "s3:*",
+            "Resource":  [
+                "arn:aws:s3:::<your bucket name>",
+                "arn:aws:s3:::<your bucket name>/*"
+            ]
+        }
+    ]
+}
+```
+This allows access to both the bucket, and any files and folders within the bucket.
 
+8. Click on the 'Tags' button at the bottom of the page and then the 'Next: Review' button before giving the policy a suitable name and description and clicking 'Create policy'.
+9. Return to the 'User groups' by clicking the link in the menu of the left side of the page. Click on the 'Permissions' tab and then 'Add permissions'. In the 'Add permissions' dropdown, click 'Attach Policies' and select the policy created in the previous step before clicking 'Add permisions' at the bottom of the page.
+10. On the 'Users' page found through the left side menu, click 'Add Users'. Give the user a name which clearly relates to the bucket and click on 'Programmatic access' under the 'Access type' section before clicking 'Next: Permissions' at the bottom of the page.
+11. Select the group created in step 3, click 'Next' and click 'Next' again on the 'Add tags (optional)' page, before clicking 'Create User'.
+12. Click 'Download .csv' and ensure the downloaded file is saved as this file contains the access credentials required to use the S3 bucket. 
+
+#### Configure Django to use S3 
 <a name="credits"></a>
 
 ## Credits
