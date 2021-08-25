@@ -605,6 +605,70 @@ This allows access to both the bucket, and any files and folders within the buck
 12. Click 'Download .csv' and ensure the downloaded file is saved as this file contains the access credentials required to use the S3 bucket. 
 
 #### Configure Django to use S3 
+1. Install the package `boto3` using `pip3 install boto3`
+2. Install the package `django-storages` using `pip3 install django-storages`
+3. Add the packages to the `requirements.txt` file using `pip3 freeze > requirements.txt`.
+4. Add `storages` to the `INSTALLED_APPS` list in `settings.py`
+5. To ensure the S3 bucket is only used in production, following `if` statement should be added to `settings.py`, as well as the settings listed below:
+
+    ```
+    if 'USE_AWS' in os.environ:
+    # Cache control
+    AWS_S3_OBJECT_PARAMETERS = {
+        'Expires': 'Thu, 31 Dec 2099 20:00:00 GMT',
+        'CacheControl': 'max-age=94608000'
+    }
+
+    # Bucket config
+    AWS_STORAGE_BUCKET_NAME = '<your bucket name>'
+    AWS_S3_REGION_NAME = 'eu-west-2'
+    AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY_ID')
+    AWS_S3_CUSTOM_DOMAIN = f'{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com'
+
+    # Static and media files
+    STATICFILES_STORAGE = 'custom_storages.StaticStorage'
+    STATICFILES_LOCATION = 'static'
+    DEFAULT_FILE_STORAGE = 'custom_storages.MediaStorage'
+    MEDIAFILES_LOCATION = 'media_files'
+
+    # Overide static and media URLs in production
+    STATIC_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{STATICFILES_LOCATION}/'
+    MEDIA_URL = f'https://{AWS_S3_CUSTOM_DOMAIN}/{MEDIAFILES_LOCATION}/'
+    ```
+
+6. In the Heroku config vars in the app's settings page, add the following variables using the credentials found in the .csv file downloaded in step 12 of **Create a user to access the bucket**: 
+    ```
+    USE_AWS: True
+    AWS_ACCESS_KEY_ID: <YOUR AWS ACCES KEY>
+    AWS_SECRET_ACCESS_KEY_ID: <YOUR SECRET ACCESS KEY>
+    ```
+7. Remove the `DISABLE_COLLECTSTATIC` variable from the config vars.
+8. In the root directory of the Django app, add a file called `custom_storages.py` and insert the following code:
+    ```
+    from django.conf import settings
+    from storages.backends.s3boto3 import S3Boto3Storage
+
+
+    class StaticStorage(S3Boto3Storage):
+        location = settings.STATICFILES_LOCATION
+
+
+    class MediaStorage(S3Boto3Storage):
+        location = settings.MEDIAFILES_LOCATION
+
+    ```
+
+9. Add, commit and push changes to Gitpod:
+    ```
+    git add .
+    git commit -m "Set up S3 bucket for static files"
+    git push
+    ```
+
+10. If automatic deployment is not activated on Heroku, navigate to the app's 'deploy' page on Heroku and click 'Deploy Branch'. Heroku will now build the app and collect local static files before uploading them to the new S3 bucket.
+
+
 <a name="credits"></a>
 
 ## Credits
