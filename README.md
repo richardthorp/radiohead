@@ -668,6 +668,51 @@ This allows access to both the bucket, and any files and folders within the buck
 
 10. If automatic deployment is not activated on Heroku, navigate to the app's 'deploy' page on Heroku and click 'Deploy Branch'. Heroku will now build the app and collect local static files before uploading them to the new S3 bucket.
 
+### Sending emails
+The application sends emails to users after the following actions:
+* User registration
+* Shop app purchase
+* Portal subscription purchase
+* Portal subscription payment over-due
+
+In development, emails are logged to the console. This is achieved with the following settings in `settings.py`:
+
+    ```
+    if 'DEVELOPMENT' in os.environ:
+    EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+    DEFAULT_FROM_EMAIL = 'radioheadms4@example.com'
+    ```
+
+In production, emails are sent using a Gmail account which can be set up using the following proccess:
+
+1. Create a Gmail at `https://accounts.google.com/`
+2. In the menu at the top right of the page click on 'Account'.
+3. Click on 'Security' in the menu on the left of the page. On this page, ensure '2-step Verification' is turned on and then click on 'App passwords'.
+4. Create a new app password in the 'App passwords' screen, selecting 'Mail' from the 'Select app' dropdown and giving the password a suitable name (ie. Django).
+5. Click 'Generate' and copy the newly created app password.
+6. Within the main email page, click on the cog icon in the top right of the page and then click 'See all settings'. Under the 'Forwarding and POP/IMAP' tab, ensure the 'Enable IMAP' setting is enabled in 'IMAP access'.
+7. On Heroku and in the app's settings page, add the following variables to the 'Config vars':
+    ```
+    EMAIL_HOST_PASSWORD: <The password created in step 5>
+    EMAIL_HOST_USER: <the email address created in step 1>
+    ```
+8. Back in the `settings.py` file in the Django app, add the following code in an `else` statement under the existing email settings:
+    ```
+    if 'DEVELOPMENT' in os.environ:
+        EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+        DEFAULT_FROM_EMAIL = 'radioheadms4@example.com'
+    <INSERT THIS CODE>
+    else:
+        EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+        EMAIL_USE_TLS = True
+        EMAIL_PORT = 587
+        EMAIL_HOST = 'smtp.gmail.com'
+        EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+        EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+        DEFAULT_FROM_EMAIL = os.environ.get('EMAIL_HOST_USER')
+    <END OF INSERTED CODE>
+    ```
+9. Emails will now be sent to real email addresses when users interact with the app on Heroku, and emails will be logged to the console in development.
 
 <a name="credits"></a>
 
