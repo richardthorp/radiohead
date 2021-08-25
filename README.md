@@ -407,6 +407,134 @@ Any calls to the Stripe API were not included in the unit testing. These areas o
 <a name="deployment"></a>
 
 ## Deployment
+### Version Control with Github
+Github has been used to host the website's remote repository. To create and connect to the repository I completed the following steps:
+
+#### Create a Github repository and Gitpod workspace
+1. Log in to the **GitHub** website and click on 'New' from the 'Repositories' section in the top left of the screen.
+
+2. Once on the 'Create a new repository' page, I selected the Code Institute template from the 'Repository template' dropdown menu, gave the repository a name and description and clicked 'Create Repository.
+
+3. Once the repository was created, I click on the 'Gitpod' button towards the top right of the screen. This opened a new Gitpod workspace and automatically connected the workspace to the repository. 
+
+#### Forking the Repository
+If you wish to work on this project within your own repository, it can be forked using the following process:
+
+1. Log in to your **GitHub account** on the **GitHub** website.
+
+2. Using the search bar in the top left of the screen, search for **'richardthorp/radiohead'**.
+
+3. Click on the search result and then click on the **'Fork'** button to the right of the screen, above the list of files and folders.
+
+4. The repository is now 'forked' and saved in your own repository.
+
+#### Cloning the Repository
+If you wish to clone the repository to work on locally, follow these steps:
+
+1. Log in to **GitHub** and navigate to the repository (follow step 2 from 'Forking the Repository').
+
+2. Click on the green **'Code'** button to the top right of the list of files and folders.
+
+3.  Copy the URL displayed underneath the **underlined 'HTTPS'**.
+
+4. In your local IDE, launch **Git Bash** and create or navigate to the folder in which you wish to make the clone.
+
+5. On the CLI type **'git clone'** followed by the URL copied from step 3 and press enter. You will now have a local clone of the repository.
+
+### Deploying to Heroku
+
+##### Gunicorn
+Gunicorn is used as the server when the app is deployed to Heroku. To install Gunicorn run `pip3 install Gunicorn` and then add the package to the apps `requirements.txt` file using `pip3 freeze > requirements.txt`
+
+##### Procfile
+Heroku needs a 'Procfile' to know how to run the app. In this instance, a Profile was created in the root directory of the project with the code `web: gunicorn radiohead.wsgi:application` saved to it.
+
+#### Create a Heroku app
+Heroku provide a Postgres database to integrate with the app. To set up the database, I followed these steps:
+
+1. Sign in/sign up to [Heroku](https://www.heroku.com/).
+
+2. Once signed in, click on the 'Create New App' button.
+
+!['Create new app' button](readme-images/deployment-images/create-new-app.jpg)
+
+3. Name the app, select the local region and click 'Create App'.
+
+4. In the top menu, select the 'Deploy' tab, and then click 'Connect to GitHub' in the 'Deployment method' section.
+
+!['Deploy' tab and 'Connect to GitHub' button](readme-images/deployment-images/connect-to-github.jpg)
+
+5. Connect your GitHub account to your Heroku account by clicking on the 'Connect to GitHub' button (if already connected, move to step 6).
+
+6. Search for the GitHub repository which contains the app you wish to deploy, and then click 'connect'.
+
+![Repository search bar and 'Connect' button](readme-images/deployment-images/search-for-repo.jpg)
+
+7. Once connected, you can choose to automatically deploy any updates made in the GitHub repository or to do so manually by selecting the branch you wish to deploy and clicking on the appropriate button.
+
+![Choose branch dropdowns and automatic and manual deploy buttons](readme-images/deployment-images/auto-deploy.jpg)
+
+8. Following this, click on the 'Settings' tab and then click 'Reveal Config Vars'
+
+!['Settings' tab and 'Reveal Config Vars' button](readme-images/deployment-images/settings-tab.jpg)
+
+9. Within the 'Reveal Config Vars' section, add the variables which would be found in your local enviroment variables. These variables are saved here as they contain sensitive data such as the passwords and secret keys.
+
+![Config vars form](readme-images/deployment-images/config-vars.jpg)
+
+10. Add the new app url and `localhost` to the project's `settings.py` file in the 'ALLOWED_HOSTS' section:
+    * `ALLOWED_HOSTS = ['app-name.herokuapp.com', 'localhost']`
+
+#### Set up Heroku Postgres
+Heroku provide a Postgres database to be used in the project. To set up the database I followed thse steps:
+
+1. On Heroku, within the app dashboard, click on the resources tab at the top of the page.
+
+2. In the 'Add-ons' search bar, type in 'Heroku Postrgres' and click on the resulting option.
+
+3. Ensure 'Hobby Dev' is selected as the plan name and click on 'Submit Order Form'. This will automatically attach the database to the app and add the database URL to the app's 'Config Vars' in the settings page. 
+
+5. Install the packages required to integrate the app and database using pip:
+    * `pip3 install dj_database_url`
+    * `pip3 install psycopg2_binary`
+
+6. Add the packages to a `requirements.txt` file in the root directory to ensure Heroku knows which dependencies are required to run the app:
+    * `pip3 freeze > requirements.txt`
+
+7. To ensure that Django's default SQLite database was used in development and the Heroku Postres database used in production, the following `if/else` statement was added to the projects `settings.py` file having imported `dj_database_url` at the top the file:
+
+```
+if 'DATABASE_URL' in os.environ:
+    DATABASES = {
+        'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+    }
+
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+```
+
+#### Push the code to Github and Deploy to Heroku
+With the previous steps complete, in the project terminal run `python3 manage.py makemigrations` and then `python3 manage.py migrate` to ensure any outstanding migrations have been completed on the local database and migration files are up to date and ready to use in the deployed app.
+
+1. Commit all changes and push to Github:
+    * `git add .`
+    * `git commit -m "Commit files to deploy to Heroku"`
+    * `git push`
+2. In the Heroku app dashobard on heroku.com, navigate to the 'Settings' tab and within the 'Config Vars' section, add a new variable set to:
+    `DISABLE_COLLECTSTATIC: 1`
+This is to temporarily stop Heroku collecting the app's static files as these will later be hosted using Amazon's S3 service.
+3. In the 'Deploy' tab of the Heroku dashboard, click on 'Deploy Branch' with 'master' selected (this is only neccessary if automatic deploys are not enabled).
+4. Once the appication has been built, click on the 'more' button at the top right of the page and click on 'Run Console'. With the console running, type the command `python3 manage.py migrate` to apply migrations to the Heroku Postrgres database.
+5. Following the migrate command, create a new superuser for the deploted app using `python3 manage.py createsuperuser`.
+6. The app is now deployed to Heroku.
+
+
+
 
 <a name="credits"></a>
 
