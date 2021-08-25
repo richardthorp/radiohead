@@ -251,27 +251,27 @@ def portal_content(request):
         all_posts.sort(key=lambda x: x.date_posted, reverse=True)
         context = {
             'posts': all_posts,
-            'all': True,
+            'filter': 'all',
         }
         if request.POST:
-            post_filter = request.POST.get('filter')
+            post_filter = request.POST.get('filter', 'all')
             if post_filter == 'videos':
                 context = {
                     'posts': PortalVideoPost.objects.all(
                         ).order_by('-date_posted'),
-                    'videos': True,
+                    'filter': 'videos',
                 }
             elif post_filter == 'text':
                 context = {
                     'posts': PortalTextPost.objects.all(
                         ).order_by('-date_posted'),
-                    'text': True,
+                    'filter': 'text',
                 }
             elif post_filter == 'images':
                 context = {
                     'posts': PortalImagesPost.objects.all(
                         ).order_by('-date_posted'),
-                    'images': True,
+                    'filter': 'images',
                 }
         return render(request, 'portal/portal_content.html', context)
 

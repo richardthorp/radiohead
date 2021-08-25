@@ -25,15 +25,10 @@
     <form action="{% url 'portal_content' %}" method="POST"
         class="sort-by-form d-flex justify-content-center mb-3 mt-2">
         {% csrf_token %}
-        <input type="radio" id="all" name="filter" value="all" class="d-none">
-        <label for="all" class="btn custom-btn btn-outline-dark {% if all %} active {% endif %}">ALL</label><br>
-        <input type="radio" id="text" name="filter" value="text" class="d-none">
-        <label for="text" class="btn custom-btn btn-outline-dark {% if text %} active {% endif %}">Text</label><br>
-        <input type="radio" id="videos" name="filter" value="videos" class="d-none">
-        <label for="videos" class="btn custom-btn btn-outline-dark {% if videos %} active {% endif %}">Video</label><br>
-        <input type="radio" id="images" name="filter" value="images" class="d-none">
-        <label for="images"
-            class="btn custom-btn btn-outline-dark {% if images %} active {% endif %}">Images</label><br>
+            <input type="submit" name="filter" value="all" class="btn custom-btn btn-outline-dark {% if filter == 'all' %} active {% endif %}">
+            <input type="submit" name="filter" value="text" class="btn custom-btn btn-outline-dark {% if filter == 'text' %} active {% endif %}">
+            <input type="submit" name="filter" value="videos" class="btn custom-btn btn-outline-dark {% if filter == 'videos' %} active {% endif %}">
+            <input type="submit" name="filter" value="images" class="btn custom-btn btn-outline-dark {% if filter == 'images' %} active {% endif %}">
     </form>
     <hr>
     <div class="row">

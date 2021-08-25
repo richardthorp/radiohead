@@ -26,15 +26,10 @@
     {% endif %}
     <form action="{% url 'shop' %}" method="POST" class="d-flex justify-content-center sort-by-form mb-3 mt-2">
         {% csrf_token %}
-        <input type="radio" id="all" name="filter" value="all" class="d-none">
-        <label for="all" class="btn custom-btn btn-outline-dark {% if filter == 'all' %} active {% endif %}">ALL</label><br>
-        <input type="radio" id="music" name="filter" value="music" class="d-none">
-        <label for="music" class="btn custom-btn btn-outline-dark {% if filter == 'music' %} active {% endif %}">MUSIC</label><br>
-        <input type="radio" id="clothing" name="filter" value="clothing" class="d-none">
-        <label for="clothing"
-            class="btn custom-btn btn-outline-dark {% if filter == 'clothing' %} active {% endif %}">CLOTHING</label><br>
-        <input type="radio" id="other" name="filter" value="other" class="d-none">
-        <label for="other" class="btn custom-btn btn-outline-dark {% if filter == 'other' %} active {% endif %}">OTHER</label><br>
+        <input type="submit" id="all" name="filter" value="all" class="btn custom-btn btn-outline-dark {% if filter == 'all' %} active {% endif %}">
+        <input type="submit" id="music" name="filter" value="music" class="btn custom-btn btn-outline-dark {% if filter == 'music' %} active {% endif %}">
+        <input type="submit" id="clothing" name="filter" value="clothing" class="btn custom-btn btn-outline-dark {% if filter == 'clothing' %} active {% endif %}">
+        <input type="submit" id="other" name="filter" value="other" class="btn custom-btn btn-outline-dark {% if filter == 'other' %} active {% endif %}">
     </form>
     <div class="row">
         {% for item in items %}
@@ -79,7 +74,7 @@
         {% endfor %}
     </div>
     <!-- PAGINATION BUTTONS -->
-    <div class="row">
+    <div class="row mt-5">
         <div class="col-12 d-flex justify-content-center">
             <form action="{% url 'shop' %}" method="POST">
                 {% csrf_token %}

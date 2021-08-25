@@ -11,7 +11,7 @@ from .forms import AddProductForm, AddAlbumForm
 def shop(request):
     if request.POST:
         print(request.POST)
-        product_filter = request.POST.get('filter')
+        product_filter = request.POST.get('filter', 'all')
         if product_filter == 'music':
             context = {
                 'items': Album.objects.all().order_by('-date_added'),
@@ -29,7 +29,7 @@ def shop(request):
                     category='other').order_by('-date_added'),
                 'filter': 'other',
             }
-        elif product_filter == 'all':
+        else:
             albums = Album.objects.all().order_by('-year')
             products = Product.objects.all()
 
@@ -60,10 +60,6 @@ def shop(request):
     context = {
         'items': pagination_data['paginated_items'],
         'pagination_data': pagination_data,
-        # 'has_previous': pagination_data['has_previous'],
-        # 'has_next': pagination_data['has_next'],
-        # 'next_page': pagination_data['next_page'],
-        # 'previous_page': pagination_data['previous_page'],
         'filter': 'all',
     }
 
