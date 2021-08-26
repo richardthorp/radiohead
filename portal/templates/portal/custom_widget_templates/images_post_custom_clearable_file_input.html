@@ -1,0 +1,43 @@
+<!-- Custom Clearable File widget modified from Boutique Ado project -->
+<!-- Individual labels are required to fix HTML validity issue with the labels not having
+    associated inputs when rendered on the front end. Inputs for screen readers are labelled by
+    their corresponding p tags -->
+<p id="image-label-{{ widget.name }}">
+    {% if widget.name == 'image_1' %}
+        Image 1 *
+    {% elif widget.name == 'image_2' %}
+        Image 2 *
+    {% elif widget.name == 'image_3' %}
+        Image 3
+    {% elif widget.name == 'image_4' %}
+        Image 4
+    {% elif widget.name == 'image_5' %}
+        Image 5
+    {% elif widget.name == 'image_6' %}
+        Image 6
+    {% elif widget.name == 'image_7' %}
+        Image 7
+    {% elif widget.name == 'image_8' %}
+        Image 8
+    {% endif %}
+</p>
+{% if widget.is_initial and widget.value %}
+    <a href="{{ widget.value.url }}">
+        <img class="mw-100" src="{{ widget.value.url }}" alt="Current image for {{ widget.name }}">
+    </a>
+    {{ widget.input_text }}
+    <div>
+        <p class="mb-2 mt-3">Select new image</p>
+        <label for="{{ widget.name }}" class="btn btn-dark custom-btn">Choose file</label>
+        <input id="{{ widget.name }}" class="hidden-input" type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}
+            aria-labelledby="image-label-{{ widget.name }}">
+        <p class="text-muted"><strong></strong></p>
+    </div>
+{% else %}
+<div>
+    <label for="{{ widget.name }}" class="btn btn-dark custom-btn">Choose file</label>
+    <input id="{{ widget.name }}" class="hidden-input" type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}
+        aria-labelledby="image-label-{{ widget.name }}">
+    <p class="text-muted"><strong></strong></p>
+</div>
+{% endif %}

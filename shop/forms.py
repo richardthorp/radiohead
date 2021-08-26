@@ -1,7 +1,7 @@
 import datetime
 from django import forms
 from .models import Album, Product
-from .widgets import ItemCustomClearableFileInput
+from .widgets import GeneralCustomClearableFileInput
 
 
 class AddAlbumForm(forms.ModelForm):
@@ -13,7 +13,7 @@ class AddAlbumForm(forms.ModelForm):
                                 widget=forms.TextInput(
                                     attrs={'class': 'd-none'}))
     image = forms.ImageField(label='Image', required=True,
-                             widget=ItemCustomClearableFileInput)
+                             widget=GeneralCustomClearableFileInput)
     year = forms.IntegerField(widget=forms.NumberInput(
         attrs={'min': '1985',
                'max': '2050',
@@ -29,7 +29,7 @@ class AddProductForm(forms.ModelForm):
         model = Product
         exclude = ('slug',)
     image = forms.ImageField(label='Image', required=True,
-                             widget=ItemCustomClearableFileInput)
+                             widget=GeneralCustomClearableFileInput)
 
     def __str__(self):
         return 'AddProductForm'

@@ -1,6 +1,6 @@
 from django import forms
 from .models import Comment, Single
-from shop.widgets import ItemCustomClearableFileInput
+from shop.widgets import GeneralCustomClearableFileInput
 
 
 class CommentForm(forms.ModelForm):
@@ -15,5 +15,5 @@ class AddSingleForm(forms.ModelForm):
         exclude = ('slug',)
 
     image = forms.ImageField(label='Image', required=True,
-                             widget=ItemCustomClearableFileInput)
+                             widget=GeneralCustomClearableFileInput)
     video_url = forms.CharField(label='Youtube embed link*')
