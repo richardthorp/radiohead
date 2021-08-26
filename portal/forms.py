@@ -31,6 +31,8 @@ class AddVideoPostForm(forms.ModelForm):
         exclude = ('slug', 'video',)
     lead_image = forms.ImageField(required=True, label='',
                                   widget=GeneralCustomClearableFileInput)
+    video_url = forms.URLField(required=True, label="Video URL - (src attibute \
+                                                from the Youtube embed code)")
 
     # Add classes to form init method credit - Christian Abbott
     # https://stackoverflow.com/questions/29716023/add-class-to-form-field-django-modelform

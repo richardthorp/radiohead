@@ -16,4 +16,5 @@ class AddSingleForm(forms.ModelForm):
 
     image = forms.ImageField(label='', required=True,
                              widget=GeneralCustomClearableFileInput)
-    video_url = forms.CharField(label='Youtube embed link*')
+    video_url = forms.URLField(required=True, label="Video URL - (src attibute \
+                                                from the Youtube embed code)")
