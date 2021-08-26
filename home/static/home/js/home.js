@@ -40,6 +40,6 @@ $(document).ready(function() {
         addWelcomeText();
         setInterval(() => {
             addWelcomeText();
-        }, 10000)
+        }, 10000);
     }, 200);
-})
+});

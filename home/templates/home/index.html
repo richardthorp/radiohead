@@ -5,12 +5,12 @@
 {% endblock %}
 {% block content %}
 <div class="bg-overlay"></div>
-
 <div class="container-fluid">
     <div class="row">
         <div class="col-12 welcome-container">
+            <!-- Welcome text rendered in home.js -->
             <h1 id="welcome-text" class="my-auto">
-                
+                Welcome
             </h1>
             <i class="fas fa-angle-down mt-auto"></i>
         </div>
@@ -20,8 +20,11 @@
             <div class="portal-section-content h-100 d-flex flex-column justify-content-around py-3">
                 <h2 class="header-font mt-2">Enter the Portal</h2>
                 <p>Connect with the band in a whole new way.</p>
-                <p>Subscribe to Portal to gain access to exclusive content as well as a discount in the online shop</p>
-                <a href="{% url 'portal_info' %}" class="btn custom-btn btn-dark mb-4 mt-2 mx-auto nav-font p-2">FIND OUT MORE</a>
+                <p>Subscribe to Portal to be the first to hear about upcoming shows and releases, as well as accessing
+                    exclusive content </p>
+                <a href="{% url 'portal_info' %}" class="btn custom-btn btn-dark mb-4 mt-2 mx-auto nav-font p-2">
+                    FIND OUT MORE
+                </a>
             </div>
         </div>
     </div>
