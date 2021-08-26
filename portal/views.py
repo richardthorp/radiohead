@@ -511,6 +511,7 @@ def add_portal_comment(request):
     return HttpResponse(status=200)
 
 
+@login_required
 def get_portal_comments(request):
     object_id = request.GET.get('object_id')
     page = request.GET.get('page')
@@ -563,6 +564,7 @@ def get_portal_comments(request):
     return JsonResponse(formatted_data, safe=False)
 
 
+@login_required
 def edit_portal_comment(request):
     post_type = request.POST['post_type']
     comment_id = request.POST['comment_id']
@@ -582,6 +584,7 @@ def edit_portal_comment(request):
     return HttpResponse(status=200)
 
 
+@login_required
 def delete_portal_comment(request):
     post_type = request.POST['post_type']
     comment_id = request.POST['comment_id']

@@ -1,10 +1,20 @@
-import json
+from os import unlink
+from PIL import Image
+import tempfile
 from django.test import TestCase
 from django.shortcuts import reverse
 from django.contrib.auth.models import User
 from ..models import (PortalTextPost, PortalImagesPost, PortalVideoPost,
                       TextPostComment, VideoPostComment, ImagesPostComment)
 from profiles.models import Profile
+
+
+def get_temporary_image(temp_file):
+    size = (200, 200)
+    color = (255, 0, 0, 0)
+    image = Image.new("RGB", size, color)
+    image.save(temp_file, 'jpeg')
+    return temp_file
 
 
 class TestPortalViews(TestCase):
@@ -79,7 +89,6 @@ class TestPortalViews(TestCase):
 
     def test_get_portal_info_page_with_anonymous_user(self):
         url = reverse('portal_info')
-        # self.client.login(username='test_user', password='test_password')
         response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed('portal/portal_info.html')
@@ -123,31 +132,15 @@ class TestPortalViews(TestCase):
                                             PortalImagesPost)
         self.assertTrue(correct_model_instance)
 
-    # def test_get_portal_content_without_subscription_redirects(self):
-    #     self.client.login(username='test_user', password='test_password')
-    #     url = reverse('portal_content')
-    #     response = self.client.get(url)
-    #     messages = list(response.wsgi_request._messages)
-
-    #     self.assertEqual(len(messages), 1)
-    #     # Credit to Cédric Julien on Stack Overflow for this function to
-    #     # remove whitepace from a string and add spaces
-    #     # https://stackoverflow.com/questions/8270092/remove-all-whitespace-in-a-string
-    #     formatted_message = " ".join(str(messages[0]).split())
-    #     expected_string = 'Sorry, you must have an active subscription to \
-    #         Portal to view this page.'
-    #     formatted_expected_string = " ".join(expected_string.split())
-    #     self.assertEqual(formatted_message, formatted_expected_string)
-    #     self.assertRedirects(response, reverse('portal_info'))
-
-    def test_user_must_be_logged_in_to_view_portal_text_post_detail(self):
+    def test_user_must_have_subscription_to_view_portal_text_post_detail(self):
         self.client.login(username='test_user', password='test_password')
         url = reverse('portal_post_detail', args=['text', self.text_post.slug])
         response = self.client.get(url)
         messages = list(response.wsgi_request._messages)
 
         self.assertEqual(len(messages), 1)
-        # See whitespace removal function credit in test above
+        # Whitespace removal function credit - Cédric Julien
+        # https://stackoverflow.com/questions/8270092/remove-all-whitespace-in-a-string
         formatted_message = " ".join(str(messages[0]).split())
         expected_string = 'Sorry, you must have an active subscription to \
             Portal to view this page.'
@@ -187,7 +180,444 @@ class TestPortalViews(TestCase):
 
         self.assertTemplateUsed(response, 'portal/images_post.html')
 
+    # ADD PORTAL POSTS TESTS
+    def test_user_must_be_staff_to_add_post(self):
+        self.client.login(username='test_user', password='test_password')
+        url = reverse('add_portal_post', args=['text_post'])
+        response = self.client.get(url)
+        messages = list(response.wsgi_request._messages)
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]),
+                         'You must be a staff member add Portal posts.')
+        self.assertEqual(response.status_code, 302)
+
+    def test_add_valid_text_post_adds_post(self):
+        self.client.login(username='test_user', password='test_password')
+        user = User.objects.get(username='test_user')
+        user.is_staff = True
+        user.save()
+        url = reverse('add_portal_post', args=['text_post'])
+
+        # Set up test_image
+        temp_file = tempfile.NamedTemporaryFile(suffix='.jpg')
+        test_image = get_temporary_image(temp_file)
+        test_image.seek(0)
+
+        response = self.client.post(url, data={
+            'title': 'Test Title',
+            'post_blurb': 'Test blurb',
+            'lead_image': test_image,
+            'lead_image_summary': 'Test Summary',
+            'text_content': 'Test content',
+            'date_posted': '2021-08-26'
+        })
+
+        messages = list(response.wsgi_request._messages)
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]),
+                         'Text post added to Portal')
+        # There should be 2 text posts, 1 created in setUp()
+        self.assertEqual(len(PortalTextPost.objects.all()), 2)
+        self.assertEqual(response.status_code, 302)
+
+    def test_add_invalid_text_post_returns_correct_msssage_and_template(self):
+        self.client.login(username='test_user', password='test_password')
+        user = User.objects.get(username='test_user')
+        user.is_staff = True
+        user.save()
+        url = reverse('add_portal_post', args=['text_post'])
+
+        response = self.client.post(url, data={
+            'title': 'Test Title',
+            'post_blurb': 'Test blurb',
+            'slug': 'test-title',
+            'lead_image': 'test_image',
+            'lead_image_summary': 'Test Summary',
+            'text_content': 'Test content',
+            'date_posted': 'invalid datetime'
+        })
+
+        messages = list(response.wsgi_request._messages)
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]),
+                         'Error adding post, please try again.')
+        # There should be 1 text post as 1 created in setUp()
+        self.assertEqual(len(PortalTextPost.objects.all()), 1)
+        self.assertEqual(response.status_code, 200)
+
+    def test_add_valid_video_post_adds_post(self):
+        self.client.login(username='test_user', password='test_password')
+        user = User.objects.get(username='test_user')
+        user.is_staff = True
+        user.save()
+        url = reverse('add_portal_post', args=['video_post'])
+
+        # Set up test_image
+        temp_file = tempfile.NamedTemporaryFile(suffix='.jpg')
+        test_image = get_temporary_image(temp_file)
+        test_image.seek(0)
+
+        response = self.client.post(url, data={
+            'title': 'Test Title',
+            'post_blurb': 'Test blurb',
+            'lead_image': test_image,
+            'lead_image_summary': 'Test Summary',
+            'video_url': 'http://www.test.com',
+            'text_content': 'Test content',
+            'date_posted': '2021-08-26'
+        })
+
+        messages = list(response.wsgi_request._messages)
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]),
+                         'Video post added to Portal')
+        # There should be 2 text posts, 1 created in setUp()
+        self.assertEqual(len(PortalVideoPost.objects.all()), 2)
+        self.assertEqual(response.status_code, 302)
+
+    def test_add_invalid_video_post_returns_correct_msssage_and_template(self):
+        self.client.login(username='test_user', password='test_password')
+        user = User.objects.get(username='test_user')
+        user.is_staff = True
+        user.save()
+        url = reverse('add_portal_post', args=['video_post'])
+
+        response = self.client.post(url, data={
+            'title': 'Test Title',
+            'post_blurb': 'Test blurb',
+            'slug': 'test-title',
+            'lead_image': 'test_image',
+            'lead_image_summary': 'Test Summary',
+            'text_content': 'Test content',
+            'date_posted': 'invalid datetime'
+        })
+
+        messages = list(response.wsgi_request._messages)
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]),
+                         'Error adding post, please try again.')
+        # There should be 1 text post as 1 created in setUp()
+        self.assertEqual(len(PortalVideoPost.objects.all()), 1)
+        self.assertEqual(response.status_code, 200)
+
+    def test_add_valid_images_post_adds_post(self):
+        self.client.login(username='test_user', password='test_password')
+        user = User.objects.get(username='test_user')
+        user.is_staff = True
+        user.save()
+        url = reverse('add_portal_post', args=['images_post'])
+
+        # Set up test_images
+        temp_file = tempfile.NamedTemporaryFile(suffix='.jpg')
+        lead_image = get_temporary_image(temp_file)
+        lead_image.seek(0)
+
+        temp_file = tempfile.NamedTemporaryFile(suffix='.jpg')
+        image_1 = get_temporary_image(temp_file)
+        image_1.seek(0)
+
+        temp_file = tempfile.NamedTemporaryFile(suffix='.jpg')
+        image_2 = get_temporary_image(temp_file)
+        image_2.seek(0)
+
+        response = self.client.post(url, data={
+            'title': 'Test Title',
+            'post_blurb': 'Test blurb',
+            'lead_image': lead_image,
+            'lead_image_summary': 'Test Summary',
+            'image_1': image_1,
+            'image_1_summary': 'Test Summary 1',
+            'image_2': image_2,
+            'image_2_summary': 'Test Summary 2',
+            'video_url': 'http://www.test.com',
+            'text_content': 'Test content',
+            'date_posted': '2021-08-26'
+        })
+
+        messages = list(response.wsgi_request._messages)
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]),
+                         'Images post added to Portal')
+        # There should be 2 text posts, 1 created in setUp()
+        self.assertEqual(len(PortalImagesPost.objects.all()), 2)
+        self.assertEqual(response.status_code, 302)
+
+    def test_add_invalid_image_post_returns_correct_msssage_and_template(self):
+        self.client.login(username='test_user', password='test_password')
+        user = User.objects.get(username='test_user')
+        user.is_staff = True
+        user.save()
+        url = reverse('add_portal_post', args=['images_post'])
+
+        response = self.client.post(url, data={
+            'title': 'Test Title',
+            'post_blurb': 'Test blurb',
+            'lead_image': 'lead_image',
+            'lead_image_summary': 'Test Summary',
+            'image_1': 'image_1',
+            'image_1_summary': 'Test Summary 1',
+            'image_2': 'image_2',
+            'image_2_summary': 'Test Summary 2',
+            'video_url': 'http://www.test.com',
+            'text_content': 'Test content',
+            'date_posted': '2021-08-26'
+        })
+
+        messages = list(response.wsgi_request._messages)
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]),
+                         'Error adding post, please try again.')
+        # There should be 1 text post as 1 created in setUp()
+        self.assertEqual(len(PortalImagesPost.objects.all()), 1)
+        self.assertEqual(response.status_code, 200)
+
+    def test_get_add_text_post_returns_right_form_and_template(self):
+        self.client.login(username='test_user', password='test_password')
+        user = User.objects.get(username='test_user')
+        user.is_staff = True
+        user.save()
+
+        url = reverse('add_portal_post', args=['text_post'])
+        response = self.client.get(url)
+        form = response.context['form']
+
+        self.assertEqual(str(form), 'AddTextPostForm')
+        self.assertTemplateUsed('portal/add_text_post.html')
+
+    def test_get_add_video_post_returns_right_form_and_template(self):
+        self.client.login(username='test_user', password='test_password')
+        user = User.objects.get(username='test_user')
+        user.is_staff = True
+        user.save()
+
+        url = reverse('add_portal_post', args=['video_post'])
+        response = self.client.get(url)
+        form = response.context['form']
+
+        self.assertEqual(str(form), 'AddVideoPostForm')
+        self.assertTemplateUsed('portal/add_video_post.html')
+
+    def test_get_add_images_post_returns_right_form_and_template(self):
+        self.client.login(username='test_user', password='test_password')
+        user = User.objects.get(username='test_user')
+        user.is_staff = True
+        user.save()
+
+        url = reverse('add_portal_post', args=['images_post'])
+        response = self.client.get(url)
+        form = response.context['form']
+
+        self.assertEqual(str(form), 'AddImagesPostForm')
+        self.assertTemplateUsed('portal/add_images_post.html')
+
+    # EDIT PORTAL POST TESTS
+    def test_must_be_staff_to_edit_posts(self):
+        self.client.login(username='test_user', password='test_password')
+        url = reverse('edit_portal_post', args=['text_post', 1])
+        response = self.client.get(url)
+        messages = list(response.wsgi_request._messages)
+
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]),
+                         'You must be a staff member to edit posts.')
+        self.assertEqual(response.status_code, 302)
+
+    def test_edit_text_post_edits_post(self):
+        self.client.login(username='test_user', password='test_password')
+        user = User.objects.get(username='test_user')
+        user.is_staff = True
+        user.save()
+        url = reverse('edit_portal_post', args=['text_post', 1])
+        response = self.client.post(url, data={
+            'title': 'updated text post',
+            'post_blurb': 'Test blurb',
+            'lead_image': 'test-image.jpg',
+            'lead_image_summary': 'Test summary',
+            'text_content': 'Test text content',
+            'date_posted': '2021-08-26'
+        })
+        messages = list(response.wsgi_request._messages)
+
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]),
+                         'Post updated')
+
+        updated_post = PortalTextPost.objects.get(pk=1)
+        self.assertEqual(updated_post.title, 'updated text post')
+
+    def test_edit_video_post_edits_post(self):
+        self.client.login(username='test_user', password='test_password')
+        user = User.objects.get(username='test_user')
+        user.is_staff = True
+        user.save()
+        url = reverse('edit_portal_post', args=['video_post', 1])
+        response = self.client.post(url, data={
+            'title': 'updated video post',
+            'post_blurb': 'Test blurb',
+            'lead_image': 'test-image.jpg',
+            'lead_image_summary': 'Test summary',
+            'video_url': 'http://www.test-url.com',
+            'text_content': 'Test text content',
+            'date_posted': '2021-08-26'
+        })
+        messages = list(response.wsgi_request._messages)
+
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]),
+                         'Post updated')
+
+        updated_post = PortalVideoPost.objects.get(pk=1)
+        self.assertEqual(updated_post.title, 'updated video post')
+
+    def test_edit_images_post_edits_post(self):
+        self.client.login(username='test_user', password='test_password')
+        user = User.objects.get(username='test_user')
+        user.is_staff = True
+        user.save()
+        url = reverse('edit_portal_post', args=['images_post', 1])
+        response = self.client.post(url, data={
+            'title': 'updated images post',
+            'post_blurb': 'Test blurb',
+            'lead_image': 'test-image.jpg',
+            'lead_image_summary': 'Test summary',
+            'text_content': 'Test text content',
+            'image_1': 'test-image.jpg',
+            'image_1_summary': 'test summary',
+            'image_2': 'test-image.jpg',
+            'image_2_summary': 'test summary',
+            'date_posted': '2021-08-26'
+        })
+        messages = list(response.wsgi_request._messages)
+
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]),
+                         'Post updated')
+
+        updated_post = PortalImagesPost.objects.get(pk=1)
+        self.assertEqual(updated_post.title, 'updated images post')
+
+    def test_edit_with_bad_data_returns_message(self):
+        self.client.login(username='test_user', password='test_password')
+        user = User.objects.get(username='test_user')
+        user.is_staff = True
+        user.save()
+        url = reverse('edit_portal_post', args=['images_post', 1])
+        response = self.client.post(url, data={
+            'title': 'updated images post',
+            'post_blurb': 'Test blurb',
+            'lead_image': 'test-image.jpg',
+            'lead_image_summary': 'Test summary',
+            'text_content': 'Test text content',
+            'image_1': 'test-image.jpg',
+            'image_1_summary': 'test summary',
+            'image_2': 'test-image.jpg',
+            'image_2_summary': 'test summary',
+            'date_posted': 'Invalid Datetime'
+        })
+        messages = list(response.wsgi_request._messages)
+
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]),
+                         'Error with form data, please check and try again.')
+
+    def test_get_edit_text_post_returns_text_form(self):
+        self.client.login(username='test_user', password='test_password')
+        user = User.objects.get(username='test_user')
+        user.is_staff = True
+        user.save()
+
+        url = reverse('edit_portal_post', args=['text_post', 1])
+        response = self.client.get(url)
+        form = response.context['form']
+        self.assertEqual(str(form), 'AddTextPostForm')
+
+    def test_get_edit_video_post_returns_text_form(self):
+        self.client.login(username='test_user', password='test_password')
+        user = User.objects.get(username='test_user')
+        user.is_staff = True
+        user.save()
+
+        url = reverse('edit_portal_post', args=['video_post', 1])
+        response = self.client.get(url)
+        form = response.context['form']
+        self.assertEqual(str(form), 'AddVideoPostForm')
+
+    def test_get_images_video_post_returns_text_form(self):
+        self.client.login(username='test_user', password='test_password')
+        user = User.objects.get(username='test_user')
+        user.is_staff = True
+        user.save()
+
+        url = reverse('edit_portal_post', args=['images_post', 1])
+        response = self.client.get(url)
+        form = response.context['form']
+        self.assertEqual(str(form), 'AddImagesPostForm')
+
+    # DELETE PORTAL POSTS TESTS
+    def test_must_be_staff_to_delete_posts(self):
+        self.client.login(username='test_user', password='test_password')
+        url = reverse('delete_portal_post', args=['text_post', 1])
+
+        response = self.client.get(url)
+        self.assertEqual(response.status_code, 302)
+        text_posts = PortalTextPost.objects.all()
+        messages = list(response.wsgi_request._messages)
+        self.assertEqual(len(text_posts), 1)
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]),
+                         'You must be a staff member to delete posts.')
+
+    def test_delete_text_post_deletes_post(self):
+        self.client.login(username='test_user', password='test_password')
+        user = User.objects.get(username='test_user')
+        user.is_staff = True
+        user.save()
+        url = reverse('delete_portal_post', args=['text_post', 1])
+        response = self.client.get(url)
+        text_posts = PortalTextPost.objects.all()
+        messages = list(response.wsgi_request._messages)
+
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]),
+                         'Post Deleted.')
+        self.assertEqual(len(text_posts), 0)
+        self.assertEqual(response.status_code, 302)
+
+    def test_delete_images_post_deletes_post(self):
+        self.client.login(username='test_user', password='test_password')
+        user = User.objects.get(username='test_user')
+        user.is_staff = True
+        user.save()
+        url = reverse('delete_portal_post', args=['images_post', 1])
+        response = self.client.get(url)
+        images_posts = PortalImagesPost.objects.all()
+        messages = list(response.wsgi_request._messages)
+
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]),
+                         'Post Deleted.')
+        self.assertEqual(len(images_posts), 0)
+        self.assertEqual(response.status_code, 302)
+
+    def test_delete_video_post_deletes_post(self):
+        self.client.login(username='test_user', password='test_password')
+        user = User.objects.get(username='test_user')
+        user.is_staff = True
+        user.save()
+        url = reverse('delete_portal_post', args=['video_post', 1])
+        response = self.client.get(url)
+        video_posts = PortalVideoPost.objects.all()
+        messages = list(response.wsgi_request._messages)
+
+        self.assertEqual(len(messages), 1)
+        self.assertEqual(str(messages[0]),
+                         'Post Deleted.')
+        self.assertEqual(len(video_posts), 0)
+        self.assertEqual(response.status_code, 302)
+
+    # PORTAL COMMENT TESTS
     def test_get_portal_text_post_comments(self):
+        self.client.login(username='test_user_2', password='test_password')
         url = reverse('get_portal_comments')
         response = self.client.get(
             url,
@@ -213,6 +643,7 @@ class TestPortalViews(TestCase):
         self.assertFalse(response_json['comment_permissions'])
 
     def test_get_portal_video_post_comments(self):
+        self.client.login(username='test_user_2', password='test_password')
         url = reverse('get_portal_comments')
         response = self.client.get(
             url,
@@ -238,6 +669,7 @@ class TestPortalViews(TestCase):
         self.assertFalse(response_json['comment_permissions'])
 
     def test_get_portal_images_post_comments(self):
+        self.client.login(username='test_user_2', password='test_password')
         url = reverse('get_portal_comments')
         response = self.client.get(
             url,
@@ -276,6 +708,27 @@ class TestPortalViews(TestCase):
 
         response_json = response.json()[0]
         self.assertTrue(response_json['comment_permissions'])
+
+    def test_must_have_portal_or_be_staff_to_add_comment(self):
+        self.client.login(username='test_user', password='test_password')
+        url = reverse('add_portal_comment')
+        response = self.client.post(
+            url,
+            data={
+                'user_id': self.test_user.id,
+                'post_id': self.text_post.id,
+                'comment': 'More test text',
+                'post_type': 'text_post'
+                }
+            )
+        messages = list(response.wsgi_request._messages)
+
+        formatted_message = " ".join(str(messages[0]).split())
+        expected_string = 'You must have an active subscription \
+                           to add comments'
+        formatted_expected_string = " ".join(expected_string.split())
+        self.assertEqual(formatted_message, formatted_expected_string)
+        self.assertEqual(response.status_code, 302)
 
     def test_add_portal_text_post_comment(self):
         self.client.login(username='test_user', password='test_password')
@@ -409,7 +862,6 @@ class TestPortalViews(TestCase):
             )
         comment = TextPostComment.objects.filter(
                 id=self.text_post_comment.id).first()
-        # comment = Comment.objects.all().first()
         self.assertEqual(comment.text, 'Test Text')
         self.assertEqual(response.status_code, 403)
 
