@@ -28,8 +28,9 @@
             <div class="modal-content">
                 <div class="modal-body text-center">
                     <p class="mb-0">Are you sure you want to delete<br>
-                    <strong>{{ single.title }}</strong><br>
-                    from the database? This action cannot be undone!</p>
+                        <strong>{{ single.title }}</strong><br>
+                        from the database? This action cannot be undone!
+                    </p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn custom-btn btn-sm btn-dark custom-btn"
@@ -75,7 +76,8 @@
             {% if user.profile.image %}
             <img class="profile-pic" src="{{ user.profile.image.url }}" alt="{{ request.user }}'s profile image">
             {% else %}
-            <img class="profile-pic" src="{{ MEDIA_URL}}profile_pics/default_profile_pic.jpg" alt="Default profile image">
+            <img class="profile-pic" src="{{ MEDIA_URL}}profile_pics/default_profile_pic.jpg"
+                alt="Default profile image">
             {% endif %}
         </div>
         <div class="col-10 col-md-11">
@@ -88,8 +90,15 @@
     {% else %}
     <div class="row">
         <div class="col-12 text-center">
-            <p><strong>You must be logged in to add a comment! <a href="{% url 'account_signup' %}">Click here to
-                        register</a> or <a href="{% url 'account_login' %}">sign in here.</a></strong></p>
+            <p>
+                <strong>You must be logged in to add a comment!
+                    <a href="{% url 'account_signup' %}?next=/media/single_content/{{single.slug}}">
+                        Click here to register</a> or 
+                        <a href="{% url 'account_login' %}?next=/media/single_content/{{single.slug}}">
+                        sign in here.
+                    </a>
+                </strong>
+            </p>
         </div>
     </div>
     {% endif %}
