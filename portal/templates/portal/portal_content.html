@@ -82,5 +82,26 @@
         {% endif %}
         {% endfor %}
     </div>
+        <!-- PAGINATION BUTTONS -->
+        <div class="row mt-5">
+            <div class="col-12 d-flex justify-content-center">
+                <form action="{% url 'portal_content' %}" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name='filter' value="{{ filter }}">
+                    {% if pagination_data.has_previous %}
+                    <button type='submit' value="{{ pagination_data.previous_page }}" name="paginate"
+                        class="btn custom-btn btn-outline-secondary">Previous</button>
+                    {% else %}
+                    <button class="btn custom-btn btn-outline-secondary" disabled>Previous</button>
+                    {% endif %}
+                    {% if pagination_data.has_next %}
+                    <button type='submit' value="{{ pagination_data.next_page }}" name="paginate"
+                        class="btn custom-btn btn-outline-secondary">Next</button>
+                    {% else %}
+                    <button class="btn custom-btn btn-outline-secondary" disabled>Next</button>
+                    {% endif %}
+                </form>
+            </div>
+        </div>
 </div>
 {% endblock %}

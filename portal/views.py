@@ -273,6 +273,11 @@ def portal_content(request):
                         ).order_by('-date_posted'),
                     'filter': 'images',
                 }
+        page = request.POST.get('paginate', 1)
+        posts = context['posts']
+        pagination_data = paginate_query(posts, page)
+        context['posts'] = pagination_data['paginated_items']
+        context['pagination_data'] = pagination_data
         return render(request, 'portal/portal_content.html', context)
 
     else:
@@ -295,6 +300,24 @@ def portal_content(request):
             messages.error(request, 'Sorry, you must have an active \
                 subscription to Portal to view this page.')
             return redirect(reverse('portal_info'))
+
+
+def paginate_query(query_set, page):
+    paginator = Paginator(query_set, 8)  # Show 8 posts per page.
+    paginated_items = paginator.get_page(page)
+    current_page = paginator.page(page)
+    has_previous = current_page.has_previous()
+    has_next = current_page.has_next()
+    next_page = int(page) + 1
+    previous_page = int(page) - 1
+    pagination_data = {
+        'paginated_items': paginated_items,
+        'has_previous': has_previous,
+        'has_next': has_next,
+        'next_page': next_page,
+        'previous_page': previous_page,
+    }
+    return pagination_data
 
 
 # This view renders the portal post detail pages for subscribed users
