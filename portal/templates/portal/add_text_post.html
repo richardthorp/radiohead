@@ -32,7 +32,7 @@
 <script type="text/javascript">
     $("#lead_image").change(function(){
         let file = $(this)[0].files[0];
-        $(this).siblings("strong").children("p").first().text(`Image will be set to ${file.name}`);
+        $(this).siblings("p").children("strong").first().text(`Image will be set to ${file.name}`);
     });
 </script>
 {% endblock %}

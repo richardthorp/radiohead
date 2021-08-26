@@ -16,3 +16,13 @@
     </div>
 </div>
 {% endblock %}
+{% block postloadjs %}
+{{ block.super }}
+<!-- File name renderer modified from Boutique Ado project -->
+<script type="text/javascript">
+    $("#image").change(function(){
+        let file = $(this)[0].files[0];
+        $(this).siblings("p").children("strong").first().text(`Image will be set to ${file.name}`);
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,19 @@
+<!-- Custom Clearable File widget modified from Boutique Ado project -->
+{% if widget.is_initial and widget.value %}
+    <a href="{{ widget.value.url }}">
+        <img class="mw-100" src="{{ widget.value.url }}" alt="Profile picture">
+    </a>
+    {{ widget.input_text }}
+    <div>
+        <p class="mb-2 mt-3">Select new image</p>
+        <label for="{{ widget.name }}" class="btn btn-dark custom-btn">Choose file</label>
+        <input id="{{ widget.name }}" class="hidden-input" type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
+        <p class="text-muted"><strong id="filename"></strong></p>
+    </div>
+{% else %}
+<div>
+    <label for="{{ widget.name }}" class="btn btn-dark custom-btn">Choose file</label>
+    <input id="{{ widget.name }}" class="hidden-input" type="{{ widget.type }}" name="{{ widget.name }}"{% include "django/forms/widgets/attrs.html" %}>
+    <p class="text-muted"><strong id="filename"></strong></p>
+</div>
+{% endif %}

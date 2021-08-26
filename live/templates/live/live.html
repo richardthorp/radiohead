@@ -29,11 +29,12 @@
                 <tbody>
                     {% for gig in paginated_data.gigs %}
                     <tr>
-                        <td scope="row" class="gig-date">{{ gig.date }}</th>
+                        <td class="gig-date">{{ gig.date }}</td>
                         <td>{{ gig.city }}</td>
                         <td class="h-100"><a href="{% url 'event_detail' gig.event_id %}"
-                                class="btn custom-btn btn-dark">More
-                                Info<i class="fas fa-chevron-right"></i></a></td>
+                                class="btn custom-btn btn-dark">More Info<i class="fas fa-chevron-right"></i>
+                            </a>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
