@@ -14,6 +14,13 @@ class AddTextPostForm(forms.ModelForm):
     lead_image = forms.ImageField(required=True, label="",
                                   widget=GeneralCustomClearableFileInput)
 
+    # Add classes to form init method credit - Christian Abbott
+    # https://stackoverflow.com/questions/29716023/add-class-to-form-field-django-modelform
+    def __init__(self, *args, **kwargs):
+        super(AddTextPostForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
+
     def __str__(self):
         return 'AddTextPostForm'
 
@@ -24,6 +31,13 @@ class AddVideoPostForm(forms.ModelForm):
         exclude = ('slug', 'video',)
     lead_image = forms.ImageField(required=True, label='',
                                   widget=GeneralCustomClearableFileInput)
+
+    # Add classes to form init method credit - Christian Abbott
+    # https://stackoverflow.com/questions/29716023/add-class-to-form-field-django-modelform
+    def __init__(self, *args, **kwargs):
+        super(AddVideoPostForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
 
     def __str__(self):
         return 'AddVideoPostForm'
@@ -51,6 +65,13 @@ class AddImagesPostForm(forms.ModelForm):
                                widget=ImagesPostCustomClearableFileInput)
     image_8 = forms.ImageField(required=False, label='',
                                widget=ImagesPostCustomClearableFileInput)
+
+    # Add classes to form init method credit - Christian Abbott
+    # https://stackoverflow.com/questions/29716023/add-class-to-form-field-django-modelform
+    def __init__(self, *args, **kwargs):
+        super(AddImagesPostForm, self).__init__(*args, **kwargs)
+        for visible in self.visible_fields():
+            visible.field.widget.attrs['class'] = 'form-control'
 
     def __str__(self):
         return 'AddImagesPostForm'
