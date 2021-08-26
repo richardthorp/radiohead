@@ -12,7 +12,7 @@ class AddAlbumForm(forms.ModelForm):
     tracklist = forms.CharField(label="",
                                 widget=forms.TextInput(
                                     attrs={'class': 'd-none'}))
-    image = forms.ImageField(label='Image', required=True,
+    image = forms.ImageField(label='', required=True,
                              widget=GeneralCustomClearableFileInput)
     year = forms.IntegerField(widget=forms.NumberInput(
         attrs={'min': '1985',
@@ -28,7 +28,7 @@ class AddProductForm(forms.ModelForm):
     class Meta:
         model = Product
         exclude = ('slug',)
-    image = forms.ImageField(label='Image', required=True,
+    image = forms.ImageField(label='', required=True,
                              widget=GeneralCustomClearableFileInput)
 
     def __str__(self):

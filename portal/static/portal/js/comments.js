@@ -46,7 +46,7 @@ function renderComments(data){
             commentPermissionshtml = 
                 `<p class="mb-2">
                     <a onclick="renderEditCommentSection(this, ${commentObj['id']})"
-                        id="edit" class="comment-permissions">Edit comment</a> - 
+                        class="comment-permissions">Edit comment</a> - 
                     <a onclick="renderDeleteButton(this, ${commentObj['id']})"
                     class="comment-permissions">Delete comment</a>
                 </p>`

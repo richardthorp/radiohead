@@ -14,6 +14,6 @@ class AddSingleForm(forms.ModelForm):
         model = Single
         exclude = ('slug',)
 
-    image = forms.ImageField(label='Image', required=True,
+    image = forms.ImageField(label='', required=True,
                              widget=GeneralCustomClearableFileInput)
     video_url = forms.CharField(label='Youtube embed link*')

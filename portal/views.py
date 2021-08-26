@@ -461,7 +461,7 @@ def delete_portal_post(request, post_type, post_id):
 @login_required
 def add_portal_comment(request):
     if not (request.user.profile.subscription_status == 'active' or
-            not request.user.is_staff):
+            request.user.is_staff):
         messages.error(request, 'You must have an active subscription \
             to add comments')
         return redirect(reverse('portal_info'))

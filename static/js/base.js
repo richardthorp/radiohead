@@ -84,7 +84,7 @@ resizeBackground();
 function resizeIframe() {
     const containerWidth = $(".video-container").width();
     const iFrame = $("#iFrame");
-    const iFrameHeight = containerWidth * 0.67;
+    const iFrameHeight = Math.floor(containerWidth * 0.67);
 
     iFrame.attr('height', iFrameHeight);
 }
