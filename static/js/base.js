@@ -6,19 +6,19 @@ const navToggle = $(".navbar-toggler");
 userIcon.click(function(){
     $("#navbarNav").removeClass('show');
     $("#bag-summary").removeClass('show');
-})
+});
 
 // Hide other dropdowns when bag-icon is clicked
 bagIcon.click(function(){
     $("#navbarNav").removeClass('show');
     $("#account-dropdown").removeClass('show');
-})
+});
 
 // Hide other dropdowns when main nav toggle is clicked
 navToggle.click(function(){
     $("#account-dropdown").removeClass('show');
     $("#bag-summary").removeClass('show');
-})
+});
 
 // Initialise toasts
 $('.toast').toast('show');
@@ -65,14 +65,14 @@ $(document).ready(function() {
         addWelcomeText();
         setInterval(() => {
             addWelcomeText();
-        }, 10000)
+        }, 10000);
     }, 100);
-})
+});
 
 // Fix onscroll whitespace bug for background image on mobile
 // Solution by Stack Overflow user 'Jason' from:
 //https://stackoverflow.com/questions/24944925/background-image-jumps-when-address-bar-hides-ios-android-mobile-chrome
-const bg = $(".main-site-bg")
+const bg = $(".main-site-bg");
 function resizeBackground() {
     bg.height($(window).height() + 60);
 }
@@ -97,9 +97,9 @@ $(document).ready(function () {
 // Resize iframe when screen width changes
 $(window).resize(function () {
     resizeIframe();
-})
+});
 
 // Auto submit sort-by form
 $(".sort-by-form").click(function(){
     $(this).submit();
-})
+});

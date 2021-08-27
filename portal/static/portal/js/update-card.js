@@ -30,14 +30,13 @@ updateCardForm.addEventListener('submit', function (ev) {
             const url = '/portal/set_default_card/';
             const postData = {
                 'csrfmiddlewaretoken': csrfToken,
-                'payment_method_id': result['setupIntent']['payment_method'],
+                'payment_method_id': result.setupIntent.payment_method
             };
             // Send data to set_default_card view for processing and then submit form to direct user
             // back to profile page
             $.post(url, postData).done(function(){
-                updateCardForm.submit()
-            })
+                updateCardForm.submit();
+            });
         }
-    })
-    ;
+    });
 }); 

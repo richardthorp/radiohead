@@ -1,12 +1,12 @@
 //  Reformat date to UK format
 $(document).ready(function(){
-    let dates = $(".gig-date")
+    let dates = $(".gig-date");
     dates.each(function(){
         const date = $(this).text();
         const formattedDate = date.trim().split("-").reverse().join("-");
         $(this).text(formattedDate);
-    })
-})
+    });
+});
 
 
 /* Response table JS copied from 

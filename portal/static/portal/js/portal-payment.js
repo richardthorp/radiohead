@@ -25,7 +25,7 @@ form.addEventListener('submit', function (ev) {
             postal_code: $.trim(form.postcode.value),
             state: $.trim(form.county.value)
         }
-    }
+    };
    
     // Send the customer details to the save-customer-details view where they are added to 
     // the subscription object metadata, and if the user selected 'save-details' checked, saved 
@@ -62,8 +62,8 @@ form.addEventListener('submit', function (ev) {
             if (result.paymentIntent.status === 'succeeded') {
                 setTimeout(function(){
                     form.submit();
-                }, 8000)
+                }, 8000);
             }
         }
-    })
+    });
 });

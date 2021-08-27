@@ -1,6 +1,6 @@
 // Get Stripe keys, mount card element to page and render card errors 
 var stripe_public_key = $("#id_stripe_public_key").text().slice(1, -1);
-var stripe = Stripe(stripe_public_key)
+var stripe = Stripe(stripe_public_key);
 var elements = stripe.elements();
 
 let card = elements.create('card');

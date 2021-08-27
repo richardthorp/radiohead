@@ -3,7 +3,7 @@
 $("textarea").keyup(function(e) {
     while($(this).outerHeight() < this.scrollHeight + parseFloat($(this).css("borderTopWidth")) + parseFloat($(this).css("borderBottomWidth"))) {
         $(this).height($(this).height()+1);
-    };
+    }
 });
 
 // Get comments when page loads
@@ -26,9 +26,9 @@ function getComments(page=1){
             renderComments(data);
         },
         error: function(){
-            $("#comment-section").html("<p>Sorry, we're having touble loading comments at the moment.</p>")
+            $("#comment-section").html("<p>Sorry, we're having touble loading comments at the moment.</p>");
         },
-    })
+    });
 }
 
 function renderComments(data){
@@ -38,54 +38,54 @@ function renderComments(data){
     }
     let htmlContent = "";
     data.forEach(commentObj =>{
-        const formattedTime = formatTime(commentObj['time']);
+        const formattedTime = formatTime(commentObj.time);
         // If the current user wrote the comment, generate the HTML to render edit and
         // to button delete buttons and insert into the htmlContent string below.
         let commentPermissionshtml = "";
-        if(commentObj['comment_permissions']) {
+        if(commentObj.comment_permissions) {
             commentPermissionshtml = 
                 `<p class="mb-2">
-                    <a onclick="renderEditCommentSection(this, ${commentObj['id']})"
+                    <a onclick="renderEditCommentSection(this, ${commentObj.id})"
                         class="comment-permissions">Edit comment</a> - 
-                    <a onclick="renderDeleteButton(this, ${commentObj['id']})"
+                    <a onclick="renderDeleteButton(this, ${commentObj.id})"
                     class="comment-permissions text-danger">Delete comment</a>
-                </p>`
+                </p>`;
         }
         // If the comment has been edited, generate the below html and insert
         // into the htmlContent string below.
         let edited = "";
-        if (commentObj['edited']){
+        if (commentObj.edited){
             edited = "<span class='text-muted'>- (edited)</span>";
         }
         htmlContent +=
             `<div class="row my-3 my-md-4 no-gutters">
                 <div class="col-2 col-md-1">
-                    <img class="profile-pic" src="${commentObj['posted_by_img']}" alt="The profile picture for ${commentObj['posted_by']}">
+                    <img class="profile-pic" src="${commentObj.posted_by_img}" alt="The profile picture for ${commentObj.posted_by}">
                 </div>
                 <div class="col-10 col-md-11 comment-container px-2 px-md-3">
                 <p class="mb-0 mb-sm-1">
-                    <strong>${commentObj['posted_by']}</strong> - ${formattedTime} ${edited}
+                    <strong>${commentObj.posted_by}</strong> - ${formattedTime} ${edited}
                 </p>
                     <p class="comment-text  mb-0 mb-sm-1">
-                        ${commentObj['text']}<br>
+                        ${commentObj.text}<br>
                     </p>
                     ${commentPermissionshtml}                    
                 </div>
-            </div>`
+            </div>`;
     });
     // Using the first comment object passed into the function, generate the pagination
     // buttons using the renderPaginationButtons() function defined below
-    htmlContent += renderPaginationButtons(data[0])
+    htmlContent += renderPaginationButtons(data[0]);
 
     // Add a hidden div containing the current page number. This is to pass into the getComments()
     // functions in the 'Cancel' buttons in edit/delete sections.
-    const currentPage = data[0]['current_page'];
+    const currentPage = data[0].current_page;
     htmlContent += 
-        `<div class="d-none current-page">${currentPage}</div>`
+        `<div class="d-none current-page">${currentPage}</div>`;
 
     // If the newly defined htmlString is different to the HTML currently on the page,
     // replace the HTML with the htmlString.
-    const commentDiv = $("#comment-section")
+    const commentDiv = $("#comment-section");
     if(commentDiv.html() != htmlContent){
         commentDiv.html(htmlContent);
     }
@@ -97,29 +97,29 @@ function renderPaginationButtons(data){
         `<div class="row">
             <div class="col-12 d-flex justify-content-center">`;
 
-    let nextPage = parseInt(data['current_page']) + 1
-    let prevPage = parseInt(data['current_page']) - 1
+    let nextPage = parseInt(data.current_page) + 1;
+    let prevPage = parseInt(data.current_page) - 1;
     // Render appropriate buttons depending on the data passed in from the renderComments function above
-    if (data['has_prev']){
+    if (data.has_prev){
         htmlContent += 
-            `<button onclick="getComments(${prevPage})" class="btn custom-btn btn-outline-secondary">Previous</button>`
+            `<button onclick="getComments(${prevPage})" class="btn custom-btn btn-outline-secondary">Previous</button>`;
     }else {
         htmlContent += 
-            `<button class="btn custom-btn btn-outline-secondary" disabled>Previous</button>`
+            `<button class="btn custom-btn btn-outline-secondary" disabled>Previous</button>`;
     }
-    if (data['has_next']){
+    if (data.has_next){
         htmlContent += 
-            `<button onclick="getComments(${nextPage})" class="btn custom-btn btn-outline-secondary">Next</button>`
+            `<button onclick="getComments(${nextPage})" class="btn custom-btn btn-outline-secondary">Next</button>`;
     } else {
         htmlContent += 
-            `<button class="btn custom-btn btn-outline-secondary" disabled>Next</button>` 
+            `<button class="btn custom-btn btn-outline-secondary" disabled>Next</button>`;
     }
     // Fianlly, close the row and column div elements
     htmlContent += 
         `</div>
-        </div>`
+        </div>`;
 
-    return htmlContent
+    return htmlContent;
 }
 
 function addComment(objectId, userId){
@@ -136,7 +136,7 @@ function addComment(objectId, userId){
             'user_id': parseInt(userId),
             'comment': $("#add-comment-input").val(),
             'csrfmiddlewaretoken': $("input[name='csrfmiddlewaretoken']").val(),
-        }
+        };
         $.post('/portal/add_portal_comment', data)
             .done(setTimeout(getComments, 500))
             .then($("#add-comment-input").val(""));
@@ -153,13 +153,13 @@ function renderEditCommentSection(clickedLink, commentId){
         <div class="mb-2">
             <button onclick="getComments(${currentPage})" class="btn custom-btn btn-outline-secondary">Cancel</button>
             <button onclick="submitEditedComment(${commentId})" class="custom-btn btn btn-dark">Edit Comment</button>
-        </div>`
+        </div>`;
     commentArea.html(TextAreaHtml);
 }
 
 function submitEditedComment(commentId){
-    const editedComment = $("#edit-comment-input").val()
-    const postType = $('#post-type').text()
+    const editedComment = $("#edit-comment-input").val();
+    const postType = $('#post-type').text();
     if (editedComment == ""){
         $("#edit-comment-errors").text('You can not submit an empty comment!');
         return;
@@ -170,7 +170,7 @@ function submitEditedComment(commentId){
             'comment_id': parseInt(commentId),
             'edited_comment': editedComment,
             'csrfmiddlewaretoken': $("input[name='csrfmiddlewaretoken']").val(),
-        }
+        };
         $.post('/portal/edit_portal_comment', data)
             .done(setTimeout(getComments, 500));
     }
@@ -186,18 +186,18 @@ function renderDeleteButton(clickedLink, commentId){
             <button onclick="getComments(${currentPage})" class="btn custom-btn btn-outline-secondary">Cancel</button>
             <button onclick="deleteComment(${commentId})" class="btn custom-btn btn-outline-danger">Delete</button>
         </div>
-        `
+        `;
     
     editAndDeleteRow.html(confirmDeleteHtml);
 }
 
 function deleteComment(commentId){
-    const postType = $('#post-type').text()
+    const postType = $('#post-type').text();
     const data = {
         'post_type': postType,
         'comment_id': parseInt(commentId),
         'csrfmiddlewaretoken': $("input[name='csrfmiddlewaretoken']").val(),
-    }
+    };
     $.post('/portal/delete_portal_comment', data)
         .done(setTimeout(getComments, 500));
 }

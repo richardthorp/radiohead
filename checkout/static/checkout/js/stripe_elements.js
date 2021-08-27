@@ -2,20 +2,10 @@
 // https://stripe.com/docs/payments/accept-a-payment?platform=web&ui=elements
 
 var stripe_public_key = $("#id_stripe_public_key").text().slice(1, -1);
-var stripe = Stripe(stripe_public_key)
+var stripe = Stripe(stripe_public_key);
 var elements = stripe.elements();
-// var style = {
-//     base: {
-//       color: "#32325d",
-//     }
-//   };
 
-var style = {
-    base: {},
-    invalid: {}
-};
-
-var card = elements.create("card"); // ADD STYLE ELEMENTS AS OBJECT HERE '{ style: style }'
+var card = elements.create("card"); 
 card.mount("#card-element");
 
 // Listen to change events on the card Element and display any errors in the
@@ -110,5 +100,5 @@ form.addEventListener('submit', function (ev) {
     }).fail(function(){
         // Reload the page to display error message
         location.reload();
-    })
+    });
 });
