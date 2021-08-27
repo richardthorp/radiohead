@@ -18,10 +18,10 @@
             <a href="{% url 'profile' %}"><i class="fas fa-backward"></i> Back to Profile</a>
             <form action="{% url 'profile' %}" method="POST" id="update-card-form">
                 {% csrf_token %}
-                    <legend class="header-font">Payment Details</legend>
-                    <div id="card-element" class="form-control"></div>
-                    <p id="card-errors" class="text-danger" role="alert"></p>
-                    <input type="hidden" value="{{ client_secret }}" name="client_secret">
+                <legend class="header-font">Payment Details</legend>
+                <div id="card-element" class="form-control"></div>
+                <p id="card-errors" class="text-danger" role="alert"></p>
+                <input type="hidden" value="{{ client_secret }}" name="client_secret">
                 <button id="update-button" class="btn btn-dark custom-btn" type="submit">Update</button>
             </form>
         </div>

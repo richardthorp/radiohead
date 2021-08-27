@@ -74,12 +74,12 @@
                     <p class="mb-1">Subtotal: £ {{ total }}</p>
                     <p class="mb-1">Delivery: £ {{ delivery_cost }}</p>
                     {% if delivery_shortfall > 0 %}
-                    <p class="mb-2 small-text text-danger">Spend another 
-                    £{{ delivery_shortfall }} to get free postage</p>
+                    <p class="mb-2 small-text text-danger">Spend another
+                        £{{ delivery_shortfall }} to get free postage</p>
                     {% endif %}
                     <p class=" font-weight-bold grand-total text-left ml-md-0 mb-3">Total: £ {{ grand_total }}</p>
                     <a href="{% url 'view_bag' %}" class="btn btn-dark custom-btn mb-3"><i
-                        class="fas fa-backward mr-2"></i>Adjust Bag</a>
+                            class="fas fa-backward mr-2"></i>Adjust Bag</a>
                     <hr class="d-md-none">
                 </div>
             </div>
@@ -87,9 +87,10 @@
         <div class="col-12 col-md-8">
             <!-- CHECKOUT FORM -->
             {% if not user.is_authenticated %}
-            <p><a href="{% url 'account_login' %}?next={% url 'checkout' %}">Sign in</a> or 
+            <p><a href="{% url 'account_login' %}?next={% url 'checkout' %}">Sign in</a> or
                 <a href="{% url 'account_signup' %}?next={% url 'checkout' %}">register</a> to save
-                your details for a quicker checkout.</p>
+                your details for a quicker checkout.
+            </p>
             {% endif %}
             <form action="{% url 'checkout' %}" method="POST" id="payment-form" data-secret="{{ client_secret }}">
                 {% csrf_token %}
@@ -123,9 +124,7 @@
             </form>
         </div>
     </div>
-
 </div>
-
 {% endblock %}
 {% block postloadjs %}
 {{ block.super }}

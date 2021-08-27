@@ -2,7 +2,6 @@
 {% load static %}
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'media_app/css/media_app.css' %}">
-
 {% endblock %}
 {% block content%}
 <div class="container content-container border">
@@ -10,25 +9,26 @@
     <p class="text-center text-muted">Click on an album to view singles</p>
     <hr>
     {% if user.is_staff %}
+    <!-- ADMIN SECTION -->
     <div class="row">
         <div class="col-12 custom-border p-2 mb-5 text-center">
             <h5 class="header-font">Admin</h5>
-            <p class="text-center my-3"><strong>Please note:</strong> To add a new single, you must first add the album and then 
-                click on an album on this page.</p>
-                <a href="{% url 'add_product' 'album' %}" class="btn custom-btn btn-outline-dark my-2">Add album</a>
+            <p class="text-center my-3"><strong>Please note:</strong> To add a new single, you must first add the album
+                and then click on an album on this page.</p>
+            <a href="{% url 'add_product' 'album' %}" class="btn custom-btn btn-outline-dark my-2">Add album</a>
         </div>
     </div>
     {% endif %}
     <div class="row">
         {% for album in albums %}
+        <!-- ALBUMS -->
         <div class="col-12 col-md-6 col-lg-4">
             <h6 class="album-names">{{ album.title }} <span class="text-muted ml-1">({{ album.year }})</span></h6>
             <a href="{% url 'album_singles' album.slug %}">
-                <img src="{{ album.image.url }}" alt="The artwork for the album {{ album.title }}"
-                    class="w-95">
+                <img src="{{ album.image.url }}" alt="The artwork for the album {{ album.title }}" class="w-95">
             </a>
         </div>
-        <!-- HR FOR LOOP LOGIC MODIFIED FROM BOUTIQUE ADO PROJECT - CREDIT -->
+        <!-- HR FOR LOOP LOGIC MODIFIED FROM BOUTIQUE ADO PROJECT- CREDIT - Chris Zielinski -->
         {% if forloop.counter|divisibleby:1 %}
         <div class="col-12 d-md-none mb-5">
             <hr>

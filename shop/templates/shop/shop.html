@@ -2,9 +2,7 @@
 {% load static %}
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'shop/css/shop.css' %}">
-
 {% endblock %}
-
 {% block content%}
 <div class="container content-container border">
     <h1 class="text-center header-font page-header">SHOP</h1>
@@ -16,20 +14,24 @@
             <h5 class="header-font text-center">Admin</h5>
             <p class="text-center">Click on an album or product to edit or delete.</p>
             <div class="d-flex justify-content-center">
-                <a href="{% url 'add_product' 'album' %}" class="btn custom-btn btn-outline-dark mr-2 my-2">Add
-                    album</a>
-                <a href="{% url 'add_product' 'product' %}" class="btn custom-btn btn-outline-dark ml-2 my-2">Add
-                    product</a>
+                <a href="{% url 'add_product' 'album' %}" class="btn custom-btn btn-outline-dark mr-2 my-2">
+                    Add album</a>
+                <a href="{% url 'add_product' 'product' %}" class="btn custom-btn btn-outline-dark ml-2 my-2">
+                    Add product</a>
             </div>
         </div>
     </div>
     {% endif %}
     <form action="{% url 'shop' %}" method="POST" class="d-flex justify-content-center sort-by-form mb-3 mt-2">
         {% csrf_token %}
-        <input type="submit" id="all" name="filter" value="all" class="btn custom-btn btn-outline-dark {% if filter == 'all' %} active {% endif %}">
-        <input type="submit" id="music" name="filter" value="music" class="btn custom-btn btn-outline-dark {% if filter == 'music' %} active {% endif %}">
-        <input type="submit" id="clothing" name="filter" value="clothing" class="btn custom-btn btn-outline-dark {% if filter == 'clothing' %} active {% endif %}">
-        <input type="submit" id="other" name="filter" value="other" class="btn custom-btn btn-outline-dark {% if filter == 'other' %} active {% endif %}">
+        <input type="submit" id="all" name="filter" value="all"
+            class="btn custom-btn btn-outline-dark {% if filter == 'all' %} active {% endif %}">
+        <input type="submit" id="music" name="filter" value="music"
+            class="btn custom-btn btn-outline-dark {% if filter == 'music' %} active {% endif %}">
+        <input type="submit" id="clothing" name="filter" value="clothing"
+            class="btn custom-btn btn-outline-dark {% if filter == 'clothing' %} active {% endif %}">
+        <input type="submit" id="other" name="filter" value="other"
+            class="btn custom-btn btn-outline-dark {% if filter == 'other' %} active {% endif %}">
     </form>
     <div class="row">
         {% for item in items %}
@@ -53,7 +55,7 @@
             </a>
         </div>
         {% endif %}
-        <!-- HR FOR LOOP LOGIC MODIFIED FROM BOUTIQUE ADO PROJECT - CREDIT -->
+        <!-- HR FOR LOOP LOGIC MODIFIED FROM BOUTIQUE ADO PROJECT- CREDIT - Chris Zielinski -->
         {% if not forloop.last %}
         {% if forloop.counter|divisibleby:1 %}
         <div class="col-12 d-sm-none mb-2">

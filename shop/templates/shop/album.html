@@ -1,38 +1,37 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'shop/css/shop.css' %}">
-
 {% endblock %}
-
 {% block content%}
 <div class="container content-container border">
     <h1 class="text-center header-font page-header">{{ album.title }}</h1>
     <a href="{% url 'shop' %}"><i class="fas fa-backward"></i> Back to shop</a>
     {% if user.is_staff %}
+    <!-- ADMIN SECTION -->
     <div class="row">
         <div class="col-12 custom-border p-2 my-3">
             <h6 class="header-font text-center">Would you like to edit or delete this product?</h6>
             <div class="d-flex justify-content-center">
                 <a href="{% url 'edit_product' 'album' album.slug %}" class="btn btn-dark custom-btn mr-2">
                     Edit Product</a>
-                <!-- Button trigger modal -->
+                <!-- Modal copied from https://getbootstrap.com/docs/4.5/components/modal/ -->               
+                <!-- Delete product modal trigger -->
                 <button type="button" class="btn custom-btn btn-danger btn-sm custom-btn ml-2" data-toggle="modal"
                     data-target="#delete-product-modal">
-                    Delete Product
-                </button>
+                    Delete Product</button>
             </div>
         </div>
     </div>
-        <!-- Delete Product Modal -->
-        <div class="modal fade" id="delete-product-modal" tabindex="-1">
+    <!-- Delete Product Modal -->
+    <div class="modal fade" id="delete-product-modal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-body text-center">
                     <p class="mb-0">Are you sure you want to delete<br>
-                    <strong>{{ album.title }}</strong><br>
-                    from the database? This action cannot be undone!</p>
+                        <strong>{{ album.title }}</strong><br>
+                        from the database? This action cannot be undone!
+                    </p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn custom-btn btn-sm btn-dark custom-btn"
@@ -49,7 +48,6 @@
             <img src="{{ album.image.url }}" alt="The artwork for the album {{ album.title }}" class="w-100 mx-auto">
         </div>
         <div class="col-12 col-lg-6">
-            <!-- <p class="mb-1 mt-2 mt-lg-0">Format:</p> -->
             <form action="{% url 'add_to_bag' album.slug %}" method="POST">
                 {% csrf_token %}
                 <label for="format" class="shop-label mt-3 mt-lg-0">Choose Format:</label>
@@ -70,7 +68,5 @@
             {% endfor %}
         </div>
     </div>
-
-
 </div>
 {% endblock %}

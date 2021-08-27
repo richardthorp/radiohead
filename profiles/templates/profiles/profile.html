@@ -27,23 +27,25 @@
             <!-- The user has cancelled their subscription, render re-join link -->
             <p>Your Portal subscription is due to expire on {{ subscription_details.end_date }}.<br>
                 Would you like to re-activate your subscription?</p>
-            <p class="small-text text-danger  mb-1">By clicking the button below you agree to be charged 
+            <p class="small-text text-danger  mb-1">By clicking the button below you agree to be charged
                 £{{ subscription_details.portal_price }} on a monthly basis until cancellation.</p>
-            <a href="{% url 'reactivate_subscription' profile.subscription_id %}" class="btn btn-dark custom-btn">Reactivate Subscription</a>
+            <a href="{% url 'reactivate_subscription' profile.subscription_id %}"
+                class="btn btn-dark custom-btn">Reactivate Subscription</a>
             {% else %}
+            <!-- Active subscription details -->
             <p>Your Portal subscription is active. Your renewal date is on {{ subscription_details.end_date }}.<br>
                 On this day your card will be charged £{{ subscription_details.portal_price }}</p>
+            <!-- Card details -->
             <h6 class="header-font">Card Details:</h6>
-            <p class="">
-                Last 4 digits: {{ default_payment_details.last_4 }}<br>
-                Expires: {{ default_payment_details.exp_month }}/{{ default_payment_details.exp_year }}<br>
-                <a href="{% url 'update_payment_card' %}" class="btn btn-dark custom-btn mt-3 mr-3">
-                    Change Payment Card</a>
-                <button type="button" class="btn custom-btn btn-danger btn-sm custom-btn mt-3" data-toggle="modal"
-                    data-target="#cancel-subsciption-modal" id="cancel-subsciption">
-                    Cancel Subscription
-                </button>
-            </p>
+            <p>Last 4 digits: {{ default_payment_details.last_4 }}<br>
+                Expires: {{ default_payment_details.exp_month }}/{{ default_payment_details.exp_year }}</p>
+            <a href="{% url 'update_payment_card' %}" class="btn btn-dark custom-btn mr-3">
+                Change Payment Card</a>
+            <!-- Modal copied from https://getbootstrap.com/docs/4.5/components/modal/ -->
+            <!-- Cancel subscription modal trigger -->
+            <button type="button" class="btn custom-btn btn-danger btn-sm custom-btn mt-3" data-toggle="modal"
+                data-target="#cancel-subsciption-modal" id="cancel-subsciption">
+                Cancel Subscription</button>
             <!-- Cancel Subscription Modal -->
             <div class="modal fade" id="cancel-subsciption-modal" tabindex="-1" role="dialog"
                 aria-labelledby="cancel-subsciption" aria-hidden="true">
@@ -64,15 +66,14 @@
             {% endif %}
             {% else %}
             <!-- User does not have an active subscription -->
-            <p>
-                You do not currrently have a Portal subscription.<br>
-                <a href="{% url 'portal_info' %}">Click here to sign up!</a>
-            </p>
+            <p>You do not currrently have a Portal subscription.<br>
+                <a href="{% url 'portal_info' %}">Click here to sign up!</a></p>
             {% endif %}
             {% endif %}
             <hr>
             <h3 class="header-font">Orders</h3>
             {% if orders %}
+            <!-- Order History -->
             <p class="text-muted text-center">Click on an order to see order summary.</p>
             <table class="table table-hover table-responsive-stack">
                 <thead>
@@ -118,20 +119,19 @@
         </div>
     </div>
 </div>
-
 {% endblock %}
 {% block postloadjs %}
 {{ block.super }}
 <script src="{% static 'profiles/js/profiles.js' %}"></script>
-<!-- File name renderer modified from Boutique Ado project -->
+<!-- File name renderer modified from Boutique Ado project- CREDIT - Chris Zielinski -->
 <script>
-    $("#image").change(function(){
+    $("#image").change(function () {
         let file = $(this)[0].files[0];
         $(this).siblings("p").children("strong").first().text(`Image will be set to ${file.name}`);
     });
 </script>
 <!-- Add 'profile-pic-large' class to image only in profile page file input widget -->
 <script>
-$("#profile-pic").addClass('profile-pic-large')
+    $("#profile-pic").addClass('profile-pic-large')
 </script>
 {% endblock %}

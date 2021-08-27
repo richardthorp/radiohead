@@ -10,16 +10,18 @@
             <div class="portal-info-content h-100 d-flex flex-column justify-content-around p-3">
                 <h1 class="header-font page-header">Enter the Portal</h1>
                 <p>Subscribe to Radiohead's Portal for only £9.99 per month to be the first to hear new music, see new
-                    videos, read exclusive
-                    interviews with the band and get a 10% discount on all items in the store</p>
+                    videos, read exclusive interviews with the band and join the conversation with fellow Radiohead fans.
+                </p>
                 {% if user.is_authenticated %}
                 <a href="{% url 'create_portal_customer' %}"
                     class="btn btn-outline-light custom-btn p-3 d-block">Subscribe Now</a>
                 {% else %}
                 <div class="border border-white rounded px-1 py-2">
                     <p class="small-text">You must be registered and logged in to subscribe</p>
-                    <a href="{% url 'account_login' %}?next={% url 'create_portal_customer' %}" class="btn btn-light custom-btn mr-1">Login</a>
-                    <a href="{% url 'account_signup' %}?next={% url 'create_portal_customer' %}" class="btn btn-light custom-btn ml-1">Register</a>
+                    <a href="{% url 'account_login' %}?next={% url 'create_portal_customer' %}"
+                        class="btn btn-light custom-btn mr-1">Login</a>
+                    <a href="{% url 'account_signup' %}?next={% url 'create_portal_customer' %}"
+                        class="btn btn-light custom-btn ml-1">Register</a>
                 </div>
                 {% endif %}
             </div>

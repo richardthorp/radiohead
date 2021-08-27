@@ -3,115 +3,124 @@
 {% block content %}
 <div class="container content-container border">
     <h1 class="header-font page-header text-center">View Bag</h1>
-    {% if num_of_items < 1 %} <div class="text-center">
+    {% if num_of_items < 1 %}
+    <div class="text-center">
         <p>There is nothing in your bag</p>
         <a href="{% url 'shop' %}" class="btn btn-dark custom-btn">Go to shop</a>
-</div>
-{% else %}
-<a href="{% url 'shop' %}"><i class="fas fa-backward"></i> Back to shop</a>
-{% for item in bag_items %}
-<div class="row mt-3">
-    <div class="col-12 col-sm-4">
-        <img src="{{ item.product.image.url }}" class="bag-image mb-2"
-            alt="A picture of the {% if item.type == 'album' %}{{ item.product.title }} cover{% else %}{{ item.product.name }}{% endif %}">
     </div>
-    <div class="col-12 col-sm-8">
-        {% if item.type == 'album' %}
-        <!-- ALBUM INFO -->
-        <a href="{% url 'shop_detail' 'album' item.product.slug %}" class="text-dark" title="Click to view item in shop">
-            <h3 class="header-font">{{ item.product.title }}</h3>
-        </a>
-        {% if item.cd_count %}
-        <form action="{% url 'update_bag' 'cd' item.product.slug %}" method="POST" class="d-inline">
-            {% csrf_token %}
-            <label for="cd_quantity">CD Quantity:</label>
-            <input id="cd_quantity" name="quantity" type="number" min="1" max="99" value="{{ item.cd_count }}">
-            <button type="submit" class="btn custom-btn btn-dark btn-sm">UPDATE</button>
-        </form>
-        {% include 'includes/cd_modal.html' %}
-        <p class="mt-3">Item Price: £{{ item.product.cd_price }}</p>
-        {% endif %}
-        {% if item.vinyl_count %}
-        <form action="{% url 'update_bag' 'vinyl' item.product.slug %}" method="POST" class="d-inline">
-            {% csrf_token %}
-            <label for="vinyl_quantity">Vinyl Quantity:</label>
-            <input id="vinyl_quantity" name="quantity" type="number" min="1" max="99" value="{{ item.vinyl_count }}">
-            <button type="submit" class="btn custom-btn btn-dark btn-sm">UPDATE</button>
-        </form>
-        {% include 'includes/vinyl_modal.html' %}
-        <p class="mt-3">Item Price: £{{ item.product.vinyl_price }}</p>
-        {% endif %}
-        {% endif %}
-        {% if item.type == 'sized' %}
-        <!-- SIZED ITEM INFO -->
-        <a href="{% url 'shop_detail' 'product' item.product.slug %}" class="text-dark" title="Click to view item in shop">
-            <h3 class="header-font">{{ item.product.name }}</h3>
-        </a>
-        {% if item.small_count %}
-        <form action="{% url 'update_bag' 'S' item.product.slug %}" method="POST" class="d-inline">
-            {% csrf_token %}
-            <label for="small_quantity">Small Quantity:</label>
-            <input id="small_quantity" name="quantity" type="number" min="1" max="99" value="{{ item.small_count }}">
-            <button type="submit" class="btn custom-btn btn-dark btn-sm">UPDATE</button>
-        </form>
-        {% include 'includes/size_small_modal.html' %}
-        <p class="mt-3">Item Price: £{{ item.product.price }}</p>
-        {% endif %}
-        {% if item.medium_count %}
-        <form action="{% url 'update_bag' 'M' item.product.slug %}" method="POST" class="d-inline">
-            {% csrf_token %}
-            <label for="medium_quantity">Medium Quantity:</label>
-            <input id="medium_quantity" name="quantity" type="number" min="1" max="99" value="{{ item.medium_count }}">
-            <button type="submit" class="btn custom-btn btn-dark btn-sm">UPDATE</button>
-        </form>
-        {% include 'includes/size_medium_modal.html' %}
-        <p class="mt-3">Item Price: £{{ item.product.price }}</p>
-        {% endif %}
-        {% if item.large_count %}
-        <form action="{% url 'update_bag' 'L' item.product.slug %}" method="POST" class="d-inline">
-            {% csrf_token %}
-            <label for="large_quantity">Large Quantity:</label>
-            <input id="large_quantity" name="quantity" type="number" min="1" max="99" value="{{ item.large_count }}">
-            <button type="submit" class="btn custom-btn btn-dark btn-sm">UPDATE</button>
-        </form>
-        {% include 'includes/size_large_modal.html' %}
-        <p class="mt-3">Item Price: £{{ item.product.price }}</p>
-        {% endif %}
-        {% endif %}
-        {% if not item.type %}
-        <!-- OTHER PRODUCT TYPE - NO FORMAT OR SIZES -->
-        <a href="{% url 'shop_detail' 'product' item.product.slug %}" class="text-dark" title="Click to view item in shop">
-            <h3 class="header-font">{{ item.product.name }}</h3>
-        </a>
-        <form action="{% url 'update_bag' 'other' item.product.slug %}" method="POST" class="d-inline">
-            {% csrf_token %}
-            <label for="quantity">Quantity:</label>
-            <input id="quantity" name="quantity" type="number" min="1" max="99" value="{{ item.quantity }}">
-            <button type="submit" class="btn custom-btn btn-dark btn-sm">UPDATE</button>
-        </form>
-        {% include 'includes/other_modal.html' %}
-        <p class="mt-3">Item Price: £{{ item.product.price }}</p>
-        {% endif %}
-        <!-- SUBTOTAL FOR EACH ITEM -->
-        <p class="mt-2 font-weight-bold">Item Subtotal: £{{ item.item_total }}</p>
+    {% else %}
+    <a href="{% url 'shop' %}"><i class="fas fa-backward"></i> Back to shop</a>
+    {% for item in bag_items %}
+    <div class="row mt-3">
+        <div class="col-12 col-sm-4">
+            <img src="{{ item.product.image.url }}" class="bag-image mb-2"
+                alt="A picture of the {% if item.type == 'album' %}{{ item.product.title }} cover{% else %}{{ item.product.name }}{% endif %}">
+        </div>
+        <div class="col-12 col-sm-8">
+            {% if item.type == 'album' %}
+            <!-- ALBUM INFO -->
+            <a href="{% url 'shop_detail' 'album' item.product.slug %}" class="text-dark"
+                title="Click to view item in shop">
+                <h3 class="header-font">{{ item.product.title }}</h3>
+            </a>
+            {% if item.cd_count %}
+            <!-- CDs -->
+            <form action="{% url 'update_bag' 'cd' item.product.slug %}" method="POST" class="d-inline">
+                {% csrf_token %}
+                <label for="cd_quantity">CD Quantity:</label>
+                <input id="cd_quantity" name="quantity" type="number" min="1" max="99" value="{{ item.cd_count }}">
+                <button type="submit" class="btn custom-btn btn-dark btn-sm">UPDATE</button>
+            </form>
+            {% include 'includes/cd_modal.html' %}
+            <p class="mt-3">Item Price: £{{ item.product.cd_price }}</p>
+            {% endif %}
+            {% if item.vinyl_count %}
+            <!-- Vinyl -->
+            <form action="{% url 'update_bag' 'vinyl' item.product.slug %}" method="POST" class="d-inline">
+                {% csrf_token %}
+                <label for="vinyl_quantity">Vinyl Quantity:</label>
+                <input id="vinyl_quantity" name="quantity" type="number" min="1" max="99" value="{{ item.vinyl_count }}">
+                <button type="submit" class="btn custom-btn btn-dark btn-sm">UPDATE</button>
+            </form>
+            {% include 'includes/vinyl_modal.html' %}
+            <p class="mt-3">Item Price: £{{ item.product.vinyl_price }}</p>
+            {% endif %}
+            {% endif %}
+            {% if item.type == 'sized' %}
+            <!-- SIZED ITEM INFO -->
+            <a href="{% url 'shop_detail' 'product' item.product.slug %}" class="text-dark"
+                title="Click to view item in shop">
+                <h3 class="header-font">{{ item.product.name }}</h3>
+            </a>
+            {% if item.small_count %}
+            <!-- Small items -->
+            <form action="{% url 'update_bag' 'S' item.product.slug %}" method="POST" class="d-inline">
+                {% csrf_token %}
+                <label for="small_quantity">Small Quantity:</label>
+                <input id="small_quantity" name="quantity" type="number" min="1" max="99" value="{{ item.small_count }}">
+                <button type="submit" class="btn custom-btn btn-dark btn-sm">UPDATE</button>
+            </form>
+            {% include 'includes/size_small_modal.html' %}
+            <p class="mt-3">Item Price: £{{ item.product.price }}</p>
+            {% endif %}
+            {% if item.medium_count %}
+            <!-- Medium items -->
+            <form action="{% url 'update_bag' 'M' item.product.slug %}" method="POST" class="d-inline">
+                {% csrf_token %}
+                <label for="medium_quantity">Medium Quantity:</label>
+                <input id="medium_quantity" name="quantity" type="number" min="1" max="99" value="{{ item.medium_count }}">
+                <button type="submit" class="btn custom-btn btn-dark btn-sm">UPDATE</button>
+            </form>
+            {% include 'includes/size_medium_modal.html' %}
+            <p class="mt-3">Item Price: £{{ item.product.price }}</p>
+            {% endif %}
+            {% if item.large_count %}
+            <!-- Large items -->
+            <form action="{% url 'update_bag' 'L' item.product.slug %}" method="POST" class="d-inline">
+                {% csrf_token %}
+                <label for="large_quantity">Large Quantity:</label>
+                <input id="large_quantity" name="quantity" type="number" min="1" max="99" value="{{ item.large_count }}">
+                <button type="submit" class="btn custom-btn btn-dark btn-sm">UPDATE</button>
+            </form>
+            {% include 'includes/size_large_modal.html' %}
+            <p class="mt-3">Item Price: £{{ item.product.price }}</p>
+            {% endif %}
+            {% endif %}
+            {% if not item.type %}
+            <!-- OTHER PRODUCT TYPE - NO FORMAT OR SIZES -->
+            <a href="{% url 'shop_detail' 'product' item.product.slug %}" class="text-dark"
+                title="Click to view item in shop">
+                <h3 class="header-font">{{ item.product.name }}</h3>
+            </a>
+            <form action="{% url 'update_bag' 'other' item.product.slug %}" method="POST" class="d-inline">
+                {% csrf_token %}
+                <label for="quantity">Quantity:</label>
+                <input id="quantity" name="quantity" type="number" min="1" max="99" value="{{ item.quantity }}">
+                <button type="submit" class="btn custom-btn btn-dark btn-sm">UPDATE</button>
+            </form>
+            {% include 'includes/other_modal.html' %}
+            <p class="mt-3">Item Price: £{{ item.product.price }}</p>
+            {% endif %}
+            <!-- SUBTOTAL FOR EACH ITEM -->
+            <p class="mt-2 font-weight-bold">Item Subtotal: £{{ item.item_total }}</p>
+        </div>
     </div>
-</div>
-<hr>
-{% endfor %}
-<div class="row">
-    <div class="col-12 text-right">
-        <h2 class="header-font">Total</h2>
-        <p class="mb-1">Subtotal: £ {{ total }}</p>
-        <p class="mb-2">Delivery: £ {{ delivery_cost }}</p>
-        {% if delivery_shortfall > 0 %}
-        <p class="mb-2 small-text text-danger">Spend another £{{ delivery_shortfall }} to get
-            free postage</p>
-        {% endif %}
-        <p class="font-weight-bold grand-total">Total: £ {{ grand_total }}</p>
-        <a href="{% url 'checkout' %}" class="btn btn-dark custom-btn p-1 mt-md-2 mt-lg-3">Go To Checkout</a>
-        <a href="{% url 'shop' %}" class="d-block mt-3"><i class="fas fa-backward"></i> Or back to shop</a>
+    <hr>
+    {% endfor %}
+    <div class="row">
+        <div class="col-12 text-right">
+            <h2 class="header-font">Total</h2>
+            <p class="mb-1">Subtotal: £ {{ total }}</p>
+            <p class="mb-2">Delivery: £ {{ delivery_cost }}</p>
+            {% if delivery_shortfall > 0 %}
+            <p class="mb-2 small-text text-danger">Spend another £{{ delivery_shortfall }} to get
+                free postage</p>
+            {% endif %}
+            <p class="font-weight-bold grand-total">Total: £ {{ grand_total }}</p>
+            <a href="{% url 'checkout' %}" class="btn btn-dark custom-btn p-1 mt-md-2 mt-lg-3">Go To Checkout</a>
+            <a href="{% url 'shop' %}" class="d-block mt-3"><i class="fas fa-backward"></i> Or back to shop</a>
+        </div>
     </div>
-</div>
-{% endif %}
+    {% endif %}
 </div>
 {% endblock %}

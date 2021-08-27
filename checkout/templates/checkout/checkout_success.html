@@ -16,10 +16,12 @@
     {% else %}
     <!-- User has just completed order -->
     <h1 class="header-font page-header text-center">Order Confirmed</h1>
-    <p class="text-center order-confirmation-p">Thank you for your order! A confirmation email will be sent to 
-            <strong>{{ order.email }}</strong></p>
+    <p class="text-center order-confirmation-p">Thank you for your order! A confirmation email will be sent to
+        <strong>{{ order.email }}</strong>
+    </p>
     {% endif %}
     <div class="row">
+        <!-- ORDER DETAILS -->
         <div class="col-12 col-md-6 confirmation-page-border">
             <h5 class="header-font">Order Details</h5>
             <p class="text-break"><strong>Order Number: </strong>{{ order.order_number }}</p>
@@ -55,6 +57,7 @@
             {% endfor %}
         </div>
         <hr class="d-md-none">
+        <!-- PAYMENT DETAILS -->
         <div class="col-12 col-md-6">
             <div class="row">
                 <div class="col-12">
@@ -64,47 +67,46 @@
                     <p class="font-weight-bold grand-total ml-0">Total: £ {{ order.grand_total }}</p>
                 </div>
             </div>
-        <hr class="d-md-none">
+            <hr class="d-md-none">
             <div class="row">
+                <!-- DELIVERY DETAILS -->
                 <div class="col-12 mt-md-3">
                     <h5 class="header-font">Delivery Details</h5>
-                    <p>
-                        <div class="row mb-1 mb-sm-2">
-                            <div class="col-3">
-                                <strong>Name:</strong>
-                            </div>
-                            <div class="col-9">
-                                {{ order.name }}
-                            </div>
+                    <div class="row mb-1 mb-sm-2">
+                        <div class="col-3">
+                            <strong>Name:</strong>
                         </div>
-                        <div class="row my-1 my-sm-2">
-                            <div class="col-3">
-                                <strong>Telephone:</strong>
-                            </div>
-                            <div class="col-9">
-                                {{ order.phone_number }}
-                            </div>
+                        <div class="col-9">
+                            {{ order.name }}
                         </div>
-                        <div class="row my-1 my-sm-2">
-                            <div class="col-3">
-                                <strong>Address: </strong>
-                            </div>
-                            <div class="col-9">
-                                {{ order.address_line1 }}<br>
-                                {% if order.address_line2 %}
-                                    {{ order.address_line2 }}<br>
-                                {% endif %}
-                                {{ order.town_or_city }}<br>
-                                {% if order.county %}
-                                    {{ order.county }}<br>
-                                {% endif %}
-                                {% if order.postcode %}
-                                    {{ order.postcode }}<br>
-                                {% endif %}
-                                {{ order.country }}<br>
-                            </div>
+                    </div>
+                    <div class="row my-1 my-sm-2">
+                        <div class="col-3">
+                            <strong>Telephone:</strong>
                         </div>
-                    </p>
+                        <div class="col-9">
+                            {{ order.phone_number }}
+                        </div>
+                    </div>
+                    <div class="row my-1 my-sm-2">
+                        <div class="col-3">
+                            <strong>Address: </strong>
+                        </div>
+                        <div class="col-9">
+                            {{ order.address_line1 }}<br>
+                            {% if order.address_line2 %}
+                            {{ order.address_line2 }}<br>
+                            {% endif %}
+                            {{ order.town_or_city }}<br>
+                            {% if order.county %}
+                            {{ order.county }}<br>
+                            {% endif %}
+                            {% if order.postcode %}
+                            {{ order.postcode }}<br>
+                            {% endif %}
+                            {{ order.country }}<br>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -112,7 +114,8 @@
     <div class="row mt-3 mt-md-5">
         <div class="col-12 text-center">
             {% if order_history %}
-            <a href="{% url 'profile' %}" class="btn btn-dark custom-btn"><i class="fas fa-backward"></i> Back To Profile</a>
+            <a href="{% url 'profile' %}" class="btn btn-dark custom-btn"><i class="fas fa-backward"></i> Back To
+                Profile</a>
             {% else %}
             <a href="{% url 'shop' %}" class="btn btn-dark custom-btn"><i class="fas fa-backward"></i> Back To Shop</a>
             {% endif %}

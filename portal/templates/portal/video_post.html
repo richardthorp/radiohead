@@ -3,17 +3,17 @@
 {% block content %}
 <div class="container content-container">
     {% if user.is_staff %}
+    <!-- ADMIN SECTION -->
     <div class="row">
         <div class="col-12 custom-border p-2 my-3">
             <h6 class="header-font text-center">Would you like to edit or delete this post?</h6>
             <div class="d-flex justify-content-center">
                 <a href="{% url 'edit_portal_post' 'video_post' post.id %}" class="btn btn-dark custom-btn mr-2">
                     Edit Post</a>
-                <!-- Button trigger modal -->
+                <!-- Modal copied from https://getbootstrap.com/docs/4.5/components/modal/ -->
+                <!-- Delete post modal trigger -->
                 <button type="button" class="btn custom-btn btn-danger btn-sm custom-btn ml-2" data-toggle="modal"
-                    data-target="#delete-post-modal">
-                    Delete Post
-                </button>
+                    data-target="#delete-post-modal">Delete Post</button>
             </div>
         </div>
     </div>
@@ -22,7 +22,8 @@
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-body text-center">
-                    <p class="mb-0">Are you sure you want to delete this post from the database? This action cannot be undone!</p>
+                    <p class="mb-0">Are you sure you want to delete this post from the database? This action cannot be
+                        undone!</p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn custom-btn btn-sm btn-dark custom-btn"
@@ -46,7 +47,6 @@
             <p>Watch the video below:</p>
         </div>
     </div>
-
     <!-- VIDEO CONTENT -->
     <div class="row">
         <div class="col video-container pt-1 pt-sm-2 pt-md-3">
@@ -64,23 +64,24 @@
             {% if user.profile.image %}
             <img class="profile-pic" src="{{ user.profile.image.url }}" alt="{{ request.user }}'s profile image">
             {% else %}
-            <img class="profile-pic" src="{{ MEDIA_URL}}profile_pics/default_profile_pic.jpg" alt="Default profile image">
+            <img class="profile-pic" src="{{ MEDIA_URL}}profile_pics/default_profile_pic.jpg"
+                alt="Default profile image">
             {% endif %}
         </div>
         <div class="col-10 col-md-11">
             <textarea name="text" id="add-comment-input"></textarea>
             <p id="add-comment-errors" class="text-danger mb-1"></p>
-            <!-- pass the post-type to the onclick function so that the view function knows which post object to find -->
             <button onclick="addComment({{ post.id }}, {{ request.user.id }})"
-                class="btn custom-btn btn-outline-dark">Add
-                Comment</button>
+                class="btn custom-btn btn-outline-dark">Add Comment</button>
         </div>
     </div>
     {% else %}
+    <!-- User not signed in -->
     <div class="row">
         <div class="col-12 text-center">
-            <p><strong>You must be logged in to add a comment! <a href="{% url 'account_signup' %}">Click here to
-                        register</a> or <a href="{% url 'account_login' %}">sign in here.</a></strong></p>
+            <p><strong>You must be logged in to add a comment!
+                <a href="{% url 'account_signup' %}">Click here to register</a> or 
+                <a href="{% url 'account_login' %}">sign in here.</a></strong></p>
         </div>
     </div>
     {% endif %}

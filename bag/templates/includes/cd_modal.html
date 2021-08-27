@@ -1,20 +1,23 @@
-<!-- Button trigger modal -->
+<!-- Modal copied from https://getbootstrap.com/docs/4.5/components/modal/ -->
+<!-- CD modal trigger -->
 <button type="button" class="btn custom-btn btn-danger btn-sm custom-btn" data-toggle="modal"
     data-target="#remove-cd-modal-{{forloop.counter}}">
     REMOVE
 </button>
 
-<!-- Modal -->
+<!-- CD Modal -->
 <div class="modal fade" id="remove-cd-modal-{{forloop.counter}}" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-body text-center">
                 <p class="mb-0">Are you sure you want to remove<br>
-                <strong>{{ item.product.title }} CD</strong><br>
-                from your bag?</p>
+                    <strong>{{ item.product.title }} CD</strong><br>
+                    from your bag?
+                </p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn custom-btn btn-sm btn-dark custom-btn" data-dismiss="modal">BACK</button>
+                <button type="button" class="btn custom-btn btn-sm btn-dark custom-btn"
+                    data-dismiss="modal">BACK</button>
                 <a href="{% url 'remove_item' 'cd' item.product.slug %}"
                     class="btn custom-btn btn-sm btn-danger custom-btn">Remove</a>
             </div>

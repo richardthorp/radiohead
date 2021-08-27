@@ -14,6 +14,7 @@
             <div class="d-flex justify-content-center">
                 <a href="{% url 'edit_single' single.slug %}" class="btn btn-dark custom-btn mr-2">
                     Edit Single</a>
+                <!-- Modal copied from https://getbootstrap.com/docs/4.5/components/modal/ -->
                 <!-- Button trigger modal -->
                 <button type="button" class="btn custom-btn btn-danger btn-sm custom-btn ml-2" data-toggle="modal"
                     data-target="#delete-single-modal">
@@ -43,6 +44,7 @@
     </div>
     {% endif %}
     <div class="row">
+        <!-- Youtube iFrame -->
         <div class="col video-container pt-1 pt-sm-2 pt-md-3">
             <iframe id="iFrame" height="" class="w-100" src="{{ single.video_url }}" title="YouTube video player"
                 frameborder="0"
@@ -51,6 +53,7 @@
         </div>
     </div>
     <div class="row row-eq-height justify-content-center shop-spotify-links pt-3">
+        <!-- Album links -->
         <div class="col-6 col-sm-4">
             <a href="{% url 'shop_detail' 'album' single.album.slug %}">
                 <div class="custom-border text-center">
@@ -90,14 +93,12 @@
     {% else %}
     <div class="row">
         <div class="col-12 text-center">
-            <p>
-                <strong>You must be logged in to add a comment!
+            <p><strong>You must be logged in to add a comment!
                     <a href="{% url 'account_signup' %}?next=/media/single_content/{{single.slug}}">
-                        Click here to register</a> or 
-                        <a href="{% url 'account_login' %}?next=/media/single_content/{{single.slug}}">
+                        Click here to register</a> or
+                    <a href="{% url 'account_login' %}?next=/media/single_content/{{single.slug}}">
                         sign in here.
-                    </a>
-                </strong>
+                    </a></strong>
             </p>
         </div>
     </div>

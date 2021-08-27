@@ -2,7 +2,6 @@
 {% load static %}
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'media_app/css/media_app.css' %}">
-
 {% endblock %}
 {% block content%}
 <div class="container content-container border">
@@ -11,6 +10,7 @@
     <a href="{% url 'media' %}"><i class="fas fa-backward"></i> Back to Media</a>
     <hr>
     {% if user.is_staff %}
+    <!-- Admin Section -->
     <div class="row">
         <div class="col-12 custom-border p-2 my-3 text-center mb-5">
             <h5 class="header-font">Admin</h5>
@@ -20,39 +20,41 @@
     {% endif %}
     <div class="row">
         {% if singles %}
-            {% for single in singles %}
-            <div class="col-12 col-md-6 col-lg-4">
-                <h6 class="single-names">{{ single.title }}</h6>
-                <a href="{% url 'single_content' album.slug single.slug  %}">
-                    <img src="{{ single.image.url }}" alt="The artwork for the single {{ single.title }}"
-                        class="w-95">
-                </a>
-            </div>
-            <!-- HR FOR LOOP LOGIC MODIFIED FROM BOUTIQUE ADO PROJECT - CREDIT -->
-            {% if forloop.counter|divisibleby:1 %}
-            <div class="col-12 d-md-none mb-2">
-                <hr>
-            </div>
-            {% endif %}
-            {% if forloop.counter|divisibleby:2 %}
-            <div class="col-12 d-none d-md-block d-lg-none mb-2">
-                <hr>
-            </div>
-            {% endif %}
-            {% if forloop.counter|divisibleby:3 %}
-            <div class="col-12 d-none d-lg-block mb-2">
-                <hr>
-            </div>
-            {% endif %}
-            {% endfor %}
+        {% for single in singles %}
+        <!-- SINGLES -->
+        <div class="col-12 col-md-6 col-lg-4">
+            <h6 class="single-names">{{ single.title }}</h6>
+            <a href="{% url 'single_content' album.slug single.slug  %}">
+                <img src="{{ single.image.url }}" alt="The artwork for the single {{ single.title }}" class="w-95">
+            </a>
+        </div>
+        <!-- HR FOR LOOP LOGIC MODIFIED FROM BOUTIQUE ADO PROJECT - CREDIT - Chris Zielinski -->
+        {% if forloop.counter|divisibleby:1 %}
+        <div class="col-12 d-md-none mb-2">
+            <hr>
+        </div>
+        {% endif %}
+        {% if forloop.counter|divisibleby:2 %}
+        <div class="col-12 d-none d-md-block d-lg-none mb-2">
+            <hr>
+        </div>
+        {% endif %}
+        {% if forloop.counter|divisibleby:3 %}
+        <div class="col-12 d-none d-lg-block mb-2">
+            <hr>
+        </div>
+        {% endif %}
+        {% endfor %}
         {% else %}
         <div class="col-12">
+            <!-- AlBUM HAS NO SINGLES -->
             <h4 class="header-font text-center mb-3">This album doesn't have any singles!</h4>
             <p class="text-center"><a href="{% url 'media' %}">Click here to return to the Media page</a></p>
         </div>
         {% endif %}
     </div>
     <div class="row d-flex justify-content-center album-shop-link">
+        <!-- LINK TO ALBUM IN SHOP -->
         <a href="{% url 'shop_detail' 'album' album.slug %}">
             <div class="col-12 mt-3 text-center custom-border">
                 <i class="fas fa-shopping-cart icons py-3"></i>
@@ -61,6 +63,4 @@
         </a>
     </div>
 </div>
-
-
 {% endblock %}

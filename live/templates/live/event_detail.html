@@ -9,13 +9,16 @@
         </div>
     </div>
     <div class="row">
+        <!-- Event Details -->
         <div class="col-12 col-md-6 d-flex flex-column justify-content-center mb-3">
             <p><strong>Performing: </strong>{{ event_details.artists }}</p>
             <p><strong>Start Time: </strong>{{ event_details.event_time }}</p>
             <p><strong>Venue: </strong>{{ event_details.venue_name }}</p>
             <p><strong>City: </strong>{{ event_details.city }}</p>
-            <a href="{{ event_details.event_url }}" target="_blank" class="btn btn-large custom-btn btn-success p-2 w-50">Find Tickets</a>
+            <a href="{{ event_details.event_url }}" target="_blank"
+                class="btn btn-large custom-btn btn-success p-2 w-50">Find Tickets</a>
         </div>
+        <!-- MAP -->
         <div class="col-12 col-md-6">
             <div id="map"></div>
         </div>
@@ -25,21 +28,24 @@
     src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBSrxx0uqyDBXdJsJRMzRlOEwmqIXyG4tM&callback=initMap">
 </script>
 <script>
-// GOOGLE MAPS JS - MODIFIED FROM EXAMPLE ON https://developers.google.com/maps/documentation/javascript/adding-a-google-map
-// Initialize and add the map
-function initMap() {
-  // The location of the venue
-  const venue = { lat: {{ event_details.venue_lat }}, lng: {{ event_details.venue_lng }} };
-  // The map, centered at the venue
-  const map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 13,
-    center: venue,
-  });
-  // The marker, positioned at the venue
-  const marker = new google.maps.Marker({
-    position: venue,
-    map: map,
-  });
-}
+    // GOOGLE MAPS JS - MODIFIED FROM EXAMPLE ON https://developers.google.com/maps/documentation/javascript/adding-a-google-map
+    // Initialize and add the map
+    function initMap() {
+        // The location of the venue
+        const venue = { 
+            lat: {{ event_details.venue_lat }},
+            lng: {{ event_details.venue_lng }}
+        };
+        // The map, centered at the venue
+        const map = new google.maps.Map(document.getElementById("map"), {
+            zoom: 13,
+            center: venue,
+        });
+        // The marker, positioned at the venue
+        const marker = new google.maps.Marker({
+            position: venue,
+            map: map,
+        });
+    };
 </script>
 {% endblock %}

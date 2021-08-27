@@ -20,9 +20,11 @@
                 {% csrf_token %}
                 <legend class="header-font">Please enter your details</legend>
                 {% for field in form %}
-                    {% if field.name != "email" %}
-                        {{ field|as_crispy_field }}
-                    {% endif %}
+                <!-- Exclude email from form, as subscription functionality has to use the user model email address
+                    to link the subscription to the profile -->
+                {% if field.name != "email" %}
+                {{ field|as_crispy_field }}
+                {% endif %}
                 {% endfor %}
                 <label for="save_details" class="d-inline mr-3">Tick box to save your details.</label>
                 <input type="checkbox" id="save_details" name="save_details" checked>

@@ -4,6 +4,7 @@
 <div class="container content-container">
     <h1 class="text-center header-font page-header">Radiohead Portal</h1>
     {% if user.is_staff %}
+    <!-- ADMIN SECTION -->
     <div class="row">
         <div class="col-12 custom-border p-2 mb-3">
             <h5 class="header-font text-center">Admin</h5>
@@ -22,13 +23,18 @@
     <p class="text-center">Welcome to the home of exclusive Radiohead content. Scroll though the archive or filter the
         items by their content type.</p>
     {% endif %}
+    <!-- Filter posts buttons -->
     <form action="{% url 'portal_content' %}" method="POST"
         class="sort-by-form d-flex justify-content-center mb-3 mt-2">
         {% csrf_token %}
-            <input type="submit" name="filter" value="all" class="btn custom-btn btn-outline-dark {% if filter == 'all' %} active {% endif %}">
-            <input type="submit" name="filter" value="text" class="btn custom-btn btn-outline-dark {% if filter == 'text' %} active {% endif %}">
-            <input type="submit" name="filter" value="videos" class="btn custom-btn btn-outline-dark {% if filter == 'videos' %} active {% endif %}">
-            <input type="submit" name="filter" value="images" class="btn custom-btn btn-outline-dark {% if filter == 'images' %} active {% endif %}">
+        <input type="submit" name="filter" value="all"
+            class="btn custom-btn btn-outline-dark {% if filter == 'all' %} active {% endif %}">
+        <input type="submit" name="filter" value="text"
+            class="btn custom-btn btn-outline-dark {% if filter == 'text' %} active {% endif %}">
+        <input type="submit" name="filter" value="videos"
+            class="btn custom-btn btn-outline-dark {% if filter == 'videos' %} active {% endif %}">
+        <input type="submit" name="filter" value="images"
+            class="btn custom-btn btn-outline-dark {% if filter == 'images' %} active {% endif %}">
     </form>
     <hr>
     <div class="row">
@@ -66,7 +72,7 @@
             </p>
             {% endif %}
         </div>
-        <!-- HR FOR LOOP LOGIC MODIFIED FROM BOUTIQUE ADO PROJECT -->
+        <!-- HR FOR LOOP LOGIC MODIFIED FROM BOUTIQUE ADO PROJECT- CREDIT - Chris Zielinski -->
         {% if not forloop.last %}
         {% if forloop.counter|divisibleby:1 %}
         <div class="col-12 d-md-none mb-2">
@@ -78,30 +84,29 @@
             <hr>
         </div>
         {% endif %}
-
         {% endif %}
         {% endfor %}
     </div>
-        <!-- PAGINATION BUTTONS -->
-        <div class="row mt-5">
-            <div class="col-12 d-flex justify-content-center">
-                <form action="{% url 'portal_content' %}" method="POST">
-                    {% csrf_token %}
-                    <input type="hidden" name='filter' value="{{ filter }}">
-                    {% if pagination_data.has_previous %}
-                    <button type='submit' value="{{ pagination_data.previous_page }}" name="paginate"
-                        class="btn custom-btn btn-outline-secondary">Previous</button>
-                    {% else %}
-                    <button class="btn custom-btn btn-outline-secondary" disabled>Previous</button>
-                    {% endif %}
-                    {% if pagination_data.has_next %}
-                    <button type='submit' value="{{ pagination_data.next_page }}" name="paginate"
-                        class="btn custom-btn btn-outline-secondary">Next</button>
-                    {% else %}
-                    <button class="btn custom-btn btn-outline-secondary" disabled>Next</button>
-                    {% endif %}
-                </form>
-            </div>
+    <!-- PAGINATION BUTTONS -->
+    <div class="row mt-5">
+        <div class="col-12 d-flex justify-content-center">
+            <form action="{% url 'portal_content' %}" method="POST">
+                {% csrf_token %}
+                <input type="hidden" name='filter' value="{{ filter }}">
+                {% if pagination_data.has_previous %}
+                <button type='submit' value="{{ pagination_data.previous_page }}" name="paginate"
+                    class="btn custom-btn btn-outline-secondary">Previous</button>
+                {% else %}
+                <button class="btn custom-btn btn-outline-secondary" disabled>Previous</button>
+                {% endif %}
+                {% if pagination_data.has_next %}
+                <button type='submit' value="{{ pagination_data.next_page }}" name="paginate"
+                    class="btn custom-btn btn-outline-secondary">Next</button>
+                {% else %}
+                <button class="btn custom-btn btn-outline-secondary" disabled>Next</button>
+                {% endif %}
+            </form>
         </div>
+    </div>
 </div>
 {% endblock %}

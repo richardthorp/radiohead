@@ -1,11 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% block extra_css %}
 <link rel="stylesheet" href="{% static 'shop/css/shop.css' %}">
-
 {% endblock %}
-
 {% block content%}
 <div class="container content-container border">
     <h1 class="text-center header-font page-header">{{ product.name }}</h1>
@@ -17,7 +14,8 @@
             <div class="d-flex justify-content-center">
                 <a href="{% url 'edit_product' 'product' product.slug %}" class="btn btn-dark custom-btn mr-2">
                     Edit Product</a>
-                <!-- Button trigger modal -->
+                <!-- Modal copied from https://getbootstrap.com/docs/4.5/components/modal/ -->
+                <!-- Delete product modal trigger -->
                 <button type="button" class="btn custom-btn btn-danger btn-sm custom-btn ml-2" data-toggle="modal"
                     data-target="#delete-product-modal">
                     Delete Product
@@ -25,15 +23,15 @@
             </div>
         </div>
     </div>
-
     <!-- Delete Product Modal -->
     <div class="modal fade" id="delete-product-modal" tabindex="-1">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-body text-center">
                     <p class="mb-0">Are you sure you want to delete<br>
-                    <strong>{{ product.name }}</strong><br>
-                    from the database? This action cannot be undone!</p>
+                        <strong>{{ product.name }}</strong><br>
+                        from the database? This action cannot be undone!
+                    </p>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn custom-btn btn-sm btn-dark custom-btn"
@@ -71,7 +69,5 @@
             <hr>
         </div>
     </div>
-
-
 </div>
 {% endblock %}

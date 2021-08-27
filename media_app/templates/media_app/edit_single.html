@@ -9,7 +9,8 @@
             <form action="{% url 'edit_single' single.slug %}" enctype="multipart/form-data" method="POST">
                 {% csrf_token %}
                 {{ form|crispy }}
-                <button type="submit" id="submit-album" class="btn btn-dark custom-btn d-block mt-5 ">Edit Single</button>
+                <button type="submit" id="submit-album" class="btn btn-dark custom-btn d-block mt-5 ">
+                    Edit Single</button>
             </form>
         </div>
     </div>
@@ -17,9 +18,9 @@
 {% endblock %}
 {% block postloadjs %}
 {{ block.super }}
-<!-- File name renderer copied from Boutique Ado project -->
+<!-- File name renderer copied from Boutique Ado project- CREDIT - Chris Zielinski -->
 <script>
-    $("#image").change(function(){
+    $("#image").change(function () {
         let file = $(this)[0].files[0];
         $("#filename").text(`Image will be set to ${file.name}`);
     });
