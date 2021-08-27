@@ -1,4 +1,3 @@
-from os import unlink
 from PIL import Image
 import tempfile
 from django.test import TestCase
@@ -6,7 +5,6 @@ from django.shortcuts import reverse
 from django.contrib.auth.models import User
 from ..models import (PortalTextPost, PortalImagesPost, PortalVideoPost,
                       TextPostComment, VideoPostComment, ImagesPostComment)
-from profiles.models import Profile
 
 
 def get_temporary_image(temp_file):
@@ -153,7 +151,8 @@ class TestPortalViews(TestCase):
         user = User.objects.get(username='test_user')
         user.profile.subscription_status = 'active'
         user.profile.save()
-        url = reverse('portal_post_detail', args=['text_post', self.text_post.slug])
+        url = reverse('portal_post_detail',
+                      args=['text_post', self.text_post.slug])
         response = self.client.get(url)
 
         self.assertTemplateUsed(response, 'portal/text_post.html')

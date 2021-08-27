@@ -55,4 +55,4 @@ class TestProfileView(TestCase):
         messages = list(response.wsgi_request._messages)
         self.assertEqual(len(messages), 1)
         self.assertEqual(str(messages[0]),
-                         'Form data is not valid, please try again.')  
+                         'Form data is not valid, please try again.')

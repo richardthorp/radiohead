@@ -120,7 +120,6 @@ def add_single(request):
                 reverse('album_singles', args=[single.album.slug])
                 )
         else:
-            print(form.errors)
             messages.error(request,
                            'Error adding single, please check form data')
             return render(request, 'media_app/add_single.html', {'form': form})

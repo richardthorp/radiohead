@@ -81,7 +81,6 @@ def checkout(request):
                             'size': size,
                             'quantity': quantity,
                         }
-                        # print(item_details)
                         order_line_item = ProductOrderLineItem(**item_details)
                         order_line_item.save()
 
@@ -108,7 +107,6 @@ def checkout(request):
         else:
             messages.error(request, ('There is an issue with your information,'
                                      ' please check the form and try again.'))
-            # print(order_form.errors)
 
     # GET REQUEST
     if not bag:

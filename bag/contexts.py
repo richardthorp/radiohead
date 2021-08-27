@@ -1,6 +1,5 @@
 from shop.models import Album, Product
 from django.conf import settings
-# from decimal import Decimal
 
 
 def bag_details(request):

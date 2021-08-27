@@ -125,8 +125,7 @@ def create_portal_customer(request):
 
         return render(request, 'portal/portal_sign_up.html', context)
 
-    except Exception as e:
-        print(e)
+    except Exception:
         messages.error(request, 'Sorry, there was an issue generating the new subscription, \
             "please try again later')
         return redirect(reverse('portal_info'))
@@ -288,7 +287,6 @@ def portal_content(request):
         active_subscription = False
         while attempt <= 5:
             sleep(1)
-            print('ATTEMPT:', attempt)
             profile = Profile.objects.get(user=request.user)
             if profile.subscription_status == 'active':
                 active_subscription = True
@@ -395,8 +393,6 @@ def add_portal_post(request, post_type):
                     'form': AddImagesPostForm(request.POST, request.FILES)
                 }
         # Error in form
-        print(form.errors)
-        print(context)
         messages.error(request, 'Error adding post, please try again.')
         return render(request, 'portal/add_portal_post.html', context)
 
@@ -436,7 +432,6 @@ def edit_portal_post(request, post_type, post_id):
             return redirect(reverse('portal_post_detail',
                                     args=[post_type, post.slug]))
         else:
-            print(form.errors)
             messages.error(request,
                            'Error with form data, please check and try again.')
     if post_type == 'text_post':

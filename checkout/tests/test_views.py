@@ -38,16 +38,6 @@ class TestCheckoutViews(TestCase):
             price=9.99,
             image='test_image'
         )
-        # {'email': 'test@email.com',
-        # 'name': 'Test User',
-        # 'phone_number': '12345678901',
-        # 'address_line1': 'Test Line 1',
-        # 'town_or_city': 'Test Town',
-        # 'country': 'GB',
-        # 'delivery_cost': 0,
-        # 'order_total': 50.00,
-        # 'grand_total': 50.00,
-        # 'stripe_pid': 'test_pid'}
         self.order = Order.objects.create(
             email='test@email.com',
             name='Test User',
@@ -203,7 +193,6 @@ class TestCheckoutViews(TestCase):
             )
         # Set the default fields on the profile
         profile_data = {
-            # 'user': self.user,
             'default_name': 'Test User',
             'default_email': 'user@test.com',
             'default_phone_number': '12345678901',

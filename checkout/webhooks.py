@@ -22,7 +22,7 @@ def webhook(request):
         event = stripe.Event.construct_from(
             json.loads(payload), stripe.api_key, wh_secret
         )
-    except ValueError as e:
+    except ValueError:
         # Invalid payload
         return HttpResponse(status=400)
 

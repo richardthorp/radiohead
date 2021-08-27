@@ -10,7 +10,6 @@ from .forms import AddProductForm, AddAlbumForm
 
 def shop(request):
     if request.POST:
-        print(request.POST)
         product_filter = request.POST.get('filter', 'all')
         if product_filter == 'music':
             context = {
@@ -30,7 +29,7 @@ def shop(request):
                 'filter': 'other',
             }
         else:
-            albums = Album.objects.all().order_by('-year')
+            albums = Album.objects.all().order_by('-date_added')
             products = Product.objects.all()
 
             # How to sort two querysets solution found at
@@ -128,7 +127,6 @@ def add_product(request, item_type):
                 'form': form,
                 'item_type': item_type,
             }
-            print(form.errors)
             return render(request, 'shop/add_product.html', context)
 
     if item_type == 'album':

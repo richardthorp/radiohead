@@ -430,7 +430,8 @@ class TestShopViews(TestCase):
             username='staff_user',
             password='test_password'
             )
-        url = reverse('delete_product', args=['product', self.other_product.slug])
+        url = reverse('delete_product',
+                      args=['product', self.other_product.slug])
         response = self.client.get(url)
         products = Product.objects.all()
 

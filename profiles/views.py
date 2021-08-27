@@ -59,7 +59,7 @@ def profile(request):
                 'exp_month': default_payment_method.card.exp_month
             }
             # customer = stripe.Customer.retrieve(profile.portal_cust_id)
-        except Exception as e:
+        except Exception:
             default_payment_details = None
             formatted_end_date = None
             messages.error(request, f"We couldn't find a Portal subscription \
