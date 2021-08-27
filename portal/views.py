@@ -1,8 +1,8 @@
+import json
+import stripe
 from datetime import datetime
 from time import sleep
 from itertools import chain
-import json
-import stripe
 from django.conf import settings
 from django.contrib import messages
 from django.core.paginator import Paginator
@@ -218,9 +218,10 @@ def cancel_subscription(request, subscription_id):
         formatted_end_data = subscription_end_date.strftime("%b %d %Y")
         messages.success(request, f'Subscription Cancelled. \
             You may access the Portal until {formatted_end_data}')
-        return redirect(reverse('profile'))
-    except Exception as e:
-        print(e)
+    except Exception:
+        messages.error(request, f"We couldn't cancel your subscription, please try \
+            again later or email us at {settings.DEFAULT_FROM_EMAIL}")
+    return redirect(reverse('profile'))
 
 
 @login_required

@@ -234,5 +234,3 @@ SONGKICK_API_KEY = os.environ.get('SONGKICK_API_KEY')
 
 # Required for embedded youtube videos
 SECURE_REFERRER_POLICY = "no-referrer-when-downgrade"
-
-DEFAULT_FROM_EMAIL = 'radiohead_ms4@googlemail.com'
