@@ -1,0 +1,14 @@
+Hello {{ name }},
+
+Welcome to the Portal! Your subscription to the Radiohead portal is now active.
+
+You will be charged £{{ portal_price }} monthly on this date until you cancel your subscription.
+
+You may cancel at any time, and will be able to access the Portal until the end of the current billing period.
+
+To update your payment method or cancel your subscription, please visit the 'Profile' page on the website.
+
+For any questions, queries or suggestions, please email us at {{ contact_email }}.
+
+Many thanks for your support,
+Team Radiohead

@@ -1,0 +1,12 @@
+Hello {{ name }},
+
+Your subscription to the Radiohead Portal has been cancelled and you no longer have access to 
+any of the Portal content. If you did not cancel your subscription, it is most likely that the
+payment card was declined, please log in and resubscribe with a valid payment method.
+
+You may resubscribe at any time.
+
+For any questions, queries or suggestions, please email us at {{ contact_email }}.
+
+Thank you for your support,
+Team Radiohead

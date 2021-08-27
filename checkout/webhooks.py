@@ -4,7 +4,7 @@ from django.conf import settings
 from django.http import HttpResponse
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
-from .webhook_handler import StripeWH_Handler
+from .webhook_handler import OrderWH_Handler
 
 
 # Webhook function copied from Boutique Ado project
@@ -27,7 +27,7 @@ def webhook(request):
         return HttpResponse(status=400)
 
     # Set up webhook handler
-    handler = StripeWH_Handler(request)
+    handler = OrderWH_Handler(request)
 
     # Map webhook events to relevant handler functions
     event_map = {

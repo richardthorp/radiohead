@@ -9,12 +9,12 @@ from shop.models import Product, Album
 from profiles.models import Profile
 
 
-# Webhook handler copied from Boutique Ado project
-class StripeWH_Handler:
+# Webhook handler modified from Boutique Ado project
+class OrderWH_Handler:
     def __init__(self, request):
         self.request = request
 
-    def _send_confirmation_email(self, order):
+    def _send_order_confirmation_email(self, order):
         customer_email = order.email
         subject = render_to_string(
             'checkout/confirmation_emails/confirmation_email_subject.txt',
@@ -93,7 +93,7 @@ class StripeWH_Handler:
                     sleep(1)
 
             if order_exists:
-                self._send_confirmation_email(order)
+                self._send_order_confirmation_email(order)
                 return HttpResponse(
                     content=f'Webhook received: {event["type"]}. '
                             'Order is in database',
@@ -161,7 +161,7 @@ class StripeWH_Handler:
                     return HttpResponse(content=f'Webhook received: '
                                         f'{event["type"]}. Error: {e}',
                                         status=500)
-            self._send_confirmation_email(order)
+            self._send_order_confirmation_email(order)
         return HttpResponse(content=f'Webhook received: {event["type"]}. '
                             f'Order created in webhook.')
 
