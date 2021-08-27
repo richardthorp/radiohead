@@ -363,12 +363,10 @@ def add_portal_post(request, post_type):
                     reverse('portal_post_detail',
                             args=['text_post', post.slug]))
             else:
-                messages.error(request, 'Error adding post, please try again.')
                 context = {
-                    'form': PortalTextPost(request.POST, request.FILES)
+                    'post_type': post_type,
+                    'form': AddTextPostForm(request.POST, request.FILES)
                 }
-                print(form.errors)
-                return render(request, 'portal/add_text_post.html', context)
 
         if post_type == 'video_post':
             form = AddVideoPostForm(request.POST, request.FILES)
@@ -379,12 +377,10 @@ def add_portal_post(request, post_type):
                     reverse('portal_post_detail',
                             args=['video_post', post.slug]))
             else:
-                messages.error(request, 'Error adding post, please try again.')
                 context = {
-                    'form': PortalVideoPost(request.POST, request.FILES)
+                    'post_type': post_type,
+                    'form': AddVideoPostForm(request.POST, request.FILES)
                 }
-                print(form.errors)
-                return render(request, 'portal/add_video_post.html', context)
 
         if post_type == 'images_post':
             form = AddImagesPostForm(request.POST, request.FILES)
@@ -394,29 +390,28 @@ def add_portal_post(request, post_type):
                 return redirect(reverse('portal_post_detail',
                                 args=['images_post', post.slug]))
             else:
-                messages.error(request, 'Error adding post, please try again.')
                 context = {
-                    'form': PortalImagesPost(request.POST, request.FILES)
+                    'post_type': post_type,
+                    'form': AddImagesPostForm(request.POST, request.FILES)
                 }
-                print(form.errors)
-                return render(request, 'portal/add_images_post.html', context)
+        # Error in form
+        print(form.errors)
+        print(context)
+        messages.error(request, 'Error adding post, please try again.')
+        return render(request, 'portal/add_portal_post.html', context)
 
     # GET Request
     if post_type == 'text_post':
-        context = {
-            'form': AddTextPostForm()
-        }
-        return render(request, 'portal/add_text_post.html', context)
+        form = AddTextPostForm()
     if post_type == 'video_post':
-        context = {
-            'form': AddVideoPostForm()
-        }
-        return render(request, 'portal/add_video_post.html', context)
+        form = AddVideoPostForm()
     if post_type == 'images_post':
-        context = {
-            'form': AddImagesPostForm()
-        }
-        return render(request, 'portal/add_images_post.html', context)
+        form = AddImagesPostForm()
+    context = {
+        'post_type': post_type,
+        'form': form
+    }
+    return render(request, 'portal/add_portal_post.html', context)
 
 
 @login_required
