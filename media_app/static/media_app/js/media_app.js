@@ -48,7 +48,7 @@ function renderComments(data){
                     <a onclick="renderEditCommentSection(this, ${commentObj['id']})"
                         class="comment-permissions">Edit comment</a> - 
                     <a onclick="renderDeleteButton(this, ${commentObj['id']})"
-                        class="comment-permissions">Delete comment</a>
+                        class="comment-permissions text-danger">Delete comment</a>
                 </p>`
         }
         // If the comment has been edited, generate the below html and insert

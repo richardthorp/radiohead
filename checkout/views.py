@@ -133,7 +133,7 @@ def checkout(request):
             profile = Profile.objects.get(user=request.user)
             form = OrderForm(initial={
                 'name': profile.default_name,
-                'email': profile.default_email,
+                'email': request.user.email,
                 'phone_number': profile.default_phone_number,
                 'address_line1': profile.default_address_line1,
                 'address_line2': profile.default_address_line2,
