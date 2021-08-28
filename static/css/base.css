@@ -52,7 +52,7 @@ table {
 }
 
 .custom-btn {
-    font-family: block-font;
+    font-family: block-font, 'Arial Black', sans-serif;
     font-size: 0.8rem !important;
     text-transform: uppercase;
     padding: 0 5px 0 5px;
@@ -67,7 +67,7 @@ hr {
 }
 
 .header-font {
-    font-family: 'Righteous', cursive;
+    font-family: 'Righteous', Copperplate, sans-serif;
     text-transform: uppercase;
 }
 
@@ -77,7 +77,7 @@ hr {
 }
 
 .nav-font {
-    font-family: block-font;
+    font-family: block-font, 'Arial Black', sans-serif;
 }
 
 .w-95 {
@@ -204,9 +204,8 @@ nav {
     overflow: auto;
     width: 100%;
     /* Box shadow code generated at https://cssgenerator.org/box-shadow-css-generator.html */
-    box-shadow: 0px 0px 5px 0px #6c757d inset;
     -webkit-box-shadow: 0px 0px 5px 0px #6c757d inset;
-    -moz-box-shadow: 0px 0px 5px 0px #6c757d inset;
+    box-shadow: 0px 0px 5px 0px #6c757d inset;
 }
 
 .custom-nav-dropdown {
@@ -224,7 +223,7 @@ nav {
     z-index: 999;
     position: fixed;
     top: 56px;
-    font-family: block-font;
+    font-family: block-font, 'Arial Black', sans-serif;
     border: 1px solid #6c757d;
 }
 

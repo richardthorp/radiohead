@@ -61,7 +61,7 @@
             {% endif %}
         </div>
         <div class="col-10 col-md-11">
-            <textarea name="text" id="add-comment-input"></textarea>
+            <textarea name="text" id="add-comment-input" placeholder="Add comment"></textarea>
             <p id="add-comment-errors" class="text-danger mb-1"></p>
             <button onclick="addComment({{ post.id }}, {{ request.user.id }})"
                 class="btn custom-btn btn-outline-dark">Add Comment</button>

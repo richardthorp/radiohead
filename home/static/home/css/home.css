@@ -18,7 +18,7 @@
 }
 
 .welcome-container h1 {
-    font-family: radio;
+    font-family: radio, Impact, sans-serif;
     font-size: 5.5rem;
     line-height: 140px;
     text-transform: uppercase;
@@ -49,6 +49,7 @@
 .portal-section h2 {
     font-size: 3rem
 }
+
 .portal-section p {
     font-size: 1.2rem;
 }
@@ -128,8 +129,4 @@
     .portal-section-content {
         margin-left: 30%;
     }
-}
-
-@media only screen and (min-width: 1400px) {
-
 }

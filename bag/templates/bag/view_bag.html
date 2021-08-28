@@ -30,8 +30,8 @@
             <!-- CDs -->
             <form action="{% url 'update_bag' 'cd' item.product.slug %}" method="POST" class="d-inline">
                 {% csrf_token %}
-                <label for="cd_quantity">CD Quantity:</label>
-                <input id="cd_quantity" name="quantity" type="number" min="1" max="99" value="{{ item.cd_count }}">
+                <label for="{{ item.product.slug }}-cd-quantity">CD Quantity:</label>
+                <input id="{{ item.product.slug }}-cd-quantity" name="quantity" type="number" min="1" max="99" value="{{ item.cd_count }}">
                 <button type="submit" class="btn custom-btn btn-dark btn-sm">UPDATE</button>
             </form>
             {% include 'includes/cd_modal.html' %}
@@ -41,8 +41,8 @@
             <!-- Vinyl -->
             <form action="{% url 'update_bag' 'vinyl' item.product.slug %}" method="POST" class="d-inline">
                 {% csrf_token %}
-                <label for="vinyl_quantity">Vinyl Quantity:</label>
-                <input id="vinyl_quantity" name="quantity" type="number" min="1" max="99" value="{{ item.vinyl_count }}">
+                <label for="{{ item.product.slug }}-vinyl-quantity">Vinyl Quantity:</label>
+                <input id="{{ item.product.slug }}-vinyl-quantity" name="quantity" type="number" min="1" max="99" value="{{ item.vinyl_count }}">
                 <button type="submit" class="btn custom-btn btn-dark btn-sm">UPDATE</button>
             </form>
             {% include 'includes/vinyl_modal.html' %}
@@ -59,8 +59,8 @@
             <!-- Small items -->
             <form action="{% url 'update_bag' 'S' item.product.slug %}" method="POST" class="d-inline">
                 {% csrf_token %}
-                <label for="small_quantity">Small Quantity:</label>
-                <input id="small_quantity" name="quantity" type="number" min="1" max="99" value="{{ item.small_count }}">
+                <label for="{{ item.product.slug }}-small-quantity">Small Quantity:</label>
+                <input id="{{ item.product.slug }}-small-quantity" name="quantity" type="number" min="1" max="99" value="{{ item.small_count }}">
                 <button type="submit" class="btn custom-btn btn-dark btn-sm">UPDATE</button>
             </form>
             {% include 'includes/size_small_modal.html' %}
@@ -70,8 +70,8 @@
             <!-- Medium items -->
             <form action="{% url 'update_bag' 'M' item.product.slug %}" method="POST" class="d-inline">
                 {% csrf_token %}
-                <label for="medium_quantity">Medium Quantity:</label>
-                <input id="medium_quantity" name="quantity" type="number" min="1" max="99" value="{{ item.medium_count }}">
+                <label for="{{ item.product.slug }}-medium-quantity">Medium Quantity:</label>
+                <input id="{{ item.product.slug }}-medium-quantity" name="quantity" type="number" min="1" max="99" value="{{ item.medium_count }}">
                 <button type="submit" class="btn custom-btn btn-dark btn-sm">UPDATE</button>
             </form>
             {% include 'includes/size_medium_modal.html' %}
@@ -81,8 +81,8 @@
             <!-- Large items -->
             <form action="{% url 'update_bag' 'L' item.product.slug %}" method="POST" class="d-inline">
                 {% csrf_token %}
-                <label for="large_quantity">Large Quantity:</label>
-                <input id="large_quantity" name="quantity" type="number" min="1" max="99" value="{{ item.large_count }}">
+                <label for="{{ item.product.slug }}-large-quantity">Large Quantity:</label>
+                <input id="{{ item.product.slug }}-large-quantity" name="quantity" type="number" min="1" max="99" value="{{ item.large_count }}">
                 <button type="submit" class="btn custom-btn btn-dark btn-sm">UPDATE</button>
             </form>
             {% include 'includes/size_large_modal.html' %}
@@ -97,8 +97,8 @@
             </a>
             <form action="{% url 'update_bag' 'other' item.product.slug %}" method="POST" class="d-inline">
                 {% csrf_token %}
-                <label for="quantity">Quantity:</label>
-                <input id="quantity" name="quantity" type="number" min="1" max="99" value="{{ item.quantity }}">
+                <label for="{{ item.product.slug }}-quantity">Quantity:</label>
+                <input id="{{ item.product.slug }}-quantity" name="quantity" type="number" min="1" max="99" value="{{ item.quantity }}">
                 <button type="submit" class="btn custom-btn btn-dark btn-sm">UPDATE</button>
             </form>
             {% include 'includes/other_modal.html' %}
