@@ -206,7 +206,6 @@ class TestShopViews(TestCase):
 
         self.assertEqual(response.status_code, 302)
         # Expect 3 products in db - 2 are created in setUp()
-        # product_count = len(Product.objects.all())
         self.assertEqual(len(products), 3)
         self.assertRedirects(response,
                              reverse('shop_detail',

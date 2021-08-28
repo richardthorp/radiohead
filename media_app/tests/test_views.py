@@ -396,5 +396,3 @@ class TestMediaViews(TestCase):
         comments = Comment.objects.all()
         self.assertEqual(len(comments), 1)
         self.assertEqual(response.status_code, 403)
-
-# coverage run --source /workspace/radiohead manage.py test

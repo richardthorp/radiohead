@@ -83,7 +83,6 @@ def paginate_query(query_set, page):
     return pagination_data
 
 
-# def shop_detail(request, item_type, item_id):
 def shop_detail(request, item_type, slug):
     if item_type == 'album':
         album = Album.objects.get(slug=slug)
@@ -200,8 +199,6 @@ def delete_product(request, item_type, slug):
         product = Product.objects.get(slug=slug)
         product_name = product.name
 
-    # if product.image:
-    #     product.image.delete()
     product.delete()
     messages.success(request, f'{product_name} deleted from database.')
     return redirect(reverse('shop'))

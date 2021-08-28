@@ -58,7 +58,6 @@ def profile(request):
                 'exp_year': default_payment_method.card.exp_year,
                 'exp_month': default_payment_method.card.exp_month
             }
-            # customer = stripe.Customer.retrieve(profile.portal_cust_id)
         except Exception:
             default_payment_details = None
             formatted_end_date = None
