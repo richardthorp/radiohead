@@ -308,3 +308,5 @@ In production, emails are sent using a Gmail account which can be set up using t
     <END OF INSERTED CODE>
     ```
 9. Emails will now be sent to real email addresses when users interact with the app on Heroku, and emails will be logged to the console in development.
+
+[Back to README](README.md)

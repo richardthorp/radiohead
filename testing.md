@@ -16,15 +16,18 @@
 * To quickly understand the purpose of the website.
     * The landing page feaures the animated text 'Welcome to the home of Radiohead' ensuring the user understands this is a website about Radiohead.
     * The home page features a brief summary of what users can find in the Portal app.
+    ![The Portal summary on the home page](readme-images/screenshots/portal-blurb.jpg "The Portal summary on the home page")
     * The website is designed using standard UX principles, such as providing links to the other pages in the header.
         * All navigation links have names that are quite clear as to what content they links to.
 * To be able to register and sign in easily.
     * All pages feature the profile icon which triggers a dropdown with links to the registration and sign in pages.
     * A profile icon that either links directly to or provides links to account features is a common feature throughout web design and will be recognised by users as such.
+    ![The sign in/sign out links](readme-images/screenshots/profile-links.jpg "The sign in/sign out links")
 * To be able to sign out easily.
     * Again, as the profile dropdown is present on every page, the user can quickly and easily sign out.
 * To be able to navigate through the website intuitively and easily.
     * Navigation links are easily accessible on all pages of the website. As the website features common UX principles, navigating through the pages is intuitive.
+    ![The navigation links](readme-images/screenshots/nav-bar.jpg "The navigation links")
     * All relevant pages feature 'back to' links so the user doesn't have to rely on the main navigation links to navigate the site.
 * To find content relating to the band Radiohead.
     * As this website features only content relating the band Radiohead, this user story is met!
@@ -33,24 +36,32 @@
 * To be able to log in and out easily and to be able to remain signed in.
     * As with the **first time user** user story, this requirement is met via the profile icon in the navigation bar.
     * On the sign in page, the option to 'remember me' is presented enabling the user to return to the website and be automatically logged in.
+    ![The 'remember me' checkbox](readme-images/screenshots/remember-me.jpg "The 'remember me' checkbox")
 * To be able to reset my password should I forget it.
     * The sign in page offers a link that states 'forgot password?' which links to a page that allows users to input their email address and be sent a reset password link. 
+    ![The 'forgot password?' link](readme-images/screenshots/forgot-password.jpg "The 'forgot password?' link")
 * To be able to find details about my previous orders.
     * The profile page features a, 'Orders' section containing a list of previous orders.
         * By clicking on a previous order, users can view th details of that order, including items orderered, costs and delivery information.
+        ![The list of previous orders](readme-images/screenshots/orders.jpg "The list of previous orders")
 * To be able to view details about my subscription.
     * The profile page features a 'Subscriptions' section.
         * The subsciptions section shows users when their subsciption payment is due, as well as which card will be charged.
         * If the user cancels their subscription, text is rendered tell the user when the subscription will end.
+        ![The subscriptions summary](readme-images/screenshots/subscriptions.jpg "The subscriptions summary")
 * To be able to easily cancel my subscription.
     * The profile page offers an obvious button to 'Cancel Subscription', which stops the user being charged when their susbcription renewal date is reached. Users can still access the Portal content until this date however.
+    ![The cancel subscription button](readme-images/screenshots/cancel-subscription.jpg "The cancel subscription button")
 * To be able to easily reactivate my subscription after cancelling.
     * If the user wishes to reactivate their subsciption before the current billing period has ended, a button to 'Reactivate Subscription' is presented.
+    ![The 'Reactivate Subscription' button](readme-images/screenshots/reactivate-subscription.jpg "The 'Reactivate Subscription' button")
 * To be able to change my subscription payment card.
     * The profile page offers an obvious link to 'Change Payment Card'
+    ![The 'Change Payment Card' button](readme-images/screenshots/change-card.jpg "The 'Change Payment Card' button")
 * To be able to save my details to use for any future purchases.
     * Any page that includes a form to collect users data features a checkbox which enables the user to save their information for next time.
     * The profile page features a form for users to add or update their default details.
+    ![The 'Save Details' checkbox](readme-images/screenshots/save-details.jpg "The 'Save Details' checkbox")
 * To be able to find new merchandise quickly in the shop.
     * Items in the shop are by default listed with newest items at the top of the page.
 * To be able to find new music quickly in the Media section.
@@ -61,10 +72,12 @@
 #### Shared user requirements:
 * To be able to communicate with other fans of the band.
     * Users can comment on pages in both the Media and Portal apps.
+    ![The 'Add Comment' section found in Portal and Media](readme-images/screenshots/add-comment-2.jpg "The 'Add Comment' section found in Portal and Media")
 * To be able to buy music and merchandise from the band.
     * Users can make purchases though the shop app.
 * To be able to find details about upcoming concerts.
     * Users can view upcoming concerts though the Live app.
+        ![The list of concerts on the Live page](readme-images/screenshots/live-page.jpg "The list of concerts on the Live page")
 * To be able to find and consume music.
     * Users can find and consume music though the Media app.
 * To be able to find recent news, updates and other content.
@@ -193,3 +206,5 @@ Whilst possible to send test webhooks via the Stripe website, it was important t
     * Ensure that the 'billing_details' field contains the users address and that the 'metadata' field contains a summary of the items bought.
     * Ensure that the 'Response' section of the webhook states ```Webhook received: payment_intent.succeeded. 'Order created in webhook.'```
 4. On the 'Profile' page, ensure that the order is listed in the 'Orders' section, and that clicking on the order takes the user to the 'Order Details' page.
+
+[Back to README](README.md)

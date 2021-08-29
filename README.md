@@ -226,6 +226,7 @@ Below is a diagram detailing the database schema, with the connecting lines show
     * An order form which collects customer details.
     * A payment forms generated via the Stripe API, which collects the users payment information.
 * After a succeessful payment, the user is directed to the 'Order Confirmed' page, which features a summary of the order.
+![The order confirmed page'](readme-images/screenshots/order-confirmed-page.jpg "The order confirmed page")
 
 #### 404 Page
 * If a user tries to navigate to an non existant URL, a custom '404 Page Not Found' page is rendered with a link back to the home page.
@@ -313,6 +314,12 @@ Below is a diagram detailing the database schema, with the connecting lines show
 * [Am I Responsive?](http://ami.responsivedesign.is/) - Used to test for responsive design and to create the mock-ups found at the top of this README.
 
 * [Chrome DevTools](https://developer.chrome.com/docs/devtools/) - Used to test responsivity of website and test contrast between backgrounds and fonts. Also used to check for any JavaScript errors or warnings printing the console.
+
+## Testing
+[Click here for the 'Testing' section](testing.md)
+
+## Deployment
+[Click here for the 'Deployment' section](deployment.md)
 
 <a name="credits"></a>
 
