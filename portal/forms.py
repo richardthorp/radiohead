@@ -11,6 +11,7 @@ class AddTextPostForm(forms.ModelForm):
         labels = {
             'text_content': 'Text (as HTML)'
         }
+
     lead_image = forms.ImageField(required=True, label="",
                                   widget=GeneralCustomClearableFileInput)
 
@@ -29,6 +30,10 @@ class AddVideoPostForm(forms.ModelForm):
     class Meta:
         model = PortalVideoPost
         exclude = ('slug', 'video',)
+        labels = {
+            'text_content': 'Text (as HTML)'
+        }
+
     lead_image = forms.ImageField(required=True, label='',
                                   widget=GeneralCustomClearableFileInput)
     video_url = forms.URLField(required=True, label="Video URL - (src attibute \
@@ -49,6 +54,10 @@ class AddImagesPostForm(forms.ModelForm):
     class Meta:
         model = PortalImagesPost
         exclude = ('slug',)
+        labels = {
+            'text_content': 'Text (as HTML)'
+        }
+
     lead_image = forms.ImageField(required=True, label='',
                                   widget=GeneralCustomClearableFileInput)
     image_1 = forms.ImageField(required=True, label='',
