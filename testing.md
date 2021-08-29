@@ -97,10 +97,58 @@ The tests detailed in this section were all completed using the following web br
 
 #### Automated Testing
 The website has been thoroughly tested using the in-build django testing functionality. These tests can ensure the following:
-    * Views return correct templates, status codes, and any additional data expected to be returned, as well as ensuring that they interact with the database correctly. Tests were also written to ensure certain user credentials are required to access restricted areas of the website.
-    * Forms return the correct string method values, any required fields are rendered as such and the ensuring the order of the fields when rendered on the front-end are correct.
-    * Models accept the correct data types and that any functions attached to the model's class behave accordingly.
 
-The package 'Coverage' was used to assess how much of the code is being tested by the automated tests. The coverage report states that **??INSERT FINAL % HERE???** has been covered by the tests.
+* Views return correct templates, status codes, and any additional data expected to be returned, as well as ensuring that they interact with the database correctly. Tests were also written to ensure certain user credentials are required to access restricted areas of the website.
+* Forms return the correct string method values, any required fields are rendered as such and ensure the order of the fields when rendered on the front-end are correct.
+* Models accept the correct data types and that any functions attached to the model's class behave accordingly.
 
-Any calls to the Stripe API were not included in the unit testing. These areas of the code have been tested manually as detailed in the **Manual Testing** section below.
+The package 'Coverage' was used to assess how much of the code is being tested by the automated tests. The coverage report states that 92% of the code has been covered by the tests.
+
+Any functions that include calls to the Stripe API were not included in the unit testing. These areas of the code have been tested manually as detailed in the **Manual Testing** section below.
+
+#### Manual Testing
+##### Stripe Subscriptions
+In order to test the subscription functionality, a Stripe 'Product' was created in the [stripe.com](http://www.stripe.com) dashboard. The product was set to charge customers every day, and if a charge was unsuccessful for any reason, the subscription be cancelled. This allowed me to test the integration with the website using a variety of customers and test payment cards and get results daily. 
+Whilst possible to send test webhooks via the Stripe website, it was important to implement tests using webhooks which contained the same additional metadata and other attributes which were attached to the users subscription by them interacting with the website.
+
+###### Creating a Portal Subscription
+1. As a newly registered user, click on the link to 'Portal' and follow the links through to the 'Portal Sign Up' page.
+    * On [www.stripe.com](http://www.stripe.com), navigate to the 'Customers' section, and ensure a Stripe customer has been created with the new users email attached.
+2. Back on the 'Portal Sign Up' page, complete the form, using the Stripe test card details (card number: 4242 4242 4242 and any valid expiry and zipcode) to check out.
+    * On the Stripe website, navigate to the 'Subscriptions' section and ensure a new subscription has been created with the users email address attached.
+    * On the Stripe website, and within the 'Developers' section, navigate to the webhooks page.
+        * Ensure that an 'invoice.payment_succeeded' webhook has been sent successfully.
+            * Ensure that a 'customer.subscription.updated' webhook has been sent successfully after the 'invoice.payment_succeeded', and that within the webhook object, the 'default_payment_method' value and that the metadata attribute contains the users email, name and address.
+            * Ensure that the 'status' attribute of the 'customer.subscription.updated' is 'active'.
+3. Ensure new user is now be signed into the Portal.
+4. When signed in as a superuser, navigate to the 'Profiles' page of the Django admin and click on the new users profile.
+    * Ensure that the 'Portal Cust ID', 'Subscription ID' and 'Subscription status' all have values saved to them.
+5. Sign out and back in again with the new user.
+    * Click on the 'Portal' link in the navigation bar.
+        * Ensure the user is redirected to the 'Portal Content' page.
+    * Navigate to the 'Profile' page.
+        * Ensure the relevant details and buttons are rendered in the 'Subscriptions' section.
+
+###### Update the Subscription Payment Card
+1. Sign in as a user with an active subscription and navigate to the 'Profile' page.
+    * Click on the 'Change Payment Card' button and enter the new card details.
+        * On the Stripe webhooks page, ensure a 'customer.subscription.updated' webhook was sent successfully and the 'previous_attributes' field contains 'default_payment_method'.
+    * Back on the 'Profile' page, ensure that the last 4 digits of the new card are now displayed under 'Card Details'.
+
+###### Cancel a Portal Subscription
+1. Sign in as a user with an active subscription and navigate to the 'Profile' page.
+    * Click on the 'Cancel Subscription' button.
+        * Ensure the the information in the 'Subscriptions' section of the 'Profile' page now states 'Your Portal subscription is due to expire on ???. Would you like to re-activate your subscription?
+        * On the Stripe webhooks page, ensure a 'customer.subscription.updated' webhook was sent successfully and that the 'cancel_at_period_end' field is set to 'true'.
+
+2. The following day, ensure that the 'customer.subscription.deleted' webhook was sent successfully.
+    * Try to access the 'Portal Content' and ensure the user is redirected to the 'Portal Info' page.
+    * Navigate to the 'Profile' page and under the 'Subscription' section ensure the text reads 'You do not currrently have a Portal subscription'.
+    * As a superuser and in the Django admin, ensure that the webhook handler correctly removed all subscription information from the users profile.
+    * Via the Stripe payments page, ensure no further charges for the customer are made or attempted.
+
+###### Reactivate a Cancelled Subscription
+1. Complete step 1 from **Cancel a Portal Subscription** above.
+2. Navigate to the 'Profile' page and click on 'Reactivate Subscription' button.
+    * On the Stripe webhooks page, ensure a 'customer.subscription.updated' webhook was sent successfully and that the 'cancel_at_period_end' field is set to 'false'.
+3. The following day, via the Stripe payments page, ensure the payment is collected successfully.
