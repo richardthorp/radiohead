@@ -187,6 +187,7 @@ MEDIA_URL = '/media_files/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media_files')
 
 # S3 BUCKET CONFIGURATION COPIED FROM BOUTIQUE ADO PROJECT
+# CREDIT - Chris Zielinski
 if 'USE_AWS' in os.environ:
     # Cache control
     AWS_S3_OBJECT_PARAMETERS = {

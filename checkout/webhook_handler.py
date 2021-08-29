@@ -9,7 +9,7 @@ from shop.models import Product, Album
 from profiles.models import Profile
 
 
-# Webhook handler modified from Boutique Ado project
+# Webhook handler modified from Boutique Ado project- CREDIT- Chris Zielinski
 class OrderWH_Handler:
     def __init__(self, request):
         self.request = request

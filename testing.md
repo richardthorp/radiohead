@@ -207,4 +207,14 @@ Whilst possible to send test webhooks via the Stripe website, it was important t
     * Ensure that the 'Response' section of the webhook states ```Webhook received: payment_intent.succeeded. 'Order created in webhook.'```
 4. On the 'Profile' page, ensure that the order is listed in the 'Orders' section, and that clicking on the order takes the user to the 'Order Details' page.
 
+### Found Bugs
+#### Django-crispy-forms bug
+A bug was found whilst testing the 'Add Portal Post' functionality of the website. On submission of an invalid form, the Django debug screen would show ```PortalTextPost object is not iterable```. The traceback contained references to 'django-crispy-forms', and so the form was re-tested without 
+using the crispy-form tags and no error was thrown.
+The website no longer uses 'django-crispy-forms' on 'AddTextPostForm', 'AddVideoPostForm' or 'AddImagesPostForm' but the styles have been applied via the form's init methods and via regular CSS styling via an external stylesheet.
+
+#### Mobile screen fixed background bug
+When viewing the page on a mobile device (specifically Chrome on Android), the fixed background would contain a gap at the bottom when the page was scrolled. This was due to CSS for the background stating the the height should be 100vh. When the content was scrolled, the address bar for Chrome would dissapear but the background would not expand. 
+The solution was to use a Javascript function that listened for a window resize event, and set the background height accordingly.
+
 [Back to README](README.md)

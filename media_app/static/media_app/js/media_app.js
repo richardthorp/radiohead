@@ -59,7 +59,7 @@ function renderComments(data){
         htmlContent +=
             `<div class="row my-3 my-md-4 no-gutters">
                 <div class="col-2 col-md-1">
-                    <img class="profile-pic" src="${commentObj.posted_by_img}" alt="The profile picture for ${commentObj.posted_by}">;
+                    <img class="profile-pic" src="${commentObj.posted_by_img}" alt="The profile picture for ${commentObj.posted_by}">
                 </div>
                 <div class="col-10 col-md-11 comment-container px-2 px-md-3">
                 <p class=" mb-0 mb-sm-1">

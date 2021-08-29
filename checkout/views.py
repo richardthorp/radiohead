@@ -15,6 +15,7 @@ from .forms import OrderForm
 
 
 # cache_checkout_data function copied from Boutique Ado project
+# CREDIT - Chris Zielinski
 @require_POST
 def cache_checkout_data(request):
     try:

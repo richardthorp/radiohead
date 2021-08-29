@@ -7,7 +7,7 @@ from django.views.decorators.csrf import csrf_exempt
 from .webhook_handler import OrderWH_Handler
 
 
-# Webhook function copied from Boutique Ado project
+# Webhook function copied from Boutique Ado project- CREDIT- Chris Zielinski
 @require_POST
 @csrf_exempt
 def webhook(request):

@@ -324,9 +324,58 @@ Below is a diagram detailing the database schema, with the connecting lines show
 <a name="credits"></a>
 
 ## Credits
-
 ### Code
+Much of the project is heavily inspired by the Code Institute 'Boutique Ado' walkthrough project, led by Chris Zielinski. This includes:
+* Cache Checkout Data function in Checkout app
+* File name rendering function found in all forms with an ImageField.
+* The custom clearable file input found on all forms with an ImageField
+* The horizontal rule for loop logic found in the Shop, Bag, and Portal apps.
+* The webhook handler found in the Checkout app
+
+Fixed Background on mobile bug solution by user 'Jason' found [here](https://stackoverflow.com/questions/24944925/background-image-jumps-when-address-bar-hides-ios-android-mobile-chrome)
+
+Unit testing messages was helped by user 'daveoncode' [here](https://stackoverflow.com/questions/2897609/how-can-i-unit-test-django-messages/14909727)
+
+The responsive table header Javascript and CSS found on the 'Live' page was copied from [here](https://bootstrapcreative.com/pattern/responsive-tables-that-stacks-on-mobile-instead-of-horizontal-scroll/)
+
+Merge and sort 2 querysets solution found in the Portal and Shop apps by 'Pradnya Mhatre' from [here](https://stackoverflow.com/questions/33022879/order-2-different-querysets-by-date)
+
+The 'auto-grow' function used in the 'Add Comment' text inputs by user 'SpYk3HH' [here](https://stackoverflow.com/questions/2948230/auto-expand-a-textarea-using-jquery)
+
+[This article](https://swapps.com/blog/testing-files-with-pythondjango/) by José Ariza helped create tempory image files to use in view tests.
+
+The code to mock images to test forms was written by user 'drillbits' and edited by user 'vaibhavhrt' [here](https://gist.github.com/drillbits/5432699)
 
 ### Content
+The image found in the 'Enter the Portal' section on the home page and Portal Info page by (Clu Soh)[https://unsplash.com/@thexclu]
+The photo on the live page by [Nick Kane](https://unsplash.com/@nickkane)
+Default profile image from [https://icons8.com/](https://icons8.com/)
+
+#### Portal Content
+* "The disturbing making of Radiohead's landmark 'No Surprises' video":
+    * All content copied from [here.](https://faroutmagazine.co.uk/the-disturbing-making-of-radioheads-landmark-no-surprises-video/)
+* "Thom Yorke's favourite song of all time":
+    * Image by Jason Evans from [here.](https://highprofiles.info/interview/thom-yorke/)
+    * Content by Sam Kemp from [here.](https://faroutmagazine.co.uk/radiohead-singer-thom-yorke-favourite-song-of-all-time-bjork-unravel/)
+* "The story so far - in pictures:
+    * Images by varius photographers and copied from [here.](https://www.theguardian.com/music/gallery/2016/mar/15/radiohead-career-in-pictures)
+* "Nigel Godrich and Thom Yorke give cryptic update on new project The Smile":
+    * All content written by Elizabeth Aubrey and copied from [here.](https://www.nme.com/news/music/nigel-godrich-and-thom-yorke-give-cryptic-update-on-new-project-the-smile-3019033)
+* "Radiohead among bands helping Nightshift magazine":
+    * All content copied from [here.](https://www.nme.com/news/music/nigel-godrich-and-thom-yorke-give-cryptic-update-on-new-project-the-smile-3019033)
+* "Exclusive archive video: Live from 93 Feet East":
+    * All content taken from [here.](https://www.youtube.com/watch?v=ppQkKRIQiO8&ab_channel=Radiohead)
+* "Thom Yorke - in pictures":
+    * Images by varius photographers and copied from [here.](https://www.theguardian.com/music/gallery/2013/feb/23/thom-yorke-radiohead)
+* "Watch 'The King of Limbs' live from the basement":
+    * Video from [here.](https://www.youtube.com/watch?v=hI5YMDioDBY&ab_channel=Radiohead)
+    * Image from [here](https://www.flickr.com/photos/encisos/6244752940/)
+* 3 stripped back songs - live from the basement:
+    * Image by Hayley Madden from [here.](https://www.nme.com/news/music/radiohead-dig-out-thom-yorkes-rare-2005-from-the-basement-solo-piano-set-2920660)
+    * Video from [here.](https://www.youtube.com/watch?v=h2ObYOA8bd0&ab_channel=Radiohead)
+
 
 ### Acknowledgements
+Huge thanks to my mentor Maranatha Ilesanmi for all his help and guidance on the project.
+
+And thanks to the Code Institute tutors and Slack community for being such a helpful and supportive bunch.
