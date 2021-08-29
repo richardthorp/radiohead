@@ -13,6 +13,8 @@ urlpatterns = [
          name='delete_portal_post'),
     path('subscribe-to-portal/', views.create_portal_customer,
          name='create_portal_customer'),
+    path('check-subscription-status/', views.check_subscription_status,
+         name='check_subscription_status'),
     path('save-customer-details/', views.save_customer_details,
          name='save_customer_details'),
     path('portal_wh/', portal_webhook, name='portal_webhook'),

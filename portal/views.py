@@ -143,29 +143,34 @@ def save_customer_details(request):
             'customer_details[address][postal_code]'),
         'country': request.POST.get('customer_details[address][country]')
     }
-
-    subscription_id = request.POST['subscription_id']
-    stripe.Subscription.modify(
-        subscription_id,
-        metadata=customer_details,
-    )
-
-    if request.POST['save_details'] == 'true':
-        profile = request.user.profile
-        form = ProfileForm(
-            {'default_name': customer_details['name'],
-             'default_phone_number': customer_details['phone_number'],
-             'default_address_line1': customer_details['address_line1'],
-             'default_address_line2': customer_details['address_line2'],
-             'default_town_or_city': customer_details['town_or_city'],
-             'default_county': customer_details['county'],
-             'default_postcode': customer_details['postcode'],
-             'default_country': customer_details['country']},
-            instance=profile
+    try:
+        subscription_id = request.POST['subscription_id']
+        stripe.Subscription.modify(
+            subscription_id,
+            metadata=customer_details,
         )
-        if form.is_valid():
-            form.save()
-    return HttpResponse(status=200)
+
+        if request.POST['save_details'] == 'true':
+            profile = request.user.profile
+            form = ProfileForm(
+                {'default_name': customer_details['name'],
+                 'default_phone_number': customer_details['phone_number'],
+                 'default_address_line1': customer_details['address_line1'],
+                 'default_address_line2': customer_details['address_line2'],
+                 'default_town_or_city': customer_details['town_or_city'],
+                 'default_county': customer_details['county'],
+                 'default_postcode': customer_details['postcode'],
+                 'default_country': customer_details['country']},
+                instance=profile
+            )
+            if form.is_valid():
+                form.save()
+        return HttpResponse(status=200)
+
+    except Exception as e:
+        messages.error(request,
+                       'Something went wrong! Please try your payment again.')
+        return HttpResponse(content=e, status=400)
 
 
 def update_payment_card(request):
@@ -237,6 +242,29 @@ def reactivate_subscription(request, subscription_id):
         return redirect(reverse('profile'))
 
 
+# This view is called from the Portal signup form.
+@login_required
+def check_subscription_status(request):
+    # Allow up to 30 seconds for the Stripe webhook to be sent to
+    # update the profile subscription_status to 'active'
+    attempt = 0
+    active_subscription = False
+    while attempt <= 30:
+        profile = Profile.objects.get(user=request.user)
+        if profile.subscription_status == 'active':
+            active_subscription = True
+            break
+        sleep(1)
+        attempt += 1
+    if active_subscription:
+        messages.success(request, 'Welcome to the Portal!')
+        return redirect(reverse('portal_content'))
+    else:
+        messages.error(request, 'Sorry, there is a problem accessing the \
+            Portal, please try again later.')
+        return redirect(reverse('portal_info'))
+
+
 # This view renders the actual portal content for subscribed users
 @login_required
 def portal_content(request):
@@ -279,26 +307,11 @@ def portal_content(request):
         context['posts'] = pagination_data['paginated_items']
         context['pagination_data'] = pagination_data
         return render(request, 'portal/portal_content.html', context)
-
     else:
-        # If the user doesn't have an active subscription status on their
-        # profile, allow 5 seconds for the Stripe webhook to be sent to
-        # update the profile
-        attempt = 1
-        active_subscription = False
-        while attempt <= 5:
-            sleep(1)
-            profile = Profile.objects.get(user=request.user)
-            if profile.subscription_status == 'active':
-                active_subscription = True
-                break
-            attempt += 1
-        if active_subscription:
-            return render(request, 'portal/portal_content.html')
-        else:
-            messages.error(request, 'Sorry, you must have an active \
-                subscription to Portal to view this page.')
-            return redirect(reverse('portal_info'))
+        # User does not have an active Portal subscription
+        messages.error(request, 'Sorry, you must have an active \
+            subscription to Portal to view this page.')
+        return redirect(reverse('portal_info'))
 
 
 def paginate_query(query_set, page):
