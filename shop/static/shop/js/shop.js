@@ -51,7 +51,6 @@ function removeInput(inputNumber){
 
 // Format tracklist data and then submit form
 $("#submit-album").click(function(event){
-    // event.preventDefault()
     let formattedTracks = {};
     // Get all the data form the tracklist form inputs and format to JSON
     $(".add-track-input").each(function(index, track){
@@ -60,8 +59,6 @@ $("#submit-album").click(function(event){
         formattedTracks[trackCount] = trackName;
     });
     // Get the hidden tracklist input and insert JSON tracklist before submitting
-    console.log(typeof(formattedTracks));
-    console.log(formattedTracks);
     const jsonTracks = JSON.stringify(formattedTracks);
     $("#id_tracklist").val(jsonTracks);
 });

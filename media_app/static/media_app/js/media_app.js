@@ -37,8 +37,6 @@ function renderComments(data){
     }
     let htmlContent = "";
     data.forEach(commentObj =>{
-        console.log(commentObj);
-        // const formattedTime = formatTime(commentObj['time']);
         const formattedTime = formatTime(commentObj.time);
         // If the current user wrote the comment, generate the HTML to render edit and
         // to button delete buttons and insert into the htmlContent string below.
