@@ -1,6 +1,6 @@
-# Radiohead - Milestone 4
+# Radiohead Milestone 4 - Testing
 [Back to README](README.md)
-## Testing
+
 ### Testing against Website Objectives
 * Functionality to sell music and merchandise.
     * This objective is met via the Shop app.
@@ -70,20 +70,21 @@
 * To be able to find recent news, updates and other content.
     * Users can get updates though the Portal app.
 
-### Technical Testing
-#### Validation
-##### HTML
+## Technical Testing
+### Validation
+#### HTML
 The HTML code has been validated with the [W3C Markup Validator](https://validator.w3.org/). This was done by copying the HTML code from Chrome Dev Tools once rendered in the browser, for all pages whilst both logged in and logged out of the website, and pasting the code into the validator. This was necessary to test the code in its final state after being processed by the django templates. The HTML code contains no validity issues.
 
-##### CSS and Javascript
+#### CSS and Javascript
 The CSS code has been validated with the [W3C CSS Validator](https://jigsaw.w3.org/css-validator/) and the JavaScript with the [JS Hint](https://jshint.com/) code analysis tool, with any issues highlighted by the validators fixed. The code contains no validity issues.
 
-##### Python
+#### Python
 All Python code was written to be PEP 8 compliant. **ADD ANY FINAL WARNINGS HERE**
 
-#### Responsive testing
+### Responsive testing
 The website has been developed and tested to ensure a high level of responsiveness. This has been achieved using Google Chrome Dev Tools, testing on different physical devices as listed below and by viewing the site on [Am I Responsive?](http://ami.responsivedesign.is/).
-##### Responsive testing procedure
+
+#### Responsive testing procedure
 Check that text, images and all other elements load with correct styles and spacing on all pages. On mobile and tablet, rotate the screen to landscape orientation and repeat the checks. Whilst testing on a laptop, using each browsers developer tools, resize the page and ensure all elements respond to the screen size accordingly.
 
 The tests detailed in this section were all completed using the following web browsers and hardware:
@@ -95,7 +96,7 @@ The tests detailed in this section were all completed using the following web br
 | Macbook Pro 2016 (13")    | :heavy_check_mark: |                   | :heavy_check_mark: | :heavy_check_mark: |
 | iPad 7th generation 2019  | :heavy_check_mark: |                   | :heavy_check_mark: |:heavy_check_mark: |
 
-#### Automated Testing
+### Automated Testing
 The website has been thoroughly tested using the in-build django testing functionality. These tests can ensure the following:
 
 * Views return correct templates, status codes, and any additional data expected to be returned, as well as ensuring that they interact with the database correctly. Tests were also written to ensure certain user credentials are required to access restricted areas of the website.
@@ -106,12 +107,12 @@ The package 'Coverage' was used to assess how much of the code is being tested b
 
 Any functions that include calls to the Stripe API were not included in the unit testing. These areas of the code have been tested manually as detailed in the **Manual Testing** section below.
 
-#### Manual Testing
-##### Stripe Subscriptions
+### Manual Testing
+#### Stripe subscriptions
 In order to test the subscription functionality, a Stripe 'Product' was created in the [stripe.com](http://www.stripe.com) dashboard. The product was set to charge customers every day, and if a charge was unsuccessful for any reason, the subscription be cancelled. This allowed me to test the integration with the website using a variety of customers and test payment cards and get results daily. 
 Whilst possible to send test webhooks via the Stripe website, it was important to implement tests using webhooks which contained the same additional metadata and other attributes which were attached to the users subscription by them interacting with the website.
 
-###### Creating a Portal Subscription
+##### **Creating a Portal subscription**
 1. As a newly registered user, click on the link to 'Portal' and follow the links through to the 'Portal Sign Up' page.
     * On [www.stripe.com](http://www.stripe.com), navigate to the 'Customers' section, and ensure a Stripe customer has been created with the new users email attached.
 2. Back on the 'Portal Sign Up' page, complete the form, using the Stripe test card details (card number: 4242 4242 4242 and any valid expiry and zipcode) to check out.
@@ -121,21 +122,22 @@ Whilst possible to send test webhooks via the Stripe website, it was important t
             * Ensure that a 'customer.subscription.updated' webhook has been sent successfully after the 'invoice.payment_succeeded', and that within the webhook object, the 'default_payment_method' value and that the metadata attribute contains the users email, name and address.
             * Ensure that the 'status' attribute of the 'customer.subscription.updated' is 'active'.
 3. Ensure new user is now be signed into the Portal.
-4. When signed in as a superuser, navigate to the 'Profiles' page of the Django admin and click on the new users profile.
+4. Ensure that the 'portal_cancellation' email is either logged to the console in developement, or the actual email is sent in production.
+5. When signed in as a superuser, navigate to the 'Profiles' page of the Django admin and click on the new users profile.
     * Ensure that the 'Portal Cust ID', 'Subscription ID' and 'Subscription status' all have values saved to them.
-5. Sign out and back in again with the new user.
+6. Sign out and back in again with the new user.
     * Click on the 'Portal' link in the navigation bar.
         * Ensure the user is redirected to the 'Portal Content' page.
     * Navigate to the 'Profile' page.
         * Ensure the relevant details and buttons are rendered in the 'Subscriptions' section.
 
-###### Update the Subscription Payment Card
+##### **Update the subscription payment card**
 1. Sign in as a user with an active subscription and navigate to the 'Profile' page.
     * Click on the 'Change Payment Card' button and enter the new card details.
         * On the Stripe webhooks page, ensure a 'customer.subscription.updated' webhook was sent successfully and the 'previous_attributes' field contains 'default_payment_method'.
     * Back on the 'Profile' page, ensure that the last 4 digits of the new card are now displayed under 'Card Details'.
 
-###### Cancel a Portal Subscription
+##### **Cancel a Portal subscription**
 1. Sign in as a user with an active subscription and navigate to the 'Profile' page.
     * Click on the 'Cancel Subscription' button.
         * Ensure the the information in the 'Subscriptions' section of the 'Profile' page now states 'Your Portal subscription is due to expire on ???. Would you like to re-activate your subscription?
@@ -146,9 +148,48 @@ Whilst possible to send test webhooks via the Stripe website, it was important t
     * Navigate to the 'Profile' page and under the 'Subscription' section ensure the text reads 'You do not currrently have a Portal subscription'.
     * As a superuser and in the Django admin, ensure that the webhook handler correctly removed all subscription information from the users profile.
     * Via the Stripe payments page, ensure no further charges for the customer are made or attempted.
+    * Ensure that the 'portal_cancellation' email is either logged to the console in developement, or the actual email is sent in production.
 
-###### Reactivate a Cancelled Subscription
+##### **Reactivate a cancelled subscription**
 1. Complete step 1 from **Cancel a Portal Subscription** above.
 2. Navigate to the 'Profile' page and click on 'Reactivate Subscription' button.
     * On the Stripe webhooks page, ensure a 'customer.subscription.updated' webhook was sent successfully and that the 'cancel_at_period_end' field is set to 'false'.
 3. The following day, via the Stripe payments page, ensure the payment is collected successfully.
+
+##### **Testing a failed payment**
+1. Follow the steps to **Update the Subscription Payment Card** above.
+    * When it comes to inputting the new card details, use the card number 4000 0000 0000 0341. This card number allows the card to be 'attached' to the user, but when it comes to charging the customer, the payment fails.
+    * Once the payment has failed, ensure that the 'customer.subscription.deleted' webhook was sent successfully.
+        * Try to access the 'Portal Content' and ensure the user is redirected to the 'Portal Info' page.
+        * Navigate to the 'Profile' page and under the 'Subscription' section ensure the text reads 'You do not currrently have a Portal subscription'.
+        * As a superuser and in the Django admin, ensure that the webhook handler correctly removed all subscription information from the users profile.
+        * Via the Stripe payments page, ensure no further charges for the customer are made or attempted.
+        * Ensure that the 'portal_cancellation' email is either logged to the console in developement, or the actual email is sent in production.
+
+#### Stripe Checkout
+##### **Checkout as anonymuus User**
+1. Within the shop, add items to the basket and then navigate to 'Checkout'. 
+    * Enter the details into the checkout form and checkout using the Stripe test card. 
+    * As a superuser and in the Django admin, ensure an Order instance has been created in database along with the corresponding Order Line Items.
+    * Ensure that the 'confirmation_email' email is either logged to the console in developement, or the actual email is sent in production.
+2. On the Stripe webhooks page, ensure a 'payment_intent.succeeded' webhook was sent successfully and that the  'billing_details' field contains the users address and that the 'metadata' field contains a summary of the items bought.
+
+##### **Checkout as signed-In user**
+1. Within the shop, add items to the basket and then navigate to 'Checkout'. 
+    * Enter the details into the checkout form and checkout using the Stripe test card. 
+    * As a superuser and in the Django admin, ensure an Order instance has been created in database along with the corresponding Order Line Items.
+    * Ensure that the 'confirmation_email' email is either logged to the console in developement, or the actual email is sent in production.
+2. On the Stripe webhooks page, ensure a 'payment_intent.succeeded' webhook was sent successfully.
+    * Ensure that the 'billing_details' field contains the users address and that the 'metadata' field contains a summary of the items bought.
+3. On the 'Profile' page, ensure that the order is listed in the 'Orders' section, and that clicking on the order takes the user to the 'Order Details' page.
+
+##### **Ensure order is created by webhook if necessary.**
+1. Within 'stripe_elements.js' in the 'static' folder of the 'Checkout' app, comment out ```form.submit();``` on line 96.
+2. Within the shop, add items to the basket and then navigate to 'Checkout'. 
+    * Enter the details into the checkout form and checkout using the Stripe test card.
+    * Ensure that the form has not been submitted - this will be apparent as the loading overlay screen will still be present. 
+    * As a superuser and in the Django admin, ensure an Order instance has been created in database along with the corresponding Order Line Items. 
+3. On the Stripe webhooks page, ensure a 'payment_intent.succeeded' webhook was sent successfully.
+    * Ensure that the 'billing_details' field contains the users address and that the 'metadata' field contains a summary of the items bought.
+    * Ensure that the 'Response' section of the webhook states ```Webhook received: payment_intent.succeeded. 'Order created in webhook.'```
+4. On the 'Profile' page, ensure that the order is listed in the 'Orders' section, and that clicking on the order takes the user to the 'Order Details' page.
