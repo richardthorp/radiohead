@@ -2,7 +2,7 @@
 [Back to README](README.md)
 
 ### Testing against Website Objectives
-* **Functionality to sell music and merchandise.**
+* **Provide functionality to sell music and merchandise.**
     * This objective is met via the Shop app.
 * **Promote upcoming concerts.**
     * This objective is met via the Live app.
@@ -23,6 +23,7 @@
 * **To be able to register and sign in easily.**
     * All pages feature the profile icon which triggers a dropdown with links to the registration and sign-in pages.
     * A profile icon that either links directly to or provides links to account features is a common feature throughout web design and will be recognised by users as such.
+
     ![The sign-in/sign out links](readme-images/screenshots/profile-links.jpg "The sign-in/sign out links")
 
 * **To be able to sign out easily.**
@@ -40,37 +41,45 @@
 * **To be able to log in and out easily and to be able to remain signed in.**
     * As with the **'first time user'** user story, this requirement is met via the profile icon in the navigation bar.
     * On the sign-in page, the option to 'remember me' is presented enabling the user to return to the website and be automatically logged in.
+
     ![The 'remember me' checkbox](readme-images/screenshots/remember-me.jpg "The 'remember me' checkbox")
 
 * **To be able to reset my password should I forget it.**
-    * The sign-in page offers a link that reads 'forgot password?' which links to a page that allows users to input their email address and be sent a reset password link. 
+    * The sign-in page offers a link that reads 'forgot password?' which links to a page that allows users to input their email address and be sent a reset password link.
+
     ![The 'forgot password?' link](readme-images/screenshots/forgot-password.jpg "The 'forgot password?' link")
 
 * **To be able to find details about my previous orders.**
     * The profile page features an 'Orders' section containing a list of previous orders.
         * By clicking on a previous order, users can view the details of that order, including items ordered, costs and delivery information.
+
         ![The list of previous orders](readme-images/screenshots/orders.jpg "The list of previous orders")
 
 * **To be able to view details about my subscription.**
     * The profile page features a 'Subscriptions' section.
         * The subscriptions section shows users when their subscription payment is due, as well as which card will be charged.
         * If the user cancels their subscription, text is rendered to tell the user when the subscription will end.
+
         ![The subscriptions summary](readme-images/screenshots/subscriptions.jpg "The subscriptions summary")
 
 * **To be able to easily cancel my subscription.**
     * The profile page offers a button to 'Cancel Subscription', which stops the user from being charged when their subscription renewal date is reached. Users can still access the Portal content until this date, however.
+
     ![The cancel subscription button](readme-images/screenshots/cancel-subscription.jpg "The cancel subscription button")
 
 * **To be able to easily reactivate my subscription after cancelling.**
     * If the user wishes to reactivate their subscription before the current billing period has ended, a button to 'Reactivate Subscription' is presented.
+
     ![The 'Reactivate Subscription' button](readme-images/screenshots/reactivate-subscription.jpg "The 'Reactivate Subscription' button")
 
 * **To be able to change my subscription payment card.**
     * The profile page offers a button to 'Change Payment Card'
+
     ![The 'Change Payment Card' button](readme-images/screenshots/change-card.jpg "The 'Change Payment Card' button")
 
 * **To be able to save my details to use for any future purchases.**
     * Any page that includes a form to collect users data features a checkbox that enables the user to save their information for next time.
+
     ![The 'Save Details' checkbox](readme-images/screenshots/save-details.jpg "The 'Save Details' checkbox")
     * The profile page features a form for users to add or update their default details.
 
@@ -86,6 +95,7 @@
 #### Shared user requirements:
 * **To be able to communicate with other fans of the band.**
     * Users can comment on pages in both the Media and Portal apps.
+
     ![The 'Add Comment' section found in Portal and Media](readme-images/screenshots/add-comment-2.jpg "The 'Add Comment' section found in Portal and Media")
 
 * **To be able to buy music and merchandise from the band.**
@@ -93,6 +103,7 @@
 
 * **To be able to find details about upcoming concerts.**
     * Users can view upcoming concerts through the Live app.
+   
         ![The list of concerts on the Live page](readme-images/screenshots/live-page.jpg "The list of concerts on the Live page")
 
 * **To be able to find and consume music.**
@@ -104,7 +115,7 @@
 ## Technical Testing
 ### Validation
 #### HTML
-The HTML code has been validated with the [W3C Markup Validator](https://validator.w3.org/). This was done by copying the HTML code from Chrome Dev Tools once rendered in the browser, for all pages whilst both logged in and logged out of the website, and paste the code into the validator. This was necessary to test the code in its final state after being rendered in the Django templates. The HTML code contains no validity issues.
+The HTML code has been validated with the [W3C Markup Validator](https://validator.w3.org/). This was done by copying the HTML code from Chrome Dev Tools once rendered in the browser, for all pages whilst both logged in and logged out of the website, and then pasting the code into the validator. This was necessary to test the code in its final state after being rendered in the Django templates. The HTML code contains no validity issues.
 
 #### CSS and Javascript
 The CSS code has been validated with the [W3C CSS Validator](https://jigsaw.w3.org/css-validator/) and the JavaScript with the [JS Hint](https://jshint.com/) code analysis tool, with any issues highlighted by the validators fixed. The code contains no validity issues.
@@ -112,6 +123,7 @@ The CSS code has been validated with the [W3C CSS Validator](https://jigsaw.w3.o
 #### Python
 All Python code was written to be PEP 8 compliant with the final code being tested with the command ```python3 -m flake8```.
 There are 2 warnings about the paths to the custom form widgets being on lines that are too long. I have left these as they cause no issues as they are and it makes reading the code easier.
+
 ![The 'line too long' warning](readme-images/screenshots/line-too-long.jpg "The 'line too long' warning")
 
 There are also two ```'<app_name>.signals' imported but not used``` warnings. These warnings have been left as this is in fact the recommended way to connect signals according to the [Django Documentation.](https://docs.djangoproject.com/en/3.2/ref/applications/)
@@ -134,7 +146,7 @@ The tests detailed in this section were all completed using the following web br
 | iPad 7th generation 2019  | :heavy_check_mark: |                   | :heavy_check_mark: |:heavy_check_mark: |
 
 ### Automated Testing
-The website has been thoroughly tested using the in-build Django testing functionality. These tests can ensure the following:
+The website has been thoroughly tested using the in-built Django testing functionality. These tests can ensure the following:
 
 * Views return correct templates, status codes, and any additional data expected to be returned, as well as ensuring that they interact with the database correctly. Tests were also written to ensure certain user credentials are required to access restricted areas of the website.
 * Forms return the correct string method values, any required fields are rendered as such and ensure the order of the fields when rendered on the front-end are correct.
