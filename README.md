@@ -131,6 +131,7 @@ The font found throughout the main body of the website is 'Oswald' from Google F
 Below is a diagram detailing the database schema, with the connecting lines showing the tables relationships to one another.
 
 1-----1 (A one to one relationship) 
+
 1-----* (A one to many relationship) 
 
 ![An image showing the database design](readme-images/database.png "An image showing the database design")
