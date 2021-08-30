@@ -24,7 +24,7 @@ A mock website for the band Radiohead, featuring an online shop, exclusive conte
 <a name="objectives"></a>
 ## Website Objectives
 The primary objectives of the website are to:
-* Have functionality to sell music and merchandise.
+* Provide functionality to sell music and merchandise.
 * Promote upcoming concerts.
 * Provide a platform for the band to announce news and release content.
 * Financially capitalise on fans.
@@ -143,7 +143,7 @@ Below is a diagram detailing the database schema, with the connecting lines show
 #### Header
 ![The header on screens larger than 992px wide](readme-images/screenshots/nav-bar.jpg "The header on screens larger than 992px wide")
 * The header element, which features the websites navigation links and logo is at the top of every page on the website.
-    * The header is responsive, with the navigation links moving into a dropdown menu on screens 1200px and smaller.
+    * The header is responsive, with the navigation links moving into a dropdown menu on screens 992px and smaller.
     * The header features a separate dropdown for functionality relating to user profiles and signing in and out.
     * The shopping cart icon displays the current number of individual items in the user's bag
         * Clicking on the shopping cart icon displays items currently in the users shopping bag as well as the price totals, including how much more the user needs to spend to be eligible for free postage.
@@ -165,7 +165,7 @@ Below is a diagram detailing the database schema, with the connecting lines show
 * Any restricted pages or views (either due to being for website staff or to paying users) redirect users that try to access them without the correct credentials.
 * All secret keys related to the website are kept in environmental variables and have been kept out of source control.
 * All payments are handled by the Stripe API.
-* Access to the websites subscription content can only be accessed after a webhook from the Stripe API has been received confirming a successful payment and active subscription.
+* Access to the website's subscription content can only be accessed after a webhook from the Stripe API has been received confirming a successful payment and active subscription.
 
 #### Staff User Features
 * If the logged-in user has staff privileges, additional links are rendered on certain pages.
@@ -226,12 +226,12 @@ Below is a diagram detailing the database schema, with the connecting lines show
 * Items in the shop can be filtered by 'Music', 'Clothing' or 'Other'.
 * Different templates are used to present different products in the shop.
     * The album template allows users to select a product of a certain format (CD or Vinyl) as well as displaying the album's tracklisting.
-    * The product template allows users to choose a size if sizes for that product are available(Small, Medium and Large).
+    * The product template allows users to choose a size if sizes for that product are available (Small, Medium and Large).
 * Both templates allow users to select a quantity of the product to add to their bag.
 
 #### Bag App
 ![The view bag page'](readme-images/screenshots/bag-page.jpg "The view bag page")
-* The bag app allows users to view the current contents of their bag, as well as update any quantities or remove items entirely
+* The bag app allows users to view the current contents of their bag, as well as update any quantities or remove items entirely.
 * Whilst viewing the bag, the individual costs are presented to the user (order total, delivery total and grand total) These costs are automatically updated if the user updates the quantity or removes an item in the bag.
 * Whilst viewing the bag, if the user hasn't reached the threshold for free delivery (£25), a small notification is displayed above the grand total to tell them how much more they need to spend to qualify for free delivery.
 
@@ -271,7 +271,7 @@ Below is a diagram detailing the database schema, with the connecting lines show
 
 * [Bootstrap](https://getbootstrap.com/) - for some of the front-end styling, responsive design and interactive features, such as menu drop-downs and modals.
 
-* [jQuery](https://jquery.com/) - simplifies the apps asynchronous functions syntax, as well as shortening and simplifying JavaScript for DOM manipulation and traversal.
+* [jQuery](https://jquery.com/) - simplifies the app's asynchronous functions syntax, as well as shortening and simplifying JavaScript for DOM manipulation and traversal.
 
 * [Django-Crispy-Forms](https://django-crispy-forms.readthedocs.io/) - provides additional styles to forms.
 
@@ -341,40 +341,40 @@ Below is a diagram detailing the database schema, with the connecting lines show
 
 ## Credits
 ### Code
-Much of the project is heavily inspired by the Code Institute 'Boutique Ado' walkthrough project, led by Chris Zielinski. This includes:
-* Cache Checkout Data function in Checkout app
-* File name rendering function found in all forms with an ImageField.
-* The custom clearable file input found on all forms with an ImageField
-* The horizontal rule for loop logic found in the Shop, Bag, and Portal apps.
-* The webhook handler found in the Checkout app
+* Much of the project is heavily inspired by the Code Institute 'Boutique Ado' walkthrough project, led by Chris Zielinski. This includes:
+   * Cache Checkout Data function in Checkout app
+   * File name rendering function found in all forms with an ImageField.
+   * The custom clearable file input found on all forms with an ImageField
+   * The horizontal rule for loop logic found in the Shop, Bag, and Portal apps.
+   * The webhook handler found in the Checkout app
 
-Bootstrap has been used throughout the site to provide the responsive grid layout as well as adding styling to some elements, including buttons and modals. As well as this, Bootstrap provided the skeleton code for:
-* Navigation bar dropdown menus.
-* Toast alerts
-* Modals
-* The carousel found in Portal image posts
-* The tables for order history in 'Profile' and live dates in 'Live'
+* Bootstrap has been used throughout the site to provide the responsive grid layout as well as adding styling to some elements, including buttons and modals. As well as this, Bootstrap provided the skeleton code for:
+   * Navigation bar dropdown menus.
+   * Toast alerts
+   * Modals
+   * The carousel found in Portal image posts
+   * The tables for order history in 'Profile' and live dates in 'Live'
 
-Fixed Background on mobile bug solution by user 'Jason' found [here](https://stackoverflow.com/questions/24944925/background-image-jumps-when-address-bar-hides-ios-android-mobile-chrome)
+* Fixed Background on mobile bug solution by user 'Jason' found [here.](https://stackoverflow.com/questions/24944925/background-image-jumps-when-address-bar-hides-ios-android-mobile-chrome)
 
-Unit testing messages was helped by user 'daveoncode' [here](https://stackoverflow.com/questions/2897609/how-can-i-unit-test-django-messages/14909727)
+* Unit testing messages was helped by user 'daveoncode' [here.](https://stackoverflow.com/questions/2897609/how-can-i-unit-test-django-messages/14909727)
 
-The responsive table header Javascript and CSS found on the 'Live' page was copied from [here](https://bootstrapcreative.com/pattern/responsive-tables-that-stacks-on-mobile-instead-of-horizontal-scroll/)
+* The responsive table header Javascript and CSS found on the 'Live' page was copied from [here.](https://bootstrapcreative.com/pattern/responsive-tables-that-stacks-on-mobile-instead-of-horizontal-scroll/)
 
-Merge and sort 2 querysets solution found in the Portal and Shop apps by 'Pradnya Mhatre' from [here](https://stackoverflow.com/questions/33022879/order-2-different-querysets-by-date)
+* Merge and sort 2 querysets solution found in the Portal and Shop apps by 'Pradnya Mhatre' from [here.](https://stackoverflow.com/questions/33022879/order-2-different-querysets-by-date)
 
-The 'auto-grow' function used in the 'Add Comment' text inputs by user 'SpYk3HH' [here](https://stackoverflow.com/questions/2948230/auto-expand-a-textarea-using-jquery)
+The 'auto-grow' function used in the 'Add Comment' text inputs by user 'SpYk3HH' [here.](https://stackoverflow.com/questions/2948230/auto-expand-a-textarea-using-jquery)
 
-[This article](https://swapps.com/blog/testing-files-with-pythondjango/) by José Ariza helped create temporary image files to use in view tests.
+* [This article](https://swapps.com/blog/testing-files-with-pythondjango/) by José Ariza helped create temporary image files to use in view tests.
 
-The code to mock images to test forms was written by user 'drillbits' and edited by user 'vaibhavhrt' [here](https://gist.github.com/drillbits/5432699)
+* The code to mock images to test forms was written by user 'drillbits' and edited by user 'vaibhavhrt' [here.](https://gist.github.com/drillbits/5432699)
 
 ### Content
-The image found in the 'Enter the Portal' section on the home page and Portal Info page by (Clu Soh)[https://unsplash.com/@thexclu]
+* The image found in the 'Enter the Portal' section on the home page and Portal Info page by (Clu Soh.)[https://unsplash.com/@thexclu]
 
-The photo on the live page by [Nick Kane](https://unsplash.com/@nickkane)
+* The photo on the live page by [Nick Kane.](https://unsplash.com/@nickkane)
 
-Default profile image from [https://icons8.com/](https://icons8.com/)
+* Default profile image from [https://icons8.com/.](https://icons8.com/)
 
 #### Portal Content
 * "The disturbing making of Radiohead's landmark 'No Surprises' video":
